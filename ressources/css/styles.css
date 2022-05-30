@@ -1,0 +1,84 @@
+:root {
+    /* Couleurs de la charte graphique */
+    --upsdell-red: #AF001E;
+    --red-pigment: #EB001C;
+    --dark-orange: #FF890A;
+    --beige: #FFFEE6;
+    --uranian-blue: #BDE4FC;
+    --spanish-blue: #3671B3;
+    --raisin-black: #161920;
+    /* couleurs par bloc */
+    --fond: #D3D3D3;
+    --couleur-nav-bar: var(--upsdell-red);
+}
+
+* {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    background-color: var(--fond);
+}
+
+
+/* Bannière */
+
+#banner {
+    position: fixed;
+    top: 0;
+    height: 8vh;
+    width: 100vw;
+    z-index: 999;
+    display: flex;
+    padding: 1vh 6vw;
+    background-color: var(--couleur-nav-bar);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    align-items: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* Mobile layout */
+
+@media only screen and ( max-width: 992px) {
+    .logo.complet {
+        display: none;
+    }
+    .logo.mobile {
+        width: 20vw;
+        padding: 1vw;
+        background-color: #fff;
+        border-radius: 100%;
+    }
+}
+
+
+/* Desktop layout */
+
+@media only screen and ( min-width: 992px) {
+    .logo.mobile {
+        display: none;
+    }
+    .logo.complet {
+        height: 5vh;
+        padding: 0 1vw;
+        background-color: #fff;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+}
