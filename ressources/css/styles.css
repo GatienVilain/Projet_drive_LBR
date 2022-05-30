@@ -1,0 +1,201 @@
+:root {
+    /* Couleurs de la charte graphique */
+    --upsdell-red: #AF001E;
+    --red-pigment: #EB001C;
+    --dark-orange: #FF890A;
+    --beige: #FFFEE6;
+    --uranian-blue: #BDE4FC;
+    --spanish-blue: #3671B3;
+    --raisin-black: #161920;
+
+    /* couleurs par bloc */
+    --fond: #D3D3D3;
+    --couleur-header: var(--upsdell-red);
+    --couleur-nav-bar: var(--red-pigment);
+}
+
+* {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    border: 0;
+    background-color: inherit;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    background-color: var(--fond);
+}
+
+img{
+    max-width: 105%;
+}
+
+
+/* Bannière */
+
+#banner {
+    position: fixed;
+    top: 0;
+    height: 7vh;
+    width: 100vw;
+    z-index: 1000;
+    display: flex;
+    padding: 1vh 5vw;
+    background-color: var(--couleur-header);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Mobile layout */
+
+@media only screen and ( max-width: 992px) {
+    .logo.complet {
+        display: none;
+    }
+    .logo.mobile {
+        height: 5vh;
+        padding: 1vh 3vw;
+        background-color: #fff;
+        border-radius: 50% / 100%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    /* Navbar */
+    #navbar-button:after,
+    #navbar-button:before {
+        display: block;
+        height: 0.3em;
+        width: 2em;
+        margin: 0.5em;
+        background-color: #fff;
+        border-radius: 10%/100%;
+        content: '';
+        transition: all 0.2s ease-in-out;
+    }
+    #navbar {
+        position: fixed;
+        z-index: -1;
+        top: -100vh;
+        right: 0;
+        width: 30vw;
+        padding: 2vh 2vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background-color: var(--couleur-nav-bar);
+        font-size: 0.8vw;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    #navbar-button:hover + #navbar,
+    #navbar:hover,
+    #navbar-button:focus + #navbar,
+    #navbar:focus {
+        top: 7vh;
+    }
+    #navbar a,
+    #navbar button {
+        font-size: 6em;
+        color: #fff;
+        text-align: left;
+        text-decoration: none;
+        margin: 1vh 0;
+    }
+    #navbar > a::after,
+    #navbar > button::after {
+        display: block;
+        height: 0.07em;
+        width: 20vw;
+        background-color: #fff;
+        content: '';
+        transform: translateY(0.4em);
+        transition: transform 0.5s, background-color 0.5s;
+    }
+    #navbar div {
+        padding: 2vh 5vw 0 0;
+        text-align: right;
+    }
+    #navbar div > a{
+        font-size: 5em;
+    }
+}
+
+
+/* Desktop layout */
+
+@media only screen and ( min-width: 992px) {
+    .logo.mobile {
+        display: none;
+    }
+    .logo.complet {
+        height: 6vh;
+        padding: 0 0.3vw;
+        background-color: #fff;
+        border-radius: 2vh;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    /* navbar */
+    #navbar-button {
+        display: none;
+    }
+    #navbar {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    #navbar a,
+    #navbar button {
+        font-size: 1.4em;
+        color: #fff;
+        text-align: left;
+        text-decoration: none;
+        margin: 0 2vw;
+    }
+    #navbar > a::after,
+    #navbar > button::after {
+        display: block;
+        height: 0.05em;
+        width: 7vw;
+        background-color: #fff;
+        content: '';
+        transform: translateY(0.4em);
+        transition: transform 0.5s, background-color 0.5s;
+    }
+    #navbar div {
+        position: fixed;
+        z-index: -1;
+        top: -20vh;
+        right: 38vw;
+        width: 10vw;
+        padding: 2vh ;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--couleur-nav-bar);
+        font-size: 0.8vw;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    #navbar button:hover + div,
+    #navbar div:hover,
+    #navbar button:focus + div,
+    #navbar div:focus {
+        top: 7vh;
+    }
+    #navbar div > a{
+        margin: 0.5vh 0;
+    }
+}
