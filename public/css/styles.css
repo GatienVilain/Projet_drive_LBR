@@ -1,3 +1,5 @@
+/** Page de style principale - à implémenter dans toutes les pages  **/
+
 :root {
     /* Couleurs de la charte graphique */
     --upsdell-red: #AF001E;
@@ -9,9 +11,12 @@
     --raisin-black: #161920;
 
     /* couleurs par bloc */
+    --couleur-police-fond-clair: var(--raisin-black);
+    --couleur-police-fond-fonce: var(--beige);
     --fond: #D3D3D3;
     --couleur-header: var(--upsdell-red);
     --couleur-nav-bar: var(--red-pigment);
+    --couleur-button: var(--spanish-blue);
 }
 
 * {
@@ -108,7 +113,7 @@ img{
     #navbar a,
     #navbar button {
         font-size: 6em;
-        color: #fff;
+        color: var(--couleur-police-fond-fonce);
         text-align: left;
         text-decoration: none;
         margin: 1vh 0;
@@ -160,7 +165,7 @@ img{
     #navbar a,
     #navbar button {
         font-size: 1.4em;
-        color: #fff;
+        color: var(--couleur-police-fond-fonce);
         text-align: left;
         text-decoration: none;
         margin: 0 2vw;
@@ -170,7 +175,7 @@ img{
         display: block;
         height: 0.05em;
         width: 7vw;
-        background-color: #fff;
+        background-color: var(--couleur-police-fond-fonce);
         content: '';
         transform: translateY(0.4em);
         transition: transform 0.5s, background-color 0.5s;
