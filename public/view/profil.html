@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Metadata -->
+    <title>Site test - Drive LBR</title>
+    <meta name="author" content="Célestin Captal, Maxime Herbin, Dorian Larouziere, Gatien Vilain">
+    <!-- Page Layout-->
+    <meta name="theme-color" content="white">
+    <meta name="color-scheme" content="normal">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/profil.css">
+</head>
+
+<body>
+
+<!-- Page de Profil -->
+<article id="profil">
+
+<!-- Composant d’information du profil -->
+    <section id="info-profil">
+        <h3>
+            <!-- remplacer par de nom du profil utilisateur -->
+            Dorian Larouziere
+        </h3>
+        <p>
+            <!-- ȑemplacer par de rôle de l’utilisateur -->
+            admin
+        </p>
+        <div>
+            <span>
+                <div contenteditable="true" id="description-profil">
+                    <!-- `Remlacer par la description de l’utilisateur -->
+                    Photographe Edition 2022
+                </div>
+                <button title="Ouvre un champ pour modifier la description">Modifier</button>
+            </span>
+            <p>Inscrit depuis le 
+                <!-- `Remplacer par de la date d’inscription de l’utilisateur -->
+                22/02/2000
+            </p>
+        </div>
+    </section>
+
+<!-- Changer mot de passe -->
+    <section id="change-mtp">
+        <form action="" method="post">
+            <div id="old-password">
+                <label for="champ-old-password">Ancien mot de passe : </label>
+                <input type="password" name="old-password" id="champ-old-password" required>
+            </div>
+            <div id="new-password">
+                <label for="champ-new-password">Nouveau mot de passe : </label>
+                <input type="password" name="new-password" id="champ-new-password" required>
+            </div>
+            <div id="confirm-password">
+                <label for="champ-confirm-password">Confimer le mot de passe : </label>
+                <input type="password" name="confirm-password" id ="champ-confirm-password" required>
+            </div>
+            <Button type="submit">Valider</button>
+        </form>
+    </section>
+
+</article>

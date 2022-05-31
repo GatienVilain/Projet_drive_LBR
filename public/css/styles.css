@@ -17,6 +17,8 @@
     --couleur-header: var(--upsdell-red);
     --couleur-nav-bar: var(--red-pigment);
     --couleur-button: var(--spanish-blue);
+    --couleur-login: var(--upsdell-red);
+    --couleur-fond-users: var(--beige);
 }
 
 * {
