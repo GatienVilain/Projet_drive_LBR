@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteCond %{REQUESTE_FILENAME} !-f
+
+RewriteRule ^(.*)$
