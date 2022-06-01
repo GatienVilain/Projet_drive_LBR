@@ -1,3 +1,5 @@
+/* Css for Composants login */
+
 #login {
     height: 93vh;
     display: flex;
@@ -11,7 +13,7 @@
     display: flex;
     flex-direction: column;
     padding: 2em 1.7em;
-    background-color: var(--upsdell-red);
+    background-color: var(--couleur-login);
     color: var(--couleur-police-fond-fonce);
     border-radius: 10px;
 }
