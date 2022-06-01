@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
+<?php $title = "Drive LBR - login"; ?>
+<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/login.css\">" ?>
+<?php $scripts = "" ?>
 
-<head>
-  <meta charset="UTF-8">
-  <!-- Metadata -->
-  <title>Site test - Drive LBR</title>
-  <meta name="author" content="Célestin Captal, Maxime Herbin, Dorian Larouziere, Gatien Vilain">
-  <!-- Page Layout-->
-  <meta name="theme-color" content="white">
-  <meta name="color-scheme" content="normal">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Style Sheets -->
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/login.css">
-</head>
-<body>
-
-<!-- Composants login -->
+<?php ob_start(); ?>
 
 <article id="login">
 
@@ -39,3 +24,7 @@
   </form>
 
 </article>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php require('layout.php') ?>
