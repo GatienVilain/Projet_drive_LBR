@@ -143,7 +143,7 @@ img{
 /* Desktop layout */
 
 @media only screen and ( min-width: 992px) {
-    .logo.mobile {
+    .mobile {
         display: none;
     }
     .logo.complet {

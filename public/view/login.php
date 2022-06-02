@@ -2,12 +2,14 @@
 <?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/login.css\">" ?>
 <?php $scripts = "" ?>
 
+<?php $banner_menu = "" ?>
+
 <?php ob_start(); ?>
 
 <article id="login">
 
     <form action="" method="post">
-        <div class="alert alert-danger">
+        <div>
             <?= $erreur ?>
         </div>
         <div id="login-email">

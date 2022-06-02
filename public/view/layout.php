@@ -28,6 +28,7 @@
         </a>
 
         <!-- Quand on est connecté -->
+        <?= $banner_menu ?>
     </header>
     <?= $content ?>
 </body>
