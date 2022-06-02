@@ -19,7 +19,7 @@
         <div id="login-password">
             <label for="champ-password">Entrer votre mot de passe : </label>
             <input type="password" name="password" id="champ-password" required>
-            <a title="Accéder à la page pour réinitialiser votre mot de passe" href="">Mot de passe oublié</a>
+            <a title="Accéder à la page pour réinitialiser votre mot de passe" href="index.php?page=recuperation_mdp">Mot de passe oublié</a>
         </div>
         <div id="login-checkbox">
             <label for="checkbox">Rester connecté </label>

@@ -13,9 +13,10 @@ class utilisateur
         return !empty($_SESSION['connecte']);
     }
 
-    public function forcer_utilisateur_connecter(): void
+    public function forcer_connection(): void
     {
-        if ( ! $this->est_connecte() ){
+        if ( ! $this->est_connecte() )
+        {
             header('Location: login.php');
             exit();
         }
@@ -24,6 +25,7 @@ class utilisateur
     public function logout(): void
     {
         unset($_SESSION['connecte']);
+        session_destroy();
         header('Location: index.php');
         exit();
     }

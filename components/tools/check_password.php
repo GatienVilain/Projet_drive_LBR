@@ -14,17 +14,3 @@ function verif_format_mdp($mdp)
 	else
 		return true;
 }
-
-
-
-function verif_format_mail($mail)
-{
-	if ( filter_var($mail, FILTER_VALIDATE_EMAIL) )
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
