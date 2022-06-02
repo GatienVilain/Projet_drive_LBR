@@ -12,6 +12,6 @@ if (!empty($_POST['email']) && (!empty($_POST['password']))) {
          exit();
     }
     else{
-        throw new Exception("Identifiants incorrects");
+        $erreur = "Identifiants incorrects";
     }
 }
