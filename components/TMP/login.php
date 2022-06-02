@@ -1,9 +1,17 @@
 <?php
 $erreur= null;
 
+require_once 'sql.php';
 if (!empty($_POST['mail']) && (!empty($_POST['mdp']))) {
+
     //on teste les identifiants
-    if ($_POST['mail'] === 'celestincaptal@gmail.com' && $_POST['mdp'] === '1234'){
+	$mail = $_POST['mail'];
+	$mdp = $_POST['mdp'];
+	
+	$sql = new sql();
+	
+	$result = $sql->get_user_password($mail);
+    if ($result != -1 && $result['mot_de_passe'] == $mdp){
         //on connecte
          session_start();
          $_SESSION['connecte']=1;
@@ -42,3 +50,14 @@ if(est_connecte()){
 
 </form>
 
+<form method="post">
+    <input type="submit" name="mdp_oublie"value="mdp oublié"/>
+</form>
+
+<?php
+       if(isset($_POST['mdp_oublie'])) {
+            header('Location: recupmdp.php');
+            exit();
+          }     
+
+  ?>

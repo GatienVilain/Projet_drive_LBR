@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>test mdp</title>
+    <title>mdp</title>
   </head>
 <body>
 
-<h2>Zone de test identifiants</h2>
+<h2>Changement de mot de passe</h2>
+
+
 
 <?php
-
-require 'auth.php';
-forcer_utilisateur_connecter();
-?>
-
-<?php
+session_start();
 include('outils.php');
-
-if (isset($_POST['mail'])){
-    if (verif_format_mail($_POST['mail']) === true){echo "Mail valide" ;}
-    else{echo "Mail invalide " ;}
-}
-
+echo $_SESSION['mail'];
 
 
 if (isset($_POST['mdptest'] )){
     if($_POST['mdptest']=== $_POST['mdptest2'] ){
 
-        if (verif_format_mdp($_POST['mdptest']) === true){echo "Mot de passe valide" ;}
+        if (verif_format_mdp($_POST['mdptest']) === true){
+            echo "Mot de passe valide" ;
+            //requête sql
+
+            header('Location: index.php');
+            exit();
+        }
     else{echo "Mot de passe invalide" ;}
     }
     else{echo "ce ne sont pas les mêmes mdp";}
@@ -37,9 +35,6 @@ if (isset($_POST['mdptest'] )){
 
 <form action="" method="post">
     <div class="form-group">
-    <div class="form-group">
-        <input class="form-control" type="text" name= "mail" placeholder="adresse mail" required>
-    </div>
         <input class="form-control" type="password" name= "mdptest" placeholder="ecrire un mot de passe" required>
     </div>
     <div class="form-group">
