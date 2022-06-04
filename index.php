@@ -1,44 +1,76 @@
-<?php // Routeur
+<?php // Router
 
-require_once("components/controllers/login.php");
-require_once("components/controllers/recuperation.php");
-require_once("components/controllers/verification_recuperation.php");
-require_once("components/controllers/reinitialisation_mdp.php");
+require_once("components/Controllers/Password/Change.php");
+require_once("components/Controllers/Password/Recover.php");
+require_once("components/Controllers/Login.php");
+require_once("components/Controllers/SendRecoveryEmail.php");
+require_once("components/Controllers/VerifyRecoveryCode.php");
 
-require_once("components/tools/utilisateur.php");
+require_once("components/Model/User.php");
 
-$utilisateur_courant = new utilisateur();
+
+use Application\Controllers\Password\ChangePassword;
+use Application\Controllers\Password\RecoverPassword;
+use Application\Controllers\Login;
+use Application\Controllers\SendRecoveryEmail;
+use Application\Controllers\VerifyRecoveryCode;
+
+use Application\Model\User;
+
 
 try
 {
-    if ( !$utilisateur_courant->est_connecte() )
+    if ( isset($_GET['action']) && $_GET['action'] !== '')
     {
-        if ( isset($_GET['page']) && $_GET['page'] !== '')
+        if ( (new User())->is_connected() )
         {
-            if ($_GET['page'] === 'recuperation_mdp')
-            {
-                recuperation_mdp();
-            }
-            elseif ($_GET['page'] === 'verification_code')
-            {
-                verification_code();
-            }
-            elseif ($_GET['page'] === 'reinitialisation_mdp')
-            {
-                reinitialisation_mdp();
-            }
+            // Actions possible lorsque l’on est connecté
+            echo "tu es co et tu fais des actions";
+        }
+
+        // Actions disponible dans tous les cas
+        if ($_GET['action'] === 'login')
+        {
+            (new Login())->execute();
+        }
+        elseif ($_GET['action'] === 'logout')
+        {
+            (new User())->logout();
+        }
+        elseif ($_GET['action'] === 'recoverPassword')
+        {
+            (new RecoverPassword())->execute();
+        }
+        elseif ($_GET['action'] === 'sendRecoveryEmail')
+        {
+            (new SendRecoveryEmail())->execute();
+        }
+        elseif ($_GET['action'] === 'verifyRecoveryCode')
+        {
+            (new VerifyRecoveryCode())->execute();
+        }
+        elseif ($_GET['action'] === 'changePassword')
+        {
+            (new ChangePassword())->execute();
         }
         else
         {
-            login();
+            throw new Exception("La page que vous recherchez n'existe pas.");
         }
     }
     else
     {
-        echo "tu est co";
+        if ( (new User())->is_connected() )
+        {
+            // (new Homepage())->execute();`
+            echo "tu es co";
+        }
+        else {
+            (new Login())->execute();
+        }
     }
 }
 catch (Exception $e)
 {
-    echo "Erreur serveur";
+    echo "Erreur : " . $e->getMessage();
 }

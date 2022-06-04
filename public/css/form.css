@@ -7,7 +7,7 @@ article {
     align-items: center;
 }
 
-#formulaire {
+#form {
     width: 20em;
     display: flex;
     flex-direction: column;
@@ -17,7 +17,7 @@ article {
     border-radius: 10px;
 }
 
-#formulaire .champ {
+#form .field {
     margin: 1em 0;
     display: flex;
     flex-direction: column;
@@ -25,15 +25,15 @@ article {
     font-weight: lighter;
 }
 
-#formulaire .champ label {
+#form .field label {
     font-size: 1em;
 }
 
-#formulaire .champ input {
+#form .field input {
     margin-top: 1em;
 }
 
-#formulaire button {
+#form button {
     position: relative;
     top: 1em;
     left: 4.5em;

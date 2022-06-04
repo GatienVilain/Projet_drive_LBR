@@ -2,6 +2,7 @@
 $erreur= null;
 
 require_once 'sql.php';
+
 if (!empty($_POST['mail']) && (!empty($_POST['mdp']))) {
 
     //on teste les identifiants
