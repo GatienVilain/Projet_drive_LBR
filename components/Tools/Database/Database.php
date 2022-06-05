@@ -4,7 +4,7 @@ class sql {
 	private const host = "localhost";
 	private const user = "root";
 	private const password = "dorian";
-	private const db = "drive";
+	private const db = "driveTest";
 
 function console_log($output, $with_script_tags = true) {
     $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
@@ -14,7 +14,7 @@ function console_log($output, $with_script_tags = true) {
     }
 	
 	//décommenter la ligne ci-dessous pour aider à débugger
-    //echo $js_code;
+    echo $js_code;
 	return -1;
 }
 
@@ -302,17 +302,18 @@ function add_writing_right(string $email, int $id_tag)
 		//on regarde si l'utilisateur a des droits par rapport à ce tag
 		$query = $conn->prepare("SELECT ecriture,lecture FROM attribuer WHERE email = ? AND id_tag = ?");
 		$query->bind_param("si",$email,$id_tag);
-		$result = $query->get_result();
-		if($result){
+		$query->execute();
+		$result = $query->get_result()->fetch_assoc();
+		if($result != NULL){
 			//s'il en a, on regarde s'il a le droit d'écriture
 			$conn->close();
-			if($result->fetch_assoc()["ecriture"]){
+			if($result["ecriture"]){
 				//si c'est le cas, on renvoie un message d'erreur
 				return $this->console_log("L'utilisateur a déjà le droit d'écriture sur ce tag.");
 			}
 			else{
 				//sinon on modifie ses droits sur le tag
-				return modify_rights($email,$id_tag,1,1);
+				return $this->modify_rights($email,$id_tag,1,1);
 			}
 		}
 		else{
