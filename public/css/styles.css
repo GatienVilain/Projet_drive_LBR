@@ -148,6 +148,7 @@ img{
     }
     .logo.complet {
         height: 6vh;
+		width: 25vw;
         padding: 0 0.3vw;
         background-color: #fff;
         border-radius: 2vh;

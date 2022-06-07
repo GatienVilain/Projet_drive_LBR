@@ -192,4 +192,32 @@ trait TagsRights
 		}
 		return 0;
     }
+	
+	//renvoie tous les droits d'un utilisateur sous la forme d'un tableau de la forme : array(("id_tag" => 1,"ecriture" => 1,"lecture" => 1),("id_tag" => 2,"ecriture" => 0,"lecture" => 1))
+	function get_links_of_user(string $email)
+	{
+		//point de connexion à la base de donnée
+		$conn = new mysqli(self::host,self::user,self::password,self::db);
+		if (!$conn){
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+			
+		if ($this->check_user($email)) {
+			
+			$query = $conn->prepare("SELECT id_tag,ecriture,lecture FROM attribuer WHERE email = ?");
+			$query->bind_param("s",$email);
+			$query->execute();
+			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+			$conn->close();
+			if($result != NULL){
+				return $result;
+			}
+			else {
+				return $this->console_log("L'utilisateur n'a aucun droits sur les tags.");
+			}
+		}
+		else {
+			return $this->console_log("Le compte n'existe pas.");
+		}
+	}
 }

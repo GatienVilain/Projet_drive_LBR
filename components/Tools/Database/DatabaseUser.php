@@ -204,4 +204,26 @@ trait DatabaseUser
 
 		return 0;
 	}
+	
+	//renvoie la liste de tous les emails des utilisateurs dont le compte n'est pas supprimé
+	function get_all_users()
+	{
+		//point de connexion à la base de donnée
+		$conn = new mysqli(self::host,self::user,self::password,self::db);
+		if (!$conn){
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+		
+		$query = $conn->prepare("SELECT email FROM utilisateur WHERE compte_supprime = 0");
+		$query->execute();
+		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+		$conn->close();
+		if($result != NULL){
+			return $result;
+		}
+		else{
+			return $this->console_log("Echec de récupération des utilisateurs.");
+		}
+		
+	}
 }
