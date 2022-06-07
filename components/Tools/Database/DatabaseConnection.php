@@ -51,7 +51,7 @@ class DatabaseConnection
 	function check_user(string $email): bool
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -69,7 +69,7 @@ class DatabaseConnection
 	function check_file(int $id_fichier): bool
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -87,7 +87,7 @@ class DatabaseConnection
 	function check_tag(int $id_tag): bool
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -105,7 +105,7 @@ class DatabaseConnection
 	function check_tag_category(string $nom_categorie_tag): bool
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}

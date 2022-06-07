@@ -2,6 +2,9 @@
 
 namespace Application\Tools\Database\Tags;
 
+require_once("components/Tools/Database/DatabaseConnection.php");
+
+use Application\Tools\Database\DatabaseConnection;
 
 trait TagsRights
 {
@@ -9,7 +12,7 @@ trait TagsRights
 	function add_writing_right(string $email, int $id_tag)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -51,7 +54,7 @@ trait TagsRights
 	function add_reading_right(string $email, int $id_tag)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -92,7 +95,7 @@ trait TagsRights
 		}
 
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -128,7 +131,7 @@ trait TagsRights
 	function delete_rights(string $email, int $id_tag)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -164,7 +167,7 @@ trait TagsRights
 	function get_rights(string $email, int $id_tag)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}

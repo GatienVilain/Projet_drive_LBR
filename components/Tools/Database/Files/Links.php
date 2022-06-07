@@ -2,6 +2,9 @@
 
 namespace Application\Tools\Database\Files;
 
+require_once("components/Tools/Database/DatabaseConnection.php");
+
+use Application\Tools\Database\DatabaseConnection;
 
 trait FilesLinks
 {
@@ -9,7 +12,7 @@ trait FilesLinks
 	function add_link(int $id_fichier, int $id_tag = 1)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -45,7 +48,7 @@ trait FilesLinks
 	function delete_link(int $id_fichier, int $id_tag)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -81,7 +84,7 @@ trait FilesLinks
 	function get_link(int $id_fichier)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}

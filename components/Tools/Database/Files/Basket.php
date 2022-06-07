@@ -2,6 +2,9 @@
 
 namespace Application\Tools\Database\Files;
 
+require_once("components/Tools/Database/DatabaseConnection.php");
+
+use Application\Tools\Database\DatabaseConnection;
 
 trait Basket
 {
@@ -9,7 +12,7 @@ trait Basket
 	function basket_file(int $id_fichier)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -46,7 +49,7 @@ trait Basket
 	function get_basket_file(string $email = NULL)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -80,7 +83,7 @@ trait Basket
 	function recover_file(int $id_fichier)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -116,7 +119,7 @@ trait Basket
 	function basket_check()
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}

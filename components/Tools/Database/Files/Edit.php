@@ -2,15 +2,17 @@
 
 namespace Application\Tools\Database\Files;
 
+require_once("components/Tools/Database/DatabaseConnection.php");
+
+use Application\Tools\Database\DatabaseConnection;
 
 trait FilesEdit
 {
-
 	//ajoute un fichier, que l'utilisateur a mis, à la table fichier de la base de données
 	function add_file(string $source, string $email, string $nom_fichier, float $taille, string $type, string $extension)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -32,7 +34,7 @@ trait FilesEdit
 	function delete_file(int $id_fichier)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -74,7 +76,7 @@ trait FilesEdit
 	function get_file(int $id_fichier)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
@@ -98,7 +100,7 @@ trait FilesEdit
 	function modify_filename(int $id_fichier, string $nouveau_nom_fichier)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
