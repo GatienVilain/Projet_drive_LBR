@@ -14,7 +14,7 @@ class ChangePassword
     {
         try
         {
-            if ( isset($_SESSION['verify']) )
+            if ( isset($_SESSION['verify']) && empty($_SESSION['email']) )
             {
                 if ( isset($_POST['password']) )
                 {
@@ -23,11 +23,19 @@ class ChangePassword
                         $password = new Password($_POST['password']);
 
                         if ($password->checkFormat()){
-                            //requête sql
-                            
 
-                            $error = "Mot de passe enregistré";
-                            (new User)->logout();
+                            # Prérare le changement de mot de passe
+                            $change = array("mot_de_passe" => $password->getValue());
+
+                            // Ce connecte à la base de donnée et change le mot de passe
+                            if ( ( new DatabaseConnection() )->update_user($_SESSION['email'], $change) == 0 )
+                            {
+                                $error = "Mot de passe enregistré";
+                                (new User)->logout();
+                            }
+                            else {
+                                throw new \Exception("Erreur serveur : Le mot de passe n’a pas pu être changé");
+                            }
                         }
                         else {
                             throw new \Exception("Mot de passe invalide");
