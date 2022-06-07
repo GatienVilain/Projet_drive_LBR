@@ -3,6 +3,7 @@
 namespace Application\Controllers\Password;
 
 require_once("components/Model/Password.php");
+require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Model\Password;
 use Application\Model\User;
@@ -14,7 +15,7 @@ class ChangePassword
     {
         try
         {
-            if ( isset($_SESSION['verify']) && empty($_SESSION['email']) )
+            if ( isset($_SESSION['verify']) && isset($_SESSION['email']) )
             {
                 if ( isset($_POST['password']) )
                 {
