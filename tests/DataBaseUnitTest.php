@@ -1,7 +1,11 @@
 <?php
-use PHPUnit\Framework\TestCase;
 
-require_once('..\DataBase.php');
+namespace Test\Database;
+
+require_once("components/Tools/Database/Database.php");
+
+use Application\Tools\Database\Database;
+use PHPUnit\Framework\TestCase;
 
 class DataBaseUnitTest extends TestCase
 {
@@ -25,7 +29,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_check_user()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->check_user("test");
 		$this->assertEquals(false,$result);
@@ -43,7 +47,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_check_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->check_file(1);
 		$this->assertEquals(false,$result);
@@ -63,7 +67,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_check_tag()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->check_tag(1);
 		$this->assertEquals(false,$result);
@@ -81,7 +85,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_check_tag_category()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->check_tag_category("test");
 		$this->assertEquals(false,$result);
@@ -99,7 +103,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_user()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_user("maxime.herbin@student.junia.com","Maxime","Herbin","123456789","Salut !","admin");
 		$this->assertEquals(0,$result);
@@ -140,7 +144,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_delete_user()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->delete_user("maxime.herbin@student.junia.com");
 		$this->assertEquals(-1,$result);
@@ -169,7 +173,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_user()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_user("maxime.herbin@student.junia.com");
 		$this->assertEquals(-1,$result);
@@ -195,7 +199,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_user_password()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_user("maxime.herbin@student.junia.com");
 		$this->assertEquals(-1,$result);
@@ -216,7 +220,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_update_user()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$options = array("prenom" => "Paul");
 		
@@ -303,7 +307,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_writing_right()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_writing_right("maxime.herbin@student.junia.com",10);
 		$this->assertEquals(-1,$result);
@@ -344,7 +348,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_reading_right()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_reading_right("maxime.herbin@student.junia.com",10);
 		$this->assertEquals(-1,$result);
@@ -375,7 +379,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_modify_rights()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->modify_rights("maxime.herbin@student.junia.com",10,0,1);
 		$this->assertEquals(-1,$result);
@@ -410,7 +414,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_delete_rights()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->delete_rights("maxime.herbin@student.junia.com",10);
 		$this->assertEquals(-1,$result);
@@ -441,7 +445,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_rights()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_rights("maxime.herbin@student.junia.com",10);
 		$this->assertEquals(-1,$result);
@@ -468,7 +472,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_file('C:\\\\wamp64\\\\www\\\\Unit Test',"maxime.herbin@student.junia.com","chat",3.42,"image","jpg");
 		$this->assertEquals(0,$result);
@@ -496,7 +500,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_delete_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->delete_file(10);
 		$this->assertEquals(-1,$result);
@@ -531,7 +535,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_file(10);
 		$this->assertEquals(-1,$result);
@@ -558,7 +562,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_modify_filename()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->modify_filename(10,"test2");
 		$this->assertEquals(-1,$result);
@@ -583,7 +587,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_link()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_link(10);
 		$this->assertEquals(-1,$result);
@@ -617,7 +621,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_delete_link()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->delete_link(10,1);
 		$this->assertEquals(-1,$result);
@@ -648,7 +652,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_link()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_link(10);
 		$this->assertEquals(-1,$result);
@@ -676,7 +680,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_tag()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_tag("Dorian");
 		$this->assertEquals(0,$result);
@@ -694,7 +698,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_modify_tag_name()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->modify_tag_name(10,"Chien");
 		$this->assertEquals(-1,$result);
@@ -717,7 +721,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_delete_tag()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->delete_tag(10);
 		$this->assertEquals(-1,$result);
@@ -754,7 +758,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_add_tag_category()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->add_tag_category("autres");
 		$this->assertEquals(0,$result);
@@ -772,7 +776,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_delete_tag_category()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->delete_tag_category("autres");
 		$this->assertEquals(-1,$result);
@@ -799,7 +803,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_tag_category()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_tag_category();
 		$this->assertEquals(-1,$result);
@@ -820,7 +824,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_modify_tag_category_name()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->modify_tag_category_name("Chat","Chien");
 		$this->assertEquals(-1,$result);
@@ -849,7 +853,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_basket_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->basket_file(1);
 		$this->assertEquals(-1,$result);
@@ -881,7 +885,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_get_basket_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->get_basket_file();
 		$this->assertEquals(-1,$result);
@@ -911,7 +915,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_recover_file()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$result = $sql->recover_file(1);
 		$this->assertEquals(-1,$result);
@@ -940,7 +944,7 @@ class DataBaseUnitTest extends TestCase
 	public function Test_basket_check()
 	{
 		$this->clear_DB();
-		$sql = new sql();
+		$sql = new Database();
 		
 		$date = date('Y-m-d');
 		

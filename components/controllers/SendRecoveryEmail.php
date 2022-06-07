@@ -4,9 +4,12 @@ namespace Application\Controllers;
 
 require_once('components/Model/Code.php');
 require_once('components/Model/Email.php');
+require_once("components/Tools/Database/DatabaseConnection.php");
+
 
 use Application\Model\Code;
 use Application\Model\Email;
+use Application\Tools\Database\DatabaseConnection;
 
 class SendRecoveryEmail
 {
@@ -16,18 +19,26 @@ class SendRecoveryEmail
         try {
             if ( !empty($_POST['email'] ) && (isset($_POST['email'] )) )
             {
-                $subject  = "Code de recupération du mot de passe";
-                $code = new Code(10);
-                $message = "Voici votre code pour modifier votre mot de passe : " . $code->getValue();
+                $email_address = $_POST['email'];
 
-                $email = new Email($_POST['email'], $subject, $message);
-                $email->SendEmail($email, $message);
+                if ( (new DatabaseConnection)->get_user($email_address) != -1 )
+                {
+                    $subject  = "Code de recupération du mot de passe";
+                    $code = new Code(10);
+                    $message = "Voici votre code pour modifier votre mot de passe : " . $code->getValue();
 
-                $_SESSION['email'] = $email->getAddress();
-                $_SESSION['code']  = $code->getValue();
+                    $email = new Email($email_address, $subject, $message);
+                    $email->SendEmail($email, $message);
 
-                $error = "";
-                require('public\view\verify_recovery_code.php');
+                    $_SESSION['email'] = $email->getAddress();
+                    $_SESSION['code']  = $code->getValue();
+
+                    $error = "";
+                    require('public\view\verify_recovery_code.php');
+                }
+                else {
+                    throw new \Exception('Adresse mail invalide');
+                }
             }
             else {
                 throw new \Exception('Aucun email renseigné');
