@@ -11,8 +11,9 @@
 
 <?php
 session_start();
-include('outils.php');
+include_once('outils.php');
 echo $_SESSION['mail'];
+$mail=$_SESSION['mail'];
 
 
 if (isset($_POST['mdptest'] )){
@@ -20,6 +21,7 @@ if (isset($_POST['mdptest'] )){
 
         if (verif_format_mdp($_POST['mdptest']) === true){
             echo "Mot de passe valide" ;
+            ecrire_log($mail,'à changer son mdp');
             //requête sql
 
             header('Location: index.php');

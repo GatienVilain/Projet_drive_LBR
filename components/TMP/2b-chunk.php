@@ -91,9 +91,11 @@ if ($out) {
   @fclose($out);
   @unlink($_FILES["file"]["tmp_name"]);
 } else { verbose(0, "Failed to open output stream"); }
-
+include_once('outils.php');
 // (E) CHECK IF FILE HAS BEEN UPLOADED
-if (!$chunks || $chunk == $chunks - 1) { rename("{$filePath}.part", $filePath); }
+if (!$chunks || $chunk == $chunks - 1) { rename("{$filePath}.part", $filePath);
+
+ ecrire_log("random","un fichier à été ajouté");}
 //else{if(file_exists("{$filePath}.part")){unlink("{$filePath}.part");}}
 verbose(1, "Upload OK");
 

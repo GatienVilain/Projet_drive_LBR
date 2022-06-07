@@ -1,8 +1,9 @@
 <?php
+date_default_timezone_set('Europe/Brussels');
 $erreur= null;
 
 require_once 'sql.php';
-
+include_once('outils.php');
 if (!empty($_POST['mail']) && (!empty($_POST['mdp']))) {
 
     //on teste les identifiants
@@ -16,6 +17,7 @@ if (!empty($_POST['mail']) && (!empty($_POST['mdp']))) {
         //on connecte
          session_start();
          $_SESSION['connecte']=1;
+         ecrire_log($mail,'connecté');
          header('Location: index.php');
          exit();
     }

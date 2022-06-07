@@ -19,7 +19,7 @@ forcer_utilisateur_connecter();
 <?php
    // bouton de changement de page-----------------------------------------   
       if(isset($_POST['buttonpage1'])) {
-        header('Location: page1.php');
+        header('Location: historique.php');
         exit();
       }
 
@@ -40,7 +40,7 @@ forcer_utilisateur_connecter();
   
 
 <form method="post">
-    <input type="submit" name="buttonpage1"value="aller à la page 1"/>
+    <input type="submit" name="buttonpage1"value="aller à la page log"/>
 </form>
 
 

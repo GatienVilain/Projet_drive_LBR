@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+include_once('outils.php');
 
 if (!empty($_POST['mail'])&& (isset($_POST['mail'] ))){
 
@@ -17,6 +18,7 @@ if (!empty($_POST['mail'])&& (isset($_POST['mail'] ))){
     if(mail($mail,$subject,$message,$headers)){
         
         echo "code envoyé";
+        ecrire_log($mail,'mail de récupération de mdp');
         $_SESSION['code']=$message;
         $_SESSION['mail']=$mail;
         header('Location: testcoderecup.php');
