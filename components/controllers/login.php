@@ -2,9 +2,9 @@
 
 namespace Application\Controllers;
 
-// require_once('components/Tools/Database/Database.php');
+require_once("components/Tools/Database/DatabaseConnection.php");
 
-// use Application\Controllers\Tools\Database\DatabaseConnection;
+use Application\Tools\Database\DatabaseConnection;
 
 class Login
 {
@@ -16,11 +16,11 @@ class Login
             $password = $_POST['password'];
 
             // Ce connecte à la base de donnée
-            // $data = new DatabaseConnection();
+            $connection = new DatabaseConnection();
 
             // Recupére les identifiants
-            // $result = $data->get_user_password($email);
-            $result = ['mot_de_passe' => '1234']; // mot de passe valide temporaire
+            $result = $connection->get_user_password($email);
+            // $result = ['mot_de_passe' => '1234']; // mot de passe valide temporaire
 
             // Les comparer avec ceux donné par l’utilisateur
             if ( $result != -1 && $password === $result['mot_de_passe'] ){

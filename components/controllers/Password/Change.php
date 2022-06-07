@@ -6,6 +6,7 @@ require_once("components/Model/Password.php");
 
 use Application\Model\Password;
 use Application\Model\User;
+use Application\Tools\Database\DatabaseConnection;
 
 class ChangePassword
 {
@@ -23,6 +24,7 @@ class ChangePassword
 
                         if ($password->checkFormat()){
                             //requête sql
+                            
 
                             $error = "Mot de passe enregistré";
                             (new User)->logout();
