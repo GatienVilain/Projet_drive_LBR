@@ -31,8 +31,8 @@ try
     {
         switch ($_GET['action'])
         {
-            case 'changePasswordProfil':
-            case 'profil':
+            case 'changePasswordProfile':
+            case 'profile':
             case 'history':
 
                 if ( (new User())->is_connected() )
@@ -45,12 +45,12 @@ try
                             ( new History() )->execute();
                             break;
 
-                        case 'profil':
+                        case 'profile':
 
                             ( new GetProfile() )->execute();
                             break;
 
-                        case 'changePasswordProfil':
+                        case 'changePasswordProfile':
 
                             (new changePasswordProfile())->execute();
                             break;
