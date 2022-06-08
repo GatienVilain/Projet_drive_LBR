@@ -1,5 +1,6 @@
 <?php // Router
 
+require_once("components/Controllers/Homepage.php");
 require_once("components/Controllers/Password/Change.php");
 require_once("components/Controllers/Password/Recover.php");
 require_once("components/Controllers/Login.php");
@@ -11,6 +12,7 @@ require_once("components/Model/User.php");
 require_once("components/Model/Log.php");
 
 
+use Application\Controllers\Homepage;
 use Application\Controllers\Password\ChangePassword;
 use Application\Controllers\Password\RecoverPassword;
 use Application\Controllers\Login;
@@ -67,8 +69,7 @@ try
     {
         if ( (new User())->is_connected() )
         {
-            // (new Homepage())->execute();`
-            echo "tu es co";
+            (new Homepage())->execute();
         }
         else {
             (new Login())->execute();
