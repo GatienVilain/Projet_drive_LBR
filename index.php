@@ -1,6 +1,7 @@
 <?php // Router
 
 require_once("components/Controllers/Homepage.php");
+require_once("components/Controllers/Profil/Get.php");
 require_once("components/Controllers/Password/Change.php");
 require_once("components/Controllers/Password/Recover.php");
 require_once("components/Controllers/Login.php");
@@ -11,8 +12,9 @@ require_once("components/Controllers/History.php");
 require_once("components/Model/User.php");
 
 
-
 use Application\Controllers\Homepage;
+use Application\Controllers\Profil\GetProfil;
+use Application\Controllers\Profil\ChangePassword as changePasswordProfil;
 use Application\Controllers\Password\ChangePassword;
 use Application\Controllers\Password\RecoverPassword;
 use Application\Controllers\Login;
@@ -33,6 +35,14 @@ try
             if ($_GET['action'] === 'history')
             {
                ( new History() )->execute();
+            }
+            elseif ($_GET['action'] === 'profil')
+            {
+                ( new GetProfil() )->execute();
+            }
+            elseif ($_GET['action'] === 'changePasswordProfil')
+            {
+                (new changePasswordProfil())->execute();
             }
         }
 
