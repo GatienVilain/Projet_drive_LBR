@@ -2,7 +2,7 @@
 <?php $stylesheets=""?>
 <?php $scripts=""?>
 <?php require("banner-menu.php"); ?>
-<?php require("image.php"); ?>
+
 <?php ob_start(); ?>
 
 <?php
@@ -11,8 +11,12 @@ require 'auth.php';
 forcer_utilisateur_connecter();
 ?>
 
+
+
 <?php// $imagePath = "/images/test.png";
 //afficherMiniature($imagePath);?>
+
+
 <script src="homePage.js"></script>
 <link href="homePage.css" rel="stylesheet">
 
@@ -43,6 +47,9 @@ foreach ($images as $i) {
 
 </div>
 <?php require("banner-storage.php");?>
+
+
+
 <?php $content = ob_get_clean(); ?>
 
 
