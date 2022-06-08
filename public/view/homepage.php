@@ -6,7 +6,12 @@
 
 <?php ob_start(); ?>
 
-<!-- Content -->
+<?php 
+
+foreach ($files as $values) {
+	$values->preview();
+}
+?>
 
 <?php $content = ob_get_clean(); ?>
 

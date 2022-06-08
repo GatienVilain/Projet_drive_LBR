@@ -27,7 +27,7 @@ class Login
                 //on connecte
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
-
+				$_SESSION['email'] = $email;
                 header('Location: index.php');
             }
             else {

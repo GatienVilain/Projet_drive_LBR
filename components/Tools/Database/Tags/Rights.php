@@ -194,7 +194,7 @@ trait TagsRights
 	}
 
 	//renvoie tous les droits d'un utilisateur sous la forme d'un tableau de la forme : array(("id_tag" => 1,"ecriture" => 1,"lecture" => 1),("id_tag" => 2,"ecriture" => 0,"lecture" => 1))
-	function get_links_of_user(string $email)
+	function get_rights_of_user(string $email)
 	{
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
