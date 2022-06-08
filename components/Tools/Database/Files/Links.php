@@ -8,7 +8,7 @@ use Application\Tools\Database\DatabaseConnection;
 
 trait FilesLinks
 {
-    //associe un tag à un fichier dans la table appartenir de la base de donnée
+	//associe un tag à un fichier dans la table appartenir de la base de donnée
 	function add_link(int $id_fichier, int $id_tag = 1)
 	{
 		//point de connexion à la base de donnée
@@ -106,31 +106,29 @@ trait FilesLinks
 			return $this->console_log("Le fichier n'existe pas.");
 		}
 	}
-	
+
 	//renvoie la liste de tous les id_fichier, qui ne sont pas supprimés, associés à un utilisateur
 	function get_files_of_user(string $email)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(self::host,self::user,self::password,self::db);
-		if (!$conn){
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
-		
+
 		if ($this->check_user($email)) {
-			
+
 			$query = $conn->prepare("SELECT f.id_fichier FROM fichier AS f WHERE email = ? AND f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
-			$query->bind_param("s",$email);
+			$query->bind_param("s", $email);
 			$query->execute();
 			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 			$conn->close();
-			if($result != NULL){
+			if ($result != NULL) {
 				return $result;
-			}
-			else {
+			} else {
 				return $this->console_log("L'utilisateur n'a pas de fichiers associés.");
 			}
-		}
-		else {
+		} else {
 			return $this->console_log("Le compte n'existe pas.");
 		}
 	}
@@ -139,25 +137,23 @@ trait FilesLinks
 	function get_files_by_link(int $id_tag)
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(self::host,self::user,self::password,self::db);
-		if (!$conn){
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
 
 		if ($this->check_tag($id_tag)) {
-			
+
 			$query = $conn->prepare("SELECT f.id_fichier FROM fichier AS f JOIN appartenir AS a ON f.id_fichier = a.id_fichier WHERE f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
 			$query->execute();
 			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 			$conn->close();
-			if($result != NULL){
+			if ($result != NULL) {
 				return $result;
-			}
-			else {
+			} else {
 				return $this->console_log("Le tag n'est associé à aucun fichier.");
 			}
-		}
-		else {
+		} else {
 			return $this->console_log("Le tag n'existe pas.");
 		}
 	}

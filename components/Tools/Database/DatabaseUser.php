@@ -8,7 +8,7 @@ use Application\Tools\Database\DatabaseConnection;
 
 trait DatabaseUser
 {
-    //ajoute un utilisateur à la table utilisateur de la base de donnée, renvoie un message d'erreur en cas d'échec
+	//ajoute un utilisateur à la table utilisateur de la base de donnée, renvoie un message d'erreur en cas d'échec
 	function add_user(string $email, string $prenom, string $nom, string $mdp, string $descriptif, string $role)
 	{
 		//point de connexion à la base de donnée
@@ -204,26 +204,24 @@ trait DatabaseUser
 
 		return 0;
 	}
-	
+
 	//renvoie la liste de tous les emails des utilisateurs dont le compte n'est pas supprimé
 	function get_all_users()
 	{
 		//point de connexion à la base de donnée
-		$conn = new mysqli(self::host,self::user,self::password,self::db);
-		if (!$conn){
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
-		
+
 		$query = $conn->prepare("SELECT email FROM utilisateur WHERE compte_supprime = 0");
 		$query->execute();
 		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 		$conn->close();
-		if($result != NULL){
+		if ($result != NULL) {
 			return $result;
-		}
-		else{
+		} else {
 			return $this->console_log("Echec de récupération des utilisateurs.");
 		}
-		
 	}
 }
