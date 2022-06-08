@@ -18,6 +18,6 @@ class GetProfile
         $registration_date = $informations['date_inscription'];
 
         $error = "";
-        require('public/view/profil.php');
+        require('public/view/profile.php');
     }
 }
