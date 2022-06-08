@@ -11,6 +11,8 @@ class Login
 {
     public function execute()
     {
+
+
         if ( !empty($_POST['email']) && (!empty($_POST['password'])) )
         {
             $email = $_POST['email'];
@@ -28,6 +30,26 @@ class Login
                 //on connecte
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
+                if ($_POST['remember_me']== true){
+                    //-------------------------
+                    setcookie(
+                        'LOGGED_USER',
+                        $email,
+                        [
+                            'expires' => time() + 30*24*3600,
+                            'secure' => true,
+                            'httponly' => true,
+                        ]);
+                        //-------------------------
+                        setcookie(
+                            'PASSWORD_USER',
+                            $password,
+                            [
+                                'expires' => time() + 30*24*3600,
+                                'secure' => true,
+                                'httponly' => true,
+                            ]);
+                }
                 ecrire_log($email,'connecté');
                 header('Location: index.php');
             }
@@ -37,8 +59,36 @@ class Login
         }
         else {
             $error = "";
+            $mail_memoire = $this->mail_cookie();
+            $mdp_memoire = $this->mdp_cookie();
         }
 
         require('public/view/login.php');
     }
+
+    public function mail_cookie()
+    {
+        if (isset($_COOKIE['LOGGED_USER'])){
+            return $_COOKIE['LOGGED_USER'];
+
+        }
+        else{
+            return '';
+        }
+
+
+    }
+    public function mdp_cookie()
+    {
+        if (isset($_COOKIE['PASSWORD_USER'])){
+            return $_COOKIE['PASSWORD_USER'];
+
+        }
+        else{
+            return '';
+        }
+
+
+    }
+
 }
