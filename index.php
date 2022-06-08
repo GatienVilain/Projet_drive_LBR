@@ -8,7 +8,7 @@ require_once("components/Controllers/VerifyRecoveryCode.php");
 
 require_once("components/Model/User.php");
 
-require_once("components/TMP/testtableau.php");
+require_once("components/Model/Log.php");
 
 
 use Application\Controllers\Password\ChangePassword;
@@ -27,7 +27,10 @@ try
         if ( (new User())->is_connected() )
         {
             // Actions possible lorsque l’on est connecté
-            echo "tu es co et tu fais des actions";
+            if ($_GET['action'] === 'historique')
+            {
+                historique();
+            }
         }
 
         // Actions disponible dans tous les cas
@@ -54,10 +57,6 @@ try
         elseif ($_GET['action'] === 'changePassword')
         {
             (new ChangePassword())->execute();
-        }
-        elseif ($_GET['action'] === 'testTableau')
-        {
-            testTableau();
         }
         else
         {

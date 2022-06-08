@@ -9,11 +9,12 @@ function testTableau()
     $connection = new DatabaseConnection();
 
     $liste_utilisateurs= $connection->get_all_users() ;
+    sort($liste_utilisateurs);
     $nbdutilisateurs=count($liste_utilisateurs);
-    echo $nbdutilisateurs ;
-    echo $connection->get_user($liste_utilisateurs[3]['email'])["prenom"];
+    echo $nbdutilisateurs;
 
-    //sort($liste_utilisateurs);
+
+   
     ?>
     <form action = "" method= "post">
     <table>
@@ -28,11 +29,7 @@ function testTableau()
         ?><td><?php echo $prenom; ?></td><?php
         ?><td><?php echo $nom; ?></td><?php
         ?><td><?php echo $role; ?></td><?php
-        echo $i;
-
-
-
-
+        //echo $i;
         ?></tr><?php
     }
     ?>
