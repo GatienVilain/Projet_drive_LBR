@@ -33,7 +33,7 @@ class ChangePassword
         catch (\Exception $e)
         {
             $error = $e->getMessage();
-            require('public/view/profil.php');
+            require('public/view/profile.php');
         }
     }
 }
