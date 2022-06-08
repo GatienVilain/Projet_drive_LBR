@@ -6,6 +6,7 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Model\Log;
 
 class Login
 {
@@ -28,7 +29,9 @@ class Login
                 //on connecte
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
-                ecrire_log($email,'connecté');
+
+                ( new Log() )->ecrire_log($email,'connecté');
+
                 header('Location: index.php');
             }
             else {

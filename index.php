@@ -6,10 +6,10 @@ require_once("components/Controllers/Password/Recover.php");
 require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
+require_once("components/Controllers/History.php");
 
 require_once("components/Model/User.php");
 
-require_once("components/Model/Log.php");
 
 
 use Application\Controllers\Homepage;
@@ -18,6 +18,7 @@ use Application\Controllers\Password\RecoverPassword;
 use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
+use Application\Controllers\History;
 
 use Application\Model\User;
 
@@ -29,9 +30,9 @@ try
         if ( (new User())->is_connected() )
         {
             // Actions possible lorsque l’on est connecté
-            if ($_GET['action'] === 'historique')
+            if ($_GET['action'] === 'history')
             {
-                historique();
+               ( new History() )->execute();
             }
         }
 
