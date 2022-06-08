@@ -71,6 +71,7 @@ img{
     }
     .logo.mobile {
         height: 5vh;
+        width: 7em;
         padding: 1vh 3vw;
         background-color: #fff;
         border-radius: 50% / 100%;
@@ -148,7 +149,7 @@ img{
     }
     .logo.complet {
         height: 6vh;
-		width: 25vw;
+		width: 17em;
         padding: 0 0.3vw;
         background-color: #fff;
         border-radius: 2vh;
