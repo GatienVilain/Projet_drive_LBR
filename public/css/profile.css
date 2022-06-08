@@ -2,7 +2,7 @@
 
 @media only screen and ( max-width: 992px) {
     /* Css for profil page */
-    #profil {
+    #profile {
         height: 93vh;
         display: flex;
         flex-direction: column;
@@ -96,7 +96,7 @@
 
 @media only screen and ( min-width: 992px) {
     /* Css for profil page */
-    #profil {
+    #profile {
         flex-direction: row;
     }
 }

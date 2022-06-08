@@ -1,12 +1,12 @@
 <?php
 
-namespace Application\Controllers\Profil;
+namespace Application\Controllers\Profile;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class GetProfil
+class GetProfile
 {
     public function execute()
     {
@@ -14,7 +14,7 @@ class GetProfil
 
         $name = $informations['prenom'] . " " . $informations['nom'];
         $role = $informations['role'];
-        $description = $informations['description'];
+        $description = $informations['descriptif'];
         $registration_date = $informations['date_inscription'];
 
         $error = "";

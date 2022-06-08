@@ -1,7 +1,7 @@
 <?php // Router
 
 require_once("components/Controllers/Homepage.php");
-require_once("components/Controllers/Profil/Get.php");
+require_once("components/Controllers/Profile/Get.php");
 require_once("components/Controllers/Password/Change.php");
 require_once("components/Controllers/Password/Recover.php");
 require_once("components/Controllers/Login.php");
@@ -13,8 +13,8 @@ require_once("components/Model/User.php");
 
 
 use Application\Controllers\Homepage;
-use Application\Controllers\Profil\GetProfil;
-use Application\Controllers\Profil\ChangePassword as changePasswordProfil;
+use Application\Controllers\Profile\GetProfile;
+use Application\Controllers\Profile\ChangePassword as changePasswordProfile;
 use Application\Controllers\Password\ChangePassword;
 use Application\Controllers\Password\RecoverPassword;
 use Application\Controllers\Login;
@@ -31,6 +31,8 @@ try
     {
         switch ($_GET['action'])
         {
+            case 'changePasswordProfil':
+            case 'profil':
             case 'history':
 
                 if ( (new User())->is_connected() )
@@ -45,12 +47,12 @@ try
 
                         case 'profil':
 
-                            ( new GetProfil() )->execute();
+                            ( new GetProfile() )->execute();
                             break;
 
                         case 'changePasswordProfil':
 
-                            (new changePasswordProfil())->execute();
+                            (new changePasswordProfile())->execute();
                             break;
                     }
                 }

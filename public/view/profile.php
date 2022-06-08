@@ -1,5 +1,5 @@
 <?php $title = "Drive LBR - profil"; ?>
-<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/profil.css\">" ?>
+<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/profile.css\">" ?>
 <?php $scripts = "" ?>
 
 <?php require('public/view/banner-menu.php'); ?>
@@ -7,7 +7,7 @@
 <?php ob_start(); ?>
 
 <!-- Page de Profil -->
-<article id="profil">
+<article id="profile">
 
 <!-- Composant d’information du profil -->
     <section id="profile-information">
