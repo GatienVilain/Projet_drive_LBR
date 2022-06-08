@@ -36,7 +36,7 @@
 
 <!-- Changer mot de passe -->
     <section id="change-password-section">
-        <form action="index.php?action=changePasswordProfil" method="post">
+        <form action="index.php?action=changePasswordProfile" method="post">
             <div>
                 <?= $error ?>
             </div>

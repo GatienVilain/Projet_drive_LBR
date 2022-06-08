@@ -24,7 +24,7 @@ class SendRecoveryEmail
                 if ( (new DatabaseConnection)->get_user($email_address) != -1 )
                 {
                     $subject  = "Code de recupération du mot de passe";
-                    $code = new Code(10);
+                    $code = new Code(6);
                     $message = "Voici votre code pour modifier votre mot de passe : " . $code->getValue();
 
                     $email = new Email($email_address, $subject, $message);
