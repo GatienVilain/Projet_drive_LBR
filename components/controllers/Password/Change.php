@@ -25,8 +25,11 @@ class ChangePassword
 
                         if ($password->checkFormat()){
 
+                            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
                             # Prérare le changement de mot de passe
-                            $change = array("mot_de_passe" => $password->getValue());
+                            // $change = array("mot_de_passe" => $password->getValue());
+                            $change = array("mot_de_passe" => $password); // ! A modifier en OOP
 
                             // Ce connecte à la base de donnée et change le mot de passe
                             if ( ( new DatabaseConnection() )->update_user($_SESSION['email'], $change) == 0 )
