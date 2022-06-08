@@ -8,6 +8,8 @@ require_once("components/Controllers/VerifyRecoveryCode.php");
 
 require_once("components/Model/User.php");
 
+require_once("components/TMP/testtableau.php");
+
 
 use Application\Controllers\Password\ChangePassword;
 use Application\Controllers\Password\RecoverPassword;
@@ -52,6 +54,10 @@ try
         elseif ($_GET['action'] === 'changePassword')
         {
             (new ChangePassword())->execute();
+        }
+        elseif ($_GET['action'] === 'testTableau')
+        {
+            testTableau();
         }
         else
         {
