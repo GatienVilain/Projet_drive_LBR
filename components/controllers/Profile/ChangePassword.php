@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Controllers\Profil;
+namespace Application\Controllers\Profile;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 
