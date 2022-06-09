@@ -178,7 +178,7 @@ class Files
 	
 	public function preview(): string
 	{
-		$image = sprintf("<div class=miniature><div class=image> <img src='%s'/></div> <div class = titre> <p> %s </p> </div></div>",$this->getPath() . '.' . $this->getFileExtension(),$this->getFilename());
+		$image = sprintf("<div class=miniature><div class=image> <img src='%s' onclick='[openPopupDetail(),closePopupUpload()]'/></div> <div class = titre> <p> %s </p> </div></div>",$this->getPath() . '.' . $this->getFileExtension(),$this->getFilename());
 		return $image;
 	}
 }
