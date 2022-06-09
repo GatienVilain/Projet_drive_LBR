@@ -23,18 +23,12 @@
 
 <div class="gallery">
 
-    <?php
-    // (B) GET LIST OF IMAGE FILES FROM GALLERY FOLDER
-    $dir = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "storage" . DIRECTORY_SEPARATOR . "pictures" . DIRECTORY_SEPARATOR . "frames" . DIRECTORY_SEPARATOR;
-
-    $images = glob("$dir*.{jpg,jpeg,gif,png,bmp,webp}", GLOB_BRACE);
-
-    // (C) OUTPUT IMAGES
-    foreach ($images as $i)
+<?php
+    foreach ($files as $values)
     {
-        printf("<div class=miniature><div class='image'> <img src='storage/pictures/frames/%s' ALT ='%s'/></div> <div class = titre> <p> %s </p> </div></div>", basename($i), basename($i),pathinfo($i, PATHINFO_FILENAME));
+        echo $values->preview();
     }
-    ?>
+?>
 
 </div>
 

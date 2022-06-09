@@ -72,7 +72,7 @@ trait FilesEdit
 		return 0;
 	}
 
-	//renvoie les informations associées au fichier (nom_fichier, auteur, date de publication, date de dernière modification, taille_Mo, type, extension)
+	//renvoie les informations associées au fichier (nom_fichier, auteur, date de publication, date de dernière modification, taille_Mo, type, extension, source)
 	function get_file(int $id_fichier)
 	{
 		//point de connexion à la base de donnée
@@ -82,7 +82,7 @@ trait FilesEdit
 		}
 
 		//on regarde si le fichier existe
-		$query = $conn->prepare("SELECT nom_fichier,email,date_publication,date_derniere_modification,taille_Mo,type,extension FROM fichier WHERE id_fichier = ?");
+		$query = $conn->prepare("SELECT nom_fichier,email,date_publication,date_derniere_modification,taille_Mo,type,extension,source FROM fichier WHERE id_fichier = ?");
 		$query->bind_param("i", $id_fichier);
 		$query->execute();
 		$result = $query->get_result()->fetch_assoc();
