@@ -14,7 +14,6 @@ class History
     function tableaux()
     {
         $html='<article>';
-     
         if($dossier=opendir('log')){
             $liste=array();
             while(false != $fichier = readdir($dossier)){
@@ -45,15 +44,14 @@ class History
                     //$chaine=str_replace(';',' ',$chaine);
                     //$chaine.='fin';
                     //echo strlen($chaine);
+
                     $cpt=0;
-
-
                     while($cpt<strlen($chaine)){
                         $html.='<tr>';
                         //on ouvre la ligne
                         $cptbis=0;
                         $bloc='';
-                        while($cptbis<4){
+                        while(($cptbis<4) && ($cpt<strlen($chaine))){
                             
                             if($chaine[$cpt]!=';'){
                                 $bloc.=$chaine[$cpt];
