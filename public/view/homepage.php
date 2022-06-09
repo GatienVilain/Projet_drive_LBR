@@ -7,7 +7,7 @@
 <?php ob_start(); ?>
 
 <!-- Content -->
-<script src="homepage.js"></script>
+<script src="public\js\homepage.js"></script>
 
 <div class = toolbar>
     <div class = groupe1>
