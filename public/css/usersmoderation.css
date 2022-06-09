@@ -1,0 +1,39 @@
+ /* Desktop layout */
+
+ @media only screen and ( min-width: 992px) {
+   .toolbar{
+  display: flex;
+  margin: 8vh auto 0;
+  margin-left:4%;
+  margin-right: 4%;
+  border-bottom:1px solid black;
+}
+
+ 
+
+ }
+
+
+  /* Mobile layout */
+ @media screen and (max-width: 992px) {
+
+   .toolbar{
+    display: flex;
+    margin: 7vh auto 0;
+    margin-left:2%;
+    margin-left:2%;
+    border-bottom:1px solid black;
+  }
+}
+
+  .titre{
+    min-width: 0;
+    max-width: 200px;
+
+    
+    white-space: nowrap; 
+     
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+  }
