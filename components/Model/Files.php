@@ -105,8 +105,13 @@ class Files
 					if ($ecriture && $lecture) {
 						break;
 					}
-					$ecriture = $connection->get_rights($_SESSION["email"],$tags[$i])["ecriture"];
-					$lecture = $connection->get_rights($_SESSION["email"],$tags[$i])["lecture"];
+					
+					$rights = $connection->get_rights($_SESSION["email"],$tags[$i]);
+					
+					if ($rights != -1) {
+						$ecriture = $rights["ecriture"];
+						$ecriture = $rights["lecture"];
+					}
 				}
 				return array("ecriture" => $ecriture,"lecture" => $lecture);
 		}

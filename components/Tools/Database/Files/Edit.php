@@ -96,7 +96,7 @@ trait FilesEdit
 		}
 	}
 
-	//renvoie les informations de tous les fichiers (nom_fichier, auteur, date de publication, date de dernière modification, taille_Mo, type, extension, source)
+	//renvoie les informations de tous les fichiers non supprimés (nom_fichier, auteur, date de publication, date de dernière modification, taille_Mo, type, extension, source)
 	function get_all_files()
 	{
 		//point de connexion à la base de donnée
@@ -106,16 +106,16 @@ trait FilesEdit
 		}
 
 		//on regarde si le fichier existe
-		$query = $conn->prepare("SELECT nom_fichier,email,date_publication,date_derniere_modification,taille_Mo,type,extension,source FROM fichier");
+		$query = $conn->prepare("SELECT f.id_fichier,nom_fichier,email,date_publication,date_derniere_modification,taille_Mo,type,extension,source FROM fichier AS f WHERE f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
 		$query->execute();
-		$result = $query->get_result()->fetch_all(MYSQL_ASSOC);
+		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 		if ($result != NULL) {
 			//s'il existe, on renvoie les informations associées au fichier
 			$conn->close();
 			return $result;
 		} else {
 			//le fichier n'existe pas
-			return $this->console_log("Le fichier n'existe pas.");
+			return $this->console_log("Le(s) fichier(s) n'existe(nt) pas ou est(sont) supprimé(s).");
 		}
 	}
 

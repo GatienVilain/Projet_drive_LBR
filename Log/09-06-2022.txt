@@ -10,3 +10,11 @@
 09/06/2022;10:12:00;dorian.larouziere@student.junia.com;connecté;
 09/06/2022;11:13:09;maxime.herbin@student.junia.com;connecté;
 09/06/2022;11:18:56;gatien.vilain@student.junia.com;connecté;
+09/06/2022;11:51:31;maxime.herbin@student.junia.com;connecté;
+09/06/2022;11:52:05;dorian.larouziere@student.junia.com;connecté;
+09/06/2022;11:53:25;maxime.herbin@student.junia.com;connecté;
+09/06/2022;11:53:33;dorian.larouziere@student.junia.com;connecté;
+09/06/2022;12:09:38;maxime.herbin@student.junia.com;connecté;
+09/06/2022;12:10:03;dorian.larouziere@student.junia.com;connecté;
+09/06/2022;12:23:06;maxime.herbin@student.junia.com;connecté;
+09/06/2022;12:29:09;dorian.larouziere@student.junia.com;connecté;

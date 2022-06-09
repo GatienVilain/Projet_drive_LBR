@@ -14,7 +14,7 @@ $totalStorageSpace = 100 ?>
 
 </style>
 
-<p id=banner-footer-role>Admin</p>
+<p id=banner-footer-role><?= $role ?></p>
 <div id=banner-footer-storage>
     <p id=paragraph-storage>
         <span id = usedStorageSpace>
@@ -28,7 +28,7 @@ $totalStorageSpace = 100 ?>
     </div>
 </div> 
 
-<p id=banner-footer-file><?php echo($filesNumber)?> fichier(s)</p>
+<p id=banner-footer-file><?= $nbr_files?> fichier(s)</p>
 
 </footer>
 
