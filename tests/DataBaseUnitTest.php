@@ -1002,27 +1002,27 @@ class DataBaseUnitTest extends TestCase
 	}
 
 	/** @test */
-	public function Test_get_links_of_user()
+	public function Test_get_rights_of_user()
 	{
 		$this->clear_DB();
 		$sql = new DatabaseConnection();
 
 		$date = date('Y-m-d');
 
-		$result = $sql->get_links_of_user("test");
+		$result = $sql->get_rights_of_user("test");
 		$this->assertEquals(-1, $result);
 
 		$conn = new \mysqli("localhost", "root", "dorian", "driveTest");
 		$query = $conn->query(sprintf("INSERT INTO utilisateur (email,prenom,nom,mot_de_passe,descriptif,role,date_inscription,compte_supprime) VALUES ('maxime.herbin@student.junia.com','Maxime','Herbin','1234','','admin','%s',0)", $date));
 
-		$result = $sql->get_links_of_user('maxime.herbin@student.junia.com');
+		$result = $sql->get_rights_of_user('maxime.herbin@student.junia.com');
 		$this->assertEquals(-1, $result);
 
 		$query = $conn->query("INSERT INTO attribuer (email,id_tag,ecriture,lecture) VALUES ('maxime.herbin@student.junia.com',1,1,1)");
 		$query = $conn->query("INSERT INTO attribuer (email,id_tag,ecriture,lecture) VALUES ('maxime.herbin@student.junia.com',2,0,1)");
 		$query = $conn->query("INSERT INTO attribuer (email,id_tag,ecriture,lecture) VALUES ('celestin.captal@student.junia.com',3,1,1)");
 
-		$result = $sql->get_links_of_user('maxime.herbin@student.junia.com');
+		$result = $sql->get_rights_of_user('maxime.herbin@student.junia.com');
 
 		$this->assertEquals(2, count($result));
 
