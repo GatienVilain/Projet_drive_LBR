@@ -7,6 +7,17 @@
 <?php ob_start(); ?>
 
 <!-- Content -->
+<article>
+
+	<div class = toolbar>
+		<h2>Utilisateurs :</h2>
+		<div class = groupe2>
+			<button title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
+			<p>Rôle</p>
+		</div>
+	</div>
+
+</article>
 
 <?php $content = ob_get_clean(); ?>
 

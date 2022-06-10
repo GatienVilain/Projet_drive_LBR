@@ -1,39 +1,27 @@
- /* Desktop layout */
+article {
+	margin: 7vh 0 0;
+}
 
- @media only screen and ( min-width: 992px) {
-   .toolbar{
-  display: flex;
-  margin: 8vh auto 0;
-  margin-left:4%;
-  margin-right: 4%;
-  border-bottom:1px solid black;
+.toolbar{
+	margin: 2vw;
+}
+  
+h2 {
+	font-size:1.7em;
+	font-weight: 100;
+	border-bottom:1px solid black;
+}
+
+.groupe2 {
+   display: flex;
+   margin: 1em 4vw;
+   justify-content: space-between;
+}
+
+.groupe2 *{
+	font-family: 'Trebuchet MS', Arial, sans-serif;
+	font-size: 1.3em;
 }
 
  
-
- }
-
-
-  /* Mobile layout */
- @media screen and (max-width: 992px) {
-
-   .toolbar{
-    display: flex;
-    margin: 7vh auto 0;
-    margin-left:2%;
-    margin-left:2%;
-    border-bottom:1px solid black;
-  }
-}
-
-  .titre{
-    min-width: 0;
-    max-width: 200px;
-
-    
-    white-space: nowrap; 
-     
-    text-overflow: ellipsis;
-    overflow: hidden;
-    
-  }
+  
