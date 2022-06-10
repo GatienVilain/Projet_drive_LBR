@@ -143,7 +143,7 @@ class Files
 	
 	public function getModificationDate(): string
 	{
-		return $this->date_derniere_modification;
+		return $this->date_modification;
 	}
 	
 	public function getFileSize(): float
@@ -178,7 +178,87 @@ class Files
 	
 	public function preview(): string
 	{
-		$image = sprintf("<div class=miniature><div class=image> <img src='%s' onMouseDown='[openPopup(event),closePopupUpload()]'/></div> <div class = titre> <p> %s </p> </div></div>",$this->getPath() . '.' . $this->getFileExtension(),$this->getFilename());
+		$fileName = $this->getFilename();
+		$fileAddedDate=$this->getReleaseDate();
+		$fileAuthor=$this->getAuthor();
+		$fileModificationDate=$this->getModificationDate();
+		$fileSize=$this->getFileSize();
+		$fileTag= '1';
+		$fileType=$this->getFileType();
+
+		$image = sprintf("<div class=miniature>
+			<div class = 'popup-detail' id='%s-popup-detail'>
+
+				<div class='header-popup' id='header-popup-detail'>
+
+					<button id='%s' class='close-button' title='Fermer' onclick ='closePopupDetail(this.id)'><strong>←</strong></button>
+					<p><strong>Informations fichier</strong></p>
+
+				</div>
+
+				<div id='body-popup-detail'>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line1'>
+
+						<p class = 'detail-para'>Nom:</p>
+						<p class = 'server-para'>$fileName</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line2'>
+
+						<p class = 'detail-para'>Type:</p>
+						<p class = 'server-para'>$fileType</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line3'>
+						
+						<p class = 'detail-para'>Auteur:</p>
+						<p class = 'server-para'>$fileAuthor</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line4'>
+
+						<p class = 'detail-para'>Date d'ajout:</p>
+						<p class = 'server-para'>$fileAddedDate</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line5'>
+
+						<p class = 'detail-para'>Date de modification:</p>
+						<p class = 'server-para' id='server-para-modificationDate'>$fileModificationDate</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line6'>
+
+						<p class = 'detail-para'>Taille:</p>
+						<p class = 'server-para'>$fileSize Mo</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line7'>
+
+						<p class = 'detail-para'>Tag:</p>
+						<p class = 'server-para'>$fileTag</p>
+
+					</div>
+
+				</div>
+	
+	
+			</div>
+
+			<div class=image> 
+				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id),closePopupUpload()]'/>
+			</div> 
+			
+			<div class = titre> 
+				<p> %s </p> 
+			</div></div>",$this->id_fichier,$this->id_fichier,$this->id_fichier,$this->getPath() . '.' . $this->getFileExtension(),$this->getFilename());
 		return $image;
 	}
 }

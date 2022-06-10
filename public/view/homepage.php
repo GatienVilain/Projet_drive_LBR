@@ -77,71 +77,70 @@
         </div>
 
     </div>
-
     <div id="popup-detail">
 
-        <div class='header-popup' id="header-popup-detail">
+<div class='header-popup' id="header-popup-detail">
 
-            <button class='close-button' title="Fermer" onclick ="closePopupDetail()"><strong>←</strong></button>
-            <p><strong>Informations fichier</strong></p>
+    <button class='close-button' title="Fermer" onclick ="closePopupDetail()"><strong>←</strong></button>
+    <p><strong>Informations fichier</strong></p>
 
-        </div>
+</div>
 
-        <div id="body-popup-detail">
+<!-- <div id="body-popup-detail">
 
-            <div class="body-popup-detail-line" id="body-popup-detail-line1">
+    <div class="body-popup-detail-line" id="body-popup-detail-line1">
 
-                <p class = "detail-para">Nom:</p>
-                <?="<p class = 'server-para'>".$fileName."</p>"?>
+        <p class = "detail-para">Nom:</p>
+        
 
-            </div>
-
-            <div class="body-popup-detail-line" id="body-popup-detail-line2">
-
-                <p class = "detail-para">Type:</p>
-                <?="<p class = 'server-para'>".$fileType."</p>"?>
-
-            </div>
-
-            <div class="body-popup-detail-line" id="body-popup-detail-line3">
-                
-                <p class = "detail-para">Auteur:</p>
-                <?="<p class = 'server-para'>".$fileAuthor."</p>"?>
-
-            </div>
-
-            <div class="body-popup-detail-line" id="body-popup-detail-line4">
-
-                <p class = "detail-para">Date d'ajout:</p>
-                <?="<p class = 'server-para'>".$fileAddedDate."</p>"?>
-
-            </div>
-
-            <div class="body-popup-detail-line" id="body-popup-detail-line5">
-
-                <p class = "detail-para">Date de modification:</p>
-                <?="<p class = 'server-para' id='server-para-modificationDate'>".$fileModificationDate."</p>"?>
-
-            </div>
-
-            <div class="body-popup-detail-line" id="body-popup-detail-line6">
-
-                <p class = "detail-para">Taille:</p>
-                <?="<p class = 'server-para'>".$fileSize."</p>"?>
-
-            </div>
-
-            <div class="body-popup-detail-line" id="body-popup-detail-line7">
-
-                <p class = "detail-para">Tag:</p>
-                <?="<p class = 'server-para'>".$fileTag."</p>"?>
-
-            </div>
-
-        </div>
-  
-  
     </div>
+
+    <div class="body-popup-detail-line" id="body-popup-detail-line2">
+
+        <p class = "detail-para">Type:</p>
+        
+
+    </div>
+
+    <div class="body-popup-detail-line" id="body-popup-detail-line3">
+        
+        <p class = "detail-para">Auteur:</p>
+        
+
+    </div>
+
+    <div class="body-popup-detail-line" id="body-popup-detail-line4">
+
+        <p class = "detail-para">Date d'ajout:</p>
+        
+
+    </div>
+
+    <div class="body-popup-detail-line" id="body-popup-detail-line5">
+
+        <p class = "detail-para">Date de modification:</p>
+        
+
+    </div>
+
+    <div class="body-popup-detail-line" id="body-popup-detail-line6">
+
+        <p class = "detail-para">Taille:</p>
+        
+
+    </div>
+
+    <div class="body-popup-detail-line" id="body-popup-detail-line7">
+
+        <p class = "detail-para">Tag:</p>
+        
+
+    </div>
+
+</div> -->
+
+
+</div>
 
     <div class="gallery">
 
@@ -174,19 +173,18 @@
         
       }
 
-      function openPopup(event) {
+      function openPopup(event, idElement) {
 
+        
+    
         if(event.button == 0) //clic gauche
         {
 
-          if(document.getElementById("popup-detail").style.display != "block")
+          idElement = idElement + '-popup-detail';
+          if(document.getElementById(idElement).style.display != "block")
           {
             closePopupOptions();
-            var pos_X = event.clientX;
-            var pos_Y = event.clientY;
-            document.getElementById("popup-detail").style.display = "block";
-            document.getElementById('popup-detail').style.setProperty("top",pos_Y+'px');
-            document.getElementById('popup-detail').style.setProperty("left",pos_X+'px');
+            document.getElementById(idElement).style.display = "block";  
 
           }
 
@@ -196,7 +194,7 @@
         {
           if(document.getElementById("popup-options").style.display != "block")
           {
-            closePopupDetail();
+            closePopupDetail(idElement);
             var pos_X = event.clientX;
             var pos_Y = event.clientY;
             document.getElementById("popup-options").style.display = "block";
@@ -211,8 +209,9 @@
         
       }
 
-      function closePopupDetail() {
-        document.getElementById("popup-detail").style.display = "none";
+      function closePopupDetail(idElement) {
+        idElement = idElement + '-popup-detail';
+        document.getElementById(idElement).style.display = "none";
       }
 
       function closePopupOptions() {
