@@ -77,70 +77,7 @@
         </div>
 
     </div>
-    <div id="popup-detail">
-
-<div class='header-popup' id="header-popup-detail">
-
-    <button class='close-button' title="Fermer" onclick ="closePopupDetail()"><strong>←</strong></button>
-    <p><strong>Informations fichier</strong></p>
-
-</div>
-
-<!-- <div id="body-popup-detail">
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line1">
-
-        <p class = "detail-para">Nom:</p>
-        
-
-    </div>
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line2">
-
-        <p class = "detail-para">Type:</p>
-        
-
-    </div>
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line3">
-        
-        <p class = "detail-para">Auteur:</p>
-        
-
-    </div>
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line4">
-
-        <p class = "detail-para">Date d'ajout:</p>
-        
-
-    </div>
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line5">
-
-        <p class = "detail-para">Date de modification:</p>
-        
-
-    </div>
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line6">
-
-        <p class = "detail-para">Taille:</p>
-        
-
-    </div>
-
-    <div class="body-popup-detail-line" id="body-popup-detail-line7">
-
-        <p class = "detail-para">Tag:</p>
-        
-
-    </div>
-
-</div> -->
-
-
-</div>
+    
 
     <div class="gallery">
 

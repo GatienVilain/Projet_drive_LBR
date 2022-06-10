@@ -2,9 +2,10 @@
 
 <footer id=banner-footer>
 
-<?php $filesNumber = 3;
-$usedStorageSpace = 40;
-$totalStorageSpace = 100 ?>
+<?php 
+$folderPath = 'C:\wamp64\www\storage\pictures';
+$usedStorageSpace = repertoire_size($folderPath);
+$totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 
 <style>
 
@@ -31,5 +32,20 @@ $totalStorageSpace = 100 ?>
 <p id=banner-footer-file><?= $nbr_files?> fichier(s)</p>
 
 </footer>
+
+<?php 
+function repertoire_size($rep)
+{
+    $repSize = 0;
+	$images = glob("$rep*.{jpg,jpeg,gif,png,bmp,webp}", GLOB_BRACE);
+    foreach($images as $i)
+    {
+        $repSize += filesize($i);
+    }
+
+    return round($repSize/(float)gmp_pow(10,9), 3);
+}
+?>
+
 
 
