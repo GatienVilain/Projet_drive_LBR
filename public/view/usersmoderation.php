@@ -17,6 +17,8 @@
 		</div>
 	</div>
 
+	<?= $userTable ?>
+
 </article>
 
 <?php $content = ob_get_clean(); ?>

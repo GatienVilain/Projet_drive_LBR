@@ -1,5 +1,6 @@
 article {
 	margin: 7vh 0 0;
+
 }
 
 .toolbar{
@@ -21,6 +22,35 @@ h2 {
 .groupe2 *{
 	font-family: 'Trebuchet MS', Arial, sans-serif;
 	font-size: 1.3em;
+}
+#liste{
+
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table {
+	margin : 2em 0;
+    width: 70vw;
+
+}
+
+
+table tr {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.25em;
+	align-items: center;
+	margin-top: 7vh;
+	font-size: 1.20em;
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+}
+
+table td {
+    margin: 0 10vw;
+	
 }
 
  
