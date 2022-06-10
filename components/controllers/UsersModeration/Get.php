@@ -39,8 +39,9 @@ class GetUsersModeration
 			$prenom=$connection->get_user($liste_utilisateurs[$i]['email'])["prenom"] ;
 			$nom=$connection->get_user($liste_utilisateurs[$i]['email'])["nom"] ;
 			$role=$connection->get_user($liste_utilisateurs[$i]['email'])["role"];
+			$descrition=$connection->get_user($liste_utilisateurs[$i]['email'])["descriptif"];
 			$html.='<tr>';//on ouvre la ligne
-			$html.='<td>';
+			$html.='<td class="checkbox">';
 			$html.='<input type="checkbox" name="';
 			$html.=$liste_utilisateurs[$i]['email'];
 			$html.='"></td>';
@@ -52,6 +53,12 @@ class GetUsersModeration
 			$html.='</td>';
 			$html.='<td>';
 			$html.=$role;
+			$html.='</td>';
+			$html.='<td class="email">';
+			$html.=$liste_utilisateurs[$i]['email'];
+			$html.='</td>';
+			$html.='<td class="description">';
+			$html.=$descrition;
 			$html.='</td>';
 			$html.='</tr>';
 			}

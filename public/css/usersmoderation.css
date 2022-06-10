@@ -1,10 +1,9 @@
 article {
-	margin: 7vh 0 0;
-
+	margin: 8vh 0 0;
 }
 
 .toolbar{
-	margin: 2vw;
+	margin: 0 2vw;
 }
   
 h2 {
@@ -30,6 +29,13 @@ h2 {
     align-items: center;
 }
 
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 .table {
 	margin : 2em 0;
     width: 70vw;
@@ -38,20 +44,44 @@ h2 {
 
 
 table tr {
+	width: 100vw;
 	display: flex;
-	justify-content: space-between;
-	padding: 0.25em;
+	justify-content: flex-start;
+	padding: 0.25em 5vw;
 	align-items: center;
-	margin-top: 7vh;
+	margin: 2vh 0;
 	font-size: 1.20em;
 	border-top:1px solid black;
 	border-bottom:1px solid black;
 }
 
-table td {
-    margin: 0 10vw;
-	
+
+table .checkbox {
+	width: 1em;
 }
 
- 
-  
+table .email {
+	width: 25vw;
+}
+
+table .description {
+	width: 30vw;
+}
+
+table td {
+	width: 7vw;	
+	margin: 0 1vw;
+}
+
+form span input {
+	display: none;
+	height: 3em;
+	width: 8em;
+	margin: 1vw;
+	background-color: black;
+	color: white;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
