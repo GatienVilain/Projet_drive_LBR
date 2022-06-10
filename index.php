@@ -1,6 +1,7 @@
 <?php // Router
 
 require_once("components/Controllers/Homepage.php");
+require_once("components/Controllers/Basket.php");
 require_once("components/Controllers/Profile/Get.php");
 require_once("components/Controllers/Profile/ChangePassword.php");
 require_once("components/Controllers/Password/Change.php");
@@ -14,6 +15,7 @@ require_once("components/Model/User.php");
 
 
 use Application\Controllers\Homepage;
+use Application\Controllers\Basket;
 use Application\Controllers\Profile\GetProfile;
 use Application\Controllers\Profile\ChangePassword as ChangePasswordProfile;
 use Application\Controllers\Password\ChangePassword;
@@ -48,6 +50,11 @@ try
             elseif ($_GET['action'] === 'changePasswordProfile')
             {
                 (new ChangePasswordProfile())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'basket')
+            {
+                (new Basket())->execute();
                 $action_found = True;
             }
         }
