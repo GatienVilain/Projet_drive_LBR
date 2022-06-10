@@ -21,7 +21,7 @@ class ChangePassword
                 if ( $current_password == $_POST['old_password'] )
                 {
                     $_SESSION['verify'] = 1;
-
+ 
                     header('Location: index.php?action=changePassword');
                 }
                 else {
