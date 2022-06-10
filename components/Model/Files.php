@@ -47,7 +47,7 @@ class Files
 	private function setPath(int $id_fichier): string
 	{
 		$connection = new DatabaseConnection();
-		return $connection->get_file($id_fichier)["source"] . '\\' . $connection->get_file($id_fichier)["nom_fichier"];
+		return $connection->get_file($id_fichier)["source"] . '\\' . strval($id_fichier);
 	}
 	
 	private function setFilename(int $id_fichier): string

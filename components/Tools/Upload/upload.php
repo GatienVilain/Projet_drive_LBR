@@ -1,18 +1,72 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
-<?php require('image.php');?>
+<?php 
+require('image.php');
+?>
  
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
 
 <?php
 
-  // (A) HELPER FUNCTION - SERVER RESPONSE
-  function verbose ($ok=1, $info="") 
-  {
+	// (A) HELPER FUNCTION - SERVER RESPONSE
+	function verbose ($ok=1, $info="") 
+	{
 
-    if ($ok==0) { http_response_code(400); }
-    exit(json_encode(["ok"=>$ok, "info"=>$info]));
+	if ($ok==0) { http_response_code(400); }
+	exit(json_encode(["ok"=>$ok, "info"=>$info]));
 
-  }
+	}
+	
+	function console_log($output, $with_script_tags = true)
+	{
+		$js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+			');';
+		if ($with_script_tags) {
+			$js_code = '<script>' . $js_code . '</script>';
+		}
+
+		//décommenter la ligne ci-dessous pour aider à débugger
+		//echo $js_code;
+		return -1;
+	}
+
+	//ajoute un fichier, que l'utilisateur a mis, à la table fichier de la base de données
+	function add_file(string $source, string $email, string $nom_fichier, float $taille, string $type, string $extension)
+	{
+		//point de connexion à la base de donnée
+		$conn = new \mysqli("localhost", "root", "dorian", "drive");
+		if (!$conn) {
+			return console_log("Echec de connexion à la base de donnée.");
+		}
+
+		$date = date("Y-m-d");
+
+		$query = $conn->prepare("INSERT INTO fichier (source,nom_fichier,email,date_publication,date_derniere_modification,taille_Mo,type,extension) VALUES (?,?,?,?,?,?,?,?)");
+		$query->bind_param("sssssdss", $source, $nom_fichier, $email, $date, $date, $taille, $type, $extension);
+		if (!$query->execute()) {
+			$conn->close();
+			return console_log("Echec d'ajout du fichier à la base de donnée.");
+		}
+		$conn->close();
+
+		return 0;
+	}
+	
+	function get_id(string $email)
+	{
+		//point de connexion à la base de donnée
+		$conn = new \mysqli("localhost", "root", "dorian", "drive");
+		if (!$conn) {
+			return console_log("Echec de connexion à la base de donnée.");
+		}
+		
+		$query = $conn->prepare("SELECT id_fichier FROM fichier WHERE email = '?' ORDER BY DESC LIMIT 1");
+		$query->bind_param("s",$email);
+		$result = $query->execute()->fetch_assoc();
+		if ($result != NULL) {
+			return $result["id_fichier"];
+		}
+
+		return console_log("Echec de récupération de la base de donnée.");
+	}
 
   // (B) INVALID UPLOAD
   if (empty($_FILES) || $_FILES["file"]["error"]) 
@@ -29,16 +83,14 @@
 
   if(in_array(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION), $extension_image))
   {
-
+	$type = 'image';
     $filePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."pictures";
-
   }
 
   else if(in_array(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION), $extension_video))
   {
-
+	$type = 'video';
     $filePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."videos";
-
   }
 
   if (!file_exists($filePath)) 
@@ -84,10 +136,24 @@
   // (E) CHECK IF FILE HAS BEEN UPLOADED
   if (!$chunks || $chunk == $chunks - 1) 
   {
-
-    rename("{$filePath}.part", $filePath);
+	rename("{$filePath}.part",$filePath);
+	session_start();
+	
+	$fileSize = round(filesize($filePath)/(float)gmp_pow(10,6),2);
+	
+	if ($type == 'image') {
+		$source = 'storage\pictures';
+	}
+	else {
+		$source = 'storage\videos';
+	}
+	
+	$result = add_file($source,$_SESSION["email"], pathinfo($filePath, PATHINFO_FILENAME), $fileSize, $type, pathinfo($filePath, PATHINFO_EXTENSION));
+	$id = get_id($_SESSION["email"]);
+	
+	rename($filePath,pathinfo($filePath,PATHINFO_DIRNAME).DIRECTORY_SEPARATOR.strval($id));
     creerMiniatureImage($filePath);
-
+	
   }
 
 
