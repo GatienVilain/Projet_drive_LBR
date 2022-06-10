@@ -54,6 +54,25 @@
         </div>
 
         <div id="body-popup-upload">
+          
+
+        </div>
+
+    </div>
+
+    <div id="popup-options">
+
+        <div class='header-popup' id="header-popup-options">
+
+            <button class='close-button' title="Fermer" onclick ="closePopupOptions()"><strong>←</strong></button>
+            <p><strong>Options</strong></p>
+        
+        </div>
+
+        <div id="body-popup-options">
+
+          <button class="buttonPopupOptions" title="Télécharger le fichier" onclick = "">Télécharger</button>
+          <button class="buttonPopupOptions" title="Supprimer le fichier" onclick = "">Supprimer</button>
 
         </div>
 
@@ -137,6 +156,12 @@
 
 </div>
 
+<?php require('public/view/banner-storage.php'); ?>
+
+<?php $content = ob_get_clean(); ?>
+
+<?php require('layout.php') ?>
+
 <script>
 
       function openPopupUpload() {
@@ -145,19 +170,44 @@
       }
 
       function closePopupUpload() {
-        document.getElementById("popup-upload").style.display = "none";
+          document.getElementById("popup-upload").style.display = "none";
+        
       }
 
-      function openPopupDetail() {
+      function openPopup(event) {
 
-        if(document.getElementById("popup-detail").style.display != "block")
+        if(event.button == 0) //clic gauche
         {
-            pos_X = event.clientX;
-            pos_Y = event.clientY;
-            document.getElementById("popup-detail").style.top = pos_Y;
-            document.getElementById("popup-detail").style.left = pos_X;
+
+          if(document.getElementById("popup-detail").style.display != "block")
+          {
+            closePopupOptions();
+            var pos_X = event.clientX;
+            var pos_Y = event.clientY;
             document.getElementById("popup-detail").style.display = "block";
+            document.getElementById('popup-detail').style.setProperty("top",pos_Y+'px');
+            document.getElementById('popup-detail').style.setProperty("left",pos_X+'px');
+
+          }
+
         }
+
+        else if(event.button == 2) //clic droit
+        {
+          if(document.getElementById("popup-options").style.display != "block")
+          {
+            closePopupDetail();
+            var pos_X = event.clientX;
+            var pos_Y = event.clientY;
+            document.getElementById("popup-options").style.display = "block";
+            document.getElementById('popup-options').style.setProperty("top",pos_Y+'px');
+            document.getElementById('popup-options').style.setProperty("left",pos_X+'px');
+
+          }
+
+        }
+
+        
         
       }
 
@@ -165,13 +215,18 @@
         document.getElementById("popup-detail").style.display = "none";
       }
 
+      function closePopupOptions() {
+        document.getElementById("popup-options").style.display = "none";
+      }
+
+      function AntiClickDroitImg()
+     {
+      var imgs = document.getElementsByTagName('img');
+      for(var i=0; i<imgs.length; i++)
+       imgs[i].oncontextmenu = NeRienFaire;
+     }
+
 </script>
-
-<?php require('public/view/banner-storage.php'); ?>
-
-<?php $content = ob_get_clean(); ?>
-
-<?php require('layout.php') ?>
 
 <script>
 // (C) INITIALIZE UPLOADER
@@ -183,7 +238,7 @@ window.addEventListener("load", () => {
   var uploader = new plupload.Uploader({
     runtimes: "html5",
     browse_button: "pickfiles",
-    url: "2b-chunk.php",
+    url: "/../../components/Tools/Upload/upload.php",
     chunk_size: "2mb",
     filters: {
       //max_file_size: "150mb",
@@ -210,3 +265,4 @@ window.addEventListener("load", () => {
   uploader.init();
 });
 </script>
+
