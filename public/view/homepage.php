@@ -6,17 +6,6 @@
 
 <?php ob_start(); ?>
 
-<?php
-
-  $fileAddedDate = "09/06/2022";
-  $fileAuthor = "Dorian";
-  $fileModificationDate = "09/06/2022";
-  $fileName = "test";
-  $fileSize = "30Go";
-  $fileTag = "Sans tags";
-  $fileType = ".mp4"
-
-?>
 
 <!-- Content -->
 <!-- <script src="public\js\homepage.js"></script> -->
