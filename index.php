@@ -9,7 +9,8 @@ require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
-require_once("components/Controllers/UsersModeration.php");
+require_once("components/Controllers/UsersModeration/Get.php");
+require_once("components/Controllers/UsersModeration/Delete.php");
 
 require_once("components/Model/User.php");
 
@@ -23,7 +24,8 @@ use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
-use Application\Controllers\UsersModeration;
+use Application\Controllers\UsersModeration\GetUsersModeration;
+use Application\Controllers\UsersModeration\DeleteUser;
 
 use Application\Model\User;
 
@@ -54,8 +56,18 @@ try
             }
 			elseif ($_GET['action'] === 'usersmoderation')
             {
-                (new UsersModeration())->execute();
-                $action_found = True;
+                if ( isset($_POST['button']) && $_POST['button'] !== '')
+                {
+                    if ( $_POST['button'] === 'Supprimer' )
+                    {
+                        (new DeleteUser())->execute();
+                        $action_found = True;
+                    }
+                }
+                else {
+                    (new GetUsersModeration())->execute();
+                    $action_found = True;
+                }
             }
         }
 

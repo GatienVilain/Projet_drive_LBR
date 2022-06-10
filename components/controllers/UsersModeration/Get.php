@@ -1,12 +1,12 @@
 <?php
 
-namespace Application\Controllers;
+namespace Application\Controllers\UsersModeration;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class UsersModeration
+class GetUsersModeration
 {
 	public function execute()
 	{
@@ -19,22 +19,30 @@ class UsersModeration
 	{
 
 		$connection = new DatabaseConnection();
+		$utilisateur=$_SESSION['email'];
 
 		$liste_utilisateurs= $connection->get_all_users() ;
 		sort($liste_utilisateurs);
+		$cpt=0;
+		while($liste_utilisateurs[$cpt]['email']!=$utilisateur){
+			echo 'test';
+			$cpt++;
+		}
+		array_splice($liste_utilisateurs[$cpt],$cpt);
+
 		$nbdutilisateurs=count($liste_utilisateurs);
-		echo $nbdutilisateurs;
-		$html='<div id="liste" ><form action = "" method= "post"><table>';
+		$html='<div id="liste" ><form action = "index.php?action=usersmoderation" method= "post"><table>';
 
 
 		for($i=0;$i<$nbdutilisateurs;$i++){
+			if ($i != $cpt){
 			$prenom=$connection->get_user($liste_utilisateurs[$i]['email'])["prenom"] ;
 			$nom=$connection->get_user($liste_utilisateurs[$i]['email'])["nom"] ;
 			$role=$connection->get_user($liste_utilisateurs[$i]['email'])["role"];
 			$html.='<tr>';//on ouvre la ligne
 			$html.='<td>';
 			$html.='<input type="checkbox" name="';
-			$html.=strval($i);
+			$html.=$liste_utilisateurs[$i]['email'];
 			$html.='"></td>';
 			$html.='<td>';
 			$html.=$prenom;
@@ -46,8 +54,11 @@ class UsersModeration
 			$html.=$role;
 			$html.='</td>';
 			$html.='</tr>';
+			}
 		}
-		$html.='</table></form></div>';
+		$html.='</table>';
+		$html.='<span><input type="submit" name="button" value="Modifier"><input type="submit" name="button" value="Supprimer"></span></form>';
+		$html.='</div>';
 		return $html;
 	}
 }
