@@ -58,9 +58,10 @@ require('image.php');
 			return console_log("Echec de connexion à la base de donnée.");
 		}
 		
-		$query = $conn->prepare("SELECT id_fichier FROM fichier WHERE email = '?' ORDER BY DESC LIMIT 1");
+		$query = $conn->prepare("SELECT id_fichier FROM fichier WHERE email = ? ORDER BY id_fichier DESC LIMIT 1");
 		$query->bind_param("s",$email);
-		$result = $query->execute()->fetch_assoc();
+		$query->execute();
+		$result = $query->get_result()->fetch_assoc();
 		if ($result != NULL) {
 			return $result["id_fichier"];
 		}
@@ -151,8 +152,10 @@ require('image.php');
 	$result = add_file($source,$_SESSION["email"], pathinfo($filePath, PATHINFO_FILENAME), $fileSize, $type, pathinfo($filePath, PATHINFO_EXTENSION));
 	$id = get_id($_SESSION["email"]);
 	
-	rename($filePath,pathinfo($filePath,PATHINFO_DIRNAME).DIRECTORY_SEPARATOR.strval($id));
-    creerMiniatureImage($filePath);
+	$newfilePath = pathinfo($filePath,PATHINFO_DIRNAME).DIRECTORY_SEPARATOR.strval($id).'.'.pathinfo($filePath, PATHINFO_EXTENSION);
+	
+	rename($filePath,$newfilePath);
+    creerMiniatureImage($newfilePath);
 	
   }
 
