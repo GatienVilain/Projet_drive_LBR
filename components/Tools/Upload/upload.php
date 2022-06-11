@@ -5,7 +5,7 @@ require('image.php');
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
 
 <?php
-
+	session_start();
 	// (A) HELPER FUNCTION - SERVER RESPONSE
 	function verbose ($ok=1, $info="") 
 	{
@@ -58,7 +58,7 @@ require('image.php');
 			return console_log("Echec de connexion à la base de donnée.");
 		}
 		
-		$query = $conn->prepare("SELECT id_fichier FROM fichier WHERE email = '?' ORDER BY DESC LIMIT 1");
+		$query = $conn->prepare("SELECT id_fichier FROM fichier WHERE email = ? ORDER BY id_fichier DESC LIMIT 1");
 		$query->bind_param("s",$email);
 		$result = $query->execute()->fetch_assoc();
 		if ($result != NULL) {
@@ -81,6 +81,9 @@ require('image.php');
   $extension_video = array("3gp", "3g2", "avi", "asf", "wma","wmv","flv","mkv","mka","mks","mk3d","mp4","mpg","mxf","ogg","mov","qt","ts","webm","mpeg","mp4a","mp4b","mp4r","mp4v");
   $extension_image = array("jpg","gif","png", "tif","jif", "jfif","jp2","jpx","j2k","j2c","fpx","pcd","pdf","jpeg");
 
+  $userEmail = $_SESSION["email"];
+  $tmpFilePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."tmp".DIRECTORY_SEPARATOR.$userEmail;
+
   if(in_array(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION), $extension_image))
   {
 	$type = 'image';
@@ -93,13 +96,13 @@ require('image.php');
     $filePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."videos";
   }
 
-  if (!file_exists($filePath)) 
+  if (!file_exists($tmpFilePath)) 
   { 
     
-    if (!mkdir($filePath, 0777, true)) 
+    if (!mkdir($tmpFilePath, 0777, true)) 
     {
 
-    unlink("{$filePath}.part");
+    unlink("{$tmpFilePath}.part");
 
     }
 
@@ -107,12 +110,12 @@ require('image.php');
 
   $fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : $_FILES["file"]["name"];
   $fileName = preg_replace('/[^\w\._]+/', '', $fileName);
-  $filePath = $filePath . DIRECTORY_SEPARATOR . $fileName;
+  $tmpFilePath = $tmpFilePath . DIRECTORY_SEPARATOR . $fileName;
 
   // (D) DEAL WITH CHUNKS
   $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
   $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-  $out = @fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
+  $out = @fopen("{$tmpFilePath}.part", $chunk == 0 ? "wb" : "ab");
 
   if ($out) 
   {
@@ -136,22 +139,26 @@ require('image.php');
   // (E) CHECK IF FILE HAS BEEN UPLOADED
   if (!$chunks || $chunk == $chunks - 1) 
   {
-	rename("{$filePath}.part",$filePath);
-	session_start();
+	rename("{$tmpFilePath}.part",$tmpFilePath);
+	
 	
 	$fileSize = round(filesize($filePath)/(float)gmp_pow(10,6),2);
-	
-	if ($type == 'image') {
-		$source = 'storage\pictures';
+
+	if($type == 'image')
+	{
+		$source ="storage\pictures";
 	}
-	else {
-		$source = 'storage\videos';
+
+	else
+	{
+		$source = "storage\videos";
 	}
 	
-	$result = add_file($source,$_SESSION["email"], pathinfo($filePath, PATHINFO_FILENAME), $fileSize, $type, pathinfo($filePath, PATHINFO_EXTENSION));
+	
+	$result = add_file($source,$userEmail, pathinfo($filePath, PATHINFO_FILENAME), $fileSize, $type, pathinfo($filePath, PATHINFO_EXTENSION));
 	$id = get_id($_SESSION["email"]);
 	
-	rename($filePath,pathinfo($filePath,PATHINFO_DIRNAME).DIRECTORY_SEPARATOR.strval($id));
+	rename($filePath,pathinfo($filePath,PATHINFO_DIRNAME).DIRECTORY_SEPARATOR.strval($id).'.'.pathinfo($filePath,PATHINFO_EXTENSION));
     creerMiniatureImage($filePath);
 	
   }

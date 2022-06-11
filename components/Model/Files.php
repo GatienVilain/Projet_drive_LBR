@@ -175,16 +175,31 @@ class Files
 	{
 		return $this->lecture;
 	}
+
+	public function getAuthorName(): string
+	{
+		$connection = new DatabaseConnection();
+		$result = $connection->get_user($this->getAuthor());
+		return $result["prenom"].' '.$result["nom"];
+	}
 	
+	public function getAuthorDescription(): string
+	{
+		$connection = new DatabaseConnection();
+		$result = $connection->get_user($this->getAuthor());
+		return $result["descriptif"];
+	}
+
 	public function preview(): string
 	{
 		$fileName = $this->getFilename();
 		$fileAddedDate=$this->getReleaseDate();
-		$fileAuthor=$this->getAuthor();
+		$fileAuthor=$this->getAuthorName();
 		$fileModificationDate=$this->getModificationDate();
 		$fileSize=$this->getFileSize();
 		$fileTag= '1';
 		$fileType=$this->getFileType();
+		$descriptionAuthor = $this->getAuthorDescription();
 
 		$image = sprintf("<div class=miniature>
 			<div class = 'popup-detail' id='%s-popup-detail'>
@@ -215,7 +230,8 @@ class Files
 					<div class='body-popup-detail-line' id='body-popup-detail-line3'>
 						
 						<p class = 'detail-para'>Auteur:</p>
-						<p class = 'server-para'>$fileAuthor</p>
+						<p class = 'server-para' id='server-para-nameAuthor'><u>$fileAuthor</u></p>
+						<span id = 'infoBulleDetail'>$descriptionAuthor</span>
 
 					</div>
 
