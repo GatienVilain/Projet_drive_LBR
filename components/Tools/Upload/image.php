@@ -39,7 +39,7 @@ function creerMiniatureImage($imagePath)
             $diff = $width / $modwidth;
             $modheight = (int)($height / $diff);
 
-            $miniaturePath = pathinfo($imagePath, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR."frames".DIRECTORY_SEPARATOR.pathinfo($imagePath, PATHINFO_FILENAME)."_".(string)$modwidth."x".(string)$modheight.".".$ext;
+            $miniaturePath = pathinfo($imagePath, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR."frames".DIRECTORY_SEPARATOR.pathinfo($imagePath, PATHINFO_FILENAME).".".$ext;
 
 
             $tn = imagecreatetruecolor($modwidth, $modheight);

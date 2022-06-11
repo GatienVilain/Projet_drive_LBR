@@ -142,8 +142,8 @@ require('image.php');
   {
 	rename("{$tmpFilePath}.part",$tmpFilePath);
 	
-	
-	$fileSize = round(filesize($filePath)/(float)gmp_pow(10,6),2);
+	$extension=pathinfo($tmpFilePath, PATHINFO_EXTENSION);
+	$fileSize = round(filesize($tmpFilePath)/(float)gmp_pow(10,6),2);
 
 	if($type == 'image')
 	{
@@ -156,13 +156,15 @@ require('image.php');
 	}
 	
 	
-	$result = add_file($source,$userEmail, pathinfo($filePath, PATHINFO_FILENAME), $fileSize, $type, pathinfo($filePath, PATHINFO_EXTENSION));
+	$result = add_file($source,$userEmail, pathinfo($tmpFilePath, PATHINFO_FILENAME), $fileSize, $type, $extension);
 	$id = get_id($_SESSION["email"]);
 	
-	$newfilePath = pathinfo($filePath,PATHINFO_DIRNAME).DIRECTORY_SEPARATOR.strval($id).'.'.pathinfo($filePath, PATHINFO_EXTENSION);
 	
-	rename($filePath,$newfilePath);
-    creerMiniatureImage($newfilePath);
+	$filePath=$filePath.DIRECTORY_SEPARATOR.strval($id).'.'.$extension;
+	rename($tmpFilePath,$filePath);
+	unlink($tmpFilePath);
+	rmdir(pathinfo($tmpFilePath,PATHINFO_DIRNAME));
+    creerMiniatureImage($filePath);
   }
 
 
