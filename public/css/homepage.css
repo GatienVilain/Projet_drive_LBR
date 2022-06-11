@@ -1,28 +1,26 @@
 /* (A) GALLERY CONTAINER */
-/* (A1) ON BIG SCREENS */
+
 #containerGallery{
+
   max-width: 100%;
-  margin: 4vh auto 0; /* HORIZONTAL CENTER */
+  margin: 4vh auto 0; 
   margin-right: 4.5vw;
   margin-left: 4.5vw;
   margin-bottom: 15vh;
 
-
 }
+
+/* Desktop gallery */
 
 
 .gallery {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 5vh 4vw;
-    justify-content: center;
+    justify-content: left;
     
   }
 
-  
-
-  
-   
   /* (B) THUMBNAILS */
   .gallery img {
     width: 250px;
@@ -201,7 +199,7 @@
 .popup-detail {
 
   display: none;
-  position:fixed;
+  position:absolute;
   border-radius: 5px;
   width: 25vw;
   height: 50vh;
@@ -213,32 +211,48 @@
 }
 
 
-  /* Mobile layout */
 
 
-   .toolbar{
-    display: flex;
-    margin: 7vh auto 0;
-    margin-left:2%;
-    margin-left:2%;
-    border-bottom:1px solid black;
-  }
+.toolbar{
+display: flex;
+margin: 7vh 2vw 0;
+border-bottom:1px solid black;
+}
 
 
-  .titre{
-    min-width: 0;
-    max-width: 200px;
+.titre{
+  min-width: 0;
+  max-width: 200px;
 
+  
+  white-space: nowrap; 
     
-    white-space: nowrap; 
-     
-    text-overflow: ellipsis;
-    overflow: hidden;
-    
-  }
+  text-overflow: ellipsis;
+  overflow: hidden;
+  
+}
 
-  #pickfiles{
-    border: 0;
-    background-color: inherit;
-    
-  }
+#pickfiles{
+  border: 0;
+  background-color: inherit;
+  
+}
+
+#infoBulleDetail {
+  visibility:hidden;
+  position:absolute;
+  padding: 1em 1em 4em;
+  transform: translateX(-50% -50%);
+
+  justify-content: center;
+  clip-path: polygon(100% 0, 100% 20%, 100% 36%, 100% 74%, 91% 53%, 0 53%, 0 0);
+  color : var(--couleur-police-infoBulle);
+  background-color: var(--couleur-infoBulle);
+}
+
+#body-popup-detail-line3:hover #infoBulleDetail{
+  visibility: visible;
+}
+
+
+/* Mobile gallery */

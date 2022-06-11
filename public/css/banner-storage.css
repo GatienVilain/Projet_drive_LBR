@@ -13,10 +13,12 @@
     --couleur-police-fond-clair: var(--raisin-black);
     --couleur-police-fond-fonce: var(--beige);
     --couleur-police-footer:var(--white);
+    --couleur-police-infoBulle:var(--white);
     --couleur-police-usedStorageSpace:var(--uranian-blue);
     --couleur-storageBar:var(--spanish-blue);
     --couleur-conteneurBar:var(--white);
     --couleur-popup:var(--beige);
+    --couleur-infoBulle:var(--red-pigment);
     --fond: #D3D3D3;
     --couleur-footer: var(--raisin-black);
 }
