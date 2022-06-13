@@ -179,7 +179,7 @@ window.addEventListener("load", () => {
       mime_types: [{title: "Image", extensions: "jpg,gif,png, tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg"},{title: "Video", extensions:  "3gp, 3g2, avi, asf, wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
     },
     init: {
-      PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>\"; },
+      PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },
       FilesAdded: (up, files) => {
         plupload.each(files, (file) => {
           let row = document.createElement("div");
