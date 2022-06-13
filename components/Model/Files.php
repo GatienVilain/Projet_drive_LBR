@@ -345,7 +345,7 @@ class Files
 			</div>
 
 			<div class=image> 
-				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id), closePopupUpload()]'/>
+				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
 			</div> 
 			
 			<div class = titre> 

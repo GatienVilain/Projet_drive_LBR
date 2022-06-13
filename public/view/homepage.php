@@ -38,7 +38,7 @@
 
         <div class='header-popup' id="header-popup-upload">
 
-            <button class='close-button' title="Fermer" onclick ="closePopupUpload()"><strong>←</strong></button>
+            <button class='close-button' title="Fermer" onclick ="buttonClosePopupUpload()"><strong>←</strong></button>
             <p><strong>Fichier(s) importé(s)</strong></p>
         
         </div>
@@ -78,8 +78,11 @@
 
       function closePopupUpload() {
           document.getElementById("popup-upload").style.display = "none";
-          window.location.reload();
-        
+          window.location.reload(); 
+      }
+
+      function buttonClosePopupUpload() {
+          document.getElementById("popup-upload").style.display = "none";
       }
 
       function openPopup(event, idElement) {
