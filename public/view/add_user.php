@@ -40,9 +40,15 @@
             <div class="field">
                 <label for="profile-description">Description : </label>
                 <input type="text" name="profile-description" id="profile-description" maxlenght="256"
-                    value="<?= $description=''; ?>"
-                >
+                    value="<?= $description=''; ?>">
+
             </div>
+            <div>
+                <SELECT name="role" size="1">
+                    <OPTION>invité
+                    <OPTION>admin
+                    </SELECT>
+</div>
             <button type="submit">Valider</button>
         </form>
     </section>

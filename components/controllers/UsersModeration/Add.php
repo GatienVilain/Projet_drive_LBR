@@ -29,6 +29,15 @@ class AddUser
             $mail=$_POST['mail'];
 
         }
+        if (isset($_POST['role']))
+        {
+            $role=$_POST['role'];
+            if ($role=='invité'){
+                $role='invite';
+            }
+        }
+
+
         if (isset($_POST['new-password-field'])){
             $password2=new Password($_POST['new-password-field']);
             $password=$_POST['new-password-field'];
@@ -59,7 +68,7 @@ class AddUser
                 }
             }
             else{
-                $error.='mots de passe différents'; 
+                $error.='mots de passes différents'; 
             }
         }
         else
@@ -74,7 +83,7 @@ class AddUser
     if ($validation)
     {
 
-        (new DatabaseConnection())->add_user($mail,$first_name,$name,$password,$profile_description,'admin');
+        (new DatabaseConnection())->add_user($mail,$first_name,$name,$password,$profile_description,$role);
         header('Location: index.php?action=usersmoderation');
     }
     else
