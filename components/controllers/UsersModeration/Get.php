@@ -64,7 +64,9 @@ class GetUsersModeration
 			}
 		}
 		$html.='</table>';
-		$html.='<span><input type="submit" name="button" value="Modifier"><input type="submit" name="button" value="Supprimer"></span></form>';
+		$html.='<span id="ajouter"><input type="submit" name="button" value="ajouter"></span>';
+		$html.='<span id="modifier"><input type="submit" name="button" value="modifier"><input type="submit" name="button" value="supprimer"></span></form>';
+
 		$html.='</div>';
 		return $html;
 	}
