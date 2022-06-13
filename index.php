@@ -3,6 +3,7 @@
 require_once("components/Controllers/Homepage.php");
 require_once("components/Controllers/Profile/Get.php");
 require_once("components/Controllers/Profile/ChangePassword.php");
+require_once("components/Controllers/Profile/ChangeDescription.php");
 require_once("components/Controllers/Password/Change.php");
 require_once("components/Controllers/Password/Recover.php");
 require_once("components/Controllers/Login.php");
@@ -20,6 +21,7 @@ require_once("components/Model/User.php");
 use Application\Controllers\Homepage;
 use Application\Controllers\Profile\GetProfile;
 use Application\Controllers\Profile\ChangePassword as ChangePasswordProfile;
+use Application\Controllers\Profile\ChangeDescription;
 use Application\Controllers\Password\ChangePassword;
 use Application\Controllers\Password\RecoverPassword;
 use Application\Controllers\Login;
@@ -81,6 +83,11 @@ try
             elseif ( $_GET['action'] === 'addUser' )
             {
                 (new AddUser())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'changeDescription')
+            {
+                (new ChangeDescription())->execute();
                 $action_found = True;
             }
         }
