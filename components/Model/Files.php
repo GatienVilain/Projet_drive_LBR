@@ -178,11 +178,11 @@ class Files
 
 			if(array_key_exists($categoryName,$arrayTagsNames))
 			{
-				array_push($arrayTagsNames[$categoryName], strval($connection->get_tag($id)['nom_tag']));
+				array_push($arrayTagsNames[$categoryName], $connection->get_tag($id)['nom_tag']);
 			}
 
 			else{
-				$arrayTagsNames[$categoryName]=array(strval($connection->get_tag($id)['nom_tag']));
+				$arrayTagsNames[$categoryName]=array($connection->get_tag($id)['nom_tag']);
 			}
 
 		}
@@ -231,9 +231,16 @@ class Files
 	public function preview(): string
 	{
 		$fileName = $this->getFilename();
-		$fileAddedDate=$this->getReleaseDate();
 		$fileAuthor=$this->getAuthorName();
+
+		$fileAddedDate=$this->getReleaseDate();
 		$fileModificationDate=$this->getModificationDate();
+		$fileAddedDate = date("d-m-Y",strtotime($fileAddedDate)); 
+		$fileModificationDate = date("d-m-Y",strtotime($fileModificationDate)); 
+
+
+
+
 		$fileSize=$this->getFileSize();
 		$fileTags= $this->getTagsNames();
 		$previewTags=$this->previewTags($fileTags);
@@ -301,6 +308,13 @@ class Files
 					</div>
 
 					<div class='body-popup-detail-line' id='body-popup-detail-line3'>
+
+						<p class = 'detail-para'>Extension:</p>
+						<p class = 'server-para'>$fileExtension</p>
+
+					</div>
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line4'>
 						
 						<p class = 'detail-para'>Auteur:</p>
 						<div class = 'server-para-tooltip' id='server-para-nameAuthor'><u>$fileAuthor</u>
@@ -311,28 +325,28 @@ class Files
 
 					</div>
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line4'>
+					<div class='body-popup-detail-line' id='body-popup-detail-line5'>
 
 						<p class = 'detail-para'>Date d'ajout:</p>
 						<p class = 'server-para'>$fileAddedDate</p>
 
 					</div>
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line5'>
+					<div class='body-popup-detail-line' id='body-popup-detail-line6'>
 
 						<p class = 'detail-para'>Date de modification:</p>
 						<p class = 'server-para' id='server-para-modificationDate'>$fileModificationDate</p>
 
 					</div>
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line6'>
+					<div class='body-popup-detail-line' id='body-popup-detail-line7'>
 
 						<p class = 'detail-para'>Taille:</p>
 						<p class = 'server-para'>$fileSize Mo</p>
 
 					</div>
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line7'>
+					<div class='body-popup-detail-line' id='body-popup-detail-line8'>
 
 						<p class = 'detail-para'>Tag:</p>
 						<div class = 'server-para' id='server-para-tag'>$previewTags</div>

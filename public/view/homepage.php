@@ -25,7 +25,7 @@
 
     <div class = groupe2>
 
-        <button class="buttonHomePage" title="Trier les fichiers par date d'ajout" onclick="">Date d'ajout</button>
+        <button class="buttonHomePage" title="Trier les fichiers par date de modification" onclick="">Date modification</button>
     
     </div>
 
