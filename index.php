@@ -4,6 +4,7 @@ require_once("components/Controllers/Homepage.php");
 require_once("components/Controllers/Basket.php");
 require_once("components/Controllers/Profile/Get.php");
 require_once("components/Controllers/Profile/ChangePassword.php");
+require_once("components/Controllers/Profile/ChangeDescription.php");
 require_once("components/Controllers/Password/Change.php");
 require_once("components/Controllers/Password/Recover.php");
 require_once("components/Controllers/Login.php");
@@ -11,6 +12,10 @@ require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/deleteFile.php");
+require_once("components/Controllers/UsersModeration/Get.php");
+require_once("components/Controllers/UsersModeration/Delete.php");
+require_once("components/Controllers/UsersModeration/GetAdd.php");
+require_once("components/Controllers/UsersModeration/Add.php");
 
 require_once("components/Model/User.php");
 
@@ -19,6 +24,7 @@ use Application\Controllers\Homepage;
 use Application\Controllers\Basket;
 use Application\Controllers\Profile\GetProfile;
 use Application\Controllers\Profile\ChangePassword as ChangePasswordProfile;
+use Application\Controllers\Profile\ChangeDescription;
 use Application\Controllers\Password\ChangePassword;
 use Application\Controllers\Password\RecoverPassword;
 use Application\Controllers\Login;
@@ -26,6 +32,10 @@ use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\deleteFile;
+use Application\Controllers\UsersModeration\GetUsersModeration;
+use Application\Controllers\UsersModeration\DeleteUser;
+use Application\Controllers\UsersModeration\GetAddPage;
+use Application\Controllers\UsersModeration\AddUser;
 
 use Application\Model\User;
 
@@ -63,6 +73,36 @@ try
             elseif ($_GET['action'] === 'deleteFile')
             {
                 (new deleteFile())->execute();
+                $action_found = True;
+            }
+			elseif ($_GET['action'] === 'usersmoderation')
+            {
+                if ( isset($_POST['button']) && $_POST['button'] !== '')
+                {
+                    if ( $_POST['button'] === 'supprimer' )
+                    {
+                        (new DeleteUser())->execute();
+                        $action_found = True;
+                    }
+                    elseif ( $_POST['button'] === 'ajouter' )
+                    {
+                        (new GetAddPage())->execute();
+                        $action_found = True;
+                    }
+                }
+                else {
+                    (new GetUsersModeration())->execute();
+                    $action_found = True;
+                }
+            }
+            elseif ( $_GET['action'] === 'addUser' )
+            {
+                (new AddUser())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'changeDescription')
+            {
+                (new ChangeDescription())->execute();
                 $action_found = True;
             }
         }

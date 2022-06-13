@@ -1,10 +1,39 @@
 /* Mobile layout */
 
+#profile {
+    margin-top: 7vh;
+    height: 93vh;
+    display: flex;
+}
+
+#profile-information > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em 1em;
+    background-color: var(--couleur-fond-users);
+    color: var(--couleur-police-fond-clair);
+    border-radius: 10px;
+}
+
+#profile-information form button {
+    margin: 0.5em;
+}
+
+#profile-information form textarea {
+    width: 95%;
+    height: 7em;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    resize: none;
+}
+
+
 @media only screen and ( max-width: 992px) {
     /* Css for profil page */
     #profile {
-        height: 93vh;
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -12,60 +41,45 @@
 
     /* Section information du profil */
 
-    #profile-information{
+    #profile-information {
         margin: 2vh;
-        width: 20em;
+        width: 80vw;
     }
 
     #profile-information h3 {
-        font-size: 2.2em;
+        font-size: 3em;
         margin: 1vh 6vw;
     }
 
-    #profile-information h3 + p {
-        text-align: end;
-        font-size: 1.2em;
-        margin: 2vh 10vw;
+    #profile-information .role {
+        font-size: 1.4em;
+        font-weight: 900;
+        margin: 2vh 15vw;
     }
 
-    #profile-information > div {
-        padding: 1em 1.7em;
-        background-color: var(--couleur-fond-users);
-        color: var(--couleur-police-fond-clair);
-        border-radius: 10px;
-    }
-
-    #profile-information div span {
-        margin-bottom: 1.2em;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-
-    #profile-information button {
-        font-size: 0.8em;
-        margin-left: 1em;
-    }
-
-    #profile-information div p {
-        margin-top: 1vh;
-        font-weight: 800;
+    #profile-information .date {
+        margin: 4vh 6vw;
+        font-size: 1.3em;
+        font-weight: 900;
     }
 
     /* Section changer de mot de passe */
 
     #change-password-section form {
         margin: 2vh;
-        width: 20em;
+        padding: 2vh;
+        width: 80vw;
         display: flex;
         flex-direction: column;
-        padding: 0 1.7em 2em;
+        justify-content: center;
+        align-items: center;
         background-color: var(--couleur-fond-users);
         color: var(--couleur-police-fond-clair);
         border-radius: 10px;
     }
 
     #change-password-section div {
+        width: 90%;
         margin: 1em 0 0;
         display: flex;
         flex-direction: column;
@@ -74,15 +88,14 @@
     }
 
     #change-password-section div input {
-        margin-top: 1em;
+        margin-top: 2vh;
     }
 
+    #profile-information button,
     #change-password-section button {
-        position: relative;
-        top: 1.5em;
-        left: 5.5em;
+        margin: 1em;
         height: 3em;
-        width: 8em;
+        width: 7em;
         color: var(--couleur-police-fond-fonce);
         background-color: var(--couleur-button);
         border-radius: 4px;
@@ -98,5 +111,71 @@
     /* Css for profil page */
     #profile {
         flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #profile-information {
+        width: 40vw;
+        margin: 2vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #profile-information h3 {
+        font-size: 3.5em;
+        margin-left: 2vw;
+    }
+
+    #profile-information .role {
+        margin: 2vh 4vw;
+        font-size: 1.4em;
+        font-weight: 900;
+    }
+
+    #profile-information .date {
+        margin: 4vh 0;
+        font-size: 1.3em;
+        font-weight: 900;
+        margin-left: 2vw;
+    }
+
+      /* Section changer de mot de passe */
+
+    #change-password-section form {
+        width: 30vw;
+        padding: 2em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--couleur-fond-users);
+        color: var(--couleur-police-fond-clair);
+        border-radius: 10px;
+    }
+
+    #change-password-section div {
+        width: 100%;
+        margin: 2vh 0 ;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.1em;
+        font-weight: lighter;
+    }
+
+    #change-password-section div input {
+        margin-top: 2vh;
+    }
+
+    #profile-information button,
+    #change-password-section button {
+        margin: 1em;
+        height: 3em;
+        width: 8em;
+        color: var(--couleur-police-fond-fonce);
+        background-color: var(--couleur-button);
+        border-radius: 4px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     }
 }
