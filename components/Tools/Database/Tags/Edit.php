@@ -98,6 +98,33 @@ trait TagEdit
 		return 0;
 	}
 
+	//renvoie le nom du tag à partir de son identifiant
+	function get_tag(int $id_tag) {
+		
+		//point de connexion à la base de donnée
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+
+		if ($this->check_tag($id_tag)){
+			$query = $conn->prepare("SELECT nom_tag FROM tag WHERE id_tag = ?");
+			$query->bind_param("i", $id_tag);
+			$query->execute();
+			$result = $query->get_result()->fetch_assoc();
+			$conn->close();
+			if ($result != NULL) {
+				return $result;
+			} 
+			else {
+				return $this->console_log("Echec de récupération des catégories de tags.");
+			}
+		}
+		else {
+			return $this->console_log("Le tag n'existe pas.");
+		}
+	}
+
 	//ajoute une catégorie de tag à la table categorie_tag de la base de donnée
 	function add_tag_category(string $nom_categorie_tag)
 	{
@@ -160,8 +187,8 @@ trait TagEdit
 		return 0;
 	}
 
-	//renvoie toutes les catégories de tag
-	function get_tag_category()
+	//renvoie toutes les catégories de tag si l'id du tag n'est pas précisé
+	function get_tag_category(int $id_tag = 0)
 	{
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
@@ -169,13 +196,24 @@ trait TagEdit
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
 
-		$query = $conn->prepare("SELECT * FROM categorie_tag");
+		if ( $id_tag == 0) {
+			$query = $conn->prepare("SELECT * FROM categorie_tag");
+		}
+		else if($this->check_tag($id_tag)){
+			$query = $conn->prepare("SELECT nom_categorie_tag FROM caracteriser WHERE id_tag = ?");
+			$query->bind_param("i",$id_tag);
+		}
+		else {
+			return $this->console_log("Le tag n'existe pas.");
+		}
+
 		$query->execute();
 		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 		$conn->close();
 		if ($result != NULL) {
 			return $result;
-		} else {
+		} 
+		else {
 			return $this->console_log("Echec de récupération des catégories de tags.");
 		}
 	}

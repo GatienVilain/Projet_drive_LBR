@@ -3,7 +3,7 @@
 <footer id=banner-footer>
 
 <?php 
-$folderPath = __DIR__.'/../../storage/pictures/';
+$folderPath = 'C:\wamp64\www\storage'.DIRECTORY_SEPARATOR.'pictures'.DIRECTORY_SEPARATOR;
 $usedStorageSpace = repertoire_size($folderPath);
 $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 

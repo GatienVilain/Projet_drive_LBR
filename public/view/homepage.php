@@ -11,6 +11,7 @@
 <!-- <script src="public\js\homepage.js"></script> -->
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 
 <div class = toolbar>
 
@@ -49,25 +50,6 @@
 
     </div>
 
-    <div id="popup-options">
-
-        <div class='header-popup' id="header-popup-options">
-
-            <button class='close-button' title="Fermer" onclick ="closePopupOptions()"><strong>←</strong></button>
-            <p><strong>Options</strong></p>
-        
-        </div>
-
-        <div id="body-popup-options">
-
-          <button class="buttonPopupOptions" title="Télécharger le fichier" onclick = "">Télécharger</button>
-          <button class="buttonPopupOptions" title="Supprimer le fichier" onclick = "">Supprimer</button>
-
-        </div>
-
-    </div>
-    
-
     <div class="gallery">
 
         <?php
@@ -100,16 +82,27 @@
       }
 
       function openPopup(event, idElement) {
-
-        
     
+        let popups_options = document.getElementsByClassName('popup-options');
+        for(valeur of popups_options)
+          {
+            valeur.style.display = "none";
+          }
+
+
+        let popups_detail = document.getElementsByClassName('popup-detail');
+        for(valeur of popups_detail)
+          {
+            valeur.style.display = "none";
+          }
+
         if(event.button == 0) //clic gauche
         {
+          
 
           idElement = idElement + '-popup-detail';
           if(document.getElementById(idElement).style.display != "block")
           {
-            closePopupOptions();
             document.getElementById(idElement).style.display = "block";  
 
           }
@@ -118,15 +111,13 @@
 
         else if(event.button == 2) //clic droit
         {
-          if(document.getElementById("popup-options").style.display != "block")
-          {
-            closePopupDetail(idElement);
-            var pos_X = event.clientX;
-            var pos_Y = event.clientY;
-            document.getElementById("popup-options").style.display = "block";
-            document.getElementById('popup-options').style.setProperty("top",pos_Y+'px');
-            document.getElementById('popup-options').style.setProperty("left",pos_X+'px');
 
+          
+
+          idElement = idElement + '-popup-options';
+          if(document.getElementById(idElement).style.display != "block")
+          {
+            document.getElementById(idElement).style.display = "block";
           }
 
         }
@@ -140,8 +131,9 @@
         document.getElementById(idElement).style.display = "none";
       }
 
-      function closePopupOptions() {
-        document.getElementById("popup-options").style.display = "none";
+      function closePopupOptions(idElement) {
+        idElement = idElement + '-popup-options';
+        document.getElementById(idElement).style.display = "none";
       }
 
       function AntiClickDroitImg()
@@ -150,6 +142,23 @@
       for(var i=0; i<imgs.length; i++)
        imgs[i].oncontextmenu = NeRienFaire;
      }
+
+    function deleteFile(idFichier)
+    {
+
+      //var file_path = "storage/pictures/58.png";
+      $.ajax({
+            url: 'index.php',
+            data: {'idFile' : idFichier,'action' : "deleteFile"},
+            dataType: 'json', 
+            success: function (response) {
+              if( response.status === true ) {
+                  alert('File Deleted!');
+              }
+              else alert('Something Went Wrong!');
+            }
+          });
+      }
 
 </script>
 
@@ -170,7 +179,7 @@ window.addEventListener("load", () => {
       mime_types: [{title: "Image", extensions: "jpg,gif,png, tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg"},{title: "Video", extensions:  "3gp, 3g2, avi, asf, wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
     },
     init: {
-      PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },
+      PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>\"; },
       FilesAdded: (up, files) => {
         plupload.each(files, (file) => {
           let row = document.createElement("div");
@@ -189,5 +198,7 @@ window.addEventListener("load", () => {
   });
   uploader.init();
 });
+
+
 </script>
 

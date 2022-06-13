@@ -10,6 +10,7 @@ require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
+require_once("components/Controllers/deleteFile.php");
 
 require_once("components/Model/User.php");
 
@@ -24,6 +25,7 @@ use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
+use Application\Controllers\deleteFile;
 
 use Application\Model\User;
 
@@ -55,6 +57,12 @@ try
             elseif ($_GET['action'] === 'basket')
             {
                 (new Basket())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteFile')
+            {
+                (new deleteFile())->execute();
                 $action_found = True;
             }
         }

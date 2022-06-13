@@ -165,6 +165,44 @@ class Files
 	{
 		return $this->tags;
 	}
+
+	public function getTagsNames() 
+	{	
+		$connection = new DatabaseConnection();
+		$arrayTagsNames = array();
+		
+		$idTags = $this->getTags();
+		foreach($idTags as $id)
+		{	
+			$categoryName = strval($connection->get_tag_category($id)[0]['nom_categorie_tag']);
+
+			if(array_key_exists($categoryName,$arrayTagsNames))
+			{
+				array_push($arrayTagsNames[$categoryName], strval($connection->get_tag($id)['nom_tag']));
+			}
+
+			else{
+				$arrayTagsNames[$categoryName]=array(strval($connection->get_tag($id)['nom_tag']));
+			}
+
+		}
+		return $arrayTagsNames;
+	}
+
+	public function previewTags($arrayTagsNames): string
+	{
+		foreach($arrayTagsNames as $categoryName => $arrayTags){
+			$result = "<p class=server-para-categoryName><U>".$categoryName."</u></p>";
+			foreach($arrayTags as $Tags){
+				$result=$result."<p class=server-para-tag>".$Tags."</p>";
+			}
+
+		}
+
+
+		return $result;
+	}
+	
 	
 	public function getWriting(): int
 	{
@@ -197,11 +235,46 @@ class Files
 		$fileAuthor=$this->getAuthorName();
 		$fileModificationDate=$this->getModificationDate();
 		$fileSize=$this->getFileSize();
-		$fileTag= '1';
-		$fileType=$this->getFileType();
+		$fileTags= $this->getTagsNames();
+		$previewTags=$this->previewTags($fileTags);
+		$fileExtension=$this->getFileExtension();
 		$descriptionAuthor = $this->getAuthorDescription();
+		$idFichier=$this->id_fichier;
+		$fileType = $this->getFileType();
+		$filePath = $this->getPath() . '.' . $fileExtension;
+		
+
+		if($fileType == "image")
+		{
+			$previewFilePath = 'storage\pictures\frames'.DIRECTORY_SEPARATOR.$idFichier.'.'.$fileExtension;
+		}
+
+		else if($fileType == "video")
+		{
+			$previewFilePath = 'storage/videos/frames'.DIRECTORY_SEPARATOR.$idFichier.$fileExtension;
+		}
+		
 
 		$image = sprintf("<div class=miniature>
+
+			<div class='popup-options' id='%s-popup-options'>
+
+        		<div class='header-popup' id='header-popup-options'>
+
+            		<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
+           			<p><strong>Options</strong></p>
+        
+        		</div>
+
+        		<div id='body-popup-options'>
+
+				<a href='%s' download ='%s'><button class='buttonPopupOptions' title='Télécharger le fichier'>Télécharger</button></a>
+          			<button class='buttonPopupOptions' title='Supprimer le fichier' onclick='deleteFile($idFichier)'  >Supprimer</button>
+
+        		</div>
+
+    		</div>
+
 			<div class = 'popup-detail' id='%s-popup-detail'>
 
 				<div class='header-popup' id='header-popup-detail'>
@@ -230,8 +303,11 @@ class Files
 					<div class='body-popup-detail-line' id='body-popup-detail-line3'>
 						
 						<p class = 'detail-para'>Auteur:</p>
-						<p class = 'server-para' id='server-para-nameAuthor'><u>$fileAuthor</u></p>
-						<span id = 'infoBulleDetail'>$descriptionAuthor</span>
+						<div class = 'server-para-tooltip' id='server-para-nameAuthor'><u>$fileAuthor</u>
+
+							<span class = 'tooltiptext'>$descriptionAuthor</span>
+
+						</div>
 
 					</div>
 
@@ -259,7 +335,7 @@ class Files
 					<div class='body-popup-detail-line' id='body-popup-detail-line7'>
 
 						<p class = 'detail-para'>Tag:</p>
-						<p class = 'server-para'>$fileTag</p>
+						<div class = 'server-para' id='server-para-tag'>$previewTags</div>
 
 					</div>
 
@@ -269,12 +345,12 @@ class Files
 			</div>
 
 			<div class=image> 
-				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id),closePopupUpload()]'/>
+				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id), closePopupUpload()]'/>
 			</div> 
 			
 			<div class = titre> 
 				<p> %s </p> 
-			</div></div>",$this->id_fichier,$this->id_fichier,$this->id_fichier,$this->getPath() . '.' . $this->getFileExtension(),$this->getFilename());
+			</div></div>",$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier,$idFichier,$previewFilePath,$this->getFilename());
 		return $image;
 	}
 }

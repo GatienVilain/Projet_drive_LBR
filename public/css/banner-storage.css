@@ -35,7 +35,7 @@
     bottom:0;
     height: 10vh;
     width: 100vw;
-    z-index: 1000;
+    z-index: 900;
     display: flex;
     padding: 1vh 5vw;
     background-color: var(--couleur-footer);

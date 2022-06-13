@@ -20,19 +20,21 @@
         <button title="Trier les fichiers par date de suppression" onclick="">Date de suppression</button>
     </div>
 </div>
+<div id="containerGallery">
 
-<div class="gallery">
+    <div class="gallery">
 
-<?php
-    foreach ($files as $values)
-    {
-        echo $values->preview();
-    }
-?>
+        <?php
+            foreach ($files as $values)
+            {
+               echo $values->preview();
+            }
+        ?>
+
+    </div>
 
 </div>
 
-<?php require('public/view/banner-storage.php'); ?>
 
 <?php $content = ob_get_clean(); ?>
 

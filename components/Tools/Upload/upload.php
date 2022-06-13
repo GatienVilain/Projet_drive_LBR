@@ -49,6 +49,24 @@ require('image.php');
 
 		return 0;
 	}
+
+	function add_tag(int $id_fichier){
+		//point de connexion à la base de donnée
+		$conn = new \mysqli("localhost", "root", "dorian", "drive");
+		if (!$conn) {
+			return console_log("Echec de connexion à la base de donnée.");
+		}
+
+		$query = $conn->prepare("INSERT INTO appartenir (id_tag,id_fichier) VALUES (1,?)");
+		$query->bind_param("i", $id_fichier);
+		if (!$query->execute()) {
+			$conn->close();
+			return console_log("Echec d'ajout du tag au fichier.");
+		}
+		$conn->close();
+
+		return 0;
+	}
 	
 	function get_id(string $email)
 	{
@@ -158,7 +176,7 @@ require('image.php');
 	
 	$result = add_file($source,$userEmail, pathinfo($tmpFilePath, PATHINFO_FILENAME), $fileSize, $type, $extension);
 	$id = get_id($_SESSION["email"]);
-	
+	add_tag($id);
 	
 	$filePath=$filePath.DIRECTORY_SEPARATOR.strval($id).'.'.$extension;
 	rename($tmpFilePath,$filePath);

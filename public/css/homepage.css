@@ -23,7 +23,7 @@
 
   /* (B) THUMBNAILS */
   .gallery img {
-    width: 250px;
+    width: 248px;
     height: 150px;
     /* FILL, CONTAIN, COVER, SCALE-DOWN : USE WHICHEVER YOU LIKE */
     object-fit: cover;
@@ -39,6 +39,7 @@
   }
 
   .miniature {
+    position:relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,17 +95,16 @@
   z-index: 9;
 }
 
-#popup-options {
+.miniature .popup-options {
 
   display: none;
-  position: fixed;
+  position: absolute;
   border-radius: 5px;
   width: 10vw;
   height: 20vh;
   min-width: 130px;
   left: 40%;
   top: 10%;
-  transform: translate(-55%, 5%);
   border: 2px solid black;
   background-color: var(--couleur-popup);
   z-index: 9;
@@ -157,6 +157,12 @@
   
 }
 
+#header-popup-detail > p{
+  margin-top: 1vh;
+  
+  
+}
+
 #body-popup-detail{
   display: flex;
   flex-direction: column;
@@ -196,22 +202,59 @@
 }
 
 
-.popup-detail {
+
+
+.miniature .popup-detail {
 
   display: none;
+  top:20%;
   position:absolute;
   border-radius: 5px;
-  width: 25vw;
+  width: 30vw;
   height: 50vh;
-  min-width: 200px;
-  max-width:85%;
-  max-height: 300px;
+  min-width: 300px;
+  max-width: 300px;
+  max-height: 800px;
   border: 2px solid black;
   background-color: var(--couleur-popup);
+  z-index: 950;
+  
 }
 
+.server-para-tooltip{
+  position : relative;
+  display: inline-block;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  width:40%;
+  
+}
 
+.server-para-tooltip .tooltiptext{
+  visibility: hidden;
+  width: 20vw;
+  height: 15vh;
+  background-color: var(--couleur-infoBulle);
+  color: var(--couleur-police-infoBulle);
+  text-align: left;
+  padding: 5px 0;
+  border-radius: 6px;
+  bottom: 100%;
+  left:10%;
+  margin-left: -11vw; /* Use half of the width (120/2 = 60), to center the tooltip */
 
+  overflow-y:scroll;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.server-para-tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
 
 .toolbar{
 display: flex;
@@ -238,20 +281,8 @@ border-bottom:1px solid black;
   
 }
 
-#infoBulleDetail {
-  visibility:hidden;
-  position:absolute;
-  padding: 1em 1em 4em;
-  transform: translateX(-50% -50%);
-
-  justify-content: center;
-  clip-path: polygon(100% 0, 100% 20%, 100% 36%, 100% 74%, 91% 53%, 0 53%, 0 0);
-  color : var(--couleur-police-infoBulle);
-  background-color: var(--couleur-infoBulle);
-}
-
-#body-popup-detail-line3:hover #infoBulleDetail{
-  visibility: visible;
+.server-para-tag{
+  padding-left: 1vw;
 }
 
 
