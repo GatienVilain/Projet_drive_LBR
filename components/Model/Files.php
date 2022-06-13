@@ -174,7 +174,7 @@ class Files
 		$idTags = $this->getTags();
 		foreach($idTags as $id)
 		{	
-			$categoryName = strval($connection->get_tag_category($id)[0]['nom_categorie_tag']);
+			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
 
 			if(array_key_exists($categoryName,$arrayTagsNames))
 			{

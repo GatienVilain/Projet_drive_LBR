@@ -16,6 +16,7 @@ class Homepage
 	{
 		$sort = new CustomSort();
 		$files = $this->instantiate();
+		$files = $sort->sort_by_alphabetical($files,"desc");
 		$error = "";
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
 		$nbr_files = count($files);
@@ -53,8 +54,10 @@ class Homepage
 
 				for ($i = 0; $i < count($tags); $i++) {
 					$tmp3 = $connection->get_files_by_link($tags[$i]);
-					for ($j = 0; $j < count($tmp3); $j++) {
-						$tmp2[] = $tmp3[$j]["id_fichier"];
+					if ($tmp3 != -1) {
+						for ($j = 0; $j < count($tmp3); $j++) {
+							$tmp2[] = $tmp3[$j]["id_fichier"];
+						}
 					}
 				}
 			}
