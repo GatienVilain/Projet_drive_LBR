@@ -78,11 +78,11 @@
 
       function closePopupUpload() {
           document.getElementById("popup-upload").style.display = "none";
-          window.location.reload(); 
       }
 
       function buttonClosePopupUpload() {
           document.getElementById("popup-upload").style.display = "none";
+		  window.location.reload(); 
       }
 
       function openPopup(event, idElement) {
