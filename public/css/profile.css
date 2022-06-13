@@ -6,15 +6,28 @@
     display: flex;
 }
 
-#profile-information > div {
-    padding: 1em 1.7em;
+#profile-information > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em 1em;
     background-color: var(--couleur-fond-users);
     color: var(--couleur-police-fond-clair);
     border-radius: 10px;
 }
 
-#profile-information div button {
-    margin: 1em;
+#profile-information form button {
+    margin: 0.5em;
+}
+
+#profile-information form textarea {
+    width: 95%;
+    height: 7em;
+    border: none;
+    border-radius: 4px;
+    background-color: transparent;
+    resize: none;
 }
 
 
@@ -50,18 +63,6 @@
         font-weight: 900;
     }
 
-    #profile-information div {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-
-    #profile-information button {
-        font-size: 0.8em;
-        margin-left: 1em;
-    }
-
-
     /* Section changer de mot de passe */
 
     #change-password-section form {
@@ -90,10 +91,11 @@
         margin-top: 2vh;
     }
 
+    #profile-information button,
     #change-password-section button {
         margin: 1em;
         height: 3em;
-        width: 8em;
+        width: 7em;
         color: var(--couleur-police-fond-fonce);
         background-color: var(--couleur-button);
         border-radius: 4px;
@@ -139,11 +141,6 @@
         margin-left: 2vw;
     }
 
-    #profile-information div {
-        display: flex;
-        justify-content: space-between;
-    }
-
       /* Section changer de mot de passe */
 
     #change-password-section form {
@@ -171,6 +168,7 @@
         margin-top: 2vh;
     }
 
+    #profile-information button,
     #change-password-section button {
         margin: 1em;
         height: 3em;
