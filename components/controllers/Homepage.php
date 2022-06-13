@@ -3,15 +3,18 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Tools/CustomSort.php");
 require_once("components/Model/Files.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Tools\CustomSort;
 use Application\Model\Files;
 
 class Homepage
 {
 	public function execute()
 	{
+		$sort = new CustomSort();
 		$files = $this->instantiate();
 		$error = "";
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
@@ -55,8 +58,7 @@ class Homepage
 					}
 				}
 			}
-			$tmp = array_unique(array_merge($tmp, array_unique($tmp2)));
-
+			$tmp = array_values(array_unique(array_merge($tmp, array_unique($tmp2))));
 			if (!empty($tmp)) {
 				for ($i = 0; $i < count($tmp); $i++) {
 					$data[] = new Files($tmp[$i]);
