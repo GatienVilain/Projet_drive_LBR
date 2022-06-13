@@ -2,7 +2,11 @@
 
 <footer id=banner-footer>
 
-<?php 
+<?php
+require_once("components/Tools/Database/DatabaseConnection.php");
+use Application\Tools\Database\DatabaseConnection;
+$connect = new DatabaseConnection();
+
 $folderPath = 'C:\wamp64\www\storage'.DIRECTORY_SEPARATOR.'pictures'.DIRECTORY_SEPARATOR;
 $usedStorageSpace = repertoire_size($folderPath);
 $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
@@ -18,15 +22,15 @@ $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 <p id=banner-footer-role><?= $role ?></p>
 <div id=banner-footer-storage>
     <p id=paragraph-storage>
-        <span id = usedStorageSpace>
-            <?= $usedStorageSpace ?>Go
-        </span> utilisé(s) sur <?php echo(' '.$totalStorageSpace)?>Go
+        <?php if($connect->get_user($_SESSION["email"])["role"] == "admin"){
+           echo("<span id = usedStorageSpace>".$usedStorageSpace."Go  </span> utilise(s) sur ".$totalStorageSpace."Go"."<div id=conteneurStorageBar>
+           <div id=storageBar>
+   
+           </div>
+       </div>");}
+        ?>        
     </p>
-    <div id=conteneurStorageBar>
-        <div id=storageBar>
-
-        </div>
-    </div>
+    
 </div> 
 
 <p id=banner-footer-file><?= $nbr_files?> fichier(s)</p>

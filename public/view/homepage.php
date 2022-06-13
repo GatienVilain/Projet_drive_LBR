@@ -78,6 +78,7 @@
 
       function closePopupUpload() {
           document.getElementById("popup-upload").style.display = "none";
+          window.location.reload();
         
       }
 
@@ -154,6 +155,7 @@
             success: function (response) {
               if( response.status === true ) {
                   alert('File Deleted!');
+                  window.location.reload();
               }
               else alert('Something Went Wrong!');
             }
