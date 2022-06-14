@@ -18,7 +18,82 @@
     <div class = groupe1>
 
         <button class="buttonHomePage" title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
-        <button class="buttonHomePage" title="Sélectionner des filtres" onclick = "">Filtres</button>
+
+        <div id="buttonHomePage-filters">
+
+          <button class="buttonHomePage" title="Sélectionner des filtres" onclick = "openFilterMenu()">Filtres</button>
+          
+          <div id="popup-filter-menu">
+
+            <div id="filter-menu-tags">
+
+              <div class ="filter-menu-title" id="filter-menu-tags-title"> 
+
+                <p>Tags</p>
+                <div id="button-filter-menu-tags">
+                  
+                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-tag" title="Créer un tag">+ tag</button>
+                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-category" title="Créer une catégorie">+ catégorie</button>
+              
+                </div>
+
+              </div>
+
+              <div class ="filter-menu-body" id="filter-menu-tags-body">
+
+                <p><input type="checkbox" id="horns" name="horns">test</p>
+
+              </div>
+
+            </div>
+
+            <div id="filter-menu-extensions">
+
+              <div class ="filter-menu-title" id="filter-menu-extensions-title"> 
+
+                <p>Extensions</p>
+
+                <div class="filter-menu-title-separation">
+
+                </div>
+
+              </div>
+
+              <div class ="filter-menu-body" id="filter-menu-extensions-body"> 
+
+                <p>test</p>
+
+              </div>
+
+            </div>
+
+            <div id="filter-menu-author">
+
+              <div class ="filter-menu-title" id="filter-menu-author-title"> 
+
+                <p>Auteurs</p>
+                <div class="filter-menu-title-separation">
+                </div>
+
+              </div>
+
+              <div class ="filter-menu-body" id="filter-menu-author-body"> 
+
+                <p>test</p>
+
+              </div>
+
+            </div>
+
+            <div id="filter-menu-sort">
+              <button id="button-filter-menu-sort" title="Lancer le tri">Trier</button>
+            </div>
+            
+
+          </div>
+        
+        </div>
+        
         <input class="buttonHomePage" type="button" id="pickfiles" value="Importer" alt="Envoyer un fichier sur le serveur" onclick="openPopupUpload()";/>
     
     </div>
@@ -69,7 +144,22 @@
 
 <?php require('layout.php') ?>
 
+    <script>
+      //document.oncontextmenu = function(){return false}
+    </script>
+
 <script>
+
+      function openFilterMenu(){
+        closeAllPopup();
+        document.getElementById("popup-filter-menu").style.visibility = "visible";
+        
+      }
+
+      function closeFilterMenu(){
+        document.getElementById("popup-filter-menu").style.display = "none";
+        
+      }
 
       function openPopupUpload() {
         document.getElementById("popup-upload").style.display = "block";
@@ -80,13 +170,8 @@
           document.getElementById("popup-upload").style.display = "none";
       }
 
-      function buttonClosePopupUpload() {
-          document.getElementById("popup-upload").style.display = "none";
-		  window.location.reload(); 
-      }
+      function closeAllPopup(){
 
-      function openPopup(event, idElement) {
-    
         let popups_options = document.getElementsByClassName('popup-options');
         for(valeur of popups_options)
           {
@@ -99,7 +184,16 @@
           {
             valeur.style.display = "none";
           }
+      }
 
+      function buttonClosePopupUpload() {
+        document.getElementById("popup-upload").style.display = "none";
+		    window.location.reload(); 
+      }
+
+      function openPopup(event, idElement) {
+    
+        closeAllPopup();
         if(event.button == 0) //clic gauche
         {
           
@@ -181,7 +275,7 @@ window.addEventListener("load", () => {
     chunk_size: "2mb",
     filters: {
       //max_file_size: "150mb",
-      mime_types: [{title: "Image", extensions: "jpg,gif,png, tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg"},{title: "Video", extensions:  "3gp, 3g2, avi, asf, wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
+      mime_types: [{title: "Image", extensions: "jpg,gif,png, tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf, wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
     },
     init: {
       PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },
@@ -206,4 +300,6 @@ window.addEventListener("load", () => {
 
 
 </script>
+
+
 

@@ -254,12 +254,25 @@ class Files
 		if($fileType == "image")
 		{
 			$previewFilePath = 'storage\pictures\frames'.DIRECTORY_SEPARATOR.$idFichier.'.'.$fileExtension;
+
+			if(!is_file($previewFilePath))
+			{
+			$previewFilePath = 'storage\pictures\frames\error.png';
+			}
+			
 		}
 
 		else if($fileType == "video")
 		{
-			$previewFilePath = 'storage/videos/frames'.DIRECTORY_SEPARATOR.$idFichier.$fileExtension;
+			$previewFilePath = 'storage\videos\frames'.DIRECTORY_SEPARATOR.$idFichier.$fileExtension;
+
+			if(!is_file($previewFilePath))
+			{
+			$previewFilePath = 'storage\videos\frames\error.png';
+			}
 		}
+
+		
 		
 
 		$image = sprintf("<div class=miniature>
@@ -319,7 +332,7 @@ class Files
 						<p class = 'detail-para'>Auteur:</p>
 						<div class = 'server-para-tooltip' id='server-para-nameAuthor'><u>$fileAuthor</u>
 
-							<span class = 'tooltiptext'>$descriptionAuthor</span>
+							<span class = 'tooltiptext'><p>$descriptionAuthor</p></span>
 
 						</div>
 
@@ -359,7 +372,7 @@ class Files
 			</div>
 
 			<div class=image> 
-				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
+				<img class='image' id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
 			</div> 
 			
 			<div class = titre> 
