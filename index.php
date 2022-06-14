@@ -16,6 +16,7 @@ require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
+require_once("components/Controllers/Rights/Get.php");
 
 require_once("components/Model/User.php");
 
@@ -36,6 +37,7 @@ use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
+use Application\Controllers\Rights\GetRights;
 
 use Application\Model\User;
 
@@ -87,6 +89,11 @@ try
                     elseif ( $_POST['button'] === 'ajouter' )
                     {
                         (new GetAddPage())->execute();
+                        $action_found = True;
+                    }
+                    elseif ( $_POST['button'] === 'modifier' )
+                    {
+                        (new GetRights())->execute();
                         $action_found = True;
                     }
                 }
