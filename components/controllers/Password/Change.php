@@ -4,7 +4,10 @@ namespace Application\Controllers\Password;
 
 require_once("components/Model/Password.php");
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
+
+use Application\Model\Log;
 use Application\Model\Password;
 use Application\Model\User;
 use Application\Tools\Database\DatabaseConnection;
