@@ -31,7 +31,7 @@ class GetRights
             foreach ($rights_of_user as $value)
             {
                 $key = $connection->get_tag_category($value["id_tag"]);
-                $table[$key] = $value;
+                $table[$key[0]["nom_categorie_tag"]][] = $value;
             }
         }
 
