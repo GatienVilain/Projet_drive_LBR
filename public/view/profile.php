@@ -15,23 +15,18 @@
             <!-- remplacer par le nom du profil utilisateur -->
             <?= $name ?>
         </h3>
-        <p>
+        <p class="role">
             <!-- ȑemplacer par le rôle de l’utilisateur -->
             <?= $role ?>
         </p>
-        <div>
-            <span>
-                <div contenteditable="true" id="profile-description">
-                    <!-- `Remlacer par la description de l’utilisateur -->
-                    <?= $description ?>
-                </div>
-                <button title="Ouvre un champ pour modifier la description">Modifier</button>
-            </span>
-            <p>Inscrit depuis le
+        <p class="date" >Inscrit depuis le
                 <!-- `Remplacer par de la date d’inscription de l’utilisateur -->
                 <?= $registration_date ?>
-            </p>
-        </div>
+        </p>
+        <form action="index.php?action=changeDescription" method="post">
+            <textarea id="profile-description" name="description"  maxlength="256" required><?= $description ?></textarea>
+            <button type="submit">Modifier</button>
+        </form>
     </section>
 
 <!-- Changer mot de passe -->

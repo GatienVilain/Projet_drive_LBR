@@ -65,10 +65,10 @@ trait DatabaseUser
 		//on regarde si le compte existe
 		if ($this->check_user($email)) {
 			//on regarde si ce n'est pas le dernier compte admin supprimé
-			$query = $conn->prepare("SELECT COUNT(*) AS admin_restant FROM utilisateur WHERE role = 'admin' AND compte_supprime = 0");
+			$query = $conn->prepare("SELECT COUNT(*) AS admin_restant FROM utilisateur WHERE compte_supprime = 0 AND role = 'admin'");
 			$query->execute();
 			$result = $query->get_result()->fetch_assoc()["admin_restant"];
-			if ($result == 1) {
+			if ($result == 1 && $this->get_user($email)["role"] == 'admin') {
 				$conn->close();
 				return $this->console_log("Echec de suppression de l'utilisateur, on ne peut pas supprimer tous les admins");
 			}

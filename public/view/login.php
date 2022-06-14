@@ -23,7 +23,7 @@
         </div>
         <div id="login-checkbox">
             <label for="checkbox">Rester connecté </label>
-            <input type="checkbox" name="remember_me" id="checkbox">
+            <input type="checkbox" name="remember_me" id="checkbox" <?php if (isset($mail_memoire)){?> checked <?php }?>>
         </div>
         <Button type="submit">S’authentifier</button>
     </form>

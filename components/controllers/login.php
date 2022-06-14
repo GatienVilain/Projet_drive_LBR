@@ -53,6 +53,26 @@ class Login
                             'httponly' => true,
                         ]);
                 }
+                else {
+                    setcookie(
+                        'LOGGED_USER',
+                        $email,
+                        [
+                            'expires' => time() - 30*24*3600,
+                            'secure' => true,
+                            'httponly' => true,
+                        ]);
+                    
+                        setcookie(
+                            'PASSWORD_USER',
+                            $password,
+                            [
+                                'expires' => time() - 30*24*3600,
+                                'secure' => true,
+                                'httponly' => true,
+                            ]);
+
+                }
 
                 ( new Log() )->ecrire_log($email,'connecté');
 

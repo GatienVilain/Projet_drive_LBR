@@ -1,0 +1,87 @@
+article {
+	margin: 8vh 0 0;
+}
+
+.toolbar{
+	margin: 0 2vw;
+}
+  
+h2 {
+	font-size:1.7em;
+	font-weight: 100;
+	border-bottom:1px solid black;
+}
+
+.groupe2 {
+   display: flex;
+   margin: 1em 4vw;
+   justify-content: space-between;
+}
+
+.groupe2 *{
+	font-family: 'Trebuchet MS', Arial, sans-serif;
+	font-size: 1.3em;
+}
+#liste{
+
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.table {
+	margin : 2em 0;
+    width: 70vw;
+
+}
+
+
+table tr {
+	width: 100vw;
+	display: flex;
+	justify-content: flex-start;
+	padding: 0.25em 5vw;
+	align-items: center;
+	margin: 2vh 0;
+	font-size: 1.20em;
+	border-top:1px solid black;
+	border-bottom:1px solid black;
+}
+
+
+table .checkbox {
+	width: 1em;
+}
+
+table .email {
+	width: 25vw;
+}
+
+table .description {
+	width: 30vw;
+}
+
+table td {
+	width: 7vw;	
+	margin: 0 1vw;
+}
+
+form span input {
+
+	height: 3em;
+	width: 8em;
+	margin: 1vw;
+	background-color: black;
+	color: white;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+

@@ -96,6 +96,29 @@ trait FilesEdit
 		}
 	}
 
+	//renvoie les informations de tous les fichiers non supprimés (nom_fichier, auteur, date de publication, date de dernière modification, taille_Mo, type, extension, source)
+	function get_all_files()
+	{
+		//point de connexion à la base de donnée
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+
+		//on regarde si le fichier existe
+		$query = $conn->prepare("SELECT f.id_fichier,nom_fichier,email,date_publication,date_derniere_modification,taille_Mo,type,extension,source FROM fichier AS f WHERE f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
+		$query->execute();
+		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+		if ($result != NULL) {
+			//s'il existe, on renvoie les informations associées au fichier
+			$conn->close();
+			return $result;
+		} else {
+			//le fichier n'existe pas
+			return $this->console_log("Le(s) fichier(s) n'existe(nt) pas ou est(sont) supprimé(s).");
+		}
+	}
+
 	//modifier le nom d'un fichier
 	function modify_filename(int $id_fichier, string $nouveau_nom_fichier)
 	{
