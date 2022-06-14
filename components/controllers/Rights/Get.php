@@ -40,7 +40,8 @@ class GetRights
                 $key = $connection->get_tag_category($value["id_tag"]);
                 $value["id_tag"] = $connection->get_tag($value["id_tag"]);
                 $value["id_tag"] = $value["nom_tag"] ;
-                $table[$key] = $value;
+
+                $table[$key[0]["nom_categorie_tag"]][] = $value;
             }
         }
 
