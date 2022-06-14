@@ -1,6 +1,7 @@
 <?php // Router
 
 require_once("components/Controllers/Homepage.php");
+require_once("components/Controllers/Basket.php");
 require_once("components/Controllers/Profile/Get.php");
 require_once("components/Controllers/Profile/ChangePassword.php");
 require_once("components/Controllers/Profile/ChangeDescription.php");
@@ -10,6 +11,7 @@ require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
+require_once("components/Controllers/deleteFile.php");
 require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
@@ -19,6 +21,7 @@ require_once("components/Model/User.php");
 
 
 use Application\Controllers\Homepage;
+use Application\Controllers\Basket;
 use Application\Controllers\Profile\GetProfile;
 use Application\Controllers\Profile\ChangePassword as ChangePasswordProfile;
 use Application\Controllers\Profile\ChangeDescription;
@@ -28,6 +31,7 @@ use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
+use Application\Controllers\deleteFile;
 use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
@@ -58,6 +62,17 @@ try
             elseif ($_GET['action'] === 'changePasswordProfile')
             {
                 (new ChangePasswordProfile())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'basket')
+            {
+                (new Basket())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteFile')
+            {
+                (new deleteFile())->execute();
                 $action_found = True;
             }
 			elseif ($_GET['action'] === 'usersmoderation')

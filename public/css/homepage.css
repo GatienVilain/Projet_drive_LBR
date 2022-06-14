@@ -1,24 +1,30 @@
 /* (A) GALLERY CONTAINER */
-/* (A1) ON BIG SCREENS */
+
+#containerGallery{
+
+  max-width: 100%;
+  margin: 4vh auto 0; 
+  margin-right: 4.5vw;
+  margin-left: 4.5vw;
+  margin-bottom: 15vh;
+
+}
+
+/* Desktop gallery */
+
+
 .gallery {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
-    
-    gap: 50px 50px;
-    max-width: 1200px;
-    margin: 5vh auto 0; /* HORIZONTAL CENTER */
-    justify-content: center;
-    margin-bottom: 15vh;
+    gap: 5vh 4vw;
+    justify-content: left;
     
   }
 
-
-  
-   
   /* (B) THUMBNAILS */
   .gallery img {
-    width: 200px;
-    height: 100px;
+    width: 248px;
+    height: 150px;
     /* FILL, CONTAIN, COVER, SCALE-DOWN : USE WHICHEVER YOU LIKE */
     object-fit: cover;
     border: solid 1px black;
@@ -33,6 +39,7 @@
   }
 
   .miniature {
+    position:relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,8 +51,17 @@
     width:50%;
     
    }
-   .groupe1 > button{
+   .buttonHomePage{
     margin-left: 15px;
+    font-size: 1.1em;
+    
+   }
+
+   .buttonPopupOptions{
+    margin-left: 15px;
+    font-size: 1.1em;
+    margin-top : 10px
+    
    }
 
   .groupe2 {
@@ -55,45 +71,219 @@
   .groupe2 > button{
     float : right;
     margin-right: 15px;
+    font-size: 1.1em;
   }
 
 
- /* Desktop layout */
 
- @media only screen and ( min-width: 992px) {
-   .toolbar{
+
+ #popup-upload {
+
+  display: none;
+  position: fixed;
+  border-radius: 5px;
+  width: 25vw;
+  height: 50vh;
+  min-width: 200px;
+  max-width:400px;
+  max-height: 300px;
+  left: 40%;
+  top: 10%;
+  transform: translate(-55%, 5%);
+  border: 2px solid black;
+  background-color: var(--couleur-popup);
+  z-index: 9;
+}
+
+.miniature .popup-options {
+
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  width: 10vw;
+  height: 20vh;
+  min-width: 130px;
+  left: 40%;
+  top: 10%;
+  border: 2px solid black;
+  background-color: var(--couleur-popup);
+  z-index: 9;
+}
+
+.header-popup{
   display: flex;
-  margin: 8vh auto 0;
-  margin-left:4%;
-  margin-right: 4%;
-  border-bottom:1px solid black;
+  gap: 2vw;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  border-bottom: 1px solid black;
+  
 }
 
- 
-
- }
-
-
-  /* Mobile layout */
- @media screen and (max-width: 992px) {
-
-   .toolbar{
-    display: flex;
-    margin: 7vh auto 0;
-    margin-left:2%;
-    margin-right:2%;
-    border-bottom:1px solid black;
-  }
+#header-popup-options > p{
+  margin-top: 1vh;
+  
 }
 
-  .titre{
-    min-width: 0;
-    max-width: 200px;
+#header-popup-options{
+  gap: 1.5vh;
+  
+}
 
+.close-button{
+  font-size: 1.5em;
+  
+}
+
+#body-popup-upload{
+  max-height: 87%;
+  overflow-y: scroll;
+  margin-left: 1vw;
+}
+
+#body-popup-upload > div{
+  margin-bottom: 2vh;
+}
+
+#body-popup-upload-ready{
+  margin-top: 2vh;
+  text-decoration: underline;
+  font-style: italic;
+
+}
+
+#header-popup-upload > p{
+  margin-top: 1vh;
+  
+  
+}
+
+#header-popup-detail > p{
+  margin-top: 1vh;
+  
+  
+}
+
+#body-popup-detail{
+  display: flex;
+  flex-direction: column;
+  max-height: 87%;
+  overflow-y: scroll;
+}
+
+.body-popup-detail-line{
+
+  display: flex;
+  flex-direction: row;
+  column-gap: 2vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.178);
+
+}
+
+.body-popup-detail-line > p{
+
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+
+}
+
+.detail-para{
+
+  width: 60%;
+}
+
+.server-para{
+  width:40%;
+}
+
+#server-para-modificationDate{
+  margin-top : 3.5vh;
+}
+
+
+
+
+.miniature .popup-detail {
+
+  display: none;
+  top:20%;
+  position:absolute;
+  border-radius: 5px;
+  width: 30vw;
+  height: 50vh;
+  min-width: 300px;
+  max-width: 300px;
+  max-height: 800px;
+  border: 2px solid black;
+  background-color: var(--couleur-popup);
+  z-index: 950;
+  
+}
+
+.server-para-tooltip{
+  position : relative;
+  display: inline-block;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  width:40%;
+  
+}
+
+.server-para-tooltip .tooltiptext{
+  visibility: hidden;
+  width: 20vw;
+  height: 15vh;
+  background-color: var(--couleur-infoBulle);
+  color: var(--couleur-police-infoBulle);
+  text-align: left;
+  padding: 5px 0;
+  border-radius: 6px;
+  bottom: 100%;
+  left:10%;
+  margin-left: -11vw; /* Use half of the width (120/2 = 60), to center the tooltip */
+
+  overflow-y:scroll;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.server-para-tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.toolbar{
+display: flex;
+margin: 7vh 2vw 0;
+border-bottom:1px solid black;
+}
+
+
+.titre{
+  min-width: 0;
+  max-width: 200px;
+
+  
+  white-space: nowrap; 
     
-    white-space: nowrap; 
-     
-    text-overflow: ellipsis;
-    overflow: hidden;
-    
-  }
+  text-overflow: ellipsis;
+  overflow: hidden;
+  
+}
+
+#pickfiles{
+  border: 0;
+  background-color: inherit;
+  
+}
+
+.server-para-tag{
+  padding-left: 1vw;
+}
+
+
+/* Mobile gallery */
