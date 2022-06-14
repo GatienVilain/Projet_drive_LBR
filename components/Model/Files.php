@@ -275,7 +275,7 @@ class Files
 		
 		
 
-		$image = sprintf("<div class=miniature>
+		$preview = sprintf("<div class=miniature>
 
 			<div class='popup-options' id='%s-popup-options'>
 
@@ -369,15 +369,35 @@ class Files
 				</div>
 	
 	
-			</div>
-
-			<div class=image> 
-				<img class='image' id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
-			</div> 
-			
-			<div class = titre> 
-				<p> %s </p> 
-			</div></div>",$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier,$idFichier,$previewFilePath,$this->getFilename());
-		return $image;
+			</div>" ,$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier);
+		
+		if ($fileType == "image") {
+			$image = sprintf("<div class=image> 
+					<img class='image' id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
+				</div> 
+				
+				<div class = titre> 
+					<p> %s </p> 
+				</div></div>",$idFichier,$previewFilePath,$this->getFilename());
+				
+			return $preview . $image;
+		}
+		elseif ($fileType == "video") {
+			$video = sprintf("
+				<div class=image> 
+					<video class='image' id='%s' onMouseDown='[openPopup(event, this.id)]'>
+						<source src=%s type='video/%s'>
+						Your browser does not support the video tag.
+					</video>
+				</div> 
+				
+				<div class = titre> 
+					<p> %s </p> 
+				</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
+				
+			return $preview . $video;
+		}
+		
+		return -1;
 	}
 }

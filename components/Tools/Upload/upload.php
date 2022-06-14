@@ -1,5 +1,5 @@
 <?php 
-require('image.php');
+require('preview.php');
 ?>
  
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
@@ -165,12 +165,12 @@ require('image.php');
 
 	if($type == 'image')
 	{
-		$source ="storage\pictures";
+		$source ="storage\\pictures";
 	}
 
 	else
 	{
-		$source = "storage\videos";
+		$source = "storage\\videos";
 	}
 	
 	
@@ -182,10 +182,8 @@ require('image.php');
 	rename($tmpFilePath,$filePath);
 	unlink($tmpFilePath);
 	rmdir(pathinfo($tmpFilePath,PATHINFO_DIRNAME));
-    creerMiniatureImage($filePath);
+    creerMiniature($filePath);
   }
 
-
   verbose(1, "Upload OK");
-
 ?>

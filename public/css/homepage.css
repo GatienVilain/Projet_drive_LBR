@@ -22,16 +22,19 @@
   }
 
   /* (B) THUMBNAILS */
-  .gallery img {
-    width: 248px;
+  .gallery .image img, .gallery .image video{
+    width: auto;
     height: 150px;
     /* FILL, CONTAIN, COVER, SCALE-DOWN : USE WHICHEVER YOU LIKE */
     object-fit: cover;
     border: solid 1px black;
     
   }
+
   .gallery img:fullscreen { object-fit: contain; }
    
+   
+
   /* (X) DOES NOT MATTER */
   body, html {
     padding: 0;

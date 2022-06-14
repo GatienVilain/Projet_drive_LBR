@@ -196,15 +196,24 @@
         closeAllPopup();
         if(event.button == 0) //clic gauche
         {
-          
-
-          idElement = idElement + '-popup-detail';
-          if(document.getElementById(idElement).style.display != "block")
-          {
-            document.getElementById(idElement).style.display = "block";  
-
-          }
-
+		  if (event.detail === 2) 
+		  {
+				idElement = idElement + '-popup-options';
+				if(document.getElementById(idElement).style.display != "block")
+				{
+					document.getElementById(idElement).style.display = "block";
+				}
+		  }
+		  else if (event.detail === 1) 
+		  {
+			// it was a single click
+			idElement = idElement + '-popup-detail';
+			if(document.getElementById(idElement).style.display != "block")
+			{
+				document.getElementById(idElement).style.display = "block";  
+			}
+		  
+		  }
         }
 
         else if(event.button == 2) //clic droit
