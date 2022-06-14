@@ -23,11 +23,11 @@ class User
 
         if ($role == "admin")
         {
-            $_SESSION["admin"] = True;
+            $_SESSION["admin"] = 1;
             return True;
         }
         else {
-            $_SESSION["admin"] = False;
+            $_SESSION["admin"] = 0;
             return false;
         }
     }

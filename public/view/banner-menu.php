@@ -1,5 +1,10 @@
 
-<?php if ($_SESSION["admin"]) { require('public/view/admin_banner_menu.php'); } else {} ?>
+<?php if ( isset($_SESSION["admin"]) && $_SESSION["admin"] == 1 )
+{
+    require('public/view/admin_banner_menu.php');
+}
+else { $admin_navbar = ""; } ?>
+
 
 <?php ob_start(); ?>
 
