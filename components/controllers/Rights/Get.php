@@ -10,6 +10,13 @@ class GetRights
 {
     public function execute()
     {
+        $table = $this->getRights();
+
+        require('public/view/rights.php');
+    }
+
+    private function getRights()
+    {
         $connection = new DatabaseConnection();
 
         $categories = $connection->get_tag_category();
@@ -31,11 +38,13 @@ class GetRights
             foreach ($rights_of_user as $value)
             {
                 $key = $connection->get_tag_category($value["id_tag"]);
+                $value["id_tag"] = $connection->get_tag($value["id_tag"]);
+                $value["id_tag"] = $value["nom_tag"] ;
                 $table[$key] = $value;
             }
         }
 
-        print_r($table);
+        return $table;
     }
 
 

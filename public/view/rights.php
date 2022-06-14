@@ -29,10 +29,12 @@
         </form>
     </section>
 
-<!-- Changer mot de passe -->
     <section id="change-password-section">
-        
-        </form>
+
+    <?php
+        foreach ()
+    ?>
+
     </section>
 
 </article>
