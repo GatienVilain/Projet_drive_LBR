@@ -49,12 +49,9 @@ try
         if ( (new User())->is_connected() )
         {
             // Actions possible lorsque l’on est connecté
-            $admin_navbar = "";
 
             if ( (new User())->is_admin() )
             {
-                require('public/view/admin_banner_menu.php');
-
                 // Actions possible lorsque l’on est administrateur
 
                 if ($_GET['action'] === 'history')

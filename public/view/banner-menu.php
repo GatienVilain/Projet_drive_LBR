@@ -1,7 +1,9 @@
 
+<?php if ($_SESSION["admin"]) { require('public/view/admin_banner_menu.php'); } else {} ?>
+
 <?php ob_start(); ?>
 
-<button title="Ouvrir la barre de navigation" id="navbar-button"></button>
+<button title="Ouvrir la barre de navigation"  id="navbar-button"></button>
 <nav id="navbar">
     <a title="Se déconnecter et revenir à la page de connexion" href="index.php?action=logout">Déconnexion</a>
     <a title="Accéder au menu principal" href="index.php">Home</a>
