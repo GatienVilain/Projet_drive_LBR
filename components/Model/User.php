@@ -2,6 +2,10 @@
 
 namespace Application\Model;
 
+require_once("components/Tools/Database/DatabaseConnection.php");
+
+use Application\Tools\Database\DatabaseConnection;
+
 class User
 {
     public function is_connected() : bool
@@ -11,6 +15,19 @@ class User
         }
 
         return !empty($_SESSION['connected']);
+    }
+
+    public function is_admin(): bool
+    {
+        $role = (new DatabaseConnection)->get_user($_SESSION["email"])["role"];
+
+        if ($role == "admin")
+        {
+            return True;
+        }
+        else {
+            return false;
+        }
     }
 
     public function logout(): void

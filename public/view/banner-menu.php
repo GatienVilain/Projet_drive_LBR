@@ -9,12 +9,9 @@
     <a title="Accéder à la corbeille, pour restaurer ou supprimer définitivement les fichiers supprimer" href="index.php?action=basket">Corbeille</a>
     <!-- Version mobile -->
     <a title="Ajouter un fichiers" href="#" class="mobile">Importer</a>
+
     <!-- Pour les administrateurs uniquement -->
-    <button title="Ouvrir les options de modération des utilisateurs" href="#">Modérer</button>
-    <div>
-        <a title="Accéder à la page de gestion des utilisateurs" href="index.php?action=usersmoderation">Utilisateurs</a>
-        <a title="Accéder au journal de bord, pour voir l’historique des modifications" href="index.php?action=history">Journal de bord</a>
-    </div>
+    <?= $admin_navbar ?>
 </nav>
 
 <?php $banner_menu = ob_get_clean(); ?>
