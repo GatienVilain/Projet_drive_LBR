@@ -25,10 +25,13 @@ class GetRights
 
         $rights_of_user = $connection->get_rights_of_user(array_keys($_POST)[0]);
 
-        foreach ($rights_of_user as $value)
+        if ( $rights_of_user != -1 )
         {
-            $key = $connection->get_tag_category($value["id_tag"]);
-            $table[$key] = $value;
+            foreach ($rights_of_user as $value)
+            {
+                $key = $connection->get_tag_category($value["id_tag"]);
+                $table[$key] = $value;
+            }
         }
 
         print_r($table);
