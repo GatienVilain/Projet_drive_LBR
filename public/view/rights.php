@@ -32,7 +32,28 @@
     <section id="change-password-section">
 
     <?php
-        foreach ()
+        foreach ($table as $categorie)
+        {
+            echo array_keys($categorie);
+            foreach ($categorie as $tag)
+            {
+                if ($tag["ecriture"])
+                {
+                    echo $tag["nom_tag"];
+                }
+            }
+        }
+        foreach ($table as $categorie)
+        {
+            echo array_keys($categorie);
+            foreach ($categorie as $tag)
+            {
+                if ($tag["lecture"])
+                {
+                    echo $tag["nom_tag"];
+                }
+            }
+        }
     ?>
 
     </section>
