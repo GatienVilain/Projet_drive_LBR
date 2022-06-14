@@ -16,7 +16,16 @@ class Homepage
 	{
 		$sort = new CustomSort();
 		$files = $this->instantiate();
-		$files = $sort->sort_by_alphabetical($files,"desc");
+		$tagsFiles = $this->getArrayTagsFilesInstantiate($files);
+		$previewTags = $this->previewTagsFilesInstantiate($tagsFiles);
+
+		$extensionsFiles = $this->getArrayExtensionsFilesInstantiate($files);
+		$previewExtensions = $this->previewExtensionsFilesInstantiate($extensionsFiles);
+
+		$authorsFiles = $this->getArrayAuthorsFilesInstantiate($files);
+		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
+
+
 		$error = "";
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
 		$nbr_files = count($files);
@@ -89,4 +98,180 @@ class Homepage
 		}
 		return $data;
 	}
+
+	private function getArrayTagsFilesInstantiate($filesInstantiate)
+	{
+		$connection = new DatabaseConnection();
+
+		$arrayTagsFilesInstantiate = array();
+		$arrayCategoryTagsFilesInstantiate = array();
+		$arrayTags = array();
+		foreach($filesInstantiate as $file)
+		{
+			//var_dump($file->getTags());
+			foreach($file->getTags() as $idTag)
+			{
+				//var_dump($idTags);
+				if(!in_array($idTag,$arrayTagsFilesInstantiate))
+				{
+					array_push($arrayTagsFilesInstantiate,$idTag);
+				}
+			}
+
+		}
+	
+		foreach($arrayTagsFilesInstantiate as $idTag)
+		{	
+			$categoryName = $connection->get_tag_category($idTag)[0]['nom_categorie_tag'];
+			
+			if(array_key_exists($categoryName,$arrayCategoryTagsFilesInstantiate))
+			{
+				
+				array_push($arrayCategoryTagsFilesInstantiate[$categoryName], array($connection->get_tag($idTag)['nom_tag'],$idTag));
+				
+			}
+
+			else
+			{
+
+				$arrayCategoryTagsFilesInstantiate[$categoryName]=array(array($connection->get_tag($idTag)['nom_tag'],$idTag));
+				
+			}
+			
+			
+		}
+
+			
+		//var_dump($arrayCategoryTagsFilesInstantiate);
+		return $arrayCategoryTagsFilesInstantiate;
+
+	}
+
+	private function previewTagsFilesInstantiate($tagsFiles)
+	{
+		$result="";
+		foreach($tagsFiles as $categoryName => $arrayTags){
+			//var_dump($arrayTags);
+			
+			
+			$categoryName=$categoryName;
+			$result = $result."
+				<div class='dropdown'> 
+					<div class ='categoryName-line'>
+						<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>";
+					
+			if(strtolower($categoryName) != "autres")
+			{
+				$result = $result."<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
+			}
+					
+
+			$result = $result."</div><div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
+
+			foreach($arrayTags as $Tags){
+				//var_dump($Tags);
+				$tagName=$Tags[0];
+				$tagId=$Tags[1];
+				$result=$result."
+					<div class='filter-menu-line-tag'>
+
+                      	<p><input type='checkbox' class ='tagName' id='".$tagId."-filterMenu-checkTag' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
+
+				if(strtolower($tagName) != "sans tags")
+				{
+					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='".$tagId."-filterMenu-deleteTag' title='Supprimer tag'>×</button>";
+				}
+                      	
+				$result = $result."</div>";
+			}
+
+			$result=$result."</div> </div>";
+
+		}
+
+
+		return $result;
+	}
+
+	private function getArrayExtensionsFilesInstantiate($filesInstantiate)
+	{
+		$arrayExtensionsFilesInstantiate = array();
+		foreach($filesInstantiate as $file)
+		{
+			$fileExtension = $file->getFileExtension();
+			//var_dump($file->getFileExtension());
+			if(!in_array($fileExtension,$arrayExtensionsFilesInstantiate))
+			{
+				array_push($arrayExtensionsFilesInstantiate,$fileExtension);
+			}
+		
+		}
+
+		//var_dump($arrayExtensionsFilesInstantiate);
+	
+		return $arrayExtensionsFilesInstantiate;
+
+	}
+
+	
+	private function previewExtensionsFilesInstantiate($extensionsFiles)
+	{
+		$result="";
+		foreach($extensionsFiles as $extension){
+			//var_dump($arrayTags);
+			$result=$result."
+			
+				<div class='filter-menu-element-extension' id='".$extension."-extension'>
+
+                	<p><input type='checkbox' class ='extentionName' id='".$extension."-filterMenu-checkExtension' title='Sélectionner une extension'>&emsp;".$extension."</p>
+                
+                </div>";
+		}
+
+		return $result;
+	}
+
+	private function getArrayAuthorsFilesInstantiate($filesInstantiate)
+	{
+		$arrayAuthorsFilesInstantiate = array();
+		foreach($filesInstantiate as $file)
+		{
+			$fileAuthor = $file->getAuthorName();
+			//var_dump($fileAuthor);
+			if(!in_array($fileAuthor,$arrayAuthorsFilesInstantiate))
+			{
+				array_push($arrayAuthorsFilesInstantiate,$fileAuthor);
+			}
+		
+		}
+
+		//var_dump($arrayAuthorsFilesInstantiate);
+	
+		return $arrayAuthorsFilesInstantiate;
+
+	}
+
+
+	private function previewAuthorsFilesInstantiate($authorsFiles)
+	{
+		$result="";
+		foreach($authorsFiles as $author){
+			//var_dump($arrayTags);
+			$authorId = str_replace(" ","-",$author);
+			$result=$result."
+			
+				<div class='filter-menu-line-author' id='".$authorId."-author'>
+
+                	<p><input type='checkbox' class ='extentionName' id='".$authorId."-filterMenu-checkAuthor' title='Sélectionner une extension'>&emsp;".$author."</p>
+                
+                </div>";
+		}
+
+		return $result;
+	}
+
+	
+
+
+
 }

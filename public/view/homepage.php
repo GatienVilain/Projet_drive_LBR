@@ -32,16 +32,16 @@
                 <p>Tags</p>
                 <div id="button-filter-menu-tags">
                   
-                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-tag" title="Créer un tag">+ tag</button>
-                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-category" title="Créer une catégorie">+ catégorie</button>
+                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-tag" title="Créer un tag">+tag</button>
+                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-category" title="Créer une catégorie">+catégorie</button>
               
                 </div>
 
               </div>
 
               <div class ="filter-menu-body" id="filter-menu-tags-body">
-
-                <p><input type="checkbox" id="horns" name="horns">test</p>
+                
+                <?php echo($previewTags) ?>
 
               </div>
 
@@ -60,8 +60,8 @@
               </div>
 
               <div class ="filter-menu-body" id="filter-menu-extensions-body"> 
-
-                <p>test</p>
+            
+                <?php echo($previewExtensions); ?>
 
               </div>
 
@@ -79,7 +79,7 @@
 
               <div class ="filter-menu-body" id="filter-menu-author-body"> 
 
-                <p>test</p>
+                <?php echo($previewAuthors); ?>
 
               </div>
 
@@ -258,6 +258,15 @@
             }
           });
       }
+
+      /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction(idElement) {
+    idElement=idElement+'-content';
+    document.getElementById(idElement).classList.toggle("show");
+}
+
+
 
 </script>
 

@@ -191,8 +191,9 @@ class Files
 
 	public function previewTags($arrayTagsNames): string
 	{
+		$result="";
 		foreach($arrayTagsNames as $categoryName => $arrayTags){
-			$result = "<p class=server-para-categoryName><U>".$categoryName."</u></p>";
+			$result = $result."<p class=server-para-categoryName><U>".$categoryName."</u></p>";
 			foreach($arrayTags as $Tags){
 				$result=$result."<p class=server-para-tag>".$Tags."</p>";
 			}
@@ -247,6 +248,7 @@ class Files
 		$fileExtension=$this->getFileExtension();
 		$descriptionAuthor = $this->getAuthorDescription();
 		$idFichier=$this->id_fichier;
+		
 		$fileType = $this->getFileType();
 		$filePath = $this->getPath() . '.' . $fileExtension;
 		

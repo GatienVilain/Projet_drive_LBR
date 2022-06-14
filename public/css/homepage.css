@@ -22,14 +22,20 @@
   }
 
   /* (B) THUMBNAILS */
-  .gallery img {
-    width: 248px;
-    height: 150px;
+  .gallery .image img {
+    width: 100%;
+    height: 100%;
     /* FILL, CONTAIN, COVER, SCALE-DOWN : USE WHICHEVER YOU LIKE */
     object-fit: cover;
     border: solid 1px black;
     
   }
+
+  .gallery .image{
+    width: 248px;
+    height: 150px;
+  }
+
   .gallery img:fullscreen { object-fit: contain; }
    
   /* (X) DOES NOT MATTER */
@@ -43,6 +49,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 248px;
+    height: 172px;
     
     
   }
@@ -305,9 +313,9 @@ border-bottom:1px solid black;
   border-radius: 6px;
   width: 20vw;
   height: 50vh;
-  min-width: 220px;
-  max-width: 320px;
-  max-height: 800px;
+  min-width: 14em;
+  max-width: 14em;
+  max-height: 20em;
   overflow-y: scroll;
   background-color: var(--couleur-filter-menu);
   color : var(--couleur-police-filter-menu);
@@ -319,7 +327,6 @@ border-bottom:1px solid black;
   margin-top: 1em;
   margin-right: 1.6em;
   margin-left: 1em;
-  padding-bottom: 0.8em;
   
 }
 
@@ -343,12 +350,12 @@ border-bottom:1px solid black;
   width: 100%;
   margin-left: 0.5em;
   margin-bottom: 0.3em;
-  gap:7vw;
   border-bottom: 1.5px solid var(--couleur-separation-filter-menu);
 }
 
 .filter-menu-body{
   margin-left: 1.5em;
+  margin-right: 1em;
 
 }
 
@@ -364,7 +371,7 @@ border-bottom:1px solid black;
   color:var(--couleur-police-filter-menu);
   display: block;
   margin:auto;
-  margin-top: 1em;
+  margin-top: 1.5em;
   margin-bottom: 1em;
   border-radius: 5px;
   background-color: var(--couleur-button-sort-filter-menu);
@@ -374,6 +381,116 @@ border-bottom:1px solid black;
   
 }
 
+#button-filter-menu-add-category{
+  width: 50%;
+  text-align: right;
+}
 
+#button-filter-menu-add-tag{
+  width: 50%;
+  text-align: left;
+}
 
 /* Mobile gallery */
+
+/* Dropdown Button */
+.categoryName-dropdown {
+  
+  color: white;
+  font-size: 0.8em;
+  transform:translate(0,-0.6em);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 90%;
+}
+
+/* Dropdown button on hover & focus */
+.categoryName-dropdown:hover {
+  background-color:rgba(255, 255, 255, 0.700);
+}
+
+#filter-menu-extensions-body{
+  display:inline-flex;
+  flex-wrap: wrap;
+  row-gap:1em;
+  width: 79%;
+  margin-left: 1.5em;
+  padding-top: 0.4em;
+
+}
+
+.filter-menu-element-extension > p{
+  color:var(--couleur-police-filter-menu);
+  font-size: 0.8em;
+  text-decoration: none;
+
+}
+
+.filter-menu-element-extension{
+  width:50%;
+}
+
+.filter-menu-line-author > p{
+  color:var(--couleur-police-filter-menu);
+  font-size: 0.8em;
+  text-decoration: none;
+
+}
+
+#filter-menu-author-body{
+  padding-top: 0.4em;
+
+}
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  flex-direction: column;
+  position:relative;
+  background-color: var(--couleur-filter-menu);
+  min-width: 160px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content p {
+  color: var(--couleur-police-filter-menu);
+  font-size: 0.8em;
+  text-decoration: none;
+  width:90%;
+  display: block;
+}
+
+
+
+.delete-categoryName-filter-menu{
+  color: var(--couleur-police-filter-menu);
+  width:10%;
+  font-size: 1.4em;
+}
+
+.delete-tagName-filter-menu{
+  color: var(--couleur-police-filter-menu);
+  width: 10%;
+  font-size: 1.4em;
+}
+
+.filter-menu-line-tag{
+  display: inline-flex;
+}
+
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+  display:inline-flex;
+  flex-wrap: nowrap;
+  width:100%;
+}
