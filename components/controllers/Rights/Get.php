@@ -23,7 +23,8 @@ class GetRights
 
         }
 
-        $rights_of_user = $connection->get_rights_of_user(array_keys($_POST)[0]);
+        $email = str_replace('_','.',array_keys($_POST)[0]);
+        $rights_of_user = $connection->get_rights_of_user($email);
 
         if ( $rights_of_user != -1 )
         {
