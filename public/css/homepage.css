@@ -50,12 +50,12 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 8px solid white;
+	border: 5px solid white;
 }
 #image-show-area img {
 	height: 100%;
 	width: auto;
-	object-fit: cover;
+	/*object-fit: fill;*/
 }
 
 /* Desktop gallery */

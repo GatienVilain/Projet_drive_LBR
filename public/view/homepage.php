@@ -187,6 +187,7 @@ images.forEach(image => image.addEventListener('dblclick', event => {
 
 images.forEach(image => image.addEventListener('contextmenu', event => {
   //clic droit
+  closeAllPopup();
   idElement = image.id + '-popup-options';
   if(document.getElementById(idElement).style.display != "block")
   {
