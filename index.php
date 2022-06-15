@@ -12,6 +12,8 @@ require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/deleteFile.php");
+require_once("components/Controllers/AddNewTag.php");
+require_once("components/Controllers/AddNewCategory.php");
 require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
@@ -32,6 +34,8 @@ use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\deleteFile;
+use Application\Controllers\AddNewTag;
+use Application\Controllers\AddNewCategory;
 use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
@@ -75,6 +79,19 @@ try
                 (new deleteFile())->execute();
                 $action_found = True;
             }
+
+            elseif ($_GET['action'] === 'addNewTag')
+            {
+                (new AddNewTag())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'addNewCategory')
+            {
+                (new AddNewCategory())->execute();
+                $action_found = True;
+            }
+
 			elseif ($_GET['action'] === 'usersmoderation')
             {
                 if ( isset($_POST['button']) && $_POST['button'] !== '')

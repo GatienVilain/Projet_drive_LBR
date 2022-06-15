@@ -16,8 +16,11 @@ class Homepage
 	{
 		$sort = new CustomSort();
 		$files = $this->instantiate();
+
+		$previewArrayCategory = $this->previewArrayCategory();
+
 		$tagsFiles = $this->getArrayTagsFilesInstantiate($files);
-		$previewTags = $this->previewTagsFilesInstantiate($tagsFiles);
+		$previewTags = $this->previewTagsFilesInstantiate($tagsFiles, $previewArrayCategory);
 
 		$extensionsFiles = $this->getArrayExtensionsFilesInstantiate($files);
 		$previewExtensions = $this->previewExtensionsFilesInstantiate($extensionsFiles);
@@ -25,7 +28,7 @@ class Homepage
 		$authorsFiles = $this->getArrayAuthorsFilesInstantiate($files);
 		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
 
-		$previewArrayCategory = $this->previewArrayCategory();
+		
 
 		$error = "";
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
@@ -148,7 +151,7 @@ class Homepage
 
 	}
 
-	private function previewTagsFilesInstantiate($tagsFiles)
+	private function previewTagsFilesInstantiate($tagsFiles, $previewArrayCategory)
 	{
 		$result="";
 		foreach($tagsFiles as $categoryName => $arrayTags){
@@ -163,7 +166,9 @@ class Homepage
 					
 			if(strtolower($categoryName) != "autres")
 			{
-				$result = $result."<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
+				$result = $result."
+					<button onclick='' class='edit-categoryName-filter-menu' id='".$categoryName."-edit-cetegoryName' title='Modifier nom catégorie'>🖉</button>
+					<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
 			}
 
 			else
@@ -181,11 +186,13 @@ class Homepage
 				$result=$result."
 					<div class='filter-menu-line-tag'>
 
-                      	<p><input type='checkbox' class ='tagName' id='filterMenu-checkTag".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
+                      	<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
 
 				if(strtolower($tagName) != "sans tags")
 				{
-					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+					$result = $result."
+					<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
+					<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
 				}
 
 				else
@@ -193,7 +200,31 @@ class Homepage
 					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."'>×</button>";
 				}
                       	
-				$result = $result."</div>";
+				$result = $result."												
+					<div class='popup-editTag' id='popup-editTag-".$tagId."'>
+
+        				<div class='header-popup-editTagCategory' id='header-popup-editTag'>
+							<button id='close-button-editTag' class='close-button-editTagCategory' title='Fermer' onclick ='closePopupEditTag()'><p>←</p></button>
+          					<p>Modifer tag</p>
+        				</div>
+
+        				<div id='body-popup-editTag'>
+
+          					<select id='popup-editTag-selectCategory' name='category'>"
+            					.$previewArrayCategory.
+          					"</select>
+          					<input type='text' id='popup-editTag-nameTag' name='tag' value='".$tagName."' placeholder='nouveau nom'>
+            				<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag()'>Valider</button>
+          					
+        				</div>
+
+      				</div>
+
+	  			</div>";
+
+
+
+
 			}
 
 			$result=$result."</div> </div>";
@@ -234,7 +265,7 @@ class Homepage
 			
 				<div class='filter-menu-element-extension' id='".$extension."-extension'>
 
-                	<p><input type='checkbox' class ='extentionName' id='".$extension."-filterMenu-checkExtension' title='Sélectionner une extension'>&emsp;".$extension."</p>
+                	<p><input type='checkbox' class ='checkbox-filter-menu' id='".$extension."-filterMenu-checkExtension' title='Sélectionner une extension'>&emsp;".$extension."</p>
                 
                 </div>";
 		}
@@ -273,7 +304,7 @@ class Homepage
 			
 				<div class='filter-menu-line-author' id='".$authorId."-author'>
 
-                	<p><input type='checkbox' class ='extentionName' id='".$authorId."-filterMenu-checkAuthor' title='Sélectionner une extension'>&emsp;".$author."</p>
+                	<p><input type='checkbox' class ='checkbox-filter-menu' id='".$authorId."-filterMenu-checkAuthor' title='Sélectionner une extension'>&emsp;".$author."</p>
                 
                 </div>";
 		}

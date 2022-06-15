@@ -172,18 +172,21 @@ function deleteFile(idFichier)
 function addNewTag()
 {
 
-  var selectedCategory=;
+  var tagName;
+  var selectedCategory;
+  selectedCategory = document.getElementById("popup-newTag-selectCategory").options[document.getElementById('popup-newTag-selectCategory').selectedIndex].text;
+  tagName = document.getElementById("popup-newTag-nameTag").value;
   //var file_path = "storage/pictures/58.png";
   $.ajax({
     url: 'index.php',
-    data: {'idFile' : idFichier,'action' : "deleteFile"},
+    data: {'category' : selectedCategory,'tag' : tagName,'action' : 'addNewTag'},
     dataType: 'json', 
     success: function (response) 
     {
       if( response.status === true )
 
       {
-        alert('File Deleted!');
+        alert('Tag ajouté');
         window.location.reload();
       }
 
@@ -195,18 +198,20 @@ function addNewTag()
 
 function addNewCategory()
 {
-  
+
+  var categoryName;
+  categoryName = document.getElementById("popup-newCategory-nameCategory").value;
   //var file_path = "storage/pictures/58.png";
   $.ajax({
     url: 'index.php',
-    data: {'idFile' : idFichier,'action' : "deleteFile"},
+    data: {'category' : categoryName,'action' : 'addNewCategory'},
     dataType: 'json', 
     success: function (response) 
     {
       if( response.status === true )
 
       {
-        alert('File Deleted!');
+        alert('Catégorie ajoutée');
         window.location.reload();
       }
 
@@ -224,5 +229,93 @@ function myFunction(idElement)
   idElement=idElement+'-content';
   document.getElementById(idElement).classList.toggle("show");
 
+}
+
+function openPopupEditTag(idButton)
+{
+
+  idTag = idButton.replace('edit-tagName-','');
+
+  var divPopupEditTag = document.createElement('div');
+  divPopupEditTag.setAttribute('id','popup-editTag');
+  //divPopupEditTag.setAttribute('class','');
+
+  var divHeaderPopupEditTag = document.createElement('div');
+  divHeaderPopupEditTag.setAttribute('id','header-popup-editTag');
+  divHeaderPopupEditTag.setAttribute('class','header-popup-editTagCategory');
+
+  var divBodyPopupEditTag = document.createElement('div');
+  divBodyPopupEditTag.setAttribute('id','body-popup-editTag');
+  divBodyPopupEditTag.setAttribute('class','body-popup-editTagCategory');
+
+  var divContainerButtonsEditTag = document.createElement('div');
+  divContainerButtonsEditTag.setAttribute('id','container-buttons-editTag');
+  divContainerButtonsEditTag.setAttribute('class','container-buttons-editTagCategory');
+  
+  
+  var buttonCancelEditTag = document.createElement('button');
+  buttonCancelEditTag.setAttribute('id','button-cancel-editTag');
+  buttonCancelEditTag.setAttribute('class','button-cancel-editTagCategory');
+  buttonCancelEditTag.setAttribute('title','Annuler la modification');
+  //buttonCancelEditTag.setAttribute('onclick','');
+
+  var buttonValidateEditTag = document.createElement('button');
+  buttonValidateEditTag.setAttribute('id','editTag-button-validate-'+idTag);
+  buttonValidateEditTag.setAttribute('class','button-validate-editTagCategory');
+  buttonValidateEditTag.setAttribute('title','Valider la modification');
+  //buttonValidateEditTag.setAttribute('onclick','');
+
+  var selectNewCategoryEditTag = document.createElement('select');
+  selectNewCategoryEditTag.setAttribute('id','popup-editTag-selectCategory');
+  selectNewCategoryEditTag.setAttribute('name','category');
+
+  var inputNewTagName = document.createElement('input');
+  inputNewTagName.setAttribute('id','popup-editTag-nameTag');
+  inputNewTagName.setAttribute('class','');
+  inputNewTagName.setAttribute('type','text');
+  inputNewTagName.setAttribute('name','tag');
+  inputNewTagName.setAttribute('placeholder','Nouveau nom');
+
+
+
+
+
+
+    /*<div id="popup-editTag">
+
+        <div class="header-popup-editTagCategory" id="header-popup-editTag">
+          <p>Modifer tag</p>
+        </div>
+
+        <div id="body-popup-editTag">
+
+          <select id="popup-editTag-selectCategory" name="category">
+            <?php echo($previewArrayCategory)?>
+          </select>
+          <input type="text" id="popup-editTag-nameTag" name="tag" placeholder="nouveau nom">
+          <div class = "container-buttons-editTagCategory" id="container-buttons-editTag">
+            <button class="button-validate-editTagCategory"  id="editTag-button-validate-idTag" onclick="editTag()">Valider</button>
+            <button class="button-cancel-editTagCategory"  id="editTag-button-cancel" onclick="">Annuler</button>
+          </div>
+        </div>
+
+      </div>*/
+
+
+
+}
+
+function openEditTag(idElement)
+{
+
+  idTag = idElement.replace(/edit-tagName-/gi,"");
+  idPopupEditTag = "popup-editTag-" + idTag;
+  document.getElementById(idPopupEditTag).style.visibility = "visible";
+
+}
+
+function openPopupEditCategory(idButton)
+{
+  
 }
 

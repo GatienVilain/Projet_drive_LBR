@@ -35,7 +35,7 @@
         <div id="body-popup-newCategory">
 
           <input type="text" id="popup-newCategory-nameCategory" name="category" placeholder="nom catégorie">
-          <button class="button-valider" id="popup-newCategory-button-valider">Valider</button>
+          <button class="button-valider" id="popup-newCategory-button-valider" onclick="addNewCategory()">Valider</button>
         
         </div>
 
@@ -54,7 +54,7 @@
             <?php echo($previewArrayCategory)?>
           </select>
           <input type="text" id="popup-newTag-nameTag" name="tag" placeholder="nom du tag">
-          <button class="button-valider"  id="popup-newTag-button-valider">Valider</button>
+          <button class="button-valider"  id="popup-newTag-button-valider" onclick="addNewTag()">Valider</button>
         </div>
 
       </div>
