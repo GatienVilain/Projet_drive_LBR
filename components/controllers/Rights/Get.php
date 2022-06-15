@@ -12,7 +12,7 @@ class GetRights
 
     public function __construct()
 	{
-		$this->email = str_replace('_','.',array_keys($_POST)[0]);;
+		$this->email = str_replace('_','.',array_keys($_POST)[0]);
 	}
 
     public function execute()
@@ -26,8 +26,9 @@ class GetRights
 
         $table = $this->getRights();
 
+        $email = $this->email;
+
         $error = "";
-        var_dump($table);
         require('public/view/rights.php');
     }
 
@@ -54,7 +55,6 @@ class GetRights
             {
                 $key = $connection->get_tag_category($value["id_tag"]);
                 $value["nom_tag"] = $connection->get_tag($value["id_tag"])["nom_tag"];
-				unset($value["id_tag"]);
 
                 $table[$key[0]["nom_categorie_tag"]][] = $value;
             }

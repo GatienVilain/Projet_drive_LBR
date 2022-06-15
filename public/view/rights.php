@@ -1,5 +1,5 @@
 <?php $title = "Drive LBR - profil"; ?>
-<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/profile.css\">" ?>
+<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/rights.css\">" ?>
 <?php $scripts = "" ?>
 
 <?php require('public/view/banner-menu.php'); ?>
@@ -29,33 +29,49 @@
         </form>
     </section>
 
-    <section id="change-password-section">
+    <section id="rights-section">
+        <form action = "index.php?action=deleteRights&for=<?= $email ?>" method= "post">
 
-    <?php
-        foreach ($table as $categorie)
-        {
-            echo array_keys($categorie);
-            foreach ($categorie as $tag)
-            {
-                if ($tag["ecriture"])
-                {
-                    echo $tag["nom_tag"];
-                }
-            }
-        }
-        foreach ($table as $categorie)
-        {
-            echo array_keys($categorie);
-            foreach ($categorie as $tag)
-            {
-                if ($tag["lecture"])
-                {
-                    echo $tag["nom_tag"];
-                }
-            }
-        }
-    ?>
+            <?php
+                $types = array("ecriture","lecture");
 
+                foreach ($types as $type)
+                {   ?>
+                    <div>
+                    <h3>Droits en <?= $type ?></h3>
+                    <?php
+                    foreach ($table as $key=>$categorie)
+                    {   ?>
+                        <div>
+                        <h4>- <?= $key ?> :</h4>
+                        <?php
+                        if (!empty($categorie))
+                        {
+                            foreach ($categorie as $tag)
+                            {
+                                if ($tag[$type])
+                                {   ?>
+                                    <span>
+                                        <input type="checkbox" name="<?= $type[0] . $tag["id_tag"] ?>">
+                                        <label><?= $tag["nom_tag"] ?></label>
+                                    </span>
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+                        <button>+ Ajouter</button>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    </div>
+                    <?php
+                }
+            ?>
+
+            <button type="submit">Supprimer</button>
+        </form>
     </section>
 
 </article>
