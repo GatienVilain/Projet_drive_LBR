@@ -55,8 +55,8 @@
 }
 
 #image-show-area img, #video-show-area video{
-	max-height: 90%;
-	max-width: 90%;
+	max-height: 90vh;
+	max-width: 90vw;
 	border: 5px solid white;
 }
 
