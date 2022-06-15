@@ -12,97 +12,133 @@
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script src="public/js/homepage.js"></script>
+
 
 <div class = toolbar>
 
-    <div class = groupe1>
+  <div class = groupe1>
 
-        <button class="buttonHomePage" title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
+    <button class="buttonHomePage" title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
 
-        <div id="buttonHomePage-filters">
+    <div id="buttonHomePage-filters">
 
-          <button class="buttonHomePage" title="Sélectionner des filtres" onclick = "openFilterMenu()">Filtres</button>
-          
-          <div id="popup-filter-menu">
+      <button class="buttonHomePage" title="Sélectionner des filtres" onclick = "toggleFilterMenu()">Filtres</button>
+            
+      <div id="popup-newCategory">
 
-            <div id="filter-menu-tags">
+        <div class="header-popup-newTagCategory" id="header-popup-newCategory">
+          <button id='close-button-newCategory' class='close-button-newTagCategory' title='Fermer' onclick ='closePopupNewCategory()'><strong>←</strong></button>
+          <p>Nouvelle catégorie</p>
+        </div>
 
-              <div class ="filter-menu-title" id="filter-menu-tags-title"> 
+        <div id="body-popup-newCategory">
+         
+        </div>
 
-                <p>Tags</p>
-                <div id="button-filter-menu-tags">
+      </div>
+
+      <div id="popup-newTag">
+
+        <div class="header-popup-newTagCategory" id="header-popup-newTag">
+          <button id='close-button-newTag' class='close-button-newTagCategory' title='Fermer' onclick ='closePopupNewTag()'><p>←</p></button>
+          <p>Nouveau tag</p>
+        </div>
+
+        <div id="body-popup-newTag">
+
+          <select name="Catégorie">
+            <option value="Autre" selected>Autre</option>
+            <option value="Camping">Camping</option>
+            <option value="2021">2021</option>
+          </select>
+        </div>
+
+      </div>
+
+
+
+      <div id="popup-filter-menu">
+
+        <div id="filter-menu-tags">
+
+          <div class ="filter-menu-title" id="filter-menu-tags-title"> 
                   
-                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-tag" title="Créer un tag">+tag</button>
-                  <button class="button-add-filter-menu-tags" id="button-filter-menu-add-category" title="Créer une catégorie">+catégorie</button>
-              
-                </div>
-
-              </div>
-
-              <div class ="filter-menu-body" id="filter-menu-tags-body">
-                
-                <?php echo($previewTags) ?>
-
-              </div>
+            <p>Tags</p>
+            <div id="button-filter-menu-tags">
+                    
+              <button class="button-add-filter-menu-tags" id="button-filter-menu-add-category" onclick="openPopupNewCategory()" title="Créer une catégorie"><span>+catégorie</span></button>             
+              <button class="button-add-filter-menu-tags" id="button-filter-menu-add-tag" onclick="openPopupNewTag()" title="Créer un tag"><span>+tag</span></button>
 
             </div>
-
-            <div id="filter-menu-extensions">
-
-              <div class ="filter-menu-title" id="filter-menu-extensions-title"> 
-
-                <p>Extensions</p>
-
-                <div class="filter-menu-title-separation">
-
-                </div>
-
-              </div>
-
-              <div class ="filter-menu-body" id="filter-menu-extensions-body"> 
-            
-                <?php echo($previewExtensions); ?>
-
-              </div>
-
-            </div>
-
-            <div id="filter-menu-author">
-
-              <div class ="filter-menu-title" id="filter-menu-author-title"> 
-
-                <p>Auteurs</p>
-                <div class="filter-menu-title-separation">
-                </div>
-
-              </div>
-
-              <div class ="filter-menu-body" id="filter-menu-author-body"> 
-
-                <?php echo($previewAuthors); ?>
-
-              </div>
-
-            </div>
-
-            <div id="filter-menu-sort">
-              <button id="button-filter-menu-sort" title="Lancer le tri">Trier</button>
-            </div>
-            
 
           </div>
-        
+
+          <div class ="filter-menu-body" id="filter-menu-tags-body">
+              
+            <?php echo($previewTags) ?>
+
+          </div>
+
         </div>
+
+        <div id="filter-menu-extensions">
+
+          <div class ="filter-menu-title" id="filter-menu-extensions-title"> 
+
+            <p>Extensions</p>
+
+            <div class="filter-menu-title-separation">
+
+            </div>
+
+          </div>
+
+          <div class ="filter-menu-body" id="filter-menu-extensions-body"> 
         
-        <input class="buttonHomePage" type="button" id="pickfiles" value="Importer" alt="Envoyer un fichier sur le serveur" onclick="openPopupUpload()";/>
-    
-    </div>
+            <?php echo($previewExtensions); ?>
 
-    <div class = groupe2>
+          </div>
 
-        <button class="buttonHomePage" title="Trier les fichiers par date de modification" onclick="">Date modification</button>
-    
+        </div>
+
+        <div id="filter-menu-author">
+
+          <div class ="filter-menu-title" id="filter-menu-author-title"> 
+
+            <p>Auteurs</p>
+            <div class="filter-menu-title-separation">
+            </div>
+
+          </div>
+
+          <div class ="filter-menu-body" id="filter-menu-author-body"> 
+
+            <?php echo($previewAuthors); ?>
+
+          </div>
+
+        </div>
+
+        <div id="filter-menu-sort">
+          <button id="button-filter-menu-sort" title="Lancer le tri">Trier</button>
+        </div>
+              
+
+      </div>
+          
     </div>
+          
+      <input class="buttonHomePage" type="button" id="pickfiles" value="Importer" alt="Envoyer un fichier sur le serveur" onclick="openPopupUpload()";/>
+      
+      
+  </div>
+
+  <div class = groupe2>
+
+    <button class="buttonHomePage" title="Trier les fichiers par date de modification" onclick="">Date modification</button>
+      
+  </div>
 
 </div>
 
@@ -144,131 +180,6 @@
 
 <?php require('layout.php') ?>
 
-    <script>
-      //document.oncontextmenu = function(){return false}
-    </script>
-
-<script>
-
-      function openFilterMenu(){
-        closeAllPopup();
-        document.getElementById("popup-filter-menu").style.visibility = "visible";
-        
-      }
-
-      function closeFilterMenu(){
-        document.getElementById("popup-filter-menu").style.display = "none";
-        
-      }
-
-      function openPopupUpload() {
-        document.getElementById("popup-upload").style.display = "block";
-
-      }
-
-      function closePopupUpload() {
-          document.getElementById("popup-upload").style.display = "none";
-      }
-
-      function closeAllPopup(){
-
-        let popups_options = document.getElementsByClassName('popup-options');
-        for(valeur of popups_options)
-          {
-            valeur.style.display = "none";
-          }
-
-
-        let popups_detail = document.getElementsByClassName('popup-detail');
-        for(valeur of popups_detail)
-          {
-            valeur.style.display = "none";
-          }
-      }
-
-      function buttonClosePopupUpload() {
-        document.getElementById("popup-upload").style.display = "none";
-		    window.location.reload(); 
-      }
-
-      function openPopup(event, idElement) {
-    
-        closeAllPopup();
-        if(event.button == 0) //clic gauche
-        {
-          
-
-          idElement = idElement + '-popup-detail';
-          if(document.getElementById(idElement).style.display != "block")
-          {
-            document.getElementById(idElement).style.display = "block";  
-
-          }
-
-        }
-
-        else if(event.button == 2) //clic droit
-        {
-
-          
-
-          idElement = idElement + '-popup-options';
-          if(document.getElementById(idElement).style.display != "block")
-          {
-            document.getElementById(idElement).style.display = "block";
-          }
-
-        }
-
-        
-        
-      }
-
-      function closePopupDetail(idElement) {
-        idElement = idElement + '-popup-detail';
-        document.getElementById(idElement).style.display = "none";
-      }
-
-      function closePopupOptions(idElement) {
-        idElement = idElement + '-popup-options';
-        document.getElementById(idElement).style.display = "none";
-      }
-
-      function AntiClickDroitImg()
-     {
-      var imgs = document.getElementsByTagName('img');
-      for(var i=0; i<imgs.length; i++)
-       imgs[i].oncontextmenu = NeRienFaire;
-     }
-
-    function deleteFile(idFichier)
-    {
-
-      //var file_path = "storage/pictures/58.png";
-      $.ajax({
-            url: 'index.php',
-            data: {'idFile' : idFichier,'action' : "deleteFile"},
-            dataType: 'json', 
-            success: function (response) {
-              if( response.status === true ) {
-                  alert('File Deleted!');
-                  window.location.reload();
-              }
-              else alert('Something Went Wrong!');
-            }
-          });
-      }
-
-      /* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function myFunction(idElement) {
-    idElement=idElement+'-content';
-    document.getElementById(idElement).classList.toggle("show");
-}
-
-
-
-</script>
 
 <script>
 // (C) INITIALIZE UPLOADER

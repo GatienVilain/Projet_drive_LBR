@@ -164,6 +164,11 @@ class Homepage
 			{
 				$result = $result."<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
 			}
+
+			else
+			{
+				$result = $result."<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete'>×</button>";
+			}
 					
 
 			$result = $result."</div><div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
@@ -175,11 +180,16 @@ class Homepage
 				$result=$result."
 					<div class='filter-menu-line-tag'>
 
-                      	<p><input type='checkbox' class ='tagName' id='".$tagId."-filterMenu-checkTag' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
+                      	<p><input type='checkbox' class ='tagName' id='filterMenu-checkTag".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
 
 				if(strtolower($tagName) != "sans tags")
 				{
-					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='".$tagId."-filterMenu-deleteTag' title='Supprimer tag'>×</button>";
+					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+				}
+
+				else
+				{	
+					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."'>×</button>";
 				}
                       	
 				$result = $result."</div>";

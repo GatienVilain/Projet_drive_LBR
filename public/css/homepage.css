@@ -307,8 +307,8 @@ border-bottom:1px solid black;
   visibility:hidden;
   position: absolute;
 
-  top: -5px;
-  left: 105%;
+  top: 2em;
+  left: 2em;
   margin-left: 2vw; /* Use half of the width (120/2 = 60), to center the tooltip */
   border-radius: 6px;
   width: 20vw;
@@ -349,7 +349,8 @@ border-bottom:1px solid black;
   display: inline-flex;
   width: 100%;
   margin-left: 0.5em;
-  margin-bottom: 0.3em;
+  margin-bottom: 0.6em;
+  padding-bottom: 0.1em;
   border-bottom: 1.5px solid var(--couleur-separation-filter-menu);
 }
 
@@ -383,13 +384,25 @@ border-bottom:1px solid black;
 
 #button-filter-menu-add-category{
   width: 50%;
-  text-align: right;
+  text-align: left;
+  position:relative;
+}
+
+#button-filter-menu-add-tag{
+  width: 50%;
+  text-align: left;
+  position:relative;
+}
+
+.button-add-filter-menu-tags > span:hover{
+  background-color:rgba(255, 255, 255, 0.200);
 }
 
 #button-filter-menu-add-tag{
   width: 50%;
   text-align: left;
 }
+
 
 /* Mobile gallery */
 
@@ -406,8 +419,8 @@ border-bottom:1px solid black;
 }
 
 /* Dropdown button on hover & focus */
-.categoryName-dropdown:hover {
-  background-color:rgba(255, 255, 255, 0.700);
+.categoryName-dropdown:hover, .delete-categoryName-filter-menu:hover, .delete-tagName-filter-menu:hover{
+  background-color:rgba(255, 255, 255, 0.200);
 }
 
 #filter-menu-extensions-body{
@@ -469,6 +482,13 @@ border-bottom:1px solid black;
   display: block;
 }
 
+#autres-dropdown-delete{
+  visibility: hidden;
+}
+
+#filterMenu-deleteTag-1{
+  visibility: hidden;
+}
 
 
 .delete-categoryName-filter-menu{
@@ -494,3 +514,60 @@ border-bottom:1px solid black;
   flex-wrap: nowrap;
   width:100%;
 }
+
+#buttonHomePage-filters #popup-newCategory{
+  visibility:hidden;
+  position: absolute;
+
+  bottom: 30%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  /*margin-left: 2vw; /* Use half of the width (120/2 = 60), to center the tooltip */
+  border-radius: 6px;
+  width: 10em;
+  height: 10em;
+  /*min-width: 14em;
+  max-width: 14em;
+  max-height: 20em;
+  overflow-y: scroll;*/
+  background-color: var(--couleur-police-filter-menu);
+  color : var(--couleur-police-filter-menu);
+  z-index: 5000;
+}
+
+#buttonHomePage-filters #popup-newTag{
+  visibility:hidden;
+  position: absolute;
+
+  top: -1em;
+  left: 15em;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  /*margin-left: 2vw; /* Use half of the width (120/2 = 60), to center the tooltip */
+  border-radius: 6px;
+  width: 10em;
+  height: 10em;
+  /*min-width: 14em;
+  max-width: 14em;
+  max-height: 20em;
+  overflow-y: scroll;*/
+  background-color: var(--couleur-filter-menu);
+  color : var(--couleur-police-filter-menu);
+  border: solid 1px white;
+  z-index: 5000;
+}
+
+.header-popup-newTagCategory{
+  display: inline-flex;
+  column-gap: 1em;
+  margin-left: 0.6em;
+}
+
+.header-popup-newTagCategory > p{
+  padding-top: 0.5em;
+}
+
+.close-button-newTagCategory >p{
+  color: var(--couleur-police-filter-menu);
+  font-size: 2em;
+}
+
