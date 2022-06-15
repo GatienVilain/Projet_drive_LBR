@@ -17,7 +17,7 @@
   right: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1024; /*  adobe all elements   */
+  z-index: 1024;
   display: none; 
   justify-content: center;
   align-items: center;
@@ -48,18 +48,15 @@
 	transform: rotate(-0.38turn) translate(0.01em,0.01em);
 }
 
-#image-show-area {
-	display: flex;
-	margin: 1%;
-	max-height: 90%;
-	width: auto;
-	
-}
-#image-show-area img {
-	border: 5px solid white;
+#image-show-area, #video-show-area {
+	display: none;
+	justify-content: inherit;
+    align-items: inherit;
 }
 
-#image-show-area img {
+#image-show-area img, #video-show-area video{
+	max-height: 90%;
+	max-width: 90%;
 	border: 5px solid white;
 }
 
@@ -75,7 +72,7 @@
   }
 
   /* (B) THUMBNAILS */
-  .gallery .image img, .gallery .image video{
+  .gallery .image img, .gallery .video video{
     width: auto;
     height: 150px;
     object-fit: cover;

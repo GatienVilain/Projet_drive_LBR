@@ -385,7 +385,7 @@ class Files
 		}
 		elseif ($fileType == "video") {
 			$video = sprintf("
-				<div oncontextmenu='return false;' class=image> 
+				<div oncontextmenu='return false;' class=video> 
 					<video class=popup id='%s'>
 						<source src=%s type='video/%s'>
 						Your browser does not support the video tag.

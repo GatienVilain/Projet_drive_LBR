@@ -146,7 +146,13 @@
 
   <div id="image-show-area">
   
-    <img src="storage\pictures\86.webp">
+    <img src="">
+	
+  </div>
+  
+  <div id="video-show-area">
+  
+    <video src="" controls>
 	
   </div>
   
@@ -163,14 +169,14 @@
     </script>
 
 <script>
-const images = document.querySelectorAll('.popup');
+const files = document.querySelectorAll('.popup');
 let timer;
-images.forEach(image => image.addEventListener('click', event => {
+files.forEach(file => file.addEventListener('click', event => {
   closeAllPopup();
   if(event.button == 0) {//clic gauche
 	  if (event.detail === 1) {//simple clic
 		timer = setTimeout(() => {
-		  idElement = image.id + '-popup-detail';
+		  idElement = file.id + '-popup-detail';
 		  if(document.getElementById(idElement).style.display != "block")
 		  {
 			document.getElementById(idElement).style.display = "block";  
@@ -180,16 +186,23 @@ images.forEach(image => image.addEventListener('click', event => {
 	}
 }));
 
-images.forEach(image => image.addEventListener('dblclick', event => {
+files.forEach(file => file.addEventListener('dblclick', event => {
   clearTimeout(timer);
 	  //double clic gauche
-	  openPopupModal();
+	  if(file.tagName == 'IMG'){
+		var newpath = file.getAttribute('src').substr(0,16) + file.getAttribute('src').substr(23);
+		console.log(newpath);
+	    openPopupModal(file.tagName,newpath);
+	  }
+	  else if(file.tagName == 'VIDEO'){
+		openPopupModal(file.tagName,file.children[0].getAttribute('src'));
+	  }
 }));
 
-images.forEach(image => image.addEventListener('contextmenu', event => {
+files.forEach(file => file.addEventListener('contextmenu', event => {
   //clic droit
   closeAllPopup();
-  idElement = image.id + '-popup-options';
+  idElement = file.id + '-popup-options';
   if(document.getElementById(idElement).style.display != "block")
   {
 	 document.getElementById(idElement).style.display = "block";
@@ -202,18 +215,34 @@ images.forEach(image => image.addEventListener('contextmenu', event => {
 <script>
 
 	//popup modal functions
-	  function openPopupModal(){
-		  var elt = document.getElementById("show_image_popup");
-		  if (elt.style.display = "none"){
-			elt.style.display = "flex";
+	  function openPopupModal(type,path){
+		  var popup = document.getElementById("show_image_popup");
+		  if (popup.style.display = "none"){
+			popup.style.display = "flex";
+		  }
+		  
+		  if(type == 'IMG'){
+			  var image = document.getElementById("image-show-area");
+			  image.children[0].src = path;
+			  if (image.style.display = "none"){
+				image.style.display = "flex";
+			  }
+		  }
+		  else if(type == 'VIDEO'){
+			  var video = document.getElementById("video-show-area");
+			  video.children[0].src = path;
+			  if (video.style.display = "none"){
+				video.style.display = "flex";
+			  }
 		  }
 	  }
 
 	  function hidePopupModal(){
-		  var elt = document.getElementById("show_image_popup");
-		  if (elt.style.display = "flex"){
-			elt.style.display = "none";
-		  }
+		  document.getElementById("show_image_popup").style.display = "none";
+		  document.getElementById("image-show-area").style.display = "none";
+		  document.getElementById("image-show-area").children[0].src = "";
+		  document.getElementById("video-show-area").style.display = "none";
+		  document.getElementById("video-show-area").children[0].src = "";
 	  }
 
 
