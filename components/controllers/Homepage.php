@@ -25,6 +25,7 @@ class Homepage
 		$authorsFiles = $this->getArrayAuthorsFilesInstantiate($files);
 		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
 
+		$previewArrayCategory = $this->previewArrayCategory();
 
 		$error = "";
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
@@ -208,7 +209,7 @@ class Homepage
 		$arrayExtensionsFilesInstantiate = array();
 		foreach($filesInstantiate as $file)
 		{
-			$fileExtension = $file->getFileExtension();
+			$fileExtension = strtolower($file->getFileExtension());
 			//var_dump($file->getFileExtension());
 			if(!in_array($fileExtension,$arrayExtensionsFilesInstantiate))
 			{
@@ -275,6 +276,31 @@ class Homepage
                 	<p><input type='checkbox' class ='extentionName' id='".$authorId."-filterMenu-checkAuthor' title='Sélectionner une extension'>&emsp;".$author."</p>
                 
                 </div>";
+		}
+
+		return $result;
+	}
+
+	private function previewArrayCategory()
+	{
+		$connection = new DatabaseConnection();
+		$allCategory = $connection->get_tag_category();
+		//var_dump($allCategory);
+		$result = "";
+		foreach($allCategory as $key => $arrayCategoryName)
+		{
+			//var_dump($categoryName['nom_categorie_tag']);
+			$categoryName = $arrayCategoryName['nom_categorie_tag'];
+			if($categoryName == "autres")
+			{
+				$result=$result."<option value='".$categoryName."' selected>".$categoryName."</option>";
+			}
+			
+			else
+			{
+				$result=$result."<option value='".$categoryName."'>".$categoryName."</option>";
+			}
+			
 		}
 
 		return $result;

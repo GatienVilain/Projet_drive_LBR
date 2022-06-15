@@ -519,19 +519,20 @@ border-bottom:1px solid black;
   visibility:hidden;
   position: absolute;
 
-  bottom: 30%;
-  left: 50%;
+  top: 6em;
+  left: 5em;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
   /*margin-left: 2vw; /* Use half of the width (120/2 = 60), to center the tooltip */
   border-radius: 6px;
-  width: 10em;
-  height: 10em;
+  width: 12.6em;
+  height: 6.2em;
   /*min-width: 14em;
   max-width: 14em;
   max-height: 20em;
   overflow-y: scroll;*/
-  background-color: var(--couleur-police-filter-menu);
+  background-color: var(--couleur-filter-menu);
   color : var(--couleur-police-filter-menu);
+  border: solid 1px white;
   z-index: 5000;
 }
 
@@ -539,13 +540,13 @@ border-bottom:1px solid black;
   visibility:hidden;
   position: absolute;
 
-  top: -1em;
-  left: 15em;
+  top: 6em;
+  left: 12em;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
   /*margin-left: 2vw; /* Use half of the width (120/2 = 60), to center the tooltip */
   border-radius: 6px;
   width: 10em;
-  height: 10em;
+  height: 8em;
   /*min-width: 14em;
   max-width: 14em;
   max-height: 20em;
@@ -571,3 +572,35 @@ border-bottom:1px solid black;
   font-size: 2em;
 }
 
+#popup-newTag-selectCategory, #popup-newTag-nameTag{
+  width: 84%;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+#body-popup-newTag, #body-popup-newCategory{
+  display: inline-flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
+.button-valider{
+  background-color: white;
+  width: 5em;
+  border-radius: 2px;
+  height: 1.5em;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;;
+  margin-left: 3.5em;
+  
+}
+
+#popup-newCategory-nameCategory{
+  width: 100%;
+  height: 1.5em;
+  margin-left: 1.1em;
+}
+
+#popup-newCategory-button-valider{
+  margin-left: 5em;
+
+}

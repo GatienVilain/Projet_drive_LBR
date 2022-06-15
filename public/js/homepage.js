@@ -41,6 +41,16 @@ function closeFilterMenu()
 
 }
 
+function closePopupNewTag()
+{
+  document.getElementById("popup-newTag").style.visibility = "hidden";
+}
+
+function closePopupNewCategory()
+{
+  document.getElementById("popup-newCategory").style.visibility = "hidden";
+}
+
 function openPopupUpload() 
 {
 
@@ -139,6 +149,53 @@ function closePopupOptions(idElement)
 function deleteFile(idFichier)
 {
 
+  //var file_path = "storage/pictures/58.png";
+  $.ajax({
+    url: 'index.php',
+    data: {'idFile' : idFichier,'action' : "deleteFile"},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        alert('File Deleted!');
+        window.location.reload();
+      }
+
+      else alert('Something Went Wrong!');
+    }
+
+  });
+}
+
+function addNewTag()
+{
+
+  var selectedCategory=;
+  //var file_path = "storage/pictures/58.png";
+  $.ajax({
+    url: 'index.php',
+    data: {'idFile' : idFichier,'action' : "deleteFile"},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        alert('File Deleted!');
+        window.location.reload();
+      }
+
+      else alert('Something Went Wrong!');
+    }
+
+  });
+}
+
+function addNewCategory()
+{
+  
   //var file_path = "storage/pictures/58.png";
   $.ajax({
     url: 'index.php',

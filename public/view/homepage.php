@@ -28,12 +28,15 @@
       <div id="popup-newCategory">
 
         <div class="header-popup-newTagCategory" id="header-popup-newCategory">
-          <button id='close-button-newCategory' class='close-button-newTagCategory' title='Fermer' onclick ='closePopupNewCategory()'><strong>←</strong></button>
+          <button id='close-button-newCategory' class='close-button-newTagCategory' title='Fermer' onclick ='closePopupNewCategory()'><p>←</p></button>
           <p>Nouvelle catégorie</p>
         </div>
 
         <div id="body-popup-newCategory">
-         
+
+          <input type="text" id="popup-newCategory-nameCategory" name="category" placeholder="nom catégorie">
+          <button class="button-valider" id="popup-newCategory-button-valider">Valider</button>
+        
         </div>
 
       </div>
@@ -47,11 +50,11 @@
 
         <div id="body-popup-newTag">
 
-          <select name="Catégorie">
-            <option value="Autre" selected>Autre</option>
-            <option value="Camping">Camping</option>
-            <option value="2021">2021</option>
+          <select id="popup-newTag-selectCategory" name="Category">
+            <?php echo($previewArrayCategory)?>
           </select>
+          <input type="text" id="popup-newTag-nameTag" name="tag" placeholder="nom du tag">
+          <button class="button-valider"  id="popup-newTag-button-valider">Valider</button>
         </div>
 
       </div>
