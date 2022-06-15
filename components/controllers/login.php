@@ -3,9 +3,11 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
-require_once("components/Model/Log.php");
+
 
 use Application\Tools\Database\DatabaseConnection;
+
+require_once("components/Model/Log.php");
 use Application\Model\Log;
 
 class Login
