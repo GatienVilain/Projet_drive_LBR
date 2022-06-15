@@ -19,20 +19,22 @@
   height: 100vh;
   z-index: 1024; /*  adobe all elements   */
   display: none; 
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0, 0, 0, .5);
 }
 
 #close-btn {
-	position: relative;
-	top: -43%;
-	left: -3%; 
+	position: absolute;
+	top: 5%;
+	right: 2%; 
 	background-color: rgba(0, 0, 0, 0);
 }
 
 #close-btn::before {
 	display: block;
 	height: 0.1em;
-	width: 2em;
+	width: 3em;
 	background-color: white;
 	content: "";
 	transform: rotate(0.38turn);
@@ -40,22 +42,25 @@
 #close-btn::after {
 	display: block;
 	height: 0.1em;
-	width: 2em;
+	width: 3em;
 	background-color: white;
 	content: "";
-	transform: rotate(-0.38turn) translate(0.1em,0.1em);
+	transform: rotate(-0.38turn) translate(0.01em,0.01em);
 }
 
 #image-show-area {
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	border: 5px solid white;
+	margin: 1%;
+	max-height: 90%;
+	width: auto;
+	
 }
 #image-show-area img {
-	height: 100%;
-	width: auto;
-	/*object-fit: fill;*/
+	border: 5px solid white;
+}
+
+#image-show-area img {
+	border: 5px solid white;
 }
 
 /* Desktop gallery */

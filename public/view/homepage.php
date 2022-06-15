@@ -142,12 +142,13 @@
 
 <div id="show_image_popup">
 
+  <button id="close-btn" onclick="hidePopupModal()"> </button>
+
   <div id="image-show-area">
   
-    <img id="large-image" src="storage\pictures\84.jpg" >
+    <img src="storage\pictures\86.webp">
 	
   </div>
-  <button id="close-btn" onclick="hidePopupModal()"> </button>
   
 </div>
 
@@ -210,7 +211,7 @@ images.forEach(image => image.addEventListener('contextmenu', event => {
 
 	  function hidePopupModal(){
 		  var elt = document.getElementById("show_image_popup");
-		  if (elt.style.display = "block"){
+		  if (elt.style.display = "flex"){
 			elt.style.display = "none";
 		  }
 	  }
