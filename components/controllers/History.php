@@ -1,7 +1,8 @@
 <?php
 
 namespace Application\Controllers;
-
+require_once("components/Model/Log.php");
+use Application\Model\Log;
 class History
 {
     function execute()
@@ -9,10 +10,12 @@ class History
         $content = $this->tableaux();
         $error = "";
 		require('public/view/history.php');
+
     }
 
     function tableaux()
     {
+
         $html='<article>';
         if($dossier=opendir('log')){
             $liste=array();
@@ -78,6 +81,7 @@ class History
             }
         }
         $html.='</article>';
+        ( new Log() )->ecrire_log($_SESSION['email'],'à consulté les logs');
         return $html;
     }
 }
