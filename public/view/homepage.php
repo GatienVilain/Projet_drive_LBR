@@ -138,6 +138,19 @@
 
 </div>
 
+
+
+<div id="show_image_popup">
+
+  <div id="image-show-area">
+  
+    <img id="large-image" src="storage\pictures\84.jpg" >
+	
+  </div>
+  <button id="close-btn" onclick="hidePopupModal()"> </button>
+  
+</div>
+
 <?php require('public/view/banner-storage.php'); ?>
 
 <?php $content = ob_get_clean(); ?>
@@ -149,6 +162,58 @@
     </script>
 
 <script>
+const images = document.querySelectorAll('.popup');
+let timer;
+images.forEach(image => image.addEventListener('click', event => {
+  closeAllPopup();
+  if(event.button == 0) {//clic gauche
+	  if (event.detail === 1) {//simple clic
+		timer = setTimeout(() => {
+		  idElement = image.id + '-popup-detail';
+		  if(document.getElementById(idElement).style.display != "block")
+		  {
+			document.getElementById(idElement).style.display = "block";  
+		  }
+		}, 200);
+	  }
+	}
+}));
+
+images.forEach(image => image.addEventListener('dblclick', event => {
+  clearTimeout(timer);
+	  //double clic gauche
+	  openPopupModal();
+}));
+
+images.forEach(image => image.addEventListener('contextmenu', event => {
+  //clic droit
+  idElement = image.id + '-popup-options';
+  if(document.getElementById(idElement).style.display != "block")
+  {
+	 document.getElementById(idElement).style.display = "block";
+  }
+}));
+
+</script>
+
+
+<script>
+
+	//popup modal functions
+	  function openPopupModal(){
+		  var elt = document.getElementById("show_image_popup");
+		  if (elt.style.display = "none"){
+			elt.style.display = "flex";
+		  }
+	  }
+
+	  function hidePopupModal(){
+		  var elt = document.getElementById("show_image_popup");
+		  if (elt.style.display = "block"){
+			elt.style.display = "none";
+		  }
+	  }
+
 
       function openFilterMenu(){
         closeAllPopup();
@@ -189,48 +254,6 @@
       function buttonClosePopupUpload() {
         document.getElementById("popup-upload").style.display = "none";
 		    window.location.reload(); 
-      }
-
-      function openPopup(event, idElement) {
-    
-        closeAllPopup();
-        if(event.button == 0) //clic gauche
-        {
-		  if (event.detail === 2) 
-		  {
-				idElement = idElement + '-popup-options';
-				if(document.getElementById(idElement).style.display != "block")
-				{
-					document.getElementById(idElement).style.display = "block";
-				}
-		  }
-		  else if (event.detail === 1) 
-		  {
-			// it was a single click
-			idElement = idElement + '-popup-detail';
-			if(document.getElementById(idElement).style.display != "block")
-			{
-				document.getElementById(idElement).style.display = "block";  
-			}
-		  
-		  }
-        }
-
-        else if(event.button == 2) //clic droit
-        {
-
-          
-
-          idElement = idElement + '-popup-options';
-          if(document.getElementById(idElement).style.display != "block")
-          {
-            document.getElementById(idElement).style.display = "block";
-          }
-
-        }
-
-        
-        
       }
 
       function closePopupDetail(idElement) {

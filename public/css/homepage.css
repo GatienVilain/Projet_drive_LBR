@@ -10,6 +10,54 @@
 
 }
 
+/* Large image*/
+#show_image_popup{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1024; /*  adobe all elements   */
+  display: none; 
+  background-color: rgba(0, 0, 0, .5);
+}
+
+#close-btn {
+	position: relative;
+	top: -43%;
+	left: -3%; 
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#close-btn::before {
+	display: block;
+	height: 0.1em;
+	width: 2em;
+	background-color: white;
+	content: "";
+	transform: rotate(0.38turn);
+}
+#close-btn::after {
+	display: block;
+	height: 0.1em;
+	width: 2em;
+	background-color: white;
+	content: "";
+	transform: rotate(-0.38turn) translate(0.1em,0.1em);
+}
+
+#image-show-area {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 8px solid white;
+}
+#image-show-area img {
+	height: 100%;
+	width: auto;
+	object-fit: cover;
+}
+
 /* Desktop gallery */
 
 
@@ -25,7 +73,6 @@
   .gallery .image img, .gallery .image video{
     width: auto;
     height: 150px;
-    /* FILL, CONTAIN, COVER, SCALE-DOWN : USE WHICHEVER YOU LIKE */
     object-fit: cover;
     border: solid 1px black;
     

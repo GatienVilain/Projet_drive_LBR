@@ -55,6 +55,10 @@ trait TagEdit
 	//supprime un tag
 	function delete_tag(int $id_tag)
 	{
+		if ($id_tag == 1) {
+			return $this->console_log("Le tag 'sans tags' ne peut pas être supprimé.");
+		}
+		
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {

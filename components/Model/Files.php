@@ -372,8 +372,9 @@ class Files
 			</div>" ,$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier);
 		
 		if ($fileType == "image") {
-			$image = sprintf("<div class=image> 
-					<img class='image' id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
+			$image = sprintf("
+				<div oncontextmenu='return false;' class=image> 
+					<img class=popup id='%s' src=%s></a>
 				</div> 
 				
 				<div class = titre> 
@@ -384,8 +385,8 @@ class Files
 		}
 		elseif ($fileType == "video") {
 			$video = sprintf("
-				<div class=image> 
-					<video class='image' id='%s' onMouseDown='[openPopup(event, this.id)]'>
+				<div oncontextmenu='return false;' class=image> 
+					<video class=popup id='%s'>
 						<source src=%s type='video/%s'>
 						Your browser does not support the video tag.
 					</video>
