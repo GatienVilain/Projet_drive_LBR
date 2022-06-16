@@ -42,7 +42,7 @@ class DatabaseConnection
 		}
 
 		//décommenter la ligne ci-dessous pour aider à débugger
-		//echo $js_code;
+		echo $js_code;
 		return -1;
 	}
 

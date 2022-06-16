@@ -103,12 +103,12 @@ class Homepage
 		return $data;
 	}
 
-	private function getArrayTagsFilesInstantiate($filesInstantiate)
+	private function getArrayTags()
 	{
 		$connection = new DatabaseConnection();
 
-		$arrayTagsFilesInstantiate = array();
-		$arrayCategoryTagsFilesInstantiate = array();
+		$arrayTagsWithRights = array();
+		$arrayCategoryTagsWithRights = array();
 		$arrayTags = array();
 		foreach($filesInstantiate as $file)
 		{
@@ -151,8 +151,53 @@ class Homepage
 
 	}
 
-	private function previewTagsFilesInstantiate($tagsFiles, $previewArrayCategory)
+	private function getArrayTagsWithRights($arrayTagsWithRights)
 	{
+		$connection = new DatabaseConnection();
+
+		$arrayCategoryTagsWithRights = array();
+		$arrayTags = array();
+		foreach($arrayTagsWithRights as $tagWithRights)
+		{
+			var_dump($tagWithRightsTags);
+			if(!in_array($idTag,$arrayTagsFilesInstantiate))
+			{
+				array_push($arrayTagsFilesInstantiate,$idTag);
+			}
+			
+		}
+	
+		foreach($arrayTagsFilesInstantiate as $idTag)
+		{	
+			$categoryName = $connection->get_tag_category($idTag)[0]['nom_categorie_tag'];
+			
+			if(array_key_exists($categoryName,$arrayCategoryTagsFilesInstantiate))
+			{
+				
+				array_push($arrayCategoryTagsFilesInstantiate[$categoryName], array($connection->get_tag($idTag)['nom_tag'],$idTag));
+				
+			}
+
+			else
+			{
+
+				$arrayCategoryTagsFilesInstantiate[$categoryName]=array(array($connection->get_tag($idTag)['nom_tag'],$idTag));
+				
+			}
+			
+			
+		}
+
+			
+		//var_dump($arrayCategoryTagsFilesInstantiate);
+		return $arrayCategoryTagsFilesInstantiate;
+
+	}
+
+	private function previewTagsWithRights($tagsFiles, $previewArrayCategory)
+	{
+		$connection = new DatabaseConnection();
+		$user = $_SESSION["email"];
 		$result="";
 		foreach($tagsFiles as $categoryName => $arrayTags){
 			//var_dump($arrayTags);
@@ -189,10 +234,35 @@ class Homepage
                       	<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
 
 				if(strtolower($tagName) != "sans tags")
-				{
-					$result = $result."
-					<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
-					<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+				{	
+					//var_dump($user);
+					//var_dump($tagId);
+					//var_dump($connection->get_rights($user, $tagId));
+					
+
+					if($connection->get_user($user)["role"] == "invite")
+					{
+						//var_dump($tagId);
+						//var_dump($connection->get_rights($user, $tagId)['lecture']);
+						if($connection->get_rights($user, $tagId) !=-1 && $connection->get_rights($user, $tagId)["ecriture"] == 1)
+						{
+						
+							$result = $result."
+							<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
+							<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+
+						}
+					}
+
+					else
+					{
+						$result = $result."
+						<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
+						<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+					}
+					
+					
+
 				}
 
 				else
@@ -204,7 +274,7 @@ class Homepage
 					<div class='popup-editTag' id='popup-editTag-".$tagId."'>
 
         				<div class='header-popup-editTagCategory' id='header-popup-editTag'>
-							<button id='close-button-editTag' class='close-button-editTagCategory' title='Fermer' onclick ='closePopupEditTag()'><p>←</p></button>
+							<button id='close-button-editTag-".$tagId."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditTag(this.id)'><p>←</p></button>
           					<p>Modifer tag</p>
         				</div>
 
