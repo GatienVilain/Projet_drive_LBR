@@ -1,6 +1,8 @@
 //document.oncontextmenu = function(){return false}
 
 
+
+
 function toggleFilterMenu(){
 
   buttonFilter = document.getElementById("popup-filter-menu");
@@ -17,8 +19,10 @@ function toggleFilterMenu(){
   }
 
 
-
 }
+
+
+
 
 function openPopupNewCategory() 
 {
@@ -45,6 +49,7 @@ function closePopupNewTag()
 {
   document.getElementById("popup-newTag").style.visibility = "hidden";
 }
+
 
 function closePopupNewCategory()
 {
@@ -231,6 +236,7 @@ function myFunction(idElement)
 
 }
 
+
 function openPopupEditTag(idButton)
 {
 
@@ -276,32 +282,13 @@ function openPopupEditTag(idButton)
   inputNewTagName.setAttribute('name','tag');
   inputNewTagName.setAttribute('placeholder','Nouveau nom');
 
+}
 
-
-
-
-
-    /*<div id="popup-editTag">
-
-        <div class="header-popup-editTagCategory" id="header-popup-editTag">
-          <p>Modifer tag</p>
-        </div>
-
-        <div id="body-popup-editTag">
-
-          <select id="popup-editTag-selectCategory" name="category">
-            <?php echo($previewArrayCategory)?>
-          </select>
-          <input type="text" id="popup-editTag-nameTag" name="tag" placeholder="nouveau nom">
-          <div class = "container-buttons-editTagCategory" id="container-buttons-editTag">
-            <button class="button-validate-editTagCategory"  id="editTag-button-validate-idTag" onclick="editTag()">Valider</button>
-            <button class="button-cancel-editTagCategory"  id="editTag-button-cancel" onclick="">Annuler</button>
-          </div>
-        </div>
-
-      </div>*/
-
-
+function closeEditTag(idElement)
+{
+  idTag = idElement.replace(/close-button-editTag-/gi,"");
+  idPopupEditTag = "popup-editTag-" + idTag;
+  document.getElementById(idPopupEditTag).style.visibility ="hidden";
 
 }
 
