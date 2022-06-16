@@ -25,7 +25,7 @@ class DeleteRights
             {   // Droit en lecture modifié
 
                 $id_tag = substr($name, 1); // Récupère l’id du tag
-                ( new DatabaseConnection() )->modify_rights($email, $id_tag, 0, 0);
+                ( new DatabaseConnection() )->delete_rights($email, $id_tag);
 
             }
         }
