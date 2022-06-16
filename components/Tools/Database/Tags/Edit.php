@@ -125,6 +125,33 @@ trait TagEdit
 		}
 	}
 
+	    //renvoie tous les id_tag à partir du nom de leur catégorie
+		function get_tag_by_category(string $nom_categorie_tag) {
+
+			//point de connexion à la base de donnée
+			$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+			if (!$conn) {
+				return $this->console_log("Echec de connexion à la base de donnée.");
+			}
+
+			if ($this->check_tag_category($nom_categorie_tag)){
+				$query = $conn->prepare("SELECT id_tag FROM caracteriser WHERE nom_categorie_tag = ?");
+				$query->bind_param("s", $nom_categorie_tag);
+				$query->execute();
+				$result = $query->get_result()->fetch_assoc();
+				$conn->close();
+				if ($result != NULL) {
+					return $result;
+				}
+				else {
+					return $this->console_log("Echec de récupération des id tags.");
+				}
+			}
+			else {
+				return $this->console_log("La catégorie de tag n'existe pas.");
+			}
+		}
+
 	//ajoute une catégorie de tag à la table categorie_tag de la base de donnée
 	function add_tag_category(string $nom_categorie_tag)
 	{
