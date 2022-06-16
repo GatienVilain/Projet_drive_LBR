@@ -20,9 +20,8 @@ class Basket
 	private function instantiate()
 	{
 		$connection = new DatabaseConnection();
-		//liste de tous les objets fichiers non supprimés auxquelles l'utilisateur peut intéragir avec
+		//liste de tous les objets fichiers supprimés auxquelles l'utilisateur peut intéragir avec
 		$data = array();
-
 
         if ($connection->get_user($_SESSION["email"])["role"] == 'admin')
 		{
