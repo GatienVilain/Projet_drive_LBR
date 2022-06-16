@@ -140,7 +140,7 @@ trait TagEdit
 				$query = $conn->prepare("SELECT id_tag FROM caracteriser WHERE nom_categorie_tag = ?");
 				$query->bind_param("s", $nom_categorie_tag);
 				$query->execute();
-				$result = $query->get_result()->fetch_assoc();
+				$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 				$conn->close();
 				if ($result != NULL) {
 					return $result;

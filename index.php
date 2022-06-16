@@ -17,6 +17,7 @@ require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
 require_once("components/Controllers/Rights/Get.php");
+require_once("components/Controllers/Rights/Add.php");
 require_once("components/Controllers/Rights/Delete.php");
 
 require_once("components/Model/User.php");
@@ -39,6 +40,7 @@ use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
 use Application\Controllers\Rights\GetRights;
+use Application\Controllers\Rights\AddRight;
 use Application\Controllers\Rights\DeleteRights;
 
 use Application\Model\User;
@@ -112,6 +114,11 @@ try
             elseif ($_GET['action'] === 'changeDescription')
             {
                 (new ChangeDescription())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'addRight')
+            {
+                (new AddRight())->execute();
                 $action_found = True;
             }
             elseif ($_GET['action'] === 'deleteRights')

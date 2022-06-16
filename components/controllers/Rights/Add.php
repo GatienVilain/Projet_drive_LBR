@@ -5,32 +5,33 @@ namespace Application\Controllers\Rights;
 require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Exception;
 
-class DeleteRights
+class AddRight
 {
     public function execute()
     {
         $email = $_GET['for'];
 
-        if ( isset($_POST) && $_POST !== '')
-        {
-            foreach ($_POST as $name=>$value)
+        try {
+            if ( $_POST['tag'] != "" )
             {
-                if ($name[0] == "e")
+                if ($_POST['type'] == "ecriture")
                 {   // Droit en écriture modifié
 
-                    $id_tag = substr($name, 1); // Récupère l’id du tag
-                    ( new DatabaseConnection() )->modify_rights($email, $id_tag, 0, 1);
-
+                    ( new DatabaseConnection() )->add_writing_right($email, $_POST['tag']);
                 }
-                elseif ($name[0] == "l")
+                elseif ($_POST['type'] == "lecture")
                 {   // Droit en lecture modifié
-
-                    $id_tag = substr($name, 1); // Récupère l’id du tag
-                    ( new DatabaseConnection() )->modify_rights($email, $id_tag, 0, 0);
-
+                    // echo 'lecture';
+                    ( new DatabaseConnection() )->add_reading_right($email, $_POST['tag']);
                 }
             }
+            else {
+                throw new Exception("Pas de tag selectionné");
+            }
+        }
+        catch (Exception $e){
         }
 
         header('Location: index.php?action=usersmoderation');

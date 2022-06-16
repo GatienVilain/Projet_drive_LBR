@@ -17,14 +17,17 @@ class GetRights
 
     public function execute()
     {
-        $informations = (new DatabaseConnection)->get_user($this->email);
+        $connection = new DatabaseConnection();
+
+        $informations = $connection->get_user($this->email);
 
         $name = $informations['prenom'] . " " . $informations['nom'];
         $role = $informations['role'];
         $description = $informations['descriptif'];
         $registration_date = $informations['date_inscription'];
 
-        $table = $this->getRights();
+        $preview_array_category = $connection->get_tag_category();
+        $table = $this->getRights($connection, $preview_array_category);
 
         $email = $this->email;
 
@@ -32,12 +35,8 @@ class GetRights
         require('public/view/rights.php');
     }
 
-    private function getRights()
+    private function getRights(DatabaseConnection $connection, array $categories)
     {
-        $connection = new DatabaseConnection();
-
-        $categories = $connection->get_tag_category();
-
         $table = array();
         foreach ($categories as $value)
         {
@@ -61,6 +60,23 @@ class GetRights
         }
 
         return $table;
+    }
+
+    private function prepareListTags(array $table)
+    {
+        $list_tags = array();
+        foreach ($table as $categorie)
+        {
+            if (!empty($categorie))
+            {
+                foreach ($categorie as $tag)
+                {
+                    $list_tags[] = $tag;
+                }
+            }
+        }
+
+        return $list_tags;
     }
 
 

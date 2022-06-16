@@ -30,9 +30,21 @@
     resize: none;
 }
 
+#profile-information button,
+#rights-view button,
+#popup-addright form button {
+    margin: 0.1em;
+    height: 3em;
+    width: 8em;
+    color: var(--couleur-police-fond-fonce);
+    background-color: var(--couleur-button);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
 /* Section changer les droits */
 
-#rights-section h3::after {
+#rights-view h3::after {
     display: block;
     height: 0.05em;
     width: 100%;
@@ -41,14 +53,14 @@
     transform: translateY(0.4em);
 }
 
-#rights-section div div {
+#rights-view div div {
     margin-left: 5%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-#rights-section h4 {
+#rights-view h4 {
     width: 100%;
 }
 /* #rights-section h4::after {
@@ -60,8 +72,8 @@
     content: '';
 } */
 
-#rights-section div div span,
-#rights-section div button {
+#rights-view div div span,
+#rights-view div button {
     margin: 0.5em;
     padding-right: 1em;
     height: 2em;
@@ -74,20 +86,62 @@
     font-size: 0.8em;
 }
 
-#rights-section span input{
+#rights-view span input{
     margin: 1em;
 }
 
-#profile-information button,
-#rights-section button {
-    margin: 0.1em;
-    height: 3em;
-    width: 8em;
+/* Popup d’ajout de droits */
+
+#popup-addright {
+    width: 20em;
+    position:absolute;
+    bottom: 15vh;
+    border-radius: 10px;
     color: var(--couleur-police-fond-fonce);
-    background-color: var(--couleur-button);
-    border-radius: 4px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: var(--raisin-black);
+    border: solid 1px white;
+    z-index: 1025;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 2em;
 }
+
+#popup-addright .close-button {
+    font-size: 2em;
+    color: var(--couleur-police-fond-fonce);
+}
+
+#popup-addright > div {
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 1em;
+    margin: 0.2em;
+}
+
+#popup-addright form {
+    width: 100%;
+    margin: 0.3em 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#popup-addright form select {
+    width: 100%;
+    margin: 1em 0;
+    padding: 0.5em;
+    font-weight: 700;
+}
+
+#popup-addright .tag-option {
+    display: none;
+}
+
 
 
 @media only screen and ( max-width: 992px) {
@@ -124,7 +178,7 @@
 
     /* Section changer les droits */
 
-    #rights-section form {
+    #rights-view {
         margin: 2vh;
         padding: 2vh;
         width: 80vw;
@@ -137,7 +191,7 @@
         border-radius: 10px;
     }
 
-    #rights-section div {
+    #rights-view  div {
         width: 90%;
         margin: 0.5em 0;
         display: flex;
@@ -186,7 +240,7 @@
 
     /* Section changer les droits */
 
-    #rights-section form {
+    #rights-view {
         width: 30vw;
         padding: 0.5em 2vh;
         display: flex;
@@ -198,7 +252,7 @@
         border-radius: 10px;
     }
 
-    #rights-section div {
+    #rights-view div {
         width: 100%;
         margin: 2vh 0 ;
         display: flex;

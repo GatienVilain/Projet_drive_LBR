@@ -1,8 +1,9 @@
 <?php $title = "Drive LBR - profil"; ?>
 <?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/rights.css\">" ?>
-<?php $scripts = "" ?>
+<?php $scripts = '<script type="text/javascript" src="public/js/add_rights_menu.js"></script>' ?>
 
 <?php require('public/view/banner-menu.php'); ?>
+<?php require('public/view/add_rights_menu.php'); ?>
 
 <?php ob_start(); ?>
 
@@ -30,7 +31,7 @@
     </section>
 
     <section id="rights-section">
-        <form action = "index.php?action=deleteRights&for=<?= $email ?>" method= "post">
+        <form action = "index.php?action=deleteRights&for=<?= $email ?>" id="rights-view" method= "post">
 
             <?php
                 $types = array("ecriture","lecture");
@@ -60,7 +61,6 @@
                             }
                         }
                         ?>
-                        <button>+ Ajouter</button>
                         </div>
                         <?php
                     }
@@ -69,9 +69,58 @@
                     <?php
                 }
             ?>
-
-            <button type="submit">Supprimer</button>
+            <span>
+                <button type="button" onclick="openPopup()" title="Ajouter un droit">+ Ajouter</button>
+                <button type="submit">Supprimer</button>
+            </span>
         </form>
+
+        <!-- Popup pour ajouter un droit -->
+        <div id="popup-addright">
+            <div>
+                <button class='close-button' title='Fermer' onclick ='closePopup()'>←</button>
+                <p>Ajouter un droit</p>
+            </div>
+
+            <form action = "index.php?action=addRight&for=<?= $email ?>" method= "post">
+                <select id="category-selector" name="category" onchange="showTagOptions()" require>
+                    <?php
+                    foreach ($preview_array_category as $categorie)
+                    {
+                        ?>
+                        <option value=<?= $categorie["nom_categorie_tag"] ?>> <?= $categorie["nom_categorie_tag"] ?> </option>
+                        <?php
+                    }
+                    ?>
+                </select>
+
+                <select name="tag" require>
+                    <option value=""> Choisir un tag :</option>
+                    <?php
+                    foreach ($table as $key=>$categorie)
+                    {
+                        if (!empty($categorie))
+                        {
+                            foreach ($categorie as $tag)
+                            {
+                                ?>
+                                <option value=<?= $tag["id_tag"] ?> class="tag-option <?= $key ?>"> <?= $tag["nom_tag"] ?> </option>
+                                <?php
+                            }
+                        }
+                    }
+                    ?>
+                </select>
+
+                <select name="type">
+                    <option value="ecriture">Écriture</option>
+                    <option value="lecture">lecture</option>
+                </select>
+
+                <button type="submit">Valider</button>
+            </form>
+        </div>
+
     </section>
 
 </article>
