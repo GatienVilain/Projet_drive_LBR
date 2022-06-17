@@ -21,8 +21,9 @@ class Files
 	private array $tags;
 	private bool $ecriture;
 	private bool $lecture;
+	private bool $deleted;
 
-    public function __construct($id_fichier)
+    public function __construct($id_fichier,$deleted)
     {
         $this->id_fichier = $id_fichier;
 		$this->auteur = $this->setAuthor($id_fichier);
@@ -36,6 +37,7 @@ class Files
 		$this->tags = $this->setTags($id_fichier);
 		$this->ecriture = $this->setRights($id_fichier)["ecriture"];
 		$this->lecture = $this->setRights($id_fichier)["lecture"];
+		$this->deleted = $deleted;
     }
 	
 	//setteur
@@ -205,14 +207,19 @@ class Files
 	}
 	
 	
-	public function getWriting(): int
+	public function getWriting(): bool
 	{
 		return $this->ecriture;
 	}
 	
-	public function getReading(): int
+	public function getReading(): bool
 	{
 		return $this->lecture;
+	}
+	
+	public function getDeleted(): bool
+	{
+		return $this->deleted;
 	}
 
 	public function getAuthorName(): string
@@ -232,10 +239,10 @@ class Files
 	public function preview(): string
 	{
 		$fileName = $this->getFilename();
-		$fileAuthor=$this->getAuthorName();
+		$fileAuthor = $this->getAuthorName();
 
-		$fileAddedDate=$this->getReleaseDate();
-		$fileModificationDate=$this->getModificationDate();
+		$fileAddedDate = $this->getReleaseDate();
+		$fileModificationDate = $this->getModificationDate();
 		$fileAddedDate = date("d-m-Y",strtotime($fileAddedDate)); 
 		$fileModificationDate = date("d-m-Y",strtotime($fileModificationDate)); 
 
@@ -274,11 +281,7 @@ class Files
 			}
 		}
 
-		
-		
-
-		$preview = sprintf("<div class=miniature>
-
+		$popupOptions = sprintf("
 			<div class='popup-options' id='%s-popup-options'>
 
         		<div class='header-popup' id='header-popup-options'>
@@ -295,8 +298,9 @@ class Files
 
         		</div>
 
-    		</div>
-
+    		</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+		
+		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
 
 				<div class='header-popup' id='header-popup-detail'>
@@ -368,10 +372,8 @@ class Files
 
 					</div>
 
-				</div>
-	
-	
-			</div>" ,$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier);
+				</div> 
+			</div>",$idFichier,$idFichier);
 		
 		if ($fileType == "image") {
 			$image = sprintf("
@@ -383,7 +385,7 @@ class Files
 					<p> %s </p> 
 				</div></div>",$idFichier,$previewFilePath,$this->getFilename());
 				
-			return $preview . $image;
+			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
 		}
 		elseif ($fileType == "video") {
 			$video = sprintf("
@@ -398,7 +400,7 @@ class Files
 					<p> %s </p> 
 				</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
 				
-			return $preview . $video;
+			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
 		}
 		
 		return -1;

@@ -13,7 +13,11 @@ class Basket
 	public function execute()
 	{
 		$files = $this->instantiate();
+		$user = $_SESSION["email"];
+		$role = (new DatabaseConnection())->get_user($user)["role"];
+		$nbr_files = count($files);
 		$error = "";
+		
 		require('public/view/basket.php');
 	}
 
@@ -42,7 +46,7 @@ class Basket
 
 		if (!empty($tmp)) {
 			for ($i = 0; $i < count($tmp); $i++) {
-				$data[] = new Files($tmp[$i]);
+				$data[] = new Files($tmp[$i],true);
 			}
 		}
 
