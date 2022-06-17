@@ -471,3 +471,35 @@ function editCategory(idElement)
 
 }
 
+
+//popup modal functions
+function openPopupModal(type,path){
+  var popup = document.getElementById("show_image_popup");
+  if (popup.style.display = "none"){
+  popup.style.display = "flex";
+  }
+  
+  if(type == 'IMG'){
+    var image = document.getElementById("image-show-area");
+    image.children[0].src = path;
+    if (image.style.display = "none"){
+    image.style.display = "flex";
+    }
+  }
+  else if(type == 'VIDEO'){
+    var video = document.getElementById("video-show-area");
+    video.children[0].src = path;
+    if (video.style.display = "none"){
+    video.style.display = "flex";
+    }
+  }
+}
+
+function hidePopupModal(){
+  document.getElementById("show_image_popup").style.display = "none";
+  document.getElementById("image-show-area").style.display = "none";
+  document.getElementById("image-show-area").children[0].src = "";
+  document.getElementById("video-show-area").style.display = "none";
+  document.getElementById("video-show-area").children[0].src = "";
+}
+
