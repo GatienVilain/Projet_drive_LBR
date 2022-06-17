@@ -42,16 +42,16 @@
 						<td class="description">
 							<?= $user['descriptif']; ?>
 						</td>
+						<td>
+							<a name="button" href="index.php?action=editRights&for=<?= $user['email'];?>">test</a>
+						</td>
 					</tr>
 					<?php
 				}
 				?>
 			</table>
-			<span id="ajouter">
-				<input type="submit" name="button" value="ajouter">
-			</span>
 			<span id="modifier">
-				<input type="submit" name="button" value="modifier">
+				<input type="submit" name="button" value="ajouter">
 				<input type="submit" name="button" value="supprimer">
 			</span>
 		</form>

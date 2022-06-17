@@ -89,16 +89,16 @@ try
                             (new GetAddPage())->execute();
                             $action_found = True;
                         }
-                        elseif ( $_POST['button'] === 'modifier' )
-                        {
-                            (new GetRights())->execute();
-                            $action_found = True;
-                        }
                     }
                     else {
                         (new GetUsersModeration())->execute();
                         $action_found = True;
                     }
+                }
+                elseif ( $_GET['action'] === 'editRights' )
+                {
+                    (new GetRights())->execute();
+                    $action_found = True;
                 }
                 elseif ( $_GET['action'] === 'addUser' )
                 {
