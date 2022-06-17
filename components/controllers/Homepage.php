@@ -20,18 +20,15 @@ class Homepage
 		$role = (new DatabaseConnection())->get_user($user)["role"];
 
 		//Vérifie variable de session existe et est non nulle
-		if(isset($_SESSION['tagIdList']) && ($_SESSION['tagIdList'] != null))
-		{
-  			//var_dump($_SESSION['tagIdList']);
-  
-		}
-
-
-		//Vérifie variable de session existe et est non nulle
 		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
 		{
-  			//var_dump($_SESSION['extensionList']);
-  
+			$files = $sort->sort_by_extension($files, $_SESSION['extensionList']);
+		}
+
+		//Vérifie variable de session existe et est non nulle
+		if(isset($_SESSION['tagIdList']) && ($_SESSION['tagIdList'] != null))
+		{
+			$files = $sort->sort_by_tag($files, $_SESSION['tagIdList']);
 		}
 
 		$previewArrayCategory = $this->previewArrayCategory();
@@ -295,10 +292,10 @@ class Homepage
 
         					<div id='body-popup-editTag'>
 
-          						<select id='popup-editTag-selectCategory' name='category'>"
+          						<select class='popup-editTag-selectCategory' id='popup-editTag-selectCategory-".$tagId."' name='category'>"
             						.$previewArrayCategory.
           						"</select>
-          						<input type='text' id='popup-editTag-nameTag' name='tag' value='".$tagName."' placeholder='nouveau nom'>
+          						<input type='text' class= 'popup-editTag-nameTag' id='popup-editTag-nameTag-".$tagId."' name='tag' value='".$tagName."' placeholder='nouveau nom'>
             					<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag(this.id)'>Valider</button>
           					
         					</div>
@@ -357,7 +354,7 @@ class Homepage
 							<div id='body-popup-editCategory'>
 
 									<input type='text' id='popup-editCategory-nameCategory' name='category' value='".$categoryName."'placeholder='nouveau nom'>
-									<button class='button-valider-editCategory' id='editCategory-button-validate".$categoryName."' onclick='editCategory(this.id)'>Valider</button>
+									<button class='button-valider-editCategory' id='editCategory-button-validate-".$categoryName."' onclick='editCategory(this.id)'>Valider</button>
 			
 							</div>
 
@@ -411,10 +408,10 @@ class Homepage
 
 							<div id='body-popup-editTag'>
 
-								<select id='popup-editTag-selectCategory' name='category'>"
+								<select class='popup-editTag-selectCategory' id='popup-editTag-selectCategory-".$tagId."' name='category'>"
 									.$previewArrayCategory.
 								"</select>
-								<input type='text' id='popup-editTag-nameTag' name='tag' value='".$tagName."' placeholder='nouveau nom'>
+								<input type='text' class = 'popup-editTag-nameTag' id='popup-editTag-nameTag-".$tagId."' name='tag' value='".$tagName."' placeholder='nouveau nom'>
 								<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag(this.id)'>Valider</button>
 								
 							</div>

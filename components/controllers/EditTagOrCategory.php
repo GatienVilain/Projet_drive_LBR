@@ -21,25 +21,45 @@ class EditTagOrCategory
                 $idTag = $_GET['idTag'];
                 $newName = $_GET['newName'];
                 $categoryName = $_GET['category'];
+                $previousCategoryName = $connect->get_tag_category($idTag);
+                
                 if(gettype($idTag) == 'string' && gettype($newName) == 'string' && gettype($categoryName) == 'string')
                 {
-                    //$result = $connect->delete_tag($idTag);
-                    $result=0;
-                    if($result == 0)
+                    if($previousCategoryName != $categoryName)
                     {
-                        $response['status'] = true;
+                        $arrayEdit = array("nom_tag" => $newName,"nom_categorie_tag" => $categoryName);
+                        
+                        $result = $connect->modify_tag($idTag, $arrayEdit);
+                        //$result=0;
+                        if($result == 0)
+                        {
+                            $response['status'] = true;
+                        }
+
+                        else
+                        {
+                            
+                        }
                     }
 
                     else
                     {
-                        
+                        $arrayEdit = array("nom_tag" => $newName);
+                        var_dump($arrayEdit);
+                        $result = $connect->modify_tag($idTag, $arrayEdit);
+                        //$result=0;
+                        if($result == 0)
+                        {
+                            $response['status'] = true;
+                        }
+
+                        else
+                        {
+                            
+                        }
                     }
                 }
-
-                else
-                {
-
-                }
+                
             }
 
             else
@@ -57,8 +77,7 @@ class EditTagOrCategory
                 $newName = $_GET['newName'];
                 if(gettype($categoryName) == 'string' && gettype($newName) == 'string')
                 {
-                    //$result = $connect->delete_tag_category($categoryName);
-                    $result = 0;
+                    $result = $connect->modify_tag_category_name($categoryName,$newName);
                     if($result == 0)
                     {
                         $response['status'] = true;

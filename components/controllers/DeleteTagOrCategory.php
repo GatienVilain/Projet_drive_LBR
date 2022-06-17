@@ -21,8 +21,8 @@ class DeleteTagOrCategory
                 $idTag = $_GET['idTag'];
                 if(gettype($idTag) == 'string')
                 {
-                    //$result = $connect->delete_tag($idTag);
-                    $result=0;
+                    $result = $connect->delete_tag($idTag);
+                    
                     if($result == 0)
                     {
                         $response['status'] = true;
@@ -54,8 +54,7 @@ class DeleteTagOrCategory
                 $categoryName = $_GET['categoryName'];
                 if(gettype($categoryName) == 'string')
                 {
-                    //$result = $connect->delete_tag_category($categoryName);
-                    $result = 0;
+                    $result = $connect->delete_tag_category($categoryName);
                     if($result == 0)
                     {
                         $response['status'] = true;
@@ -63,7 +62,7 @@ class DeleteTagOrCategory
 
                     else
                     {
-
+                        $response['status'] = $result;
                     }
                 }
 

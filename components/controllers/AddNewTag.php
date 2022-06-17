@@ -10,13 +10,13 @@ class AddNewTag
 {
     public function execute()
     {
-        $response = array('status'=>false);
         $connect = new DatabaseConnection();
+        $response = array('status'=>false);
         $tagName = $_GET['tag'];
-        $selectedCategory = $_GET['category'];
+        $selectedCategory = $_GET['category']; 
+        //var_dump($selectedCategory);
         
-        $result = $connect->add_tag($tagName);
-
+        $result = $connect->add_tag($tagName, $selectedCategory);
         if( $result == 0 ) {
             $response['status'] = true;
         }

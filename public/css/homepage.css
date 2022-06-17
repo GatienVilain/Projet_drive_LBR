@@ -710,7 +710,7 @@ border-bottom:1px solid black;
   row-gap: 1em;
 }
 
-#popup-editTag-selectCategory, #popup-editTag-nameTag {
+.popup-editTag-selectCategory, .popup-editTag-nameTag {
   width: 84%;
   margin-left: 1em;
   margin-right: 1em;

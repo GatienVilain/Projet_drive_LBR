@@ -206,7 +206,6 @@ function addNewCategory()
 
   var categoryName;
   categoryName = document.getElementById("popup-newCategory-nameCategory").value;
-  //var file_path = "storage/pictures/58.png";
   $.ajax({
     url: 'index.php',
     data: {'category' : categoryName,'action' : 'addNewCategory'},
@@ -220,7 +219,7 @@ function addNewCategory()
         window.location.reload();
       }
 
-      else alert('Something Went Wrong!');
+      else alert(response);
     }
 
   });
@@ -392,7 +391,7 @@ function deleteTag(idElement)
         window.location.reload();
       }
 
-      else alert(response);
+      else alert("Erreur");
     }
 
   });
@@ -401,9 +400,13 @@ function deleteTag(idElement)
 
 function editTag(idElement)
 {
-  idTag = idElement.replace(/editTag-button-validate/gi,"");
-  newNameTag = document.getElementById("popup-editTag-nameTag").value;
-  selectedCategory = document.getElementById("popup-editTag-selectCategory").options[document.getElementById('popup-editTag-selectCategory').selectedIndex].text
+  idTag = idElement.replace(/editTag-button-validate-/gi,"");
+  newNameTag = document.getElementById("popup-editTag-nameTag-"+idTag).value;
+  console.log(newNameTag);
+  console.log(idTag);
+  idSelectedCategory = "popup-editTag-selectCategory-"+idTag;
+  selectedCategory = document.getElementById(idSelectedCategory).options[document.getElementById(idSelectedCategory).selectedIndex].text
+  console.log(selectedCategory);
   $.ajax({
     url: 'index.php',
     data: {'idTag' : idTag,'option' : 'editTag','newName' : newNameTag,'category':selectedCategory,'action' : 'editTagOrCategory'},
@@ -417,7 +420,7 @@ function editTag(idElement)
         window.location.reload();
       }
 
-      else alert(response);
+      else alert('Erreur');
     }
 
   });
@@ -433,6 +436,8 @@ function deleteCategory(idElement)
     dataType: 'json', 
     success: function (response) 
     {
+
+
       if( response.status === true )
 
       {
@@ -440,7 +445,11 @@ function deleteCategory(idElement)
         window.location.reload();
       }
 
-      else alert(response);
+      else {
+        console.log(response['status']);
+      }
+      
+      //window.location.reload();
     }
 
   });
@@ -449,14 +458,17 @@ function deleteCategory(idElement)
 
 function editCategory(idElement)
 {
-  categoryName = idElement.replace(/-edit-cetegoryName/gi,"");
+  categoryName = idElement.replace(/editCategory-button-validate-/gi,"");
   newName = document.getElementById("popup-editCategory-nameCategory").value;
+  console.log(newName);
+  console.log(categoryName);
   $.ajax({
     url: 'index.php',
     data: {'categoryName' : categoryName,'option' : 'editCategory','newName' : newName,'action' : 'editTagOrCategory'},
     dataType: 'json', 
     success: function (response) 
     {
+      alert(response);
       if( response.status === true )
 
       {
@@ -464,7 +476,7 @@ function editCategory(idElement)
         window.location.reload();
       }
 
-      else alert(response);
+      else alert("Erreur");
     }
 
   });

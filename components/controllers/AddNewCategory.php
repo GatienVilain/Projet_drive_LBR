@@ -20,6 +20,10 @@ class AddNewCategory
             $response['status'] = true;
         }
 
+        else{
+            $response['status']=$result;
+        }
+
         echo json_encode($response);
 
     
