@@ -75,7 +75,7 @@ try
                    ( new History() )->execute();
                    $action_found = True;
                 }
-                elseif ($_GET['action'] === 'usersmoderation')
+                elseif ($_GET['action'] === 'usersModeration')
                 {
                     if ( isset($_POST['button']) && $_POST['button'] !== '')
                     {

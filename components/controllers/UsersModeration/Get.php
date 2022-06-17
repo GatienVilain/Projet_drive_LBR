@@ -10,69 +10,39 @@ class GetUsersModeration
 {
 	public function execute()
 	{
-		$userTable = $this->UserTable();
+		$users_table = $this->UsersTable();
 
 		$error = "";
-		require('public/view/usersmoderation.php');
+		require('public/view/users_moderation.php');
 	}
 
-	function UserTable()
+	private function UsersTable(): array
 	{
-
+		$user_email = $_SESSION['email'];
 		$connection = new DatabaseConnection();
-		$utilisateur=$_SESSION['email'];
 
-		$liste_utilisateurs= $connection->get_all_users() ;
-		sort($liste_utilisateurs);
-		$cpt=0;
-		while($liste_utilisateurs[$cpt]['email']!=$utilisateur)
+		$all_users = $connection->get_all_users() ;
+		sort($all_users);
+
+		// Supprime de la liste l’utilisateur qui demande la page
+		$cpt = 0;
+		while ( $all_users[$cpt]['email'] != $user_email ) { $cpt++; }
+		unset($all_users[$cpt]);
+
+		// Fabrique la liste de tout les utilisateurs
+		$i = 0;
+		$users_list = array();
+		foreach ($all_users as $user)
 		{
-			$cpt++;
-		}
-		array_splice($liste_utilisateurs[$cpt],$cpt);
+			$current_user_info = $connection->get_user($user['email']);
 
-		$nbdutilisateurs=count($liste_utilisateurs);
-		$html='<div id="liste" ><form action = "index.php?action=usersmoderation" method= "post"><table>';
-
-
-		for($i=0;$i<$nbdutilisateurs;$i++)
-		{
-			if ($i != $cpt)
+			if ( !$current_user_info['compte_supprime'] )
 			{
-				$prenom=$connection->get_user($liste_utilisateurs[$i]['email'])["prenom"] ;
-				$nom=$connection->get_user($liste_utilisateurs[$i]['email'])["nom"] ;
-				$role=$connection->get_user($liste_utilisateurs[$i]['email'])["role"];
-				$descrition=$connection->get_user($liste_utilisateurs[$i]['email'])["descriptif"];
-				$html.='<tr>';//on ouvre la ligne
-				$html.='<td class="checkbox">';
-				$html.='<input type="checkbox" name="';
-				$html.=$liste_utilisateurs[$i]['email'];
-				$html.='"></td>';
-				$html.='<td>';
-				$html.=$prenom;
-				$html.='</td>';
-				$html.='<td>';
-				$html.=$nom;
-				$html.='</td>';
-				$html.='<td>';
-				$html.=$role;
-				$html.='</td>';
-				$html.='<td class="email">';
-				$html.=$liste_utilisateurs[$i]['email'];
-				$html.='</td>';
-				$html.='<td class="description">';
-				$html.=$descrition;
-				$html.='</td>';
-				$html.='</tr>';
+				$users_list[$i] = $current_user_info;
+				$users_list[$i++]['email'] = $user['email'];
 			}
 		}
 
-		$html.='</table>';
-		$html.='<span id="ajouter"><input type="submit" name="button" value="ajouter"></span>';
-		$html.='<span id="modifier"><input type="submit" name="button" value="modifier"><input type="submit" name="button" value="supprimer"></span></form>';
-
-		$html.='</div>';
-
-		return $html;
+		return $users_list;
 	}
 }
