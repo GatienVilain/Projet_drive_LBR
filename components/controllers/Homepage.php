@@ -201,25 +201,30 @@ class Homepage
 		//var_dump($allRights);
 		$arrayCategoryTagsWithRights = array();
 		$arrayTags = array();
-		foreach($allRights as $tagWithRights)
+
+		if($allRights != -1)
 		{
-			//var_dump($tagWithRights);
-			$categoryName = $connection->get_tag_category($tagWithRights['id_tag'])[0]['nom_categorie_tag'];
-			
-			if(array_key_exists($categoryName,$arrayCategoryTagsWithRights))
+			foreach($allRights as $tagWithRights)
 			{
+				//var_dump($tagWithRights);
+				$categoryName = $connection->get_tag_category($tagWithRights['id_tag'])[0]['nom_categorie_tag'];
 				
-				array_push($arrayCategoryTagsWithRights[$categoryName], array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
-				
-			}
+				if(array_key_exists($categoryName,$arrayCategoryTagsWithRights))
+				{
+					
+					array_push($arrayCategoryTagsWithRights[$categoryName], array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
+					
+				}
 
-			else
-			{
+				else
+				{
 
-				$arrayCategoryTagsWithRights[$categoryName]=array(array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
-				
+					$arrayCategoryTagsWithRights[$categoryName]=array(array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
+					
+				}
 			}
 		}
+		
 
 		//var_dump($arrayCategoryTagsWithRights);
 		return $arrayCategoryTagsWithRights;

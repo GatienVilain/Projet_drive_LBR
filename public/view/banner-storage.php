@@ -7,8 +7,8 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 use Application\Tools\Database\DatabaseConnection;
 $connect = new DatabaseConnection();
 
-$folderPath = 'C:\wamp64\www\storage'.DIRECTORY_SEPARATOR.'pictures'.DIRECTORY_SEPARATOR;
-$usedStorageSpace = repertoire_size($folderPath);
+$folderPathPictures = 'C:\wamp64\www\storage'.DIRECTORY_SEPARATOR.'pictures'.DIRECTORY_SEPARATOR;
+$usedStorageSpace = repertoire_size($folderPathPictures);
 $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 
 <style>
