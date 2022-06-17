@@ -179,7 +179,7 @@ trait TagEdit
 			$conn->close();
 			if ($result != NULL) {
 				return $result;
-			} 
+			}
 			else {
 				return $this->console_log("Echec de récupération des catégories de tags.");
 			}
@@ -190,8 +190,8 @@ trait TagEdit
 	}
 
 	//renvoie tous les id_tag à partir du nom de leur catégorie
-	function get_tag_by_category(string $nom_categorie_tag) {
-
+	function get_tag_by_category(string $nom_categorie_tag)
+	{
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {

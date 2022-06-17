@@ -23,6 +23,9 @@ require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
+require_once("components/Controllers/Rights/Get.php");
+require_once("components/Controllers/Rights/Add.php");
+require_once("components/Controllers/Rights/Delete.php");
 
 require_once("components/Model/User.php");
 
@@ -50,6 +53,9 @@ use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
+use Application\Controllers\Rights\GetRights;
+use Application\Controllers\Rights\AddRight;
+use Application\Controllers\Rights\DeleteRights;
 
 use Application\Model\User;
 
@@ -63,12 +69,61 @@ try
         if ( (new User())->is_connected() )
         {
             // Actions possible lorsque l’on est connecté
-            if ($_GET['action'] === 'history')
+
+            if ( (new User())->is_admin() )
             {
-               ( new History() )->execute();
-               $action_found = True;
+                // Actions possible lorsque l’on est administrateur
+
+                if ($_GET['action'] === 'history')
+                {
+                   ( new History() )->execute();
+                   $action_found = True;
+                }
+                elseif ($_GET['action'] === 'usersmoderation')
+                {
+                    if ( isset($_POST['button']) && $_POST['button'] !== '')
+                    {
+                        if ( $_POST['button'] === 'supprimer' )
+                        {
+                            (new DeleteUser())->execute();
+                            $action_found = True;
+                        }
+                        elseif ( $_POST['button'] === 'ajouter' )
+                        {
+                            (new GetAddPage())->execute();
+                            $action_found = True;
+                        }
+                        elseif ( $_POST['button'] === 'modifier' )
+                        {
+                            (new GetRights())->execute();
+                            $action_found = True;
+                        }
+                    }
+                    else {
+                        (new GetUsersModeration())->execute();
+                        $action_found = True;
+                    }
+                }
+                elseif ( $_GET['action'] === 'addUser' )
+                {
+                    (new AddUser())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'addRight')
+                {
+                    (new AddRight())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'deleteRights')
+                {
+                    (new DeleteRights())->execute();
+                    $action_found = True;
+                }
             }
-            elseif ($_GET['action'] === 'profile')
+
+            // Actions disponible quand on est connecté mais pas admin
+
+            if ($_GET['action'] === 'profile')
             {
                 ( new GetProfile() )->execute();
                 $action_found = True;
@@ -78,9 +133,9 @@ try
                 (new ChangePasswordProfile())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'basket')
+            elseif ($_GET['action'] === 'changeDescription')
             {
-                (new Basket())->execute();
+                (new ChangeDescription())->execute();
                 $action_found = True;
             }
 
@@ -90,7 +145,7 @@ try
                 $action_found = True;
             }
 			
-			elseif ($_GET['action'] === 'deleteFile')
+            elseif ($_GET['action'] === 'deleteFile')
             {
                 (new deleteFile())->execute();
                 $action_found = True;
@@ -102,64 +157,35 @@ try
                 $action_found = True;
             }
 
+            elseif ($_GET['action'] === 'basket')
+            {
+                (new Basket())->execute();
+                $action_found = True;
+            }
+
             elseif ($_GET['action'] === 'addNewTag')
             {
                 (new AddNewTag())->execute();
                 $action_found = True;
             }
-
             elseif ($_GET['action'] === 'addNewCategory')
             {
                 (new AddNewCategory())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='sortMaj')
             {
                 (new SortMaj())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='deleteTagOrCategory')
             {
                 (new DeleteTagOrCategory())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='editTagOrCategory')
             {
                 (new EditTagOrCategory())->execute();
-                $action_found = True;
-            }
-
-			elseif ($_GET['action'] === 'usersmoderation')
-            {
-                if ( isset($_POST['button']) && $_POST['button'] !== '')
-                {
-                    if ( $_POST['button'] === 'supprimer' )
-                    {
-                        (new DeleteUser())->execute();
-                        $action_found = True;
-                    }
-                    elseif ( $_POST['button'] === 'ajouter' )
-                    {
-                        (new GetAddPage())->execute();
-                        $action_found = True;
-                    }
-                }
-                else {
-                    (new GetUsersModeration())->execute();
-                    $action_found = True;
-                }
-            }
-            elseif ( $_GET['action'] === 'addUser' )
-            {
-                (new AddUser())->execute();
-                $action_found = True;
-            }
-            elseif ($_GET['action'] === 'changeDescription')
-            {
-                (new ChangeDescription())->execute();
                 $action_found = True;
             }
         }
@@ -196,9 +222,10 @@ try
             $action_found = True;
         }
 
-        if ( $action_found = False )
+
+        if ( $action_found === False )
         {
-            throw new Exception("La page que vous recherchez n'existe pas.");
+            throw new Exception("Erreur 404 : La page que vous recherchez n'existe pas.");
         }
     }
     else

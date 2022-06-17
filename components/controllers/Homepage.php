@@ -19,6 +19,8 @@ class Homepage
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
 
+		
+
 		//Vérifie variable de session existe et est non nulle
 		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
 		{
@@ -29,6 +31,23 @@ class Homepage
 		if(isset($_SESSION['tagIdList']) && ($_SESSION['tagIdList'] != null))
 		{
 			$files = $sort->sort_by_tag($files, $_SESSION['tagIdList']);
+		}
+
+		if(isset($_SESSION['optionSort']))
+		{	
+			if($_SESSION['optionSort'] == 'sortAlphabetic')
+			{
+				if(isset($_SESSION['alphabeticOrder']) && ($_SESSION['alphabeticOrder'] == 'asc' OR $_SESSION['alphabeticOrder'] == 'desc') )
+				{
+					$files = $sort->sort_by_alphabetical($files, $_SESSION['alphabeticOrder']);
+				}
+			}
+
+			if($_SESSION['optionSort'] == 'sortModificationDate')
+			{
+				$files = $sort->sort_by_date($files, $_SESSION['modificationDateOrder']);
+			}
+			
 		}
 
 		$previewArrayCategory = $this->previewArrayCategory();
@@ -46,7 +65,7 @@ class Homepage
 
 		}
 		
-		
+
 		$extensionsFiles = $this->getArrayExtensionsFilesInstantiate($files);
 		$previewExtensions = $this->previewExtensionsFilesInstantiate($extensionsFiles);
 
@@ -168,19 +187,30 @@ class Homepage
 		$allRights = $connection->get_rights_of_user($user);
 		$arrayCategoryTagsWithRights = array();
 		$arrayTags = array();
-		foreach($allRights as $tagWithRights)
+
+		if($allRights != -1)
 		{
-			$categoryName = $connection->get_tag_category($tagWithRights['id_tag'])[0]['nom_categorie_tag'];
-			
-			if(array_key_exists($categoryName,$arrayCategoryTagsWithRights))
+			foreach($allRights as $tagWithRights)
 			{
-				array_push($arrayCategoryTagsWithRights[$categoryName], array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
-			}
-			else
-			{
-				$arrayCategoryTagsWithRights[$categoryName]=array(array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
+				//var_dump($tagWithRights);
+				$categoryName = $connection->get_tag_category($tagWithRights['id_tag'])[0]['nom_categorie_tag'];
+				
+				if(array_key_exists($categoryName,$arrayCategoryTagsWithRights))
+				{
+					
+					array_push($arrayCategoryTagsWithRights[$categoryName], array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
+					
+				}
+
+				else
+				{
+
+					$arrayCategoryTagsWithRights[$categoryName]=array(array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
+					
+				}
 			}
 		}
+		//var_dump($arrayCategoryTagsWithRights);
 		return $arrayCategoryTagsWithRights;
 	}
 
