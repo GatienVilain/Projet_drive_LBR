@@ -281,24 +281,46 @@ class Files
 			}
 		}
 
-		$popupOptions = sprintf("
-			<div class='popup-options' id='%s-popup-options'>
+		if ($this->getDeleted()) {
+			$popupOptions = sprintf("
+				<div class='popup-options' id='%s-popup-options'>
 
-        		<div class='header-popup' id='header-popup-options'>
+					<div class='header-popup' id='header-popup-options'>
 
-            		<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
-           			<p><strong>Options</strong></p>
-        
-        		</div>
+						<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
+						<p><strong>Options</strong></p>
+			
+					</div>
 
-        		<div id='body-popup-options'>
+					<div id='body-popup-options'>
 
-				<a href='%s' download ='%s'><button class='buttonPopupOptions' title='Télécharger le fichier'>Télécharger</button></a>
-          			<button class='buttonPopupOptions' title='Supprimer le fichier' onclick='deleteFile($idFichier)'  >Supprimer</button>
+						<button class='buttonPopupOptions' title='Restaurer le fichier' onclick='recoverFile($idFichier)'>Restaurer</button>
+						<button class='buttonPopupOptions' title='Supprimer définitivement le fichier' onclick='deleteFile($idFichier)'>Supprimer</button>
 
-        		</div>
+					</div>
 
-    		</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+		}
+		else {
+			$popupOptions = sprintf("
+				<div class='popup-options' id='%s-popup-options'>
+
+					<div class='header-popup' id='header-popup-options'>
+
+						<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
+						<p><strong>Options</strong></p>
+			
+					</div>
+
+					<div id='body-popup-options'>
+
+					<a href='%s' download ='%s'><button class='buttonPopupOptions' title='Télécharger le fichier'>Télécharger</button></a>
+						<button class='buttonPopupOptions' title='Supprimer le fichier en le mettant dans la corbeille' onclick='basketFile($idFichier)'  >Supprimer</button>
+
+					</div>
+
+				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+		}
 		
 		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>

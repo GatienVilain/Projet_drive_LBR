@@ -10,6 +10,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script src="public/js/homepage.js"></script>
+<script src="public/js/basket.js"></script>
 
 <div class = toolbar>
     <div class = groupe1>

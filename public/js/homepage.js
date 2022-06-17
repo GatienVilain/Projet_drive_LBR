@@ -146,11 +146,11 @@ function closePopupOptions(idElement)
 
 }
 
-function deleteFile(idFichier)
+function basketFile(idFichier)
 {
   $.ajax({
     url: 'index.php',
-    data: {'idFile' : idFichier,'action' : "deleteFile"},
+    data: {'idFile' : idFichier,'action' : "basketFile"},
     dataType: 'json', 
     success: function (response) 
     {

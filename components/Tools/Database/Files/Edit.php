@@ -46,7 +46,7 @@ trait FilesEdit
 		$result = $query->get_result()->fetch_assoc();
 		if ($result != NULL) {
 			//s'il existe on le supprime
-			$path = sprintf('%s\\%s.%s', $result["source"], $result["nom_fichier"], $result["extension"]);
+			$path = sprintf('%s\\%s.%s', $result["source"], $result["id_fichier"], $result["extension"]);
 			$query = $conn->prepare("DELETE FROM fichier WHERE id_fichier = ?");
 			$query->bind_param("i", $id_fichier);
 			if (!$query->execute()) {
@@ -62,6 +62,13 @@ trait FilesEdit
 			if (!unlink($path)) {
 				$conn->close();
 				return $this->console_log("Le fichier n'a pas pu être supprimé du serveur.");
+			}
+			if($result["type"] == 'image') {
+				$previewpath = sprintf('%s\\frames\\%s.%s', $result["source"], $result["id_fichier"], $result["extension"]);
+				if (!unlink($previewpath)) {
+					$conn->close();
+					return $this->console_log("La miniature du fichier n'a pas pu être supprimé du serveur.");
+				}
 			}
 			$conn->close();
 		} else {
@@ -135,6 +142,33 @@ trait FilesEdit
 			if (!$query->execute()) {
 				$conn->close();
 				return $this->console_log("Echec de mise à jour du nom du fichier.");
+			}
+			$conn->close();
+		} else {
+			$conn->close();
+			return $this->console_log("Le fichier n'existe pas.");
+		}
+
+		return 0;
+	}
+	
+	//change la date de dernière modification du fichier
+	function modify_file_date(int $id_fichier)
+	{
+		//point de connexion à la base de donnée
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+
+		if ($this->check_file($id_fichier)) {
+			//s'il existe, on modifie la date associé au fichier
+			$date = date('Y-m-d');
+			$query = $conn->prepare("UPDATE fichier SET date_derniere_modification = ? WHERE id_fichier = ?");
+			$query->bind_param("si", $date, $id_fichier);
+			if (!$query->execute()) {
+				$conn->close();
+				return $this->console_log("Echec de mise à jour du fichier.");
 			}
 			$conn->close();
 		} else {
