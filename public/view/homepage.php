@@ -175,11 +175,78 @@
 
 </div>
 
+
+
+<div id="show_image_popup">
+
+  <button id="close-btn" onclick="hidePopupModal()"> </button>
+
+  <div id="image-show-area">
+  
+    <img src="">
+	
+  </div>
+  
+  <div id="video-show-area">
+  
+    <video src="" controls>
+	
+  </div>
+  
+</div>
+
 <?php require('public/view/banner-storage.php'); ?>
 
 <?php $content = ob_get_clean(); ?>
 
 <?php require('layout.php') ?>
+
+    <script>
+      //document.oncontextmenu = function(){return false}
+    </script>
+
+<script>
+const files = document.querySelectorAll('.popup');
+let timer;
+files.forEach(file => file.addEventListener('click', event => {
+  closeAllPopup();
+  if(event.button == 0) {//clic gauche
+	  if (event.detail === 1) {//simple clic
+		timer = setTimeout(() => {
+		  idElement = file.id + '-popup-detail';
+		  if(document.getElementById(idElement).style.display != "block")
+		  {
+			document.getElementById(idElement).style.display = "block";  
+		  }
+		}, 200);
+	  }
+	}
+}));
+
+files.forEach(file => file.addEventListener('dblclick', event => {
+  clearTimeout(timer);
+	  //double clic gauche
+	  if(file.tagName == 'IMG'){
+		var newpath = file.getAttribute('src').substr(0,16) + file.getAttribute('src').substr(23);
+		console.log(newpath);
+	    openPopupModal(file.tagName,newpath);
+	  }
+	  else if(file.tagName == 'VIDEO'){
+		openPopupModal(file.tagName,file.children[0].getAttribute('src'));
+	  }
+}));
+
+files.forEach(file => file.addEventListener('contextmenu', event => {
+  //clic droit
+  closeAllPopup();
+  idElement = file.id + '-popup-options';
+  if(document.getElementById(idElement).style.display != "block")
+  {
+	 document.getElementById(idElement).style.display = "block";
+  }
+}));
+
+</script>
 
 
 <script>
