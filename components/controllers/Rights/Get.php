@@ -9,6 +9,8 @@ use Application\Tools\Database\DatabaseConnection;
 class GetRights
 {
     private string $email ;
+    private DatabaseConnection $connection ;
+    private string $categories ;
 
     public function __construct()
 	{
@@ -20,22 +22,23 @@ class GetRights
         $connection = new DatabaseConnection();
 
         $informations = $connection->get_user($this->email);
+        $categories = $connection->get_tag_category();
 
         $name = $informations['prenom'] . " " . $informations['nom'];
         $role = $informations['role'];
         $description = $informations['descriptif'];
         $registration_date = $informations['date_inscription'];
-
-        $preview_array_category = $connection->get_tag_category();
-        $table = $this->getRights($connection, $preview_array_category);
-
         $email = $this->email;
+
+        $preview_array_category = $categories;
+        $preview_array_tag = $this->getAllRights($connection, $categories);
+        $table = $this->getRightsOfUser($connection, $categories);
 
         $error = "";
         require('public/view/rights.php');
     }
 
-    private function getRights(DatabaseConnection $connection, array $categories)
+    private function getRightsOfUser(DatabaseConnection $connection, array $categories)
     {
         $table = array();
         foreach ($categories as $value)
@@ -56,6 +59,26 @@ class GetRights
                 $value["nom_tag"] = $connection->get_tag($value["id_tag"])["nom_tag"];
 
                 $table[$key[0]["nom_categorie_tag"]][] = $value;
+            }
+        }
+
+        return $table;
+    }
+
+    private function getAllRights(DatabaseConnection $connection, array $categories)
+    {
+        $table = array();
+        foreach ($categories as $value)
+        {
+            $key = $value["nom_categorie_tag"];
+
+            $table[$key] = $connection->get_tag_by_category($key);
+
+            for ($i = 0; $i < count($table[$key]);$i++)
+            {
+                $cell = $table[$key][$i];
+                $cell["nom_tag"] = $connection->get_tag($cell["id_tag"])["nom_tag"];
+                $table[$key][$i] = $cell;
             }
         }
 

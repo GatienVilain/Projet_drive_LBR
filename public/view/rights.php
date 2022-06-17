@@ -97,7 +97,7 @@
                 <select name="tag" require>
                     <option value=""> Choisir un tag :</option>
                     <?php
-                    foreach ($table as $key=>$categorie)
+                    foreach ($preview_array_tag as $key=>$categorie)
                     {
                         if (!empty($categorie))
                         {
