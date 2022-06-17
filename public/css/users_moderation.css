@@ -1,0 +1,114 @@
+article {
+	margin: 8vh 0 0;
+}
+
+h2 {
+	margin: 0 2vw;
+	font-size:1.7em;
+	font-weight: 100;
+	border-bottom:1px solid black;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+table {
+	width: 100vw;
+}
+
+
+table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+table tr {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0.2em 5%;
+	font-size: 1.20em;
+	border-bottom:1px solid black;
+}
+
+table tr:nth-of-type(1) {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+table tr:nth-of-type(1) * {
+	font-size: 1em;
+	width: 4em;
+}
+
+table tr:nth-of-type(1) th:nth-child(1) {
+	margin: 0 17% 0 3em;
+}
+
+table tr:hover {
+	background-color: #ddd;
+}
+
+table td {
+	padding: 0.25em 0.5em;
+}
+
+table .checkbox {
+	margin: 0 1em;
+	width: 1em;
+}
+
+table .prenom,
+table .nom {
+	width: 11%;
+}
+
+table .role {
+	width: 5em;
+}
+
+table .email{
+	width: 24%;
+}
+
+table .description{
+	width: 34%;
+}
+
+table a {
+	width: 11em;
+	border-radius: 10px;
+	padding: 0.25em;
+	text-decoration: none;
+	font-size: 0.9em;
+	color: var(--couleur-police-fond-clair);
+}
+
+table a:hover {
+	background-color: #cac9c9;
+}
+
+form span * {
+	margin: 1vw;
+	padding: 0.7em 1.5em;
+	background-color: black;
+	color: white;
+	text-decoration: none;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and ( max-width: 1150px) {
+    table tr {
+        margin: 1em 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+

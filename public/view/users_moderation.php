@@ -1,5 +1,5 @@
 <?php $title = "Drive LBR"; ?>
-<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/usersmoderation.css\">" ?>
+<?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/users_moderation.css\">" ?>
 <?php $scripts = "" ?>
 
 <?php require('public/view/banner-menu.php'); ?>
@@ -9,31 +9,33 @@
 <!-- Content -->
 <article>
 
-	<div class = toolbar>
-		<h2>Utilisateurs :</h2>
-		<div class = groupe2>
-			<button title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
-			<p>Rôle</p>
-		</div>
-	</div>
+	<h2>Utilisateurs :</h2>
 
-	<div id="liste" >
-		<form action = "index.php?action=usersModeration" method= "post">
-			<table>
-				<?php
-				foreach ($users_table as $user)
-				{	?>
+	<form action = "index.php?action=usersModeration" method= "post">
+		<table>
+			<tr>
+				<th>
+					<button title="Trier les fichiers par ordre alphabétique" onclick="">A-Z</button>
+				</th>
+				<th>
+					<p>Rôle</p>
+				</th>
+			</tr>
+			<?php
+			foreach ($users_table as $user)
+			{	?>
+				<label for="checkbox-<?= $user['email'];?>">
 					<tr>
 						<td class="checkbox">
-							<input type="checkbox" name="<?= $user['email'];?>">
+							<input id="checkbox-<?= $user['email'];?>" type="checkbox" name="<?= $user['email'];?>">
 						</td>
-						<td>
+						<td class="prenom">
 							<?= $user['prenom']; ?>
 						</td>
-						<td>
+						<td class="nom">
 							<?= $user['nom']; ?>
 						</td>
-						<td>
+						<td class="role">
 							<?= $user['role']; ?>
 						</td>
 						<td class="email">
@@ -43,19 +45,20 @@
 							<?= $user['descriptif']; ?>
 						</td>
 						<td>
-							<a name="button" href="index.php?action=editRights&for=<?= $user['email'];?>">test</a>
+							<a title="Accède à la page pour modifier l’utilisateur <?= $user['prenom']." ".$user['nom']; ?>" href="index.php?action=editRights&for=<?= $user['email'];?>">🖉 Modifier</a>
 						</td>
 					</tr>
-					<?php
-				}
-				?>
-			</table>
-			<span id="modifier">
-				<input type="submit" name="button" value="ajouter">
-				<input type="submit" name="button" value="supprimer">
-			</span>
-		</form>
-	</div>
+				</label>
+				<?php
+			}
+			?>
+		</table>
+		<span>
+			<a title="Accède à la page pour créer un utilisateur" href="index.php?action=addUser">+ Ajouter</a>
+			<input type="submit" name="button" value="supprimer">
+		</span>
+	</form>
+
 
 </article>
 
