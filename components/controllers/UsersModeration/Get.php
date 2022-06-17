@@ -25,7 +25,6 @@ class GetUsersModeration
 		sort($liste_utilisateurs);
 		$cpt=0;
 		while($liste_utilisateurs[$cpt]['email']!=$utilisateur){
-			echo 'test';
 			$cpt++;
 		}
 		array_splice($liste_utilisateurs[$cpt],$cpt);

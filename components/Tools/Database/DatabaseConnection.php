@@ -117,4 +117,21 @@ class DatabaseConnection
 
 		return $result->num_rows > 0;
 	}
+	
+	//renvoie true s'il le nom_tag existe dans la catégorie nom_categorie_tag
+	function check_tag_category_link(string $nom_tag, string $nom_categorie_tag): bool
+	{
+		//point de connexion à la base de donnée
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+
+		$query = $conn->prepare("SELECT * FROM caracteriser AS c JOIN tag AS t ON c.id_tag = t.id_tag WHERE nom_tag = ? AND nom_categorie_tag = ?");
+		$query->bind_param("ss", $nom_tag, $nom_categorie_tag);
+		$query->execute();
+		$result = $query->get_result();
+
+		return $result->num_rows > 0;
+	}
 }

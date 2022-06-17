@@ -12,10 +12,18 @@ require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/deleteFile.php");
+require_once("components/Controllers/AddNewTag.php");
+require_once("components/Controllers/AddNewCategory.php");
+require_once("components/Controllers/DeleteTagOrCategory.php");
+require_once("components/Controllers/EditTagOrCategory.php");
+require_once("components/Controllers/SortMaj.php");
 require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
+require_once("components/Controllers/Rights/Get.php");
+require_once("components/Controllers/Rights/Add.php");
+require_once("components/Controllers/Rights/Delete.php");
 
 require_once("components/Model/User.php");
 
@@ -32,10 +40,18 @@ use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\deleteFile;
+use Application\Controllers\AddNewTag;
+use Application\Controllers\AddNewCategory;
+use Application\Controllers\DeleteTagOrCategory;
+use Application\Controllers\EditTagOrCategory;
+use Application\Controllers\SortMaj;
 use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
+use Application\Controllers\Rights\GetRights;
+use Application\Controllers\Rights\AddRight;
+use Application\Controllers\Rights\DeleteRights;
 
 use Application\Model\User;
 
@@ -108,9 +124,80 @@ try
                 (new deleteFile())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'basket')
+
+            elseif ($_GET['action'] === 'addNewTag')
             {
-                (new Basket())->execute();
+                (new AddNewTag())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'addNewCategory')
+            {
+                (new AddNewCategory())->execute();
+                $action_found = True;
+            }
+
+            elseif($_GET['action']==='sortMaj')
+            {
+                (new SortMaj())->execute();
+                $action_found = True;
+            }
+
+            elseif($_GET['action']==='deleteTagOrCategory')
+            {
+                (new DeleteTagOrCategory())->execute();
+                $action_found = True;
+            }
+
+            elseif($_GET['action']==='editTagOrCategory')
+            {
+                (new EditTagOrCategory())->execute();
+                $action_found = True;
+            }
+
+			elseif ($_GET['action'] === 'usersmoderation')
+            {
+                if ( isset($_POST['button']) && $_POST['button'] !== '')
+                {
+                    if ( $_POST['button'] === 'supprimer' )
+                    {
+                        (new DeleteUser())->execute();
+                        $action_found = True;
+                    }
+                    elseif ( $_POST['button'] === 'ajouter' )
+                    {
+                        (new GetAddPage())->execute();
+                        $action_found = True;
+                    }
+                    elseif ( $_POST['button'] === 'modifier' )
+                    {
+                        (new GetRights())->execute();
+                        $action_found = True;
+                    }
+                }
+                else {
+                    (new GetUsersModeration())->execute();
+                    $action_found = True;
+                }
+            }
+            elseif ( $_GET['action'] === 'addUser' )
+            {
+                (new AddUser())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'changeDescription')
+            {
+                (new ChangeDescription())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'addRight')
+            {
+                (new AddRight())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'deleteRights')
+            {
+                (new DeleteRights())->execute();
                 $action_found = True;
             }
         }

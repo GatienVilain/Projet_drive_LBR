@@ -191,8 +191,9 @@ class Files
 
 	public function previewTags($arrayTagsNames): string
 	{
+		$result="";
 		foreach($arrayTagsNames as $categoryName => $arrayTags){
-			$result = "<p class=server-para-categoryName><U>".$categoryName."</u></p>";
+			$result = $result."<p class=server-para-categoryName><U>".$categoryName."</u></p>";
 			foreach($arrayTags as $Tags){
 				$result=$result."<p class=server-para-tag>".$Tags."</p>";
 			}
@@ -247,6 +248,7 @@ class Files
 		$fileExtension=$this->getFileExtension();
 		$descriptionAuthor = $this->getAuthorDescription();
 		$idFichier=$this->id_fichier;
+		
 		$fileType = $this->getFileType();
 		$filePath = $this->getPath() . '.' . $fileExtension;
 		
@@ -254,15 +256,28 @@ class Files
 		if($fileType == "image")
 		{
 			$previewFilePath = 'storage\pictures\frames'.DIRECTORY_SEPARATOR.$idFichier.'.'.$fileExtension;
+
+			if(!is_file($previewFilePath))
+			{
+			$previewFilePath = 'storage\pictures\frames\error.png';
+			}
+			
 		}
 
 		else if($fileType == "video")
 		{
-			$previewFilePath = 'storage/videos/frames'.DIRECTORY_SEPARATOR.$idFichier.$fileExtension;
+			$previewFilePath = 'storage\videos\frames'.DIRECTORY_SEPARATOR.$idFichier.$fileExtension;
+
+			if(!is_file($previewFilePath))
+			{
+			$previewFilePath = 'storage\videos\frames\error.png';
+			}
 		}
+
+		
 		
 
-		$image = sprintf("<div class=miniature>
+		$preview = sprintf("<div class=miniature>
 
 			<div class='popup-options' id='%s-popup-options'>
 
@@ -319,7 +334,7 @@ class Files
 						<p class = 'detail-para'>Auteur:</p>
 						<div class = 'server-para-tooltip' id='server-para-nameAuthor'><u>$fileAuthor</u>
 
-							<span class = 'tooltiptext'>$descriptionAuthor</span>
+							<span class = 'tooltiptext'><p>$descriptionAuthor</p></span>
 
 						</div>
 
@@ -356,15 +371,36 @@ class Files
 				</div>
 	
 	
-			</div>
-
-			<div class=image> 
-				<img id='%s' src='%s' onMouseDown='[openPopup(event, this.id)]'/>
-			</div> 
-			
-			<div class = titre> 
-				<p> %s </p> 
-			</div></div>",$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier,$idFichier,$previewFilePath,$this->getFilename());
-		return $image;
+			</div>" ,$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier);
+		
+		if ($fileType == "image") {
+			$image = sprintf("
+				<div oncontextmenu='return false;' class=image> 
+					<img class=popup id='%s' src=%s></a>
+				</div> 
+				
+				<div class = titre> 
+					<p> %s </p> 
+				</div></div>",$idFichier,$previewFilePath,$this->getFilename());
+				
+			return $preview . $image;
+		}
+		elseif ($fileType == "video") {
+			$video = sprintf("
+				<div oncontextmenu='return false;' class=video> 
+					<video class=popup id='%s'>
+						<source src=%s type='video/%s'>
+						Your browser does not support the video tag.
+					</video>
+				</div> 
+				
+				<div class = titre> 
+					<p> %s </p> 
+				</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
+				
+			return $preview . $video;
+		}
+		
+		return -1;
 	}
 }

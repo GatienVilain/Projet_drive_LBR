@@ -5,8 +5,10 @@ namespace Application\Controllers;
 require_once('components/Model/Code.php');
 require_once('components/Model/Email.php');
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
 
+use Application\Model\Log;
 use Application\Model\Code;
 use Application\Model\Email;
 use Application\Tools\Database\DatabaseConnection;
@@ -29,6 +31,7 @@ class SendRecoveryEmail
 
                     $email = new Email($email_address, $subject, $message);
                     $email->SendEmail($email, $message);
+                    ( new Log() )->ecrire_log($email_address,'à demandé un code de recup');
 
                     $_SESSION['email'] = $email->getAddress();
                     $_SESSION['code']  = $code->getValue();
