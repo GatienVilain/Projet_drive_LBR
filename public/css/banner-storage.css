@@ -8,6 +8,8 @@
     --spanish-blue: #3671B3;
     --raisin-black: #161920;
     --white:#FFFFFF;
+    --black:#000000;
+    --bleu-denim:#1560BD;
 
     /* couleurs par bloc */
     --couleur-police-fond-clair: var(--raisin-black);
@@ -19,6 +21,11 @@
     --couleur-conteneurBar:var(--white);
     --couleur-popup:var(--beige);
     --couleur-infoBulle:var(--red-pigment);
+    --couleur-filter-menu:var(--raisin-black);
+    --couleur-police-filter-menu:var(--white);
+    --couleur-separation-filter-menu:var(--uranian-blue);
+    --couleur-button-sort-filter-menu:var(--bleu-denim);
+
     --fond: #D3D3D3;
     --couleur-footer: var(--raisin-black);
 }

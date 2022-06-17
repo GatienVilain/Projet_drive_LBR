@@ -4,7 +4,10 @@ namespace Application\Controllers\UsersModeration;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 require_once("components/Model/Password.php");
+require_once("components/Model/Log.php");
 
+
+use Application\Model\Log;
 use Application\Tools\Database\DatabaseConnection;
 use Application\Model\Password;
 
@@ -83,7 +86,13 @@ class AddUser
     if ($validation)
     {
 
+        
         (new DatabaseConnection())->add_user($mail,$first_name,$name,$password,$profile_description,$role);
+        $txt='à créé le compte de ';
+        $txt.=$first_name;
+        $txt.=' ';
+        $txt.=$name;
+        ( new Log() )->ecrire_log($_SESSION['email'],$txt);
         header('Location: index.php?action=usersmoderation');
     }
     else

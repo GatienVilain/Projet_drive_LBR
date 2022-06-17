@@ -1,5 +1,5 @@
 <?php 
-require('image.php');
+require('preview.php');
 ?>
  
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
@@ -98,18 +98,18 @@ require('image.php');
   // (C) UPLOAD DESTINATION - CHANGE FOLDER IF REQUIRED!
 
   $extension_video = array("3gp", "3g2", "avi", "asf", "wma","wmv","flv","mkv","mka","mks","mk3d","mp4","mpg","mxf","ogg","mov","qt","ts","webm","mpeg","mp4a","mp4b","mp4r","mp4v");
-  $extension_image = array("jpg","gif","png", "tif","jif", "jfif","jp2","jpx","j2k","j2c","fpx","pcd","pdf","jpeg");
+  $extension_image = array("jpg","gif","png", "tif","jif", "jfif","jp2","jpx","j2k","j2c","fpx","pcd","pdf","jpeg","wbmp","avif","webp","xbm");
 
   $userEmail = $_SESSION["email"];
   $tmpFilePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."tmp".DIRECTORY_SEPARATOR.$userEmail;
 
-  if(in_array(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION), $extension_image))
+  if(in_array(strtolower(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION)), $extension_image))
   {
 	$type = 'image';
     $filePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."pictures";
   }
 
-  else if(in_array(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION), $extension_video))
+  else if(in_array(strtolower(pathinfo($_REQUEST["name"], PATHINFO_EXTENSION)), $extension_video))
   {
 	$type = 'video';
     $filePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."videos";
@@ -165,12 +165,12 @@ require('image.php');
 
 	if($type == 'image')
 	{
-		$source ="storage\pictures";
+		$source ="storage\\pictures";
 	}
 
 	else
 	{
-		$source = "storage\videos";
+		$source = "storage\\videos";
 	}
 	
 	
@@ -178,14 +178,12 @@ require('image.php');
 	$id = get_id($_SESSION["email"]);
 	add_tag($id);
 	
-	$filePath=$filePath.DIRECTORY_SEPARATOR.strval($id).'.'.$extension;
+	$filePath=$filePath.DIRECTORY_SEPARATOR.strval($id).'.'.($extension);
 	rename($tmpFilePath,$filePath);
 	unlink($tmpFilePath);
 	rmdir(pathinfo($tmpFilePath,PATHINFO_DIRNAME));
-    creerMiniatureImage($filePath);
+    creerMiniature($filePath);
   }
 
-
   verbose(1, "Upload OK");
-
 ?>

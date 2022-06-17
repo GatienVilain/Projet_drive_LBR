@@ -1,9 +1,11 @@
 <?php
 
 namespace Application\Controllers\UsersModeration;
-
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
+
+use Application\Model\Log;
 use Application\Tools\Database\DatabaseConnection;
 
 class DeleteUser
@@ -26,6 +28,10 @@ class DeleteUser
                 {
                     // echo $liste_utilisateurs[$i]['email'];
                     $result = $connection->delete_user($liste_utilisateurs[$i]['email']);
+                    $txt='à supprimé le compte ';
+                    $txt.=$liste_utilisateurs[$i]['email'];
+                    ( new Log() )->ecrire_log($_SESSION['email'],$txt);
+
                     // echo $result;
                 }
             }
