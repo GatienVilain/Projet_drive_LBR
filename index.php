@@ -89,6 +89,11 @@ try
                             (new GetAddPage())->execute();
                             $action_found = True;
                         }
+                        elseif ( $_POST['button'] === 'modifier' )
+                        {
+                            (new GetRights())->execute();
+                            $action_found = True;
+                        }
                     }
                     else {
                         (new GetUsersModeration())->execute();
@@ -98,6 +103,16 @@ try
                 elseif ( $_GET['action'] === 'addUser' )
                 {
                     (new AddUser())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'addRight')
+                {
+                    (new AddRight())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'deleteRights')
+                {
+                    (new DeleteRights())->execute();
                     $action_found = True;
                 }
             }
@@ -124,80 +139,34 @@ try
                 (new deleteFile())->execute();
                 $action_found = True;
             }
-
+            elseif ($_GET['action'] === 'basket')
+            {
+                (new Basket())->execute();
+                $action_found = True;
+            }
             elseif ($_GET['action'] === 'addNewTag')
             {
                 (new AddNewTag())->execute();
                 $action_found = True;
             }
-
             elseif ($_GET['action'] === 'addNewCategory')
             {
                 (new AddNewCategory())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='sortMaj')
             {
                 (new SortMaj())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='deleteTagOrCategory')
             {
                 (new DeleteTagOrCategory())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='editTagOrCategory')
             {
                 (new EditTagOrCategory())->execute();
-                $action_found = True;
-            }
-
-			elseif ($_GET['action'] === 'usersmoderation')
-            {
-                if ( isset($_POST['button']) && $_POST['button'] !== '')
-                {
-                    if ( $_POST['button'] === 'supprimer' )
-                    {
-                        (new DeleteUser())->execute();
-                        $action_found = True;
-                    }
-                    elseif ( $_POST['button'] === 'ajouter' )
-                    {
-                        (new GetAddPage())->execute();
-                        $action_found = True;
-                    }
-                    elseif ( $_POST['button'] === 'modifier' )
-                    {
-                        (new GetRights())->execute();
-                        $action_found = True;
-                    }
-                }
-                else {
-                    (new GetUsersModeration())->execute();
-                    $action_found = True;
-                }
-            }
-            elseif ( $_GET['action'] === 'addUser' )
-            {
-                (new AddUser())->execute();
-                $action_found = True;
-            }
-            elseif ($_GET['action'] === 'changeDescription')
-            {
-                (new ChangeDescription())->execute();
-                $action_found = True;
-            }
-            elseif ($_GET['action'] === 'addRight')
-            {
-                (new AddRight())->execute();
-                $action_found = True;
-            }
-            elseif ($_GET['action'] === 'deleteRights')
-            {
-                (new DeleteRights())->execute();
                 $action_found = True;
             }
         }
@@ -234,7 +203,8 @@ try
             $action_found = True;
         }
 
-        if ( $action_found = False )
+
+        if ( $action_found === False )
         {
             throw new Exception("Erreur 404 : La page que vous recherchez n'existe pas.");
         }

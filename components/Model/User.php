@@ -20,7 +20,6 @@ class User
     public function is_admin(): bool
     {
         $role = (new DatabaseConnection)->get_user($_SESSION["email"])["role"];
-
         if ($role == "admin")
         {
             $_SESSION["admin"] = 1;
