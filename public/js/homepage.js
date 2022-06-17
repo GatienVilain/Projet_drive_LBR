@@ -226,6 +226,63 @@ function addNewCategory()
   });
 }
 
+function trier()
+{
+
+  tags = ""; //le tableau//
+  extensions = "";
+  //authors = [];
+  //var checkboxesTags = document.getElementsByClassName("checkbox-filter-menu-tags");
+  //var checkboxesExtensions = document.getElementsByClassName("checkbox-filter-menu-extensions");
+  //var checkboxesAuthors = document.getElementsByClassName("checkbox-filter-menu-authors");
+  // ici il faut mettre un élément commun à tout les chekboxe, afin de//
+  // pouvoir agir sur chacun de ceux-ci, donc, une classe//
+
+  let checkboxesTags = document.getElementsByClassName('checkbox-filter-menu-tags');
+  for(valeur of checkboxesTags)
+    {
+      if(valeur.checked)
+      {
+        idElement = valeur.id;
+        idTag = idElement.replace(/filterMenu-checkTag-/gi,'');
+        tags=tags + idTag + " "; // Ajouter l'élément à la liste //
+      }
+    }
+
+    //console.log(tags);
+  
+  let checkboxesExtensions = document.getElementsByClassName('checkbox-filter-menu-extensions');
+  for(valeur of checkboxesExtensions)
+    {
+      if(valeur.checked)
+      {
+        idElement = valeur.id;
+        idTag = idElement.replace(/-filterMenu-checkExtension/gi,'');
+        extensions=extensions + idTag + " "; // Ajouter l'élément à la liste //
+      }
+    }
+
+    //console.log(extensions);
+  $.ajax({
+    url: 'index.php',
+    data: {'tags' : tags,'extensions' : extensions,'action' : 'sortMaj'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        window.location.reload();
+      }
+
+      else alert(response);
+    }
+
+  });
+
+}
+  
+
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 function myFunction(idElement) 
@@ -295,14 +352,122 @@ function closeEditTag(idElement)
 function openEditTag(idElement)
 {
 
-  idTag = idElement.replace(/edit-tagName-/gi,"");
-  idPopupEditTag = "popup-editTag-" + idTag;
+  idPopupEditTag = idElement.replace(/edit-tagName/gi,"popup-editTag");
+  //idPopupEditTag = "popup-editTag-" + idTag;
   document.getElementById(idPopupEditTag).style.visibility = "visible";
 
 }
 
-function openPopupEditCategory(idButton)
+function openEditCategory(idElement)
 {
-  
+
+  categoryName = idElement.replace(/-edit-categoryName/gi,"");
+  idPopupEditCategory = "popup-editCategory-" + categoryName;
+  document.getElementById(idPopupEditCategory).style.visibility = "visible";
+
+}
+
+function closeEditCategory(idElement)
+{
+
+  categoryName = idElement.replace(/close-button-editCategory-/gi,"");
+  idPopupEditCategory = "popup-editCategory-" + categoryName;
+  document.getElementById(idPopupEditCategory).style.visibility ="hidden";
+
+}
+
+function deleteTag(idElement)
+{
+  idTag = idElement.replace(/filterMenu-deleteTag-/gi,"");
+  $.ajax({
+    url: 'index.php',
+    data: {'idTag' : idTag,'option' : 'deleteTag','action' : 'deleteTagOrCategory'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        alert('Tag supprimé');
+        window.location.reload();
+      }
+
+      else alert(response);
+    }
+
+  });
+
+}
+
+function editTag(idElement)
+{
+  idTag = idElement.replace(/editTag-button-validate/gi,"");
+  newNameTag = document.getElementById("popup-editTag-nameTag").value;
+  selectedCategory = document.getElementById("popup-editTag-selectCategory").options[document.getElementById('popup-editTag-selectCategory').selectedIndex].text
+  $.ajax({
+    url: 'index.php',
+    data: {'idTag' : idTag,'option' : 'editTag','newName' : newNameTag,'category':selectedCategory,'action' : 'editTagOrCategory'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        alert('Tag modifié');
+        window.location.reload();
+      }
+
+      else alert(response);
+    }
+
+  });
+
+}
+
+function deleteCategory(idElement)
+{
+  categoryName = idElement.replace(/-dropdown-delete/gi,"");
+  $.ajax({
+    url: 'index.php',
+    data: {'categoryName' : categoryName,'option' : 'deleteCategory','action' : 'deleteTagOrCategory'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        alert('Catégorie supprimée');
+        window.location.reload();
+      }
+
+      else alert(response);
+    }
+
+  });
+
+}
+
+function editCategory(idElement)
+{
+  categoryName = idElement.replace(/-edit-cetegoryName/gi,"");
+  newName = document.getElementById("popup-editCategory-nameCategory").value;
+  $.ajax({
+    url: 'index.php',
+    data: {'categoryName' : categoryName,'option' : 'editCategory','newName' : newName,'action' : 'editTagOrCategory'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        alert('Catégorie modifée');
+        window.location.reload();
+      }
+
+      else alert(response);
+    }
+
+  });
+
 }
 

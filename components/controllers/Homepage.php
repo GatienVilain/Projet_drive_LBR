@@ -16,12 +16,40 @@ class Homepage
 	{
 		$sort = new CustomSort();
 		$files = $this->instantiate();
+		$user = $_SESSION["email"];
+		$role = (new DatabaseConnection())->get_user($user)["role"];
+
+		//Vérifie variable de session existe et est non nulle
+		if(isset($_SESSION['tagIdList']) && ($_SESSION['tagIdList'] != null))
+		{
+  			//var_dump($_SESSION['tagIdList']);
+  
+		}
+
+
+		//Vérifie variable de session existe et est non nulle
+		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
+		{
+  			//var_dump($_SESSION['extensionList']);
+  
+		}
 
 		$previewArrayCategory = $this->previewArrayCategory();
 
-		$tagsFiles = $this->getArrayTagsFilesInstantiate($files);
-		$previewTags = $this->previewTagsFilesInstantiate($tagsFiles, $previewArrayCategory);
+		if($role == 'invite')
+		{
+			$arrayTagsWithRights = $this->getArrayTagsWithRights($user);
+			$previewTags = $this->previewTagsGuest($arrayTagsWithRights, $previewArrayCategory);
+		}
 
+		else if($role == 'admin')
+		{
+			$arrayAllTags = $this->getArrayTagsForAdmin();
+			$previewTags = $this->previewTagsAdmin($arrayAllTags, $previewArrayCategory);
+
+		}
+		
+		
 		$extensionsFiles = $this->getArrayExtensionsFilesInstantiate($files);
 		$previewExtensions = $this->previewExtensionsFilesInstantiate($extensionsFiles);
 
@@ -29,9 +57,7 @@ class Homepage
 		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
 
 		
-
 		$error = "";
-		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
 		$nbr_files = count($files);
 		require('public/view/homepage.php');
 	}
@@ -103,197 +129,186 @@ class Homepage
 		return $data;
 	}
 
-	private function getArrayTags()
+	private function getArrayTagsForAdmin()
 	{
 		$connection = new DatabaseConnection();
+		$allCategory = $connection->get_tag_category();
+		$tagsByCategory = array();
+		//var_dump($allCategory);
 
-		$arrayTagsWithRights = array();
-		$arrayCategoryTagsWithRights = array();
-		$arrayTags = array();
-		foreach($filesInstantiate as $file)
+		foreach($allCategory as $key => $arrayCategoryName)
 		{
-			//var_dump($file->getTags());
-			foreach($file->getTags() as $idTag)
+
+			//var_dump($arrayCategoryName['nom_categorie_tag']);
+			$categoryName = $arrayCategoryName['nom_categorie_tag'];
+			$allIdByCategory = $connection->get_tag_by_category($categoryName);
+			//var_dump($connection->get_tag_by_category($categoryName));
+			
+			if($allIdByCategory == -1)
 			{
-				//var_dump($idTags);
-				if(!in_array($idTag,$arrayTagsFilesInstantiate))
+				$tagsByCategory[$categoryName]=null;
+			}
+
+
+			else
+			{
+
+				//var_dump($allIdByCategory);
+				foreach($allIdByCategory as $arrayTag)
 				{
-					array_push($arrayTagsFilesInstantiate,$idTag);
+					//var_dump($idTag);
+					if(array_key_exists($categoryName, $tagsByCategory))
+					{
+						array_push($tagsByCategory[$categoryName], array($connection->get_tag($arrayTag['id_tag'])['nom_tag']=>$arrayTag['id_tag']));
+					}
+					
+					else
+					{
+						$tagsByCategory[$categoryName]=array(array($connection->get_tag($arrayTag['id_tag'])['nom_tag']=>$arrayTag['id_tag']));
+					}	
+					
 				}
+		
 			}
-
-		}
-	
-		foreach($arrayTagsFilesInstantiate as $idTag)
-		{	
-			$categoryName = $connection->get_tag_category($idTag)[0]['nom_categorie_tag'];
-			
-			if(array_key_exists($categoryName,$arrayCategoryTagsFilesInstantiate))
-			{
-				
-				array_push($arrayCategoryTagsFilesInstantiate[$categoryName], array($connection->get_tag($idTag)['nom_tag'],$idTag));
-				
-			}
-
-			else
-			{
-
-				$arrayCategoryTagsFilesInstantiate[$categoryName]=array(array($connection->get_tag($idTag)['nom_tag'],$idTag));
-				
-			}
-			
 			
 		}
 
-			
-		//var_dump($arrayCategoryTagsFilesInstantiate);
-		return $arrayCategoryTagsFilesInstantiate;
+		//var_dump($tagsByCategory);
+		return $tagsByCategory;
 
 	}
 
-	private function getArrayTagsWithRights($arrayTagsWithRights)
+	private function getArrayTagsWithRights($user)
 	{
 		$connection = new DatabaseConnection();
-
+		$allRights = $connection->get_rights_of_user($user);
+		//var_dump($allRights);
 		$arrayCategoryTagsWithRights = array();
 		$arrayTags = array();
-		foreach($arrayTagsWithRights as $tagWithRights)
+		foreach($allRights as $tagWithRights)
 		{
-			var_dump($tagWithRightsTags);
-			if(!in_array($idTag,$arrayTagsFilesInstantiate))
-			{
-				array_push($arrayTagsFilesInstantiate,$idTag);
-			}
+			//var_dump($tagWithRights);
+			$categoryName = $connection->get_tag_category($tagWithRights['id_tag'])[0]['nom_categorie_tag'];
 			
-		}
-	
-		foreach($arrayTagsFilesInstantiate as $idTag)
-		{	
-			$categoryName = $connection->get_tag_category($idTag)[0]['nom_categorie_tag'];
-			
-			if(array_key_exists($categoryName,$arrayCategoryTagsFilesInstantiate))
+			if(array_key_exists($categoryName,$arrayCategoryTagsWithRights))
 			{
 				
-				array_push($arrayCategoryTagsFilesInstantiate[$categoryName], array($connection->get_tag($idTag)['nom_tag'],$idTag));
+				array_push($arrayCategoryTagsWithRights[$categoryName], array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
 				
 			}
 
 			else
 			{
 
-				$arrayCategoryTagsFilesInstantiate[$categoryName]=array(array($connection->get_tag($idTag)['nom_tag'],$idTag));
+				$arrayCategoryTagsWithRights[$categoryName]=array(array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
 				
 			}
-			
-			
 		}
 
-			
-		//var_dump($arrayCategoryTagsFilesInstantiate);
-		return $arrayCategoryTagsFilesInstantiate;
+		//var_dump($arrayCategoryTagsWithRights);
+		return $arrayCategoryTagsWithRights;
 
 	}
 
-	private function previewTagsWithRights($tagsFiles, $previewArrayCategory)
+	private function previewTagsGuest($tagsWithRights, $previewArrayCategory)
 	{
 		$connection = new DatabaseConnection();
-		$user = $_SESSION["email"];
 		$result="";
-		foreach($tagsFiles as $categoryName => $arrayTags){
-			//var_dump($arrayTags);
+		foreach($tagsWithRights as $categoryName => $arrayTagsWithRights){
+			//var_dump($categoryName);
 			
-			
-			$categoryName=$categoryName;
 			$result = $result."
 				<div class='dropdown'> 
 					<div class ='categoryName-line'>
 						<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>";
 					
-			if(strtolower($categoryName) != "autres")
+			if($categoryName != "autres")
 			{
 				$result = $result."
-					<button onclick='' class='edit-categoryName-filter-menu' id='".$categoryName."-edit-cetegoryName' title='Modifier nom catégorie'>🖉</button>
-					<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
-			}
+					<button onclick='openEditCategory(this.id)' class='edit-categoryName-filter-menu' id='".$categoryName."-edit-categoryName' title='Modifier nom catégorie'>🖉</button>
+					<button onclick='deleteCategory(this.id)' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
+			
+				$result= $result."
 
-			else
-			{
-				$result = $result."<button onclick='' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete'>×</button>";
+					<div class='popup-editCategory' id='popup-editCategory-".$categoryName."'>
+
+						<div class='header-popup-editTagCategory' id='header-popup-editCategory'>
+								<button id='close-button-editCategory-".$categoryName."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditCategory(this.id)'><p>←</p></button>
+								<p>Modifier catégorie</p>
+						</div>
+
+						<div id='body-popup-editCategory'>
+
+								<input type='text' id='popup-editCategory-nameCategory' name='category' value='".$categoryName."'placeholder='nouveau nom'>
+								<button class='button-valider-editCategory' id='editCategory-button-validate-".$categoryName."' onclick='editCategory(this.id)'>Valider</button>
+			
+						</div>
+
+					</div>";
+			
+			
 			}
 					
+			
 
 			$result = $result."</div><div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
 
-			foreach($arrayTags as $Tags){
+			foreach($arrayTagsWithRights as $tagWithRights)
+			{
 				//var_dump($Tags);
-				$tagName=$Tags[0];
-				$tagId=$Tags[1];
-				$result=$result."
-					<div class='filter-menu-line-tag'>
+				foreach($tagWithRights as $tagName => $tagDetails)
+				{
+					//var_dump($tagDetails);
+					$tagId=$tagDetails['id_tag'];
+					$tagWritingRight=$tagDetails['ecriture'];
+					$result=$result."
+						<div class='filter-menu-line-tag'>
 
-                      	<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
+                      		<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu-tags' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
 
-				if(strtolower($tagName) != "sans tags")
-				{	
-					//var_dump($user);
-					//var_dump($tagId);
-					//var_dump($connection->get_rights($user, $tagId));
-					
+					if($tagName != "sans tags")
+					{	
+						//var_dump($user);
+						//var_dump($tagId);
+						//var_dump($connection->get_rights($user, $tagId));
 
-					if($connection->get_user($user)["role"] == "invite")
-					{
 						//var_dump($tagId);
 						//var_dump($connection->get_rights($user, $tagId)['lecture']);
-						if($connection->get_rights($user, $tagId) !=-1 && $connection->get_rights($user, $tagId)["ecriture"] == 1)
+						if($tagWritingRight == 1)
 						{
-						
+					
 							$result = $result."
 							<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
-							<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+							<button onclick='deleteTag(this.id)' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
 
 						}
+						
 					}
-
-					else
-					{
-						$result = $result."
-						<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
-						<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
-					}
-					
-					
-
-				}
-
-				else
-				{	
-					$result = $result."<button onclick='' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."'>×</button>";
-				}
                       	
-				$result = $result."												
-					<div class='popup-editTag' id='popup-editTag-".$tagId."'>
+					$result = $result."												
+						<div class='popup-editTag' id='popup-editTag-".$tagId."'>
 
-        				<div class='header-popup-editTagCategory' id='header-popup-editTag'>
-							<button id='close-button-editTag-".$tagId."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditTag(this.id)'><p>←</p></button>
-          					<p>Modifer tag</p>
-        				</div>
+        					<div class='header-popup-editTagCategory' id='header-popup-editTag'>
+								<button id='close-button-editTag-".$tagId."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditTag(this.id)'><p>←</p></button>
+          						<p>Modifer tag</p>
+        					</div>
 
-        				<div id='body-popup-editTag'>
+        					<div id='body-popup-editTag'>
 
-          					<select id='popup-editTag-selectCategory' name='category'>"
-            					.$previewArrayCategory.
-          					"</select>
-          					<input type='text' id='popup-editTag-nameTag' name='tag' value='".$tagName."' placeholder='nouveau nom'>
-            				<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag()'>Valider</button>
+          						<select id='popup-editTag-selectCategory' name='category'>"
+            						.$previewArrayCategory.
+          						"</select>
+          						<input type='text' id='popup-editTag-nameTag' name='tag' value='".$tagName."' placeholder='nouveau nom'>
+            					<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag(this.id)'>Valider</button>
           					
-        				</div>
+        					</div>
 
-      				</div>
+      					</div>
 
-	  			</div>";
+	  				</div>";
 
-
-
+				}
+				
 
 			}
 
@@ -304,6 +319,121 @@ class Homepage
 
 		return $result;
 	}
+
+	private function previewTagsAdmin($tagsWithRights, $previewArrayCategory)
+	{
+		$connection = new DatabaseConnection();
+		$result="";
+		//var_dump($tagsWithRights);
+		//var_dump($_SESSION['tagsIdList']);
+
+		foreach($tagsWithRights as $categoryName => $arrayTagsWithRights)
+		{
+
+			if($arrayTagsWithRights != null)
+			{
+				//var_dump($arrayTagsWithRights);
+				//var_dump($tagDetails);
+				$result = $result."
+					<div class='dropdown'> 
+						<div class ='categoryName-line'>
+							<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>";
+						
+				if($categoryName != "autres")
+				{
+					$result = $result."
+						<button onclick='openEditCategory(this.id)' class='edit-categoryName-filter-menu' id='".$categoryName."-edit-categoryName' title='Modifier nom catégorie'>🖉</button>
+						<button onclick='deleteCategory(this.id)' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
+				
+					$result= $result."
+
+						<div class='popup-editCategory' id='popup-editCategory-".$categoryName."'>
+
+							<div class='header-popup-editTagCategory' id='header-popup-editCategory'>
+									<button id='close-button-editCategory-".$categoryName."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditCategory(this.id)'><p>←</p></button>
+									<p>Modifier catégorie</p>
+							</div>
+
+							<div id='body-popup-editCategory'>
+
+									<input type='text' id='popup-editCategory-nameCategory' name='category' value='".$categoryName."'placeholder='nouveau nom'>
+									<button class='button-valider-editCategory' id='editCategory-button-validate".$categoryName."' onclick='editCategory(this.id)'>Valider</button>
+			
+							</div>
+
+						</div>";
+
+
+				}
+
+				
+						
+
+				$result = $result."</div><div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
+
+
+				//var_dump($arrayTagsWithRights);
+				foreach($arrayTagsWithRights as $key => $tagDetails)
+				{
+
+					//var_dump($tagDetails);
+					$tagName=array_keys($tagDetails)[0];
+					$tagId=$tagDetails[$tagName];
+					$result=$result."
+						<div class='filter-menu-line-tag'>
+
+							<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu-tags' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
+
+					if($tagName != "sans tags")
+					{	
+						//var_dump($user);
+						//var_dump($tagId);
+						//var_dump($connection->get_rights($user, $tagId));
+
+						//var_dump($tagId);
+						//var_dump($connection->get_rights($user, $tagId)['lecture']);
+
+						$result = $result."
+						<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
+						<button onclick='deleteTag(this.id)' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+
+					}
+
+					
+							
+					$result = $result."												
+						<div class='popup-editTag' id='popup-editTag-".$tagId."'>
+
+							<div class='header-popup-editTagCategory' id='header-popup-editTag'>
+								<button id='close-button-editTag-".$tagId."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditTag(this.id)'><p>←</p></button>
+								<p>Modifer tag</p>
+							</div>
+
+							<div id='body-popup-editTag'>
+
+								<select id='popup-editTag-selectCategory' name='category'>"
+									.$previewArrayCategory.
+								"</select>
+								<input type='text' id='popup-editTag-nameTag' name='tag' value='".$tagName."' placeholder='nouveau nom'>
+								<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag(this.id)'>Valider</button>
+								
+							</div>
+
+						</div>
+
+					</div>";					
+
+				}
+
+				$result=$result."</div> </div>";
+				
+			}				
+
+		}
+
+		return $result;
+	}
+
 
 	private function getArrayExtensionsFilesInstantiate($filesInstantiate)
 	{
@@ -335,7 +465,7 @@ class Homepage
 			
 				<div class='filter-menu-element-extension' id='".$extension."-extension'>
 
-                	<p><input type='checkbox' class ='checkbox-filter-menu' id='".$extension."-filterMenu-checkExtension' title='Sélectionner une extension'>&emsp;".$extension."</p>
+                	<p><input type='checkbox' class ='checkbox-filter-menu-extensions' id='".$extension."-filterMenu-checkExtension' title='Sélectionner une extension'>&emsp;".$extension."</p>
                 
                 </div>";
 		}
@@ -374,7 +504,7 @@ class Homepage
 			
 				<div class='filter-menu-line-author' id='".$authorId."-author'>
 
-                	<p><input type='checkbox' class ='checkbox-filter-menu' id='".$authorId."-filterMenu-checkAuthor' title='Sélectionner une extension'>&emsp;".$author."</p>
+                	<p><input type='checkbox' class ='checkbox-filter-menu-authors' id='".$authorId."-filterMenu-checkAuthor' title='Sélectionner une extension'>&emsp;".$author."</p>
                 
                 </div>";
 		}

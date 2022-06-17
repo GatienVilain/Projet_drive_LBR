@@ -14,6 +14,9 @@ require_once("components/Controllers/History.php");
 require_once("components/Controllers/deleteFile.php");
 require_once("components/Controllers/AddNewTag.php");
 require_once("components/Controllers/AddNewCategory.php");
+require_once("components/Controllers/DeleteTagOrCategory.php");
+require_once("components/Controllers/EditTagOrCategory.php");
+require_once("components/Controllers/SortMaj.php");
 require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
@@ -36,6 +39,9 @@ use Application\Controllers\History;
 use Application\Controllers\deleteFile;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
+use Application\Controllers\DeleteTagOrCategory;
+use Application\Controllers\EditTagOrCategory;
+use Application\Controllers\SortMaj;
 use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
@@ -89,6 +95,24 @@ try
             elseif ($_GET['action'] === 'addNewCategory')
             {
                 (new AddNewCategory())->execute();
+                $action_found = True;
+            }
+
+            elseif($_GET['action']==='sortMaj')
+            {
+                (new SortMaj())->execute();
+                $action_found = True;
+            }
+
+            elseif($_GET['action']==='deleteTagOrCategory')
+            {
+                (new DeleteTagOrCategory())->execute();
+                $action_found = True;
+            }
+
+            elseif($_GET['action']==='editTagOrCategory')
+            {
+                (new EditTagOrCategory())->execute();
                 $action_found = True;
             }
 

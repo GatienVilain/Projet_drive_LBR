@@ -13,8 +13,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script src="public/js/homepage.js"></script>
-
-
 <div class = toolbar>
 
   <div class = groupe1>
@@ -124,7 +122,7 @@
         </div>
 
         <div id="filter-menu-sort">
-          <button id="button-filter-menu-sort" title="Lancer le tri">Trier</button>
+          <button id="button-filter-menu-sort" title="Lancer le tri" onclick='trier()'>Trier</button>
         </div>
               
 
