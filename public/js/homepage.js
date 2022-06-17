@@ -225,6 +225,48 @@ function addNewCategory()
   });
 }
 
+function trierNomFichier()
+{
+  $.ajax({
+    url: 'index.php',
+    data: {'option' : 'sortAlphabetic','action' : 'sortMaj'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      console.log(response['status']);
+
+      if( response.status === true )
+
+      {
+        window.location.reload();
+      }
+
+      else window.location.reload();
+    }
+
+  });
+}
+
+function trierDateModification()
+{
+  $.ajax({
+    url: 'index.php',
+    data: {'option' : 'sortModificationDate','action' : 'sortMaj'},
+    dataType: 'json', 
+    success: function (response) 
+    {
+      if( response.status === true )
+
+      {
+        window.location.reload();
+      }
+
+      else window.location.reload();
+    }
+
+  });
+}
+
 function trier()
 {
 
@@ -264,7 +306,7 @@ function trier()
     //console.log(extensions);
   $.ajax({
     url: 'index.php',
-    data: {'tags' : tags,'extensions' : extensions,'action' : 'sortMaj'},
+    data: {'tags' : tags,'extensions' : extensions,'option':'sortFilter','action' : 'sortMaj'},
     dataType: 'json', 
     success: function (response) 
     {

@@ -17,7 +17,7 @@
 
   <div class = groupe1>
 
-    <button class="buttonHomePage" title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
+    <button class="buttonHomePage" title="Trier les fichiers par ordre alphabétique" onclick = "trierNomFichier()">A-Z</button>
 
     <div id="buttonHomePage-filters">
 
@@ -137,7 +137,7 @@
 
   <div class = groupe2>
 
-    <button class="buttonHomePage" title="Trier les fichiers par date de modification" onclick="">Date modification</button>
+    <button class="buttonHomePage" title="Trier les fichiers par date de modification" onclick="trierDateModification()">Date modification</button>
       
   </div>
 
