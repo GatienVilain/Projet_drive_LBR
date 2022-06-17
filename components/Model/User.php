@@ -19,15 +19,21 @@ class User
 
     public function is_admin(): bool
     {
-        $role = (new DatabaseConnection)->get_user($_SESSION["email"])["role"];
-        if ($role == "admin")
+        if ( isset($_SESSION['admin']) )
         {
-            $_SESSION["admin"] = 1;
-            return True;
+            return $_SESSION['admin'];
         }
         else {
-            $_SESSION["admin"] = 0;
-            return false;
+            $role = (new DatabaseConnection)->get_user($_SESSION["email"])["role"];
+            if ($role == "admin")
+            {
+                $_SESSION["admin"] = 1;
+                return True;
+            }
+            else {
+                $_SESSION["admin"] = 0;
+                return false;
+            }
         }
     }
 

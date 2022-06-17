@@ -1,5 +1,4 @@
-
-<?php if ( isset($_SESSION["admin"]) && $_SESSION["admin"] == 1 )
+<?php if ( $_SESSION["admin"] )
 {
     require('public/view/admin_banner_menu.php');
 }
