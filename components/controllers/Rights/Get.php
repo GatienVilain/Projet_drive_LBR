@@ -9,8 +9,6 @@ use Application\Tools\Database\DatabaseConnection;
 class GetRights
 {
     private string $email ;
-    private DatabaseConnection $connection ;
-    private string $categories ;
 
     public function __construct()
 	{
