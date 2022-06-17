@@ -70,13 +70,17 @@ class GetRights
         {
             $key = $value["nom_categorie_tag"];
 
-            $table[$key] = $connection->get_tag_by_category($key);
-
-            for ($i = 0; $i < count($table[$key]);$i++)
+            $result = $connection->get_tag_by_category($key);
+            if ($result != -1)
             {
-                $cell = $table[$key][$i];
-                $cell["nom_tag"] = $connection->get_tag($cell["id_tag"])["nom_tag"];
-                $table[$key][$i] = $cell;
+                $table[$key] = $result;
+
+                for ($i = 0; $i < count($table[$key]);$i++)
+                {
+                    $cell = $table[$key][$i];
+                    $cell["nom_tag"] = $connection->get_tag($cell["id_tag"])["nom_tag"];
+                    $table[$key][$i] = $cell;
+                }
             }
         }
 
