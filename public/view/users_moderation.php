@@ -52,7 +52,7 @@
 			?>
 		</table>
 		<span>
-			<a title="Accède à la page pour créer un utilisateur" href="index.php?action=addUser">+ Ajouter</a>
+			<a title="Accède à la page pour créer un utilisateur" href="index.php?action=addUserPage">+ Ajouter</a>
 			<input type="submit" name="button" value="supprimer">
 		</span>
 	</form>

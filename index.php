@@ -84,14 +84,13 @@ try
                             (new DeleteUser())->execute();
                             $action_found = True;
                         }
-                        
                     }
                     else {
                         (new GetUsersModeration())->execute();
                         $action_found = True;
                     }
                 }
-                elseif ( $_GET['action'] === 'addUser' )
+                elseif ( $_GET['action'] === 'addUserPage' )
                 {
                     (new GetAddPage())->execute();
                     $action_found = True;
