@@ -53,8 +53,8 @@
                                 if ($tag[$type])
                                 {   ?>
                                     <span>
-                                        <input type="checkbox" class="<?= "check-right-" . $type?>" name="<?= $type[0] . $tag["id_tag"] ?>">
-                                        <label><?= $tag["nom_tag"] ?></label>
+                                        <input type="checkbox" id="checkbox-<?= $type[0] . $tag["id_tag"] ?>" class="<?= "check-right-" . $type?>" name="<?= $type[0] . $tag["id_tag"] ?>">
+                                        <label for="checkbox-<?= $type[0] . $tag["id_tag"] ?>"><?= $tag["nom_tag"] ?></label>
                                     </span>
                                     <?php
                                 }

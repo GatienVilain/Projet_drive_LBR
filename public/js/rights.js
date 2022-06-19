@@ -18,16 +18,22 @@ function showTagOptions()
 	document.querySelectorAll(option_selected).forEach(a => a.style.display = "block");
 }
 
-function linkToWritingTag(id)
+function linkToWritingTag(event)
 {
-	let writing_checkbox = document.querySelectorAll(".check-right-ecriture");
-	let same_id_checkbox = writing_checkbox.getElementsByName(id);
-	same_id_checkbox.checked = True;
+	let reading_checkbox = event.currentTarget;
+
+	if (reading_checkbox.checked)
+	{
+		let writing_checkbox = document.getElementById("checkbox-e" + reading_checkbox.name.substr(1));
+		if (writing_checkbox != null)
+		{
+			writing_checkbox.checked = true;
+		}
+	}
 }
 
-
-let checkbox_rights = document.querySelectorAll(".check-right-lecture");
+const checkbox_rights = document.querySelectorAll('.check-right-lecture');
 
 checkbox_rights.forEach(tag => {
-	tag.addEventListener('change', linkToWritingTag(tag.name.substr(1)));
+	tag.addEventListener('change', linkToWritingTag, false);
 });
