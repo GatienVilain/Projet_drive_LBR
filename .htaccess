@@ -1,0 +1,35 @@
+# Remove directory indexing and make the server respond with a 403 forbidden message
+Options All -Indexes
+DirectoryIndex index.php
+
+# Hide the contents of directories
+IndexIgnore *
+
+
+# Disable multi-views (recommended for canonical URIs)
+Options -MultiViews
+
+# Enable symlinks (required for permalinks/rewrites, e.g., index.php → index.html)
+Options +FollowSymlinks
+
+# Specify the default character set for any file served text/plain or text/html (recommended for usability)
+AddDefaultCharset UTF-8
+
+# Disables the server signature (recommended for better security)
+ServerSignature Off
+
+# Disables the ETag Header (recommended for performance)
+FileETag none
+
+# ETAG
+# This technique can provide a small performance boost on certain configurations. For example, disabling ETag is reported to improve performance on clustered servers. And more generally reduces the overall size of both sent and received HTTP headers.
+<IfModule mod_headers.c>
+	Header unset ETag
+</IfModule>
+
+# EXPIRES
+# That also sets a default expires value of 300 seconds, so go ahead and adjust that value to suit your needs.
+<IfModule mod_expires.c>
+	ExpiresActive on
+	ExpiresDefault A300
+</IfModule>
