@@ -24,31 +24,29 @@
 			<?php
 			foreach ($users_table as $user)
 			{	?>
-				<label for="checkbox-<?= $user['email'];?>">
-					<tr>
-						<td class="checkbox">
-							<input id="checkbox-<?= $user['email'];?>" type="checkbox" name="<?= $user['email'];?>">
-						</td>
-						<td class="prenom">
-							<?= $user['prenom']; ?>
-						</td>
-						<td class="nom">
-							<?= $user['nom']; ?>
-						</td>
-						<td class="role">
-							<?= $user['role']; ?>
-						</td>
-						<td class="email">
-							<?= $user['email']; ?>
-						</td>
-						<td class="description">
-							<?= $user['descriptif']; ?>
-						</td>
-						<td>
-							<a title="Accède à la page pour modifier l’utilisateur <?= $user['prenom']." ".$user['nom']; ?>" href="index.php?action=editRights&for=<?= $user['email'];?>">🖉 Modifier</a>
-						</td>
-					</tr>
-				</label>
+				<tr>
+					<td class="checkbox">
+						<input type="checkbox" name="<?= $user['email'];?>">
+					</td>
+					<td class="prenom">
+						<?= $user['prenom']; ?>
+					</td>
+					<td class="nom">
+						<?= $user['nom']; ?>
+					</td>
+					<td class="role">
+						<?= $user['role']; ?>
+					</td>
+					<td class="email">
+						<?= $user['email']; ?>
+					</td>
+					<td class="description">
+						<?= $user['descriptif']; ?>
+					</td>
+					<td>
+						<a title="Accède à la page pour modifier l’utilisateur <?= $user['prenom']." ".$user['nom']; ?>" href="index.php?action=editRights&for=<?= $user['email'];?>">🖉 Modifier</a>
+					</td>
+				</tr>
 				<?php
 			}
 			?>
