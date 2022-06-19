@@ -11,7 +11,7 @@
 
 	<h2>Utilisateurs :</h2>
 
-	<form action = "index.php?action=usersModeration" method= "post">
+	<form action = "index.php?action=deleteUser" method= "post">
 		<table>
 			<tr>
 				<th>
@@ -53,7 +53,7 @@
 		</table>
 		<span>
 			<a title="Accède à la page pour créer un utilisateur" href="index.php?action=addUserPage">+ Ajouter</a>
-			<input type="submit" name="button" value="supprimer">
+			<button type="submit">Supprimer</button>
 		</span>
 	</form>
 

@@ -77,18 +77,13 @@ try
                 }
                 elseif ($_GET['action'] === 'usersModeration')
                 {
-                    if ( isset($_POST['button']) && $_POST['button'] !== '')
-                    {
-                        if ( $_POST['button'] === 'supprimer' )
-                        {
-                            (new DeleteUser())->execute();
-                            $action_found = True;
-                        }
-                    }
-                    else {
-                        (new GetUsersModeration())->execute();
-                        $action_found = True;
-                    }
+                    (new GetUsersModeration())->execute();
+                    $action_found = True;
+                }
+                elseif ( $_GET['action'] === 'deleteUser' )
+                {
+                    (new DeleteUser())->execute();
+                    $action_found = True;
                 }
                 elseif ( $_GET['action'] === 'addUserPage' )
                 {
