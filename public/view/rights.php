@@ -24,7 +24,7 @@
                 <!-- `Remplacer par de la date d’inscription de l’utilisateur -->
                 <?= $registration_date ?>
         </p>
-        <form action="index.php?action=changeDescription" method="post">
+        <form action="index.php?action=changeDescriptionFor&for=<?= $email ?>" method="post">
             <textarea id="profile-description" name="description"  maxlength="256" required><?= $description ?></textarea>
             <button type="submit">Modifier</button>
         </form>
