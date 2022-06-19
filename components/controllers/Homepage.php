@@ -119,7 +119,7 @@ class Homepage
 			$tmp = array_values(array_unique(array_merge($tmp, array_unique($tmp2))));
 			if (!empty($tmp)) {
 				for ($i = 0; $i < count($tmp); $i++) {
-					$data[] = new Files($tmp[$i]);
+					$data[] = new Files($tmp[$i],false);
 				}
 			}
 		}
