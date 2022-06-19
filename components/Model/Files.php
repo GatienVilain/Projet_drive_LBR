@@ -21,65 +21,30 @@ class Files
 	private array $tags;
 	private bool $ecriture;
 	private bool $lecture;
+	private bool $deleted;
 
-    public function __construct($id_fichier)
+    public function __construct($id_fichier,$deleted)
     {
+		$connection = new DatabaseConnection();
+		$result = $connection->get_file($id_fichier);
+		
         $this->id_fichier = $id_fichier;
-		$this->auteur = $this->setAuthor($id_fichier);
-		$this->source = $this->setPath($id_fichier);
-		$this->nom_fichier = $this->setFilename($id_fichier);
-		$this->date_publication = $this->setReleaseDate($id_fichier);
-		$this->date_modification = $this->setModificationDate($id_fichier);
-		$this->taille_Mo = $this->setFileSize($id_fichier);
-		$this->type = $this->setFileType($id_fichier);
-		$this->extension = $this->setFileExtension($id_fichier);
+		$this->deleted = $deleted;
+		$this->auteur = $result["email"];
+		$this->source = $result["source"] . '\\' . strval($id_fichier);
+		$this->nom_fichier = $result["nom_fichier"];
+		$this->date_publication = $result["date_publication"];
+		$this->date_modification = $result["date_derniere_modification"];
+		$this->taille_Mo = $result["taille_Mo"];
+		$this->type = $result["type"];
+		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);
 		$this->ecriture = $this->setRights($id_fichier)["ecriture"];
 		$this->lecture = $this->setRights($id_fichier)["lecture"];
+		
     }
 	
 	//setteur
-	private function setAuthor(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["email"];
-	}
-	
-	private function setPath(int $id_fichier): string
-	{
-		$connection = new DatabaseConnection();
-		return $connection->get_file($id_fichier)["source"] . '\\' . strval($id_fichier);
-	}
-	
-	private function setFilename(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["nom_fichier"];
-	}
-	
-	private function setReleaseDate(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["date_publication"];
-	}
-	
-	private function setModificationDate(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["date_derniere_modification"];
-	}
-	
-	private function setFileSize(int $id_fichier): float
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["taille_Mo"];
-	}
-	
-	private function setFileType(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["type"];
-	}
-	
-	private function setFileExtension(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["extension"];
-	}
-	
 	private function setTags(int $id_fichier): array
 	{
 		$connection = new DatabaseConnection();
@@ -205,14 +170,19 @@ class Files
 	}
 	
 	
-	public function getWriting(): int
+	public function getWriting(): bool
 	{
 		return $this->ecriture;
 	}
 	
-	public function getReading(): int
+	public function getReading(): bool
 	{
 		return $this->lecture;
+	}
+	
+	public function getDeleted(): bool
+	{
+		return $this->deleted;
 	}
 
 	public function getAuthorName(): string
@@ -232,10 +202,10 @@ class Files
 	public function preview(): string
 	{
 		$fileName = $this->getFilename();
-		$fileAuthor=$this->getAuthorName();
+		$fileAuthor = $this->getAuthorName();
 
-		$fileAddedDate=$this->getReleaseDate();
-		$fileModificationDate=$this->getModificationDate();
+		$fileAddedDate = $this->getReleaseDate();
+		$fileModificationDate = $this->getModificationDate();
 		$fileAddedDate = date("d-m-Y",strtotime($fileAddedDate)); 
 		$fileModificationDate = date("d-m-Y",strtotime($fileModificationDate)); 
 
@@ -274,29 +244,48 @@ class Files
 			}
 		}
 
+		if ($this->getDeleted()) {
+			$popupOptions = sprintf("
+				<div class='popup-options' id='%s-popup-options'>
+
+					<div class='header-popup' id='header-popup-options'>
+
+						<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
+						<p><strong>Options</strong></p>
+			
+					</div>
+
+					<div id='body-popup-options'>
+
+						<button class='buttonPopupOptions' title='Restaurer le fichier' onclick='recoverFile($idFichier)'>Restaurer</button>
+						<button class='buttonPopupOptions' title='Supprimer définitivement le fichier' onclick='deleteFile($idFichier)'>Supprimer</button>
+
+					</div>
+
+				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+		}
+		else {
+			$popupOptions = sprintf("
+				<div class='popup-options' id='%s-popup-options'>
+
+					<div class='header-popup' id='header-popup-options'>
+
+						<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
+						<p><strong>Options</strong></p>
+			
+					</div>
+
+					<div id='body-popup-options'>
+
+					<a href='%s' download ='%s'><button class='buttonPopupOptions' title='Télécharger le fichier'>Télécharger</button></a>
+						<button class='buttonPopupOptions' title='Supprimer le fichier en le mettant dans la corbeille' onclick='basketFile($idFichier)'  >Supprimer</button>
+
+					</div>
+
+				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+		}
 		
-		
-
-		$preview = sprintf("<div class=miniature>
-
-			<div class='popup-options' id='%s-popup-options'>
-
-        		<div class='header-popup' id='header-popup-options'>
-
-            		<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
-           			<p><strong>Options</strong></p>
-        
-        		</div>
-
-        		<div id='body-popup-options'>
-
-				<a href='%s' download ='%s'><button class='buttonPopupOptions' title='Télécharger le fichier'>Télécharger</button></a>
-          			<button class='buttonPopupOptions' title='Supprimer le fichier' onclick='deleteFile($idFichier)'  >Supprimer</button>
-
-        		</div>
-
-    		</div>
-
+		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
 
 				<div class='header-popup' id='header-popup-detail'>
@@ -368,10 +357,8 @@ class Files
 
 					</div>
 
-				</div>
-	
-	
-			</div>" ,$idFichier,$idFichier,$filePath,$this->getFilename(),$idFichier,$idFichier);
+				</div> 
+			</div>",$idFichier,$idFichier);
 		
 		if ($fileType == "image") {
 			$image = sprintf("
@@ -383,7 +370,7 @@ class Files
 					<p> %s </p> 
 				</div></div>",$idFichier,$previewFilePath,$this->getFilename());
 				
-			return $preview . $image;
+			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
 		}
 		elseif ($fileType == "video") {
 			$video = sprintf("
@@ -398,7 +385,7 @@ class Files
 					<p> %s </p> 
 				</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
 				
-			return $preview . $video;
+			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
 		}
 		
 		return -1;

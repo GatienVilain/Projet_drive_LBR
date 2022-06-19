@@ -135,7 +135,7 @@ class Homepage
 				}
 			
 				for ($i = 0; $i < count($tmp); $i++) {
-					$data[] = new Files($tmp[$i]);
+					$data[] = new Files($tmp[$i],false);
 				}
 			}
 			else {
@@ -150,15 +150,11 @@ class Homepage
 		$connection = new DatabaseConnection();
 		$allCategory = $connection->get_tag_category();
 		$tagsByCategory = array();
-		//var_dump($allCategory);
 
 		foreach($allCategory as $key => $arrayCategoryName)
 		{
-
-			//var_dump($arrayCategoryName['nom_categorie_tag']);
 			$categoryName = $arrayCategoryName['nom_categorie_tag'];
 			$allIdByCategory = $connection->get_tag_by_category($categoryName);
-			//var_dump($connection->get_tag_by_category($categoryName));
 			
 			if($allIdByCategory == -1)
 			{
@@ -168,11 +164,8 @@ class Homepage
 
 			else
 			{
-
-				//var_dump($allIdByCategory);
 				foreach($allIdByCategory as $arrayTag)
 				{
-					//var_dump($idTag);
 					if(array_key_exists($categoryName, $tagsByCategory))
 					{
 						array_push($tagsByCategory[$categoryName], array($connection->get_tag($arrayTag['id_tag'])['nom_tag']=>$arrayTag['id_tag']));
@@ -182,23 +175,16 @@ class Homepage
 					{
 						$tagsByCategory[$categoryName]=array(array($connection->get_tag($arrayTag['id_tag'])['nom_tag']=>$arrayTag['id_tag']));
 					}	
-					
 				}
-		
 			}
-			
 		}
-
-		//var_dump($tagsByCategory);
 		return $tagsByCategory;
-
 	}
 
 	private function getArrayTagsWithRights($user)
 	{
 		$connection = new DatabaseConnection();
 		$allRights = $connection->get_rights_of_user($user);
-		//var_dump($allRights);
 		$arrayCategoryTagsWithRights = array();
 		$arrayTags = array();
 
@@ -224,11 +210,8 @@ class Homepage
 				}
 			}
 		}
-		
-
 		//var_dump($arrayCategoryTagsWithRights);
 		return $arrayCategoryTagsWithRights;
-
 	}
 
 	private function previewTagsGuest($tagsWithRights, $previewArrayCategory)
@@ -236,8 +219,6 @@ class Homepage
 		$connection = new DatabaseConnection();
 		$result="";
 		foreach($tagsWithRights as $categoryName => $arrayTagsWithRights){
-			//var_dump($categoryName);
-			
 			$result = $result."
 				<div class='dropdown'> 
 					<div class ='categoryName-line'>
@@ -266,20 +247,14 @@ class Homepage
 						</div>
 
 					</div>";
-			
-			
 			}
-					
-			
 
 			$result = $result."</div><div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
 
 			foreach($arrayTagsWithRights as $tagWithRights)
 			{
-				//var_dump($Tags);
 				foreach($tagWithRights as $tagName => $tagDetails)
 				{
-					//var_dump($tagDetails);
 					$tagId=$tagDetails['id_tag'];
 					$tagWritingRight=$tagDetails['ecriture'];
 					$result=$result."
@@ -289,21 +264,12 @@ class Homepage
 
 					if($tagName != "sans tags")
 					{	
-						//var_dump($user);
-						//var_dump($tagId);
-						//var_dump($connection->get_rights($user, $tagId));
-
-						//var_dump($tagId);
-						//var_dump($connection->get_rights($user, $tagId)['lecture']);
 						if($tagWritingRight == 1)
 						{
-					
 							$result = $result."
 							<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
 							<button onclick='deleteTag(this.id)' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
-
 						}
-						
 					}
                       	
 					$result = $result."												
@@ -327,17 +293,10 @@ class Homepage
       					</div>
 
 	  				</div>";
-
 				}
-				
-
 			}
-
 			$result=$result."</div> </div>";
-
 		}
-
-
 		return $result;
 	}
 

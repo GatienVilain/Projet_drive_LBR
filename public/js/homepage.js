@@ -1,8 +1,3 @@
-//document.oncontextmenu = function(){return false}
-
-
-
-
 function toggleFilterMenu(){
 
   buttonFilter = document.getElementById("popup-filter-menu");
@@ -151,13 +146,11 @@ function closePopupOptions(idElement)
 
 }
 
-function deleteFile(idFichier)
+function basketFile(idFichier)
 {
-
-  //var file_path = "storage/pictures/58.png";
   $.ajax({
     url: 'index.php',
-    data: {'idFile' : idFichier,'action' : "deleteFile"},
+    data: {'idFile' : idFichier,'action' : "basketFile"},
     dataType: 'json', 
     success: function (response) 
     {

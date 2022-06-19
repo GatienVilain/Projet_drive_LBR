@@ -11,7 +11,9 @@ require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
+require_once("components/Controllers/basketFile.php");
 require_once("components/Controllers/deleteFile.php");
+require_once("components/Controllers/recoverFile.php");
 require_once("components/Controllers/AddNewTag.php");
 require_once("components/Controllers/AddNewCategory.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
@@ -40,7 +42,9 @@ use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
+use Application\Controllers\basketFile;
 use Application\Controllers\deleteFile;
+use Application\Controllers\recoverFile;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
 use Application\Controllers\DeleteTagOrCategory;
@@ -136,16 +140,31 @@ try
                 (new ChangeDescription())->execute();
                 $action_found = True;
             }
+
+            elseif ($_GET['action'] === 'basketFile')
+            {
+                (new basketFile())->execute();
+                $action_found = True;
+            }
+			
             elseif ($_GET['action'] === 'deleteFile')
             {
                 (new deleteFile())->execute();
                 $action_found = True;
             }
+			
+			elseif ($_GET['action'] === 'recoverFile')
+            {
+                (new recoverFile())->execute();
+                $action_found = True;
+            }
+
             elseif ($_GET['action'] === 'basket')
             {
                 (new Basket())->execute();
                 $action_found = True;
             }
+
             elseif ($_GET['action'] === 'addNewTag')
             {
                 (new AddNewTag())->execute();
