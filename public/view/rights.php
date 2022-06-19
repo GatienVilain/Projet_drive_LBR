@@ -1,6 +1,6 @@
 <?php $title = "Drive LBR - profil"; ?>
 <?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/rights.css\">" ?>
-<?php $scripts = '<script type="text/javascript" src="public/js/add_rights_menu.js"></script>' ?>
+<?php $scripts = '<script type="text/javascript" src="public/js/rights.js"></script>' ?>
 
 <?php require('public/view/banner-menu.php'); ?>
 <?php require('public/view/add_rights_menu.php'); ?>
@@ -53,7 +53,7 @@
                                 if ($tag[$type])
                                 {   ?>
                                     <span>
-                                        <input type="checkbox" name="<?= $type[0] . $tag["id_tag"] ?>">
+                                        <input type="checkbox" class="<?= "check-right-" . $type?>" name="<?= $type[0] . $tag["id_tag"] ?>">
                                         <label><?= $tag["nom_tag"] ?></label>
                                     </span>
                                     <?php
@@ -84,6 +84,7 @@
 
             <form action = "index.php?action=addRight&for=<?= $email ?>" method= "post">
                 <select id="category-selector" name="category" onchange="showTagOptions()" require>
+                    <option value="" disabled selected> Choisir un categorie :</option>
                     <?php
                     foreach ($preview_array_category as $categorie)
                     {
@@ -95,7 +96,7 @@
                 </select>
 
                 <select name="tag" require>
-                    <option value=""> Choisir un tag :</option>
+                    <option value="" disabled selected> Choisir un tag :</option>
                     <?php
                     foreach ($preview_array_tag as $key=>$categorie)
                     {
@@ -114,7 +115,7 @@
 
                 <select name="type">
                     <option value="ecriture">Écriture</option>
-                    <option value="lecture">lecture</option>
+                    <option value="lecture" selected>lecture</option>
                 </select>
 
                 <button type="submit">Valider</button>
