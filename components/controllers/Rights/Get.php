@@ -12,7 +12,7 @@ class GetRights
 
     public function __construct()
 	{
-		$this->email = str_replace('_','.',array_keys($_POST)[0]);
+		$this->email =  $_GET['for'];
 	}
 
     public function execute()

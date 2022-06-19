@@ -30,6 +30,6 @@ class DeleteRights
             }
         }
 
-        header('Location: index.php?action=usersmoderation');
+        header("Location: index.php?action=editRights&for=".$email);
     }
 }
