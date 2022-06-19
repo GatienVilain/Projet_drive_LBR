@@ -25,63 +25,26 @@ class Files
 
     public function __construct($id_fichier,$deleted)
     {
+		$connection = new DatabaseConnection();
+		$result = $connection->get_file($id_fichier);
+		
         $this->id_fichier = $id_fichier;
-		$this->auteur = $this->setAuthor($id_fichier);
-		$this->source = $this->setPath($id_fichier);
-		$this->nom_fichier = $this->setFilename($id_fichier);
-		$this->date_publication = $this->setReleaseDate($id_fichier);
-		$this->date_modification = $this->setModificationDate($id_fichier);
-		$this->taille_Mo = $this->setFileSize($id_fichier);
-		$this->type = $this->setFileType($id_fichier);
-		$this->extension = $this->setFileExtension($id_fichier);
+		$this->deleted = $deleted;
+		$this->auteur = $result["email"];
+		$this->source = $result["source"] . '\\' . strval($id_fichier);
+		$this->nom_fichier = $result["nom_fichier"];
+		$this->date_publication = $result["date_publication"];
+		$this->date_modification = $result["date_derniere_modification"];
+		$this->taille_Mo = $result["taille_Mo"];
+		$this->type = $result["type"];
+		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);
 		$this->ecriture = $this->setRights($id_fichier)["ecriture"];
 		$this->lecture = $this->setRights($id_fichier)["lecture"];
-		$this->deleted = $deleted;
+		
     }
 	
 	//setteur
-	private function setAuthor(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["email"];
-	}
-	
-	private function setPath(int $id_fichier): string
-	{
-		$connection = new DatabaseConnection();
-		return $connection->get_file($id_fichier)["source"] . '\\' . strval($id_fichier);
-	}
-	
-	private function setFilename(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["nom_fichier"];
-	}
-	
-	private function setReleaseDate(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["date_publication"];
-	}
-	
-	private function setModificationDate(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["date_derniere_modification"];
-	}
-	
-	private function setFileSize(int $id_fichier): float
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["taille_Mo"];
-	}
-	
-	private function setFileType(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["type"];
-	}
-	
-	private function setFileExtension(int $id_fichier): string
-	{
-		return (new DatabaseConnection())->get_file($id_fichier)["extension"];
-	}
-	
 	private function setTags(int $id_fichier): array
 	{
 		$connection = new DatabaseConnection();
