@@ -24,6 +24,7 @@ require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
 require_once("components/Controllers/UsersModeration/ChangeDescription.php");
+require_once("components/Controllers/UsersModeration/ChangePassword.php");
 require_once("components/Controllers/Rights/Get.php");
 require_once("components/Controllers/Rights/Add.php");
 require_once("components/Controllers/Rights/Delete.php");
@@ -55,6 +56,7 @@ use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
 use Application\Controllers\UsersModeration\ChangeDescription as ChangeDescriptionFor;
+use Application\Controllers\UsersModeration\ChangePassword as ChangePasswordFor;
 use Application\Controllers\Rights\GetRights;
 use Application\Controllers\Rights\AddRight;
 use Application\Controllers\Rights\DeleteRights;
@@ -101,9 +103,14 @@ try
                     (new AddUser())->execute();
                     $action_found = True;
                 }
+                elseif ($_GET['action'] === 'changePasswordFor')
+                {
+                    (new ChangePasswordFor())->execute();
+                    $action_found = True;
+                }
                 elseif ($_GET['action'] === 'changeDescriptionFor')
                 {
-                    (new changeDescriptionFor())->execute();
+                    (new ChangeDescriptionFor())->execute();
                     $action_found = True;
                 }
                 elseif ( $_GET['action'] === 'editRights' )
