@@ -12,8 +12,14 @@ require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/deleteFile.php");
+require_once("components/Controllers/DeleteMultipleFiles.php");
+require_once("components/Controllers/AddTagsMultipleFiles.php");
+require_once("components/Controllers/DeleteTagsMultipleFiles.php");
 require_once("components/Controllers/AddNewTag.php");
 require_once("components/Controllers/AddNewCategory.php");
+require_once("components/Controllers/AddTagFile.php");
+require_once("components/Controllers/DeleteTagFile.php");
+require_once("components/Controllers/GetFilesSize.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
 require_once("components/Controllers/EditTagOrCategory.php");
 require_once("components/Controllers/SortMaj.php");
@@ -37,8 +43,14 @@ use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\deleteFile;
+use Application\Controllers\DeleteMultipleFiles;
+use Application\Controllers\AddTagsMultipleFiles;
+use Application\Controllers\DeleteTagsMultipleFiles;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
+use Application\Controllers\GetFilesSize;
+use Application\Controllers\AddTagFile;
+use Application\Controllers\DeleteTagFile;
 use Application\Controllers\DeleteTagOrCategory;
 use Application\Controllers\EditTagOrCategory;
 use Application\Controllers\SortMaj;
@@ -95,6 +107,42 @@ try
             elseif ($_GET['action'] === 'addNewCategory')
             {
                 (new AddNewCategory())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'addTagFile')
+            {
+                (new AddTagFile())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteTagFile')
+            {
+                (new DeleteTagFile())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteMultipleFiles')
+            {
+                (new DeleteMultipleFiles())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'getFilesSize')
+            {
+                (new GetFilesSize())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'addTagsMultipleFiles')
+            {
+                (new AddTagsMultipleFiles())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteTagsMultipleFiles')
+            {
+                (new DeleteTagsMultipleFiles())->execute();
                 $action_found = True;
             }
 
