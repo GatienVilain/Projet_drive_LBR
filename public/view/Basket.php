@@ -3,6 +3,7 @@
 <?php $scripts = "" ?>
 
 <?php require('public/view/banner-menu.php'); ?>
+<?php require_once('components/Tools/getid3/getid3.php'); ?>
 
 <?php ob_start(); ?>
 
@@ -21,7 +22,6 @@
         <button title="Trier les fichiers par date de suppression" onclick="">Date suppression</button>
     </div>
 </div>
-
 
 <div id="containerGallery">
 

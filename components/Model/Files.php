@@ -6,7 +6,6 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-
 class Files
 {
     private string $id_fichier;
@@ -16,6 +15,7 @@ class Files
 	private string $date_publication;
     private string $date_modification;
     private float $taille_Mo;
+	private string $duree;
 	private string $type;
     private string $extension;
 	private array $tags;
@@ -36,12 +36,12 @@ class Files
 		$this->date_publication = $result["date_publication"];
 		$this->date_modification = $result["date_derniere_modification"];
 		$this->taille_Mo = $result["taille_Mo"];
+		$this->duree = $result["duree"] == null ? '' : $result["duree"];
 		$this->type = $result["type"];
 		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);
 		$this->ecriture = $this->setRights($id_fichier)["ecriture"];
 		$this->lecture = $this->setRights($id_fichier)["lecture"];
-		
     }
 	
 	//setteur
@@ -114,6 +114,11 @@ class Files
 	public function getFileSize(): float
 	{
 		return $this->taille_Mo;
+	}
+	
+	public function getFileDuration(): string
+	{
+		return $this->duree;
 	}
 	
 	public function getFileType(): string
@@ -212,12 +217,13 @@ class Files
 
 
 
-		$fileSize=$this->getFileSize();
-		$fileTags= $this->getTagsNames();
-		$previewTags=$this->previewTags($fileTags);
-		$fileExtension=$this->getFileExtension();
+		$fileSize = $this->getFileSize();
+		$fileTags = $this->getTagsNames();
+		$previewTags = $this->previewTags($fileTags);
+		$fileExtension = $this->getFileExtension();
 		$descriptionAuthor = $this->getAuthorDescription();
 		$idFichier=$this->id_fichier;
+		$duration = $this->getFileDuration();
 		
 		$fileType = $this->getFileType();
 		$filePath = $this->getPath() . '.' . $fileExtension;
@@ -285,6 +291,17 @@ class Files
 				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
 		}
 		
+		$videoDuration = sprintf("
+			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+
+				<p class = 'detail-para'>Duree:</p>
+				<p class = 'server-para'>$duration</p>
+
+			</div>
+		
+		
+		",);
+		
 		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
 
@@ -349,8 +366,10 @@ class Files
 						<p class = 'server-para'>$fileSize Mo</p>
 
 					</div>
+					
+					%s
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
 
 						<p class = 'detail-para'>Tag:</p>
 						<div class = 'server-para' id='server-para-tag'>$previewTags</div>
@@ -358,7 +377,7 @@ class Files
 					</div>
 
 				</div> 
-			</div>",$idFichier,$idFichier);
+			</div>",$idFichier,$idFichier,$videoDuration);
 		
 		if ($fileType == "image") {
 			$image = sprintf("
