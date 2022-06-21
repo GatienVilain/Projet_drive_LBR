@@ -382,7 +382,7 @@ class Files
 		if ($fileType == "image") {
 			$image = sprintf("
 				<div oncontextmenu='return false;' class=image> 
-					<img class=popup id='%s' src=%s></a>
+					<img class=popup id='%s' src=%s>
 				</div> 
 				
 				<div class = titre> 
@@ -392,17 +392,34 @@ class Files
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
 		}
 		elseif ($fileType == "video") {
-			$video = sprintf("
-				<div oncontextmenu='return false;' class=video> 
-					<video class=popup id='%s'>
-						<source src=%s type='video/%s'>
-						Your browser does not support the video tag.
-					</video>
-				</div> 
-				
-				<div class = titre> 
-					<p> %s </p> 
-				</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
+			if(in_array($this->getFileExtension(), array("mp4","webm","ogg"))) {
+				$video = sprintf("
+					<div oncontextmenu='return false;' class=video> 
+						<video class=popup id='%s'>
+							<source src=%s type='video/%s'>
+							Your browser does not support the video tag.
+						</video>
+					</div> 
+					
+					<div class = titre> 
+						<p> %s </p> 
+					</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
+			}
+			else {
+				$video = sprintf("
+					<div oncontextmenu='return false;' class=video> 
+						<video class=popup id='%s' style='display:none'>
+							<source src=%s type='video/%s'>
+							Your browser does not support the video tag.
+						</video>
+						<img src='storage/pictures/frames/error.png'>
+					</div> 
+					
+					<div class = titre> 
+						<p> %s </p> 
+					</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
+			}
+
 				
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
 		}

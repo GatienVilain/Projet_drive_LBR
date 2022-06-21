@@ -189,7 +189,7 @@
   
   <div id="video-show-area">
   
-    <video src="" controls>
+    <video src="" type="" controls>
 	
   </div>
   
@@ -263,7 +263,7 @@ window.addEventListener("load", () => {
     chunk_size: "2mb",
     filters: {
       //max_file_size: "150mb",
-      mime_types: [{title: "Image", extensions: "jpg,gif,png, tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf,wav,wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
+      mime_types: [{title: "Image", extensions: "jpg,gif,png,hdr,tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf,wav,wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
     },
     init: {
       PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },
