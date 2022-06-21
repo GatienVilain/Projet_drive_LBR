@@ -14,8 +14,6 @@
     <!-- Style Sheets -->
     <link rel="stylesheet" href="public/css/styles.css">
     <?= $stylesheets ?>
-    <!--  Scripts  -->
-    <?= $scripts ?>
 </head>
 
 <body>
@@ -31,6 +29,8 @@
         <?= $banner_menu ?>
     </header>
     <?= $content ?>
+    <!--  Scripts  -->
+    <?= $scripts ?>
 </body>
 
 </html>
