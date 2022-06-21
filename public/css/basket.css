@@ -7,6 +7,7 @@
   margin-right: 4.5vw;
   margin-left: 4.5vw;
   margin-bottom: 15vh;
+  position: relative;
 
 }
 
@@ -237,3 +238,31 @@ border-bottom:1px solid black;
   overflow: hidden;
   
 }
+
+/*Popup option multipleFiles*/
+#popup-options-multipleFiles{
+  display: none;
+  flex-direction: column;
+  position:fixed;
+  border-radius: 5px;
+  width: 10em;
+  height: 27vh;
+  min-width: 130px;
+  overflow-y: scroll;
+  overflow-x: visible;
+  left: 40%;
+  top: 10%;
+  border: 2px solid black;
+  background-color: var(--couleur-popup);
+  z-index: 9;
+  }
+
+  #header-popup-options-MultipleFiles > p {
+    margin-top: 1vh;
+  }
+
+  .body-popup-options > p{
+    margin-left: 15px;
+    font-size: 1.1em;
+    margin-top: 10px;
+  }

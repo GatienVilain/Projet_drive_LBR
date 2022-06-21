@@ -3,8 +3,6 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
-
-
 use Application\Tools\Database\DatabaseConnection;
 
 class DownloadMultipleFiles
@@ -25,8 +23,8 @@ class DownloadMultipleFiles
         }
         
         $zipname = __DIR__.'/../../storage/TMP/'.$_SESSION['email'].'/fichiers.zip';
-        $zip = new ZipArchive;
-        $zip->open($zipname, ZipArchive::CREATE);
+        $zip = new \ZipArchive;
+        $zip->open($zipname, \ZipArchive::CREATE);
         foreach ($files as $file) {
             $zip->addFile($file);
         }
