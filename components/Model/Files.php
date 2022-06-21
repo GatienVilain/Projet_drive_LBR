@@ -342,7 +342,11 @@ class Files
 			}
 			$result=$result."<button id='add-tag-file-button-valider' onclick='addTagsFile(this.id)'>Valider</button></div></div>";
 		}
-		$result = $result."<p>Aucun tag ajoutable</div></div>";	
+		else
+		{
+			$result = $result."<p>Aucun tag ajoutable</div></div>";	
+		}
+		
 		return $result;
 	}
 

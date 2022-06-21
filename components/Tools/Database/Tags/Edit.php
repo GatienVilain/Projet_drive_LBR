@@ -47,6 +47,13 @@ trait TagEdit
 			$conn->close();
 			return $this->console_log("Echec d'association du tag à la catégorie.");
 		}
+		$connection = new DatabaseConnection();
+		
+		$user = $_SESSION['email']; 
+		if($connection->get_user($user)['role'] == 'invite')
+		{
+			$connection->add_writing_right($user, $id_tag);
+		}
 		$conn->close();
 		return 0;
 	}
