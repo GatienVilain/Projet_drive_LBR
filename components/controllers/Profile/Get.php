@@ -15,7 +15,7 @@ class GetProfile
         $name = $informations['prenom'] . " " . $informations['nom'];
         $role = $informations['role'];
         $description = $informations['descriptif'];
-        $registration_date = $informations['date_inscription'];
+        $registration_date = date("d/m/Y",strtotime($informations['date_inscription']));
 
         $error = "";
         require('public/view/profile.php');
