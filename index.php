@@ -23,6 +23,9 @@ require_once("components/Controllers/AddTagFile.php");
 require_once("components/Controllers/DeleteTagFile.php");
 require_once("components/Controllers/GetFilesSize.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
+require_once("components/Controllers/DownloadMultipleFiles.php");
+require_once("components/Controllers/DeleteDefinitelyMultipleFiles.php");
+require_once("components/Controllers/RecoveryMultipleFiles.php");
 require_once("components/Controllers/EditTagOrCategory.php");
 require_once("components/Controllers/SortMaj.php");
 require_once("components/Controllers/UsersModeration/Get.php");
@@ -52,8 +55,11 @@ use Application\Controllers\History;
 use Application\Controllers\basketFile;
 use Application\Controllers\deleteFile;
 use Application\Controllers\DeleteMultipleFiles;
+use Application\Controllers\DeleteDefinitelyMultipleFiles;
+use Application\Controllers\RecoveryMultipleFiles;
 use Application\Controllers\AddTagsMultipleFiles;
 use Application\Controllers\DeleteTagsMultipleFiles;
+use Application\Controllers\DownloadMultipleFiles;
 use Application\Controllers\recoverFile;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
@@ -140,6 +146,7 @@ try
                     (new DeleteRights())->execute();
                     $action_found = True;
                 }
+                
             }
 
             // Actions disponible quand on est connecté mais pas admin
@@ -213,6 +220,12 @@ try
                 $action_found = True;
             }
 
+            elseif ($_GET['action'] === 'downloadMultipleFiles')
+            {
+                (new DownloadMultipleFiles())->execute();
+                $action_found = True;
+            }
+
             elseif ($_GET['action'] === 'getFilesSize')
             {
                 (new GetFilesSize())->execute();
@@ -244,6 +257,16 @@ try
             elseif($_GET['action']==='editTagOrCategory')
             {
                 (new EditTagOrCategory())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'deleteDefinitelyMultipleFiles')
+            {
+                (new DeleteDefinitelyMultipleFiles())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'recoveryMultipleFiles')
+            {
+                (new RecoveryMultipleFiles())->execute();
                 $action_found = True;
             }
         }

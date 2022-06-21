@@ -560,8 +560,7 @@ function deleteCategory(idElement)
       dataType: 'json', 
       success: function (response) 
       {
-
-
+        console.log(response['status']);
         if( response.status === true )
 
         {
@@ -570,7 +569,7 @@ function deleteCategory(idElement)
         }
 
         else {
-          console.log(response['status']);
+          console.log('Erreur');
         }
         
         //window.location.reload();
@@ -895,6 +894,36 @@ function getFilesSelectedSize()
         //console.log(response['status']);
         size = 'Taille : ' + response + 'Mo';
         document.getElementById('sizeFilesSelected').textContent=size;
+        
+      }
+
+    });
+
+
+
+}
+
+
+function downloadMultipleFiles()
+{
+  idFiles ="";
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+	console.log(idFiles);
+    $.ajax({
+      url: 'index.php',
+      data: {'action' : 'downloadMultipleFiles','files' : idFiles},
+      dataType: 'json', 
+      success: function (response) 
+      {
         
       }
 

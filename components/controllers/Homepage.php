@@ -18,10 +18,7 @@ class Homepage
 		$files = $this->instantiate();
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
-		$test = (new DatabaseConnection())->get_link(130);
-
 		
-
 		//Vérifie variable de session existe et est non nulle
 		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
 		{
