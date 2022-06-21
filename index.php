@@ -11,10 +11,12 @@ require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
+require_once("components/Controllers/basketFile.php");
 require_once("components/Controllers/deleteFile.php");
 require_once("components/Controllers/DeleteMultipleFiles.php");
 require_once("components/Controllers/AddTagsMultipleFiles.php");
 require_once("components/Controllers/DeleteTagsMultipleFiles.php");
+require_once("components/Controllers/recoverFile.php");
 require_once("components/Controllers/AddNewTag.php");
 require_once("components/Controllers/AddNewCategory.php");
 require_once("components/Controllers/AddTagFile.php");
@@ -27,6 +29,11 @@ require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
+require_once("components/Controllers/UsersModeration/ChangeDescription.php");
+require_once("components/Controllers/UsersModeration/ChangePassword.php");
+require_once("components/Controllers/Rights/Get.php");
+require_once("components/Controllers/Rights/Add.php");
+require_once("components/Controllers/Rights/Delete.php");
 
 require_once("components/Model/User.php");
 
@@ -42,10 +49,12 @@ use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
+use Application\Controllers\basketFile;
 use Application\Controllers\deleteFile;
 use Application\Controllers\DeleteMultipleFiles;
 use Application\Controllers\AddTagsMultipleFiles;
 use Application\Controllers\DeleteTagsMultipleFiles;
+use Application\Controllers\recoverFile;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
 use Application\Controllers\GetFilesSize;
@@ -58,6 +67,11 @@ use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
+use Application\Controllers\UsersModeration\ChangeDescription as ChangeDescriptionFor;
+use Application\Controllers\UsersModeration\ChangePassword as ChangePasswordFor;
+use Application\Controllers\Rights\GetRights;
+use Application\Controllers\Rights\AddRight;
+use Application\Controllers\Rights\DeleteRights;
 
 use Application\Model\User;
 
@@ -71,12 +85,66 @@ try
         if ( (new User())->is_connected() )
         {
             // Actions possible lorsque l’on est connecté
-            if ($_GET['action'] === 'history')
+
+            if ( (new User())->is_admin() )
             {
-               ( new History() )->execute();
-               $action_found = True;
+                // Actions possible lorsque l’on est administrateur
+
+                if ($_GET['action'] === 'history')
+                {
+                   ( new History() )->execute();
+                   $action_found = True;
+                }
+                elseif ($_GET['action'] === 'usersModeration')
+                {
+                    (new GetUsersModeration())->execute();
+                    $action_found = True;
+                }
+                elseif ( $_GET['action'] === 'deleteUser' )
+                {
+                    (new DeleteUser())->execute();
+                    $action_found = True;
+                }
+                elseif ( $_GET['action'] === 'addUserPage' )
+                {
+                    (new GetAddPage())->execute();
+                    $action_found = True;
+                }
+                elseif ( $_GET['action'] === 'addUser' )
+                {
+                    (new AddUser())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'changePasswordFor')
+                {
+                    (new ChangePasswordFor())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'changeDescriptionFor')
+                {
+                    (new ChangeDescriptionFor())->execute();
+                    $action_found = True;
+                }
+                elseif ( $_GET['action'] === 'editRights' )
+                {
+                    (new GetRights())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'addRight')
+                {
+                    (new AddRight())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'deleteRights')
+                {
+                    (new DeleteRights())->execute();
+                    $action_found = True;
+                }
             }
-            elseif ($_GET['action'] === 'profile')
+
+            // Actions disponible quand on est connecté mais pas admin
+
+            if ($_GET['action'] === 'profile')
             {
                 ( new GetProfile() )->execute();
                 $action_found = True;
@@ -86,15 +154,33 @@ try
                 (new ChangePasswordProfile())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'basket')
+            elseif ($_GET['action'] === 'changeDescription')
             {
-                (new Basket())->execute();
+                (new ChangeDescription())->execute();
                 $action_found = True;
             }
 
+            elseif ($_GET['action'] === 'basketFile')
+            {
+                (new basketFile())->execute();
+                $action_found = True;
+            }
+			
             elseif ($_GET['action'] === 'deleteFile')
             {
                 (new deleteFile())->execute();
+                $action_found = True;
+            }
+			
+			elseif ($_GET['action'] === 'recoverFile')
+            {
+                (new recoverFile())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'basket')
+            {
+                (new Basket())->execute();
                 $action_found = True;
             }
 
@@ -103,7 +189,6 @@ try
                 (new AddNewTag())->execute();
                 $action_found = True;
             }
-
             elseif ($_GET['action'] === 'addNewCategory')
             {
                 (new AddNewCategory())->execute();
@@ -151,47 +236,14 @@ try
                 (new SortMaj())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='deleteTagOrCategory')
             {
                 (new DeleteTagOrCategory())->execute();
                 $action_found = True;
             }
-
             elseif($_GET['action']==='editTagOrCategory')
             {
                 (new EditTagOrCategory())->execute();
-                $action_found = True;
-            }
-
-			elseif ($_GET['action'] === 'usersmoderation')
-            {
-                if ( isset($_POST['button']) && $_POST['button'] !== '')
-                {
-                    if ( $_POST['button'] === 'supprimer' )
-                    {
-                        (new DeleteUser())->execute();
-                        $action_found = True;
-                    }
-                    elseif ( $_POST['button'] === 'ajouter' )
-                    {
-                        (new GetAddPage())->execute();
-                        $action_found = True;
-                    }
-                }
-                else {
-                    (new GetUsersModeration())->execute();
-                    $action_found = True;
-                }
-            }
-            elseif ( $_GET['action'] === 'addUser' )
-            {
-                (new AddUser())->execute();
-                $action_found = True;
-            }
-            elseif ($_GET['action'] === 'changeDescription')
-            {
-                (new ChangeDescription())->execute();
                 $action_found = True;
             }
         }
@@ -228,9 +280,10 @@ try
             $action_found = True;
         }
 
-        if ( $action_found = False )
+
+        if ( $action_found === False )
         {
-            throw new Exception("La page que vous recherchez n'existe pas.");
+            throw new Exception("Erreur 404 : La page que vous recherchez n'existe pas.");
         }
     }
     else

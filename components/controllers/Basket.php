@@ -13,16 +13,19 @@ class Basket
 	public function execute()
 	{
 		$files = $this->instantiate();
+		$user = $_SESSION["email"];
+		$role = (new DatabaseConnection())->get_user($user)["role"];
+		$nbr_files = count($files);
 		$error = "";
+		
 		require('public/view/basket.php');
 	}
 
 	private function instantiate()
 	{
 		$connection = new DatabaseConnection();
-		//liste de tous les objets fichiers non supprimés auxquelles l'utilisateur peut intéragir avec
+		//liste de tous les objets fichiers supprimés auxquelles l'utilisateur peut intéragir avec
 		$data = array();
-
 
         if ($connection->get_user($_SESSION["email"])["role"] == 'admin')
 		{
@@ -43,7 +46,7 @@ class Basket
 
 		if (!empty($tmp)) {
 			for ($i = 0; $i < count($tmp); $i++) {
-				$data[] = new Files($tmp[$i]);
+				$data[] = new Files($tmp[$i],true);
 			}
 		}
 
