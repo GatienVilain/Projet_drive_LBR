@@ -4,17 +4,7 @@
 
 <?php require('public/view/banner-menu.php'); ?>
 
-<?php ob_start(); 
-/*$zip = new ZipArchive;
-$res = $zip->open(__DIR__."C:\wamp64\www\storage".DIRECTORY_SEPARATOR."test.zip", ZipArchive::CREATE);
-echo(__DIR__.DIRECTORY_SEPARATOR."test.zip");
-if ($res === TRUE) {
-    $zip->addFile('data.txt', 'nom_de_l_entree.txt');
-    $zip->close();
-    echo 'ok';
-} else {
-    echo 'échec';
-}*/?>
+<?php ob_start(); ?>
 
 
 <!-- Content -->
