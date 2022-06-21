@@ -429,8 +429,8 @@ class Files
 		$fileModificationDate = $this->getModificationDate();
 		$fileAddedDate = date("d-m-Y",strtotime($fileAddedDate)); 
 		$fileModificationDate = date("d-m-Y",strtotime($fileModificationDate)); 
-		$previewAddTagsMenu = $this->previewTagsAddMenu($this->getTagsAddMenu());
-		$previewDeleteTagsMenu = $this->previewTagsDeleteMenu($this->getTagsDeleteMenu());
+		//$previewAddTagsMenu = $this->previewTagsAddMenu($this->getTagsAddMenu());
+		//$previewDeleteTagsMenu = $this->previewTagsDeleteMenu($this->getTagsDeleteMenu());
 
 
 
@@ -663,11 +663,9 @@ class Files
 					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
 						<div id='popup-detail-line-tags'>
 							<p class = 'detail-para'>Tag(s):</p>
-							<button class = 'button-add-tags-toFile' id = 'add-tags-toFile-".$idFichier."' onclick='openAddTagsToFile(this.id)' title='Ajouter tag(s)'>+</button>
-							<button class = 'button-add-tags-toFile' id = 'delete-tags-toFile-".$idFichier."' onclick='openDeleteTagsToFile(this.id)' title='Supprimer tag(s)'>-</button>
 						</div>
 						
-						<div class = 'server-para' id='server-para-tag'>$previewTags</div>".$previewAddTagsMenu.$previewDeleteTagsMenu."</div>
+						<div class = 'server-para' id='server-para-tag'>$previewTags</div></div>
 
 					</div> 
 			</div>",$idFichier,$idFichier,$videoDuration);
