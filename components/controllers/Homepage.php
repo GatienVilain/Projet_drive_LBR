@@ -18,9 +18,7 @@ class Homepage
 		$files = $this->instantiate();
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
-
 		
-
 		//Vérifie variable de session existe et est non nulle
 		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
 		{
@@ -65,6 +63,11 @@ class Homepage
 
 		}
 		
+		$arrayTagsAddMultipleFiles = $this->getTagsAddMultipleFiles();
+		$previewAddTagsMultipleFiles = $this->previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles);
+
+		$arrayTagsDeleteMultipleFiles = $this->getTagsDeleteMultipleFiles($files);
+		$previewDeleteTagsMultipleFiles = $this->previewTagsDeleteMultipleFiles($arrayTagsDeleteMultipleFiles);
 
 		$extensionsFiles = $this->getArrayExtensionsFilesInstantiate($files);
 		$previewExtensions = $this->previewExtensionsFilesInstantiate($extensionsFiles);
@@ -106,7 +109,6 @@ class Homepage
 				for ($i = 0; $i < count($rights); $i++) {
 					$tags[] = $rights[$i]["id_tag"];
 				}
-
 				for ($i = 0; $i < count($tags); $i++) {
 					$tmp3 = $connection->get_files_by_link($tags[$i]);
 					if ($tmp3 != -1) {
@@ -190,6 +192,7 @@ class Homepage
 
 		if($allRights != -1)
 		{
+			
 			foreach($allRights as $tagWithRights)
 			{
 				//var_dump($tagWithRights);
@@ -517,8 +520,220 @@ class Homepage
 		return $result;
 	}
 
+	private function getTagsAddMultipleFiles()
+	{
+		$connection = new DatabaseConnection();
+		$arrayTagsAddMenu = array();	
+		$role = $connection->get_user($_SESSION["email"])["role"];
+		$idTagsAllowed = array();
+		$idTagsNotAllowed=array();
+
+		if($role == 'invite')
+		{   
+            $idTagsWithRights = $connection->get_rights_of_user($_SESSION["email"]);
+            if($idTagsWithRights != -1)
+            {
+                foreach($idTagsWithRights as $key => $arrayTagRights)
+                {
+                    if($arrayTagRights['ecriture'] == 1)
+                    {
+                        array_push($idTagsAllowed,$arrayTagRights['id_tag']);
+                    }
+                }
+
+                if(empty($idTagsAllowed))
+                {
+                    $arrayTagsAddMenu = null;
+                    return $arrayTagsAddMenu;
+                }
+            }
+            else
+            {
+                $arrayTagsAddMenu = null;
+                return $arrayTagsAddMenu;
+            }
+			
+		}
+
+		else if($role == 'admin')
+		{
+			$idTagsAllowed = array();
+			$allCategory = $connection->get_tag_category();
+			foreach($allCategory as $key => $arrayCategoryName)
+			{
+				$allIdByCategory = $connection->get_tag_by_category($arrayCategoryName['nom_categorie_tag']);
+				if($allIdByCategory != -1)
+				{
+					foreach($allIdByCategory as $tag)
+					{		
+						array_push($idTagsAllowed,$tag['id_tag']);
+					}
+				}
+			}
+		}
+		foreach($idTagsAllowed as $id)
+		{		
+			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
+			if(array_key_exists($categoryName, $arrayTagsAddMenu))
+			{
+				array_push($arrayTagsAddMenu[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
+			}			
+			else
+			{
+				$arrayTagsAddMenu[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
+			}	
+		}
+		return $arrayTagsAddMenu;
+	}
+
+	private function previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles)
+	{
+		//var_dump($arrayTagsAddMenu);
+		$result = "
+        	<div id='add-tags-multipleFiles'>
+          		<div class ='addDelete-tags-file-title'>   
+				 	<button id='close-button-addTag-multipleFiles' class='close-button-addDeleteTag' title='Fermer' onclick ='closeAddTagsMultipleFiles()'><p>←</p></button>     
+            		<p>Ajouter Tag(s)</p>
+            	</div>
+          		<div class ='addDelete-tags-file-body'>";
+		if($arrayTagsAddMultipleFiles != null)
+		{
+			foreach($arrayTagsAddMultipleFiles as $categoryName => $arrayTags){ 
+				$result = $result."
+					<div class='dropdown'> 
+						<div class ='categoryName-line'>
+							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-addDelete-tags-multipleFiles'>".$categoryName." ⌵</button>
+						</div>
+						<div id='".$categoryName."-dropdown-addDelete-tags-content-multipleFiles' class='add-dropdown-content'>";
+				foreach($arrayTags as $tags)
+				{
+					foreach($tags as $tagName => $tagId)
+					{
+						$result=$result."
+							<div class='addDelete-tags-line-tag'>
+								<p class = 'inputCheckboxTagAdd'><input type='checkbox' class ='checkbox-add-tags-multipleFiles' id='add-tags-multipleFiles-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
+							</div>";
+					}
+				}	
+				$result = $result."</div></div>";	
+			}
+			$result=$result."<button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div>";
+		}
+		else
+		{
+			$result = $result."<p>Aucun tag supprimable</div></div>";	
+		}
+		return $result;
+	}
 	
+	private function getTagsDeleteMultipleFiles($files)
+	{
 
+		$connection = new DatabaseConnection();
+		$arrayTagsDeleteMultipleFiles = array();
+		$idTagsFile = array();
+		$idTagsFiles = array();
+		$role = $connection->get_user($_SESSION["email"])["role"];
+		$idTagsAllowed = array();
+		$idTagsNotAllowed=array();
+		foreach($files as $file)
+		{
+			$idTagsFile = $file->getTags();
+			foreach($idTagsFile as $idTag)
+			{
+				if(!in_array($idTag, $idTagsFiles))
+				{
+					array_push($idTagsFiles, $idTag);
+				}
+			}
+		}
+		
+		if($role == 'invite')
+		{
+			$idTagsWithRights = $connection->get_rights_of_user($_SESSION["email"]);
+			if($idTagsWithRights != -1)
+			{
+				foreach($idTagsWithRights as $key => $arrayTagRights)
+				{
+					if($arrayTagRights['ecriture'] == 0)
+					{
+						array_push($idTagsNotAllowed,$arrayTagRights['id_tag']);
+					}
+				}
+				$idTagsAllowed=array_values(array_diff($idTagsFiles, $idTagsNotAllowed));
+			}
+			else
+			{
+				$arrayTagsDeleteMultipleFiles = null;
+				return $arrayTagsDeleteMultipleFiles;
+			}
+		}
+		else if($role == 'admin')
+		{
+			$idTagsAllowed = array_values($idTagsFiles);
+		}
+		if (count($idTagsAllowed) == 1 && $idTagsAllowed[0] == 1)
+		{
+			$arrayTagsDeleteMultipleFiles = null;
+			return $arrayTagsDeleteMultipleFiles;
+		}
+		foreach($idTagsAllowed as $id)
+		{		
+			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
+			if(array_key_exists($categoryName, $arrayTagsDeleteMultipleFiles))
+			{
+				array_push($arrayTagsDeleteMultipleFiles[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
+			}			
+			else
+			{
+				$arrayTagsDeleteMultipleFiles[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
+			}	
+		}
+		return $arrayTagsDeleteMultipleFiles;
+	}
 
+	private function previewTagsDeleteMultipleFiles($arrayTagsDeleteMultipleFiles)
+	{
+		//var_dump($arrayTagsAddMenu);
+		$result = "
+        	<div id='delete-tags-multipleFiles'>
+          		<div class ='addDelete-tags-file-title' id='delete-tags-multipleFiles-title'>   
+				 	<button id='close-button-deleteTag-multipleFiles' class='close-button-addDeleteTag' title='Fermer' onclick ='closeDeleteTagsMultipleFiles()'><p>←</p></button>     
+            		<p>Supprimer Tag(s)</p>
+            	</div>
+          		<div class ='addDelete-tags-file-body' id='delete-tags-multipleFiles-body'>";
+		
+		if($arrayTagsDeleteMultipleFiles != null)
+		{
+			foreach($arrayTagsDeleteMultipleFiles as $categoryName => $arrayTags){ 
+				$result = $result."
+					<div class='dropdown'> 
+						<div class ='categoryName-line'>
+							<button onclick='' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-addDelete-tags-multipleFiles'>".$categoryName." ⌵</button>
+						</div>
+						<div class='delete-dropdown-content' id='".$categoryName."-dropdown-addDelete-tags-content-multipleFiles'>";
+				foreach($arrayTags as $tags)
+				{
+					foreach($tags as $tagName => $tagId)
+					{
+						$result=$result."
+							<div class='addDelete-tags-line-tag'>
+								  <p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-delete-tags-multipleFiles' id='delete-tags-multipleFiles-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
+							</div>";
+					}
+				}	
+				$result = $result."</div></div>";	
+			}
+			$result=$result."<button id='delete-tag-multipleFiles-button-valider' onclick='deleteTagsMultipleFiles()'>Valider</button></div></div>";
+		}
+
+		else
+		{
+			$result = $result."<p>Aucun tag supprimable</div></div>";	
+		}
+		
+			
+		return $result;
+	}
 
 }

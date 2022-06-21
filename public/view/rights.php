@@ -28,6 +28,20 @@
             <textarea id="profile-description" name="description"  maxlength="256" required><?= $description ?></textarea>
             <button type="submit">Modifier</button>
         </form>
+        <form action="index.php?action=changePasswordFor&for=<?= $email ?>" method="post" id="change-password">
+            <div>
+                <?= $_SESSION['error'] ?>
+            </div>
+            <div class="field">
+                <label for="password-field">Entrer le nouveau mot de passe : </label>
+                <input type="password" name="password" id="password-field" required>
+            </div>
+            <div class="field">
+                <label for="confirmation-password-field">Confirmer votre mot de passe :</label>
+                <input type="password" name="confirmation_password" id="confirmation-password-field" required>
+            </div>
+            <button type="submit">Valider</button>
+        </form>
     </section>
 
     <section id="rights-section">

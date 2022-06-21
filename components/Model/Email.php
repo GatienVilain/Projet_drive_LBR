@@ -13,7 +13,7 @@ class Email
     {
         $this->address = $address;
         $this->subject = $subject;
-        $this->content = $message;
+        $this->message = $message;
     }
 
     public function getAddress(): string
@@ -23,10 +23,11 @@ class Email
 
     public function SendEmail()
     {
-        $headers  = "Content-Type: text/plain; charset=utf-8\r\n";
+        $headers  = "Content-Type: text/html; charset=utf-8\r\n";
         $headers .= "From: totolvroum@gmail.com\r\n";
+        require("components/Model/templatemail.php");
 
-        if ( ! mail ( $this->address, $this->subject, $this->content, $headers ) )
+        if ( ! mail ( $this->address, $this->subject, $content, $headers ) )
         {
             throw new \Exception("Le mail n’a pas pu être envoyé");
         }

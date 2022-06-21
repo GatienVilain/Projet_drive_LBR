@@ -34,7 +34,7 @@ function creerMiniature($filePath)
 			}
 
 			list($width, $height) = getimagesize($filePath);
-			$modwidth = 120;  //target width
+			$modwidth = 200;  //target width
 			$diff = $width / $modwidth;
 			$modheight = (int)($height / $diff);
 

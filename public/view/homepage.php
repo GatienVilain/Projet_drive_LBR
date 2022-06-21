@@ -19,6 +19,29 @@
 
     <button class="buttonHomePage" title="Trier les fichiers par ordre alphabétique" onclick = "trierNomFichier()">A-Z</button>
 
+    <div id='popup-options-multipleFiles'>
+      <div class='header-popup' id='header-popup-options-MultipleFiles'>
+
+        <button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeMultipleFiles()"><strong>←</strong></button>
+        <p><strong>Options</strong></p>
+
+      </div>
+
+      <div class='body-popup-options'>
+
+        <button class='buttonPopupOptions' title='Télécharger les fichiers' onclick='downloadMultipleFiles()'>Télécharger</button></a>
+        <button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteMultipleFiles()'>Supprimer</button>
+        <div id='editTag-multipleFiles'>
+          <button class='buttonPopupOptions' title='Ajouter des tags' onclick='openMenuAddTagsMultipleFiles()'>+Tag(s)</button>
+          <button class='buttonPopupOptions' title='Supprimer des tags' onclick='openMenuDeleteTagsMultipleFiles()'>-Tag(s)</button>
+        </div>
+        <p id="sizeFilesSelected">Taille : </p>
+      </div>
+      <?php echo($previewAddTagsMultipleFiles);
+            echo($previewDeleteTagsMultipleFiles);?>
+
+    </div>
+
     <div id="buttonHomePage-filters">
 
       <button class="buttonHomePage" title="Sélectionner des filtres" onclick = "toggleFilterMenu()">Filtres</button>
@@ -168,14 +191,13 @@
             foreach ($files as $values)
             {
                 echo $values->preview();
+
             }
         ?>
 
     </div>
 
 </div>
-
-
 
 <div id="show_image_popup">
 
@@ -239,11 +261,34 @@ files.forEach(file => file.addEventListener('dblclick', event => {
 files.forEach(file => file.addEventListener('contextmenu', event => {
   //clic droit
   closeAllPopup();
-  idElement = file.id + '-popup-options';
-  if(document.getElementById(idElement).style.display != "block")
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+  fileChecked = false;
+  for(valeur of checkboxesFiles)
+    {
+      if(valeur.checked)
+      {
+        fileChecked=true;
+      }
+    }
+  
+  if(fileChecked == false)
   {
-	 document.getElementById(idElement).style.display = "block";
+    idElement = file.id + '-popup-options';
+    if(document.getElementById(idElement).style.display != "block")
+    {
+	    document.getElementById(idElement).style.display = "block";
+    }  
   }
+  else
+  {
+    getFilesSelectedSize();
+    idElement='popup-options-multipleFiles';
+    if(document.getElementById(idElement).style.display != "inline-flex")
+    {
+	    document.getElementById(idElement).style.display = "inline-flex";
+    }  
+  }
+ 
 }));
 
 </script>

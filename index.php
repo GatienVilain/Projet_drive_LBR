@@ -13,10 +13,19 @@ require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/basketFile.php");
 require_once("components/Controllers/deleteFile.php");
+require_once("components/Controllers/DeleteMultipleFiles.php");
+require_once("components/Controllers/AddTagsMultipleFiles.php");
+require_once("components/Controllers/DeleteTagsMultipleFiles.php");
 require_once("components/Controllers/recoverFile.php");
 require_once("components/Controllers/AddNewTag.php");
 require_once("components/Controllers/AddNewCategory.php");
+require_once("components/Controllers/AddTagFile.php");
+require_once("components/Controllers/DeleteTagFile.php");
+require_once("components/Controllers/GetFilesSize.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
+require_once("components/Controllers/DownloadMultipleFiles.php");
+require_once("components/Controllers/DeleteDefinitelyMultipleFiles.php");
+require_once("components/Controllers/RecoveryMultipleFiles.php");
 require_once("components/Controllers/EditTagOrCategory.php");
 require_once("components/Controllers/SortMaj.php");
 require_once("components/Controllers/UsersModeration/Get.php");
@@ -24,6 +33,7 @@ require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
 require_once("components/Controllers/UsersModeration/ChangeDescription.php");
+require_once("components/Controllers/UsersModeration/ChangePassword.php");
 require_once("components/Controllers/Rights/Get.php");
 require_once("components/Controllers/Rights/Add.php");
 require_once("components/Controllers/Rights/Delete.php");
@@ -44,9 +54,18 @@ use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\basketFile;
 use Application\Controllers\deleteFile;
+use Application\Controllers\DeleteMultipleFiles;
+use Application\Controllers\DeleteDefinitelyMultipleFiles;
+use Application\Controllers\RecoveryMultipleFiles;
+use Application\Controllers\AddTagsMultipleFiles;
+use Application\Controllers\DeleteTagsMultipleFiles;
+use Application\Controllers\DownloadMultipleFiles;
 use Application\Controllers\recoverFile;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
+use Application\Controllers\GetFilesSize;
+use Application\Controllers\AddTagFile;
+use Application\Controllers\DeleteTagFile;
 use Application\Controllers\DeleteTagOrCategory;
 use Application\Controllers\EditTagOrCategory;
 use Application\Controllers\SortMaj;
@@ -55,6 +74,7 @@ use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
 use Application\Controllers\UsersModeration\ChangeDescription as ChangeDescriptionFor;
+use Application\Controllers\UsersModeration\ChangePassword as ChangePasswordFor;
 use Application\Controllers\Rights\GetRights;
 use Application\Controllers\Rights\AddRight;
 use Application\Controllers\Rights\DeleteRights;
@@ -101,9 +121,14 @@ try
                     (new AddUser())->execute();
                     $action_found = True;
                 }
+                elseif ($_GET['action'] === 'changePasswordFor')
+                {
+                    (new ChangePasswordFor())->execute();
+                    $action_found = True;
+                }
                 elseif ($_GET['action'] === 'changeDescriptionFor')
                 {
-                    (new changeDescriptionFor())->execute();
+                    (new ChangeDescriptionFor())->execute();
                     $action_found = True;
                 }
                 elseif ( $_GET['action'] === 'editRights' )
@@ -121,6 +146,7 @@ try
                     (new DeleteRights())->execute();
                     $action_found = True;
                 }
+                
             }
 
             // Actions disponible quand on est connecté mais pas admin
@@ -175,6 +201,49 @@ try
                 (new AddNewCategory())->execute();
                 $action_found = True;
             }
+
+            elseif ($_GET['action'] === 'addTagFile')
+            {
+                (new AddTagFile())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteTagFile')
+            {
+                (new DeleteTagFile())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteMultipleFiles')
+            {
+                (new DeleteMultipleFiles())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'downloadMultipleFiles')
+            {
+                (new DownloadMultipleFiles())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'getFilesSize')
+            {
+                (new GetFilesSize())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'addTagsMultipleFiles')
+            {
+                (new AddTagsMultipleFiles())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'deleteTagsMultipleFiles')
+            {
+                (new DeleteTagsMultipleFiles())->execute();
+                $action_found = True;
+            }
+
             elseif($_GET['action']==='sortMaj')
             {
                 (new SortMaj())->execute();
@@ -188,6 +257,16 @@ try
             elseif($_GET['action']==='editTagOrCategory')
             {
                 (new EditTagOrCategory())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'deleteDefinitelyMultipleFiles')
+            {
+                (new DeleteDefinitelyMultipleFiles())->execute();
+                $action_found = True;
+            }
+            elseif ($_GET['action'] === 'recoveryMultipleFiles')
+            {
+                (new RecoveryMultipleFiles())->execute();
                 $action_found = True;
             }
         }
