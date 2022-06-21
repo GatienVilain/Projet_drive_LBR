@@ -919,14 +919,19 @@ function downloadMultipleFiles()
           idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
         }
       }
-	console.log(idFiles);
     $.ajax({
       url: 'index.php',
       data: {'action' : 'downloadMultipleFiles','files' : idFiles},
       dataType: 'json', 
       success: function (response) 
       {
-        
+        if(response.status === true)
+        {
+          alert(response['zipName']);
+        }
+        else{
+          alert("Something went wrong")
+        }
       }
 
     });
