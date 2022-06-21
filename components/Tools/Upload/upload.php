@@ -98,7 +98,7 @@ require_once('../getid3/getid3.php');
 
   // (C) UPLOAD DESTINATION - CHANGE FOLDER IF REQUIRED!
 
-  $extension_video = array("3gp", "3g2", "avi", "asf", "wma","wmv","flv","mkv","mka","mks","mk3d","mp4","mpg","mxf","ogg","mov","qt","ts","webm","mpeg","mp4a","mp4b","mp4r","mp4v");
+  $extension_video = array("3gp", "3g2", "avi", "asf", "wav","wma","wmv","flv","mkv","mka","mks","mk3d","mp4","mpg","mxf","ogg","mov","qt","ts","webm","mpeg","mp4a","mp4b","mp4r","mp4v");
   $extension_image = array("jpg","gif","png", "tif","jif", "jfif","jp2","jpx","j2k","j2c","fpx","pcd","pdf","jpeg","wbmp","avif","webp","xbm");
 
   $userEmail = $_SESSION["email"];
