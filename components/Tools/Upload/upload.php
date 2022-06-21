@@ -1,5 +1,6 @@
 <?php 
 require('preview.php');
+require_once('../getid3/getid3.php');
 ?>
  
 <!-- (B) LOAD PLUPLOAD FROM CDN -->
@@ -97,8 +98,8 @@ require('preview.php');
 
   // (C) UPLOAD DESTINATION - CHANGE FOLDER IF REQUIRED!
 
-  $extension_video = array("3gp", "3g2", "avi", "asf", "wma","wmv","flv","mkv","mka","mks","mk3d","mp4","mpg","mxf","ogg","mov","qt","ts","webm","mpeg","mp4a","mp4b","mp4r","mp4v");
-  $extension_image = array("jpg","gif","png", "tif","jif", "jfif","jp2","jpx","j2k","j2c","fpx","pcd","pdf","jpeg","wbmp","avif","webp","xbm");
+  $extension_video = array("3gp", "3g2", "avi", "asf", "wav","wma","wmv","flv","mkv","mka","mks","mk3d","mp4","mpg","mxf","ogg","mov","qt","ts","webm","mpeg","mp4a","mp4b","mp4r","mp4v");
+  $extension_image = array("jpg","gif","png", "tif","hdr","jif", "jfif","jp2","jpx","j2k","j2c","fpx","pcd","pdf","jpeg","wbmp","avif","webp","xbm");
 
   $userEmail = $_SESSION["email"];
   $tmpFilePath = __DIR__."\..\..\..\storage".DIRECTORY_SEPARATOR."tmp".DIRECTORY_SEPARATOR.$userEmail;
@@ -182,6 +183,18 @@ require('preview.php');
 	rename($tmpFilePath,$filePath);
 	unlink($tmpFilePath);
 	rmdir(pathinfo($tmpFilePath,PATHINFO_DIRNAME));
+	
+	if ($type == 'video') {
+		$getid3 = new getID3();
+		$duration = $getid3->analyze('..\..\..\storage\videos\\'.$id.'.'.$extension)['playtime_string'];
+		
+		$conn = new \mysqli("localhost", "root", "dorian", "drive");
+		$query = $conn->prepare("UPDATE fichier SET duree = ? WHERE id_fichier = ?");
+		$query->bind_param("si",$duration,$id);
+		$query->execute();
+		$conn->close();
+	}
+	
     creerMiniature($filePath);
   }
 

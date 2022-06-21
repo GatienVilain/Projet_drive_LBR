@@ -6,7 +6,6 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-
 class Files
 {
     private string $id_fichier;
@@ -16,6 +15,7 @@ class Files
 	private string $date_publication;
     private string $date_modification;
     private float $taille_Mo;
+	private string $duree;
 	private string $type;
     private string $extension;
 	private array $tags;
@@ -36,12 +36,12 @@ class Files
 		$this->date_publication = $result["date_publication"];
 		$this->date_modification = $result["date_derniere_modification"];
 		$this->taille_Mo = $result["taille_Mo"];
+		$this->duree = $result["duree"] == null ? '' : $result["duree"];
 		$this->type = $result["type"];
 		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);
 		$this->ecriture = $this->setRights($id_fichier)["ecriture"];
 		$this->lecture = $this->setRights($id_fichier)["lecture"];
-		
     }
 	
 	//setteur
@@ -114,6 +114,11 @@ class Files
 	public function getFileSize(): float
 	{
 		return $this->taille_Mo;
+	}
+	
+	public function getFileDuration(): string
+	{
+		return $this->duree;
 	}
 	
 	public function getFileType(): string
@@ -422,14 +427,14 @@ class Files
 
 
 
-		$fileSize=$this->getFileSize();
-		$fileTags= $this->getTagsNames();
-		$previewTags=$this->previewTags($fileTags);
-		$fileExtension=$this->getFileExtension();
+		$fileSize = $this->getFileSize();
+		$fileTags = $this->getTagsNames();
+		$previewTags = $this->previewTags($fileTags);
+		$fileExtension = $this->getFileExtension();
 		$descriptionAuthor = $this->getAuthorDescription();
 		$idFichier=$this->id_fichier;
+		$duration = $this->getFileDuration();
 		$fileName = $this->getFilename();
-		
 		$fileType = $this->getFileType();
 		$filePath = $this->getPath() . '.' . $fileExtension;
 		
@@ -568,7 +573,20 @@ class Files
 					</div>
 
 				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
-			$popupDetails = sprintf("
+		}
+		
+		$videoDuration = sprintf("
+			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+
+				<p class = 'detail-para'>Duree:</p>
+				<p class = 'server-para'>$duration</p>
+
+			</div>
+		
+		
+		",);
+		
+		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
 
 				<div class='header-popup' id='header-popup-detail'>
@@ -632,29 +650,25 @@ class Files
 						<p class = 'server-para'>$fileSize Mo</p>
 
 					</div>
+					
+					%s
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
 						<div id='popup-detail-line-tags'>
 							<p class = 'detail-para'>Tag(s):</p>
 							<button class = 'button-add-tags-toFile' id = 'add-tags-toFile-".$idFichier."' onclick='openAddTagsToFile(this.id)' title='Ajouter tag(s)'>+</button>
 							<button class = 'button-add-tags-toFile' id = 'delete-tags-toFile-".$idFichier."' onclick='openDeleteTagsToFile(this.id)' title='Supprimer tag(s)'>-</button>
 						</div>
 						
-						<div class = 'server-para' id='server-para-tag'>$previewTags</div>".$previewAddTagsMenu
-						
-						
+						<div class = 'server-para' id='server-para-tag'>$previewTags</div>".$previewAddTagsMenu.$previewDeleteTagsMenu."</div>
 
-					.$previewDeleteTagsMenu."</div>
+					</div> 
+			</div>",$idFichier,$idFichier,$videoDuration);
 
-				</div> 
-			</div>",$idFichier,$idFichier);
-		}
-			
-		
 		if ($fileType == "image") {
 			$image = sprintf("
 				<div oncontextmenu='return false;' class=image> 
-					<img class=popup id='%s' src=%s></a>
+					<img class=popup id='%s' src=%s>
 				</div> 
 				
 				<div class = titre> 
@@ -665,9 +679,14 @@ class Files
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
 		}
 		elseif ($fileType == "video") {
+			$miniature = '';
+			if(!in_array($this->getFileExtension(), array("mp4","webm","ogg"))) {
+				$miniature = "poster='storage/pictures/frames/error.png'";
+			}
+
 			$video = sprintf("
 				<div oncontextmenu='return false;' class=video> 
-					<video class=popup id='%s'>
+					<video class=popup id='%s' %s>
 						<source src=%s type='video/%s'>
 						Your browser does not support the video tag.
 					</video>
@@ -676,7 +695,7 @@ class Files
 				<div class = titre> 
 					<p><input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'> %s </p> 
 					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
-				</div></div>",$idFichier,$filePath,$fileExtension,$fileName);
+				</div></div>",$idFichier,$miniature,$filePath,$fileExtension,$fileName);
 				
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
 		}
