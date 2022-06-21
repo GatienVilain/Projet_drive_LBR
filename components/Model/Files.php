@@ -32,7 +32,7 @@ class Files
         $this->id_fichier = $id_fichier;
 		$this->deleted = $deleted;
 		$this->auteur = $result["email"];
-		$this->nom_auteur = $this->getAuthorName($this->getAuthor());
+		$this->nom_auteur = $this->setAuthorName($this->getAuthor());
 		$this->source = $result["source"] . '\\' . strval($id_fichier);
 		$this->nom_fichier = $result["nom_fichier"];
 		$this->date_publication = $result["date_publication"];
