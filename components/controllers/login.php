@@ -37,6 +37,7 @@ class Login
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
                 $_SESSION['email'] = $email;
+                $_SESSION['error'] = "";
                 (new User())->is_admin();
 
                 if ($_POST['remember_me']== true){
@@ -68,7 +69,7 @@ class Login
                             'secure' => true,
                             'httponly' => true,
                         ]);
-                    
+
                         setcookie(
                             'PASSWORD_USER',
                             $password,
