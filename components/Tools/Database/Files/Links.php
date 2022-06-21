@@ -140,7 +140,8 @@ trait FilesLinks
 
 		if ($this->check_tag($id_tag)) {
 
-			$query = $conn->prepare("SELECT f.id_fichier FROM fichier AS f JOIN appartenir AS a ON f.id_fichier = a.id_fichier WHERE f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
+			$query = $conn->prepare("SELECT f.id_fichier FROM fichier AS f JOIN appartenir AS a ON f.id_fichier = a.id_fichier WHERE a.id_tag = ? AND f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
+			$query->bind_param("i", $id_tag);
 			$query->execute();
 			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 			$conn->close();

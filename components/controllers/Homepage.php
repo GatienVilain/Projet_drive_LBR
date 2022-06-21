@@ -112,7 +112,6 @@ class Homepage
 				for ($i = 0; $i < count($rights); $i++) {
 					$tags[] = $rights[$i]["id_tag"];
 				}
-
 				for ($i = 0; $i < count($tags); $i++) {
 					$tmp3 = $connection->get_files_by_link($tags[$i]);
 					if ($tmp3 != -1) {
@@ -664,7 +663,7 @@ class Homepage
 						array_push($idTagsNotAllowed,$arrayTagRights['id_tag']);
 					}
 				}
-				$idTagsAllowed=array_diff($idTagsFiles, $idTagsNotAllowed);
+				$idTagsAllowed=array_values(array_diff($idTagsFiles, $idTagsNotAllowed));
 			}
 			else
 			{
@@ -674,9 +673,9 @@ class Homepage
 		}
 		else if($role == 'admin')
 		{
-			$idTagsAllowed = $idTagsFiles;
+			$idTagsAllowed = array_values($idTagsFiles);
 		}
-		if(count($idTagsAllowed) == 1 && $idTagsAllowed[0] == 1)
+		if (count($idTagsAllowed) == 1 && $idTagsAllowed[0] == 1)
 		{
 			$arrayTagsDeleteMultipleFiles = null;
 			return $arrayTagsDeleteMultipleFiles;
