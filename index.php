@@ -21,6 +21,7 @@ require_once("components/Controllers/AddTagFile.php");
 require_once("components/Controllers/DeleteTagFile.php");
 require_once("components/Controllers/GetFilesSize.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
+require_once("components/Controllers/DownloadMultipleFiles.php");
 require_once("components/Controllers/EditTagOrCategory.php");
 require_once("components/Controllers/SortMaj.php");
 require_once("components/Controllers/UsersModeration/Get.php");
@@ -46,6 +47,7 @@ use Application\Controllers\deleteFile;
 use Application\Controllers\DeleteMultipleFiles;
 use Application\Controllers\AddTagsMultipleFiles;
 use Application\Controllers\DeleteTagsMultipleFiles;
+use Application\Controllers\DownloadMultipleFiles;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
 use Application\Controllers\GetFilesSize;
@@ -125,6 +127,12 @@ try
             elseif ($_GET['action'] === 'deleteMultipleFiles')
             {
                 (new DeleteMultipleFiles())->execute();
+                $action_found = True;
+            }
+
+            elseif ($_GET['action'] === 'downloadMultipleFiles')
+            {
+                (new DownloadMultipleFiles())->execute();
                 $action_found = True;
             }
 

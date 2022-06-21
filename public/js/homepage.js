@@ -565,8 +565,7 @@ function deleteCategory(idElement)
       dataType: 'json', 
       success: function (response) 
       {
-
-
+        console.log(response['status']);
         if( response.status === true )
 
         {
@@ -575,7 +574,7 @@ function deleteCategory(idElement)
         }
 
         else {
-          console.log(response['status']);
+          console.log('Erreur');
         }
         
         //window.location.reload();
