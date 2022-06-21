@@ -10,6 +10,7 @@ class Files
 {
     private string $id_fichier;
     private string $auteur;
+	private string $nom_auteur;
 	private string $source;
     private string $nom_fichier;
 	private string $date_publication;
@@ -31,6 +32,7 @@ class Files
         $this->id_fichier = $id_fichier;
 		$this->deleted = $deleted;
 		$this->auteur = $result["email"];
+		$this->nom_auteur = $this->getAuthorName($this->getAuthor());
 		$this->source = $result["source"] . '\\' . strval($id_fichier);
 		$this->nom_fichier = $result["nom_fichier"];
 		$this->date_publication = $result["date_publication"];
@@ -45,6 +47,13 @@ class Files
     }
 	
 	//setteur
+	private function setAuthorName($email): string
+	{
+		$connection = new DatabaseConnection();
+		$result = $connection->get_user($email);
+		return $result["prenom"].' '.$result["nom"];
+	}
+	
 	private function setTags(int $id_fichier): array
 	{
 		$connection = new DatabaseConnection();
@@ -399,12 +408,10 @@ class Files
 	{
 		return $this->deleted;
 	}
-
+	
 	public function getAuthorName(): string
 	{
-		$connection = new DatabaseConnection();
-		$result = $connection->get_user($this->getAuthor());
-		return $result["prenom"].' '.$result["nom"];
+		return $this->nom_auteur;
 	}
 	
 	public function getAuthorDescription(): string

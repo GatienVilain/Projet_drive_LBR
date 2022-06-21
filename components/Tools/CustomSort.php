@@ -5,11 +5,11 @@ namespace Application\Tools;
 class CustomSort
 {
 	//renvoie une liste des id_fichier triés par utilisateurs
-	function sort_by_user(array $data, array $email) {
+	function sort_by_user(array $data, array $username) {
 		$result = array();
 		
 		foreach ($data as $value) {
-			if (in_array($value->getAuthor(),$email)){
+			if (in_array($value->getAuthorName(),$username)){
 				$result[] = $value;
 			}
 		}
