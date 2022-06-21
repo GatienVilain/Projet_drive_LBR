@@ -681,7 +681,7 @@ class Files
 		elseif ($fileType == "video") {
 			$miniature = '';
 			if(!in_array($this->getFileExtension(), array("mp4","webm","ogg"))) {
-				$miniature = "poster='storage/pictures/frames/error.png'"
+				$miniature = "poster='storage/pictures/frames/error.png'";
 			}
 
 			$video = sprintf("
