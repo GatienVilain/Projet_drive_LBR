@@ -62,13 +62,40 @@
 
 /* Desktop gallery */
 
-
+@media only screen and ( min-width: 992px) {
 .gallery {
     display: inline-flex;
     flex-wrap: wrap;
     gap: 5vh 4vw;
     justify-content: left;
     
+  }
+
+.toolbar{
+  font-size: 1em;
+}
+
+.button-information{
+      display: none;
+  }
+}
+
+@media only screen and ( max-width: 992px) {
+  .gallery {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 5vh 4vw;
+      justify-content: center;
+      
+    }
+
+  .toolbar{
+    font-size: 0.6em;
+  }
+
+  .miniature{
+    margin-right: 2em;
+  }
   }
 
   /* (B) THUMBNAILS */
@@ -97,6 +124,7 @@
     align-items: center;
     width: 248px;
     height: 172px;
+
     
     
   }
@@ -266,11 +294,8 @@
   top:20%;
   position:absolute;
   border-radius: 5px;
-  width: 30vw;
+  width: 17em;
   height: 50vh;
-  min-width: 320px;
-  max-width: 320px;
-  max-height: 800px;
   border: 2px solid black;
   background-color: var(--couleur-popup);
   z-index: 950;
@@ -326,7 +351,8 @@ border-bottom:1px solid black;
 .titre{
   min-width: 0;
   max-width: 200px;
-
+  display: inline-flex;
+  column-gap: 1.2em;
   
   white-space: nowrap; 
     
@@ -751,3 +777,215 @@ border-bottom:1px solid black;
   margin-left: 5em;
 }
 
+/* Add tags to File */
+
+#popup-detail-line-tags{
+  display: inline-flex;
+  gap:0.3em;
+  width:62%;
+}
+
+#popup-detail-line-tags > p{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    margin-right: 0.5em;
+    width: 30%;
+  }
+
+.button-add-tags-toFile{
+  font-size: 1.5em;
+  width:20%;
+  padding-bottom: 25%;
+}
+
+.button-add-tags-toFile:hover{
+  background-color:rgba(52, 52, 52, 0.2);
+}
+
+.body-popup-detail-line .delete-tags{
+    visibility: hidden;
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    padding-left: 2vw;
+    border-radius: 6px;
+    width:14em;
+    max-height: 13em;
+    overflow-y: scroll;
+    background-color: var(--couleur-filter-menu);
+    color: var(--couleur-police-filter-menu);
+    z-index: 2000;
+
+}
+
+.body-popup-detail-line .add-tags{
+  visibility: hidden;
+  position: absolute;
+  top: 2em;
+  left: 2em;
+  padding-left: 2vw;
+  border-radius: 6px;
+  width: 13em;
+  max-height: 13em;
+  overflow-y: scroll;
+  background-color: var(--couleur-filter-menu);
+  color: var(--couleur-police-filter-menu);
+  z-index: 2000;
+
+}
+
+.addDelete-tags-file-title{
+    display: inline-flex;
+    column-gap: 1em;
+    margin-left: 0.4em;
+    border-bottom: 1.5px solid var(--couleur-separation-filter-menu);
+    margin-right: 1.2em;
+}
+
+.dropdown-addDelete-tags{
+  margin-left: 0.5em;
+  margin-bottom:0.5em;
+}
+
+#add-tag-file-button-valider{
+  margin-bottom: 0.5em;
+  background-color: white;
+  width: 5em;
+  border-radius: 2px;
+  height: 1.5em;
+  margin-left: 2.6em;
+  margin-top:1em;
+}
+
+#delete-tag-file-button-valider{
+  margin-bottom: 0.5em;
+  background-color: white;
+  width: 5em;
+  border-radius: 2px;
+  height: 1.5em;
+  margin-left: 4em;
+  margin-top:1em;
+}
+    
+.close-button-addDeleteTag >p {
+  color: var(--couleur-police-filter-menu);
+  font-size: 2em;
+}
+
+.addDelete-tags-file-title > p{
+  padding-top: 0.5em;
+
+}
+
+.addDelete-tags-file-body{
+  margin-left: 0.5em;
+}
+
+.visible {
+  display:inline-flex;
+  flex-wrap: nowrap;
+  width:100%;
+}
+
+.add-dropdown-content .inputCheckboxTagAdd {
+  color: var(--couleur-police-filter-menu);
+  font-size: 0.8em;
+  text-decoration: none;
+  width:70%;
+  display: block;
+  padding-top: 0.4em;
+}
+
+.add-dropdown-content {
+  display: none;
+  flex-direction: column;
+  position:relative;
+  background-color: var(--couleur-filter-menu);
+  min-width: 160px;
+}
+
+.add-dropdown-content, .delete-dropdown-content{
+  display: block;
+}
+
+/*Popup option multipleFiles*/
+.groupe1 #popup-options-multipleFiles{
+display: none;
+flex-direction: column;
+position: absolute;
+border-radius: 5px;
+width: 10em;
+height: 27vh;
+min-width: 130px;
+overflow-y: scroll;
+overflow-x: visible;
+left: 40%;
+top: 10%;
+border: 2px solid black;
+background-color: var(--couleur-popup);
+z-index: 9;
+}
+
+.body-popup-options > p{
+  margin-left: 15px;
+  font-size: 1.1em;
+  margin-top: 10px;
+}
+
+#header-popup-options-MultipleFiles > p {
+  margin-top: 1vh;
+}
+
+/* Popup add tags to multiple files */
+
+#popup-options-multipleFiles #add-tags-multipleFiles{
+  visibility: hidden;
+  position: absolute;
+  top: 2em;
+  left: -0.8em;
+  padding-left: 2vw;
+  border-radius: 6px;
+  width: 13em;
+  max-height: 13em;
+  overflow-y: scroll;
+  background-color: var(--couleur-filter-menu);
+  color: var(--couleur-police-filter-menu);
+  z-index: 2000;
+
+}
+
+#popup-options-multipleFiles #delete-tags-multipleFiles{
+  visibility: hidden;
+  position: absolute;
+  top: 2em;
+  left: -0.8em;
+  padding-left: 2vw;
+  border-radius: 6px;
+  width:14em;
+  max-height: 13em;
+  overflow-y: scroll;
+  background-color: var(--couleur-filter-menu);
+  color: var(--couleur-police-filter-menu);
+  z-index: 2000;
+
+}
+
+#add-tag-multiplefile-button-valider, #delete-tag-multipleFiles-button-valider
+{
+  margin-bottom: 0.5em;
+  background-color: white;
+  width: 5em;
+  border-radius: 2px;
+  height: 1.5em;
+  margin-left: 3.5em;
+  margin-top:1em;
+}
+
+/*Version téléphone*/
+
+.button-information{
+  background-color: var(--couleur-button-information);
+  clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%);
+  width: 1.5em;
+  
+}

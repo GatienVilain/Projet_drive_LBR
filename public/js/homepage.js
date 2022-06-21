@@ -26,11 +26,53 @@ function openPopupNewCategory()
 
 }
 
+function closeMultipleFiles()
+{
+  document.getElementById('popup-options-multipleFiles').style.display='none';
+}
+
 function openPopupNewTag()
 {
 
   document.getElementById("popup-newTag").style.visibility = "visible";
   
+}
+
+function deleteMultipleFiles()
+{
+  if (confirm("Confirmer la suppresion des fichiers."))
+  {
+    idFiles = ""; //le tableau//
+
+    let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+    $.ajax({
+      url: 'index.php',
+      data: {'idFiles' : idFiles,'action' : "deleteMultipleFiles"},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if( response.status === true )
+
+        {
+          alert('File(s) Deleted!');
+          window.location.reload();
+        }
+
+        else alert('Something Went Wrong!');
+      }
+
+    });
+  }
 }
 
 function closeFilterMenu()
@@ -91,6 +133,13 @@ function buttonClosePopupUpload()
 
 }
 
+function openPopupDetailMobile(idElement)
+{
+  idPopup = idElement.replace(/button-information-/gi,"");
+  idPopup += "-popup-detail"
+  document.getElementById(idPopup).style.display="block";
+}
+
 function openPopup(event, idElement) 
 {
 
@@ -148,7 +197,10 @@ function closePopupOptions(idElement)
 
 function basketFile(idFichier)
 {
-  $.ajax({
+  if (confirm("Confirmer la suppresion du fichier."))
+  {
+    //var file_path = "storage/pictures/58.png";
+    $.ajax({
     url: 'index.php',
     data: {'idFile' : idFichier,'action' : "basketFile"},
     dataType: 'json', 
@@ -164,58 +216,65 @@ function basketFile(idFichier)
       else alert('Something Went Wrong!');
     }
 
-  });
+    });
+  }
+  
 }
 
 function addNewTag()
 {
+  if (confirm("Confirmer l'ajout d'un tag."))
+  {
 
-  var tagName;
-  var selectedCategory;
-  selectedCategory = document.getElementById("popup-newTag-selectCategory").options[document.getElementById('popup-newTag-selectCategory').selectedIndex].text;
-  tagName = document.getElementById("popup-newTag-nameTag").value;
-  //var file_path = "storage/pictures/58.png";
-  $.ajax({
-    url: 'index.php',
-    data: {'category' : selectedCategory,'tag' : tagName,'action' : 'addNewTag'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      if( response.status === true )
-
+    var tagName;
+    var selectedCategory;
+    selectedCategory = document.getElementById("popup-newTag-selectCategory").options[document.getElementById('popup-newTag-selectCategory').selectedIndex].text;
+    tagName = document.getElementById("popup-newTag-nameTag").value;
+    //var file_path = "storage/pictures/58.png";
+    $.ajax({
+      url: 'index.php',
+      data: {'category' : selectedCategory,'tag' : tagName,'action' : 'addNewTag'},
+      dataType: 'json', 
+      success: function (response) 
       {
-        alert('Tag ajouté');
-        window.location.reload();
+        if( response.status === true )
+
+        {
+          alert('Tag ajouté');
+          window.location.reload();
+        }
+
+        else alert('Something Went Wrong!');
       }
 
-      else alert('Something Went Wrong!');
-    }
-
-  });
+    });
+  }
 }
 
 function addNewCategory()
 {
-
-  var categoryName;
-  categoryName = document.getElementById("popup-newCategory-nameCategory").value;
-  $.ajax({
-    url: 'index.php',
-    data: {'category' : categoryName,'action' : 'addNewCategory'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      if( response.status === true )
-
+  if (confirm("Confirmer l'ajout d'une catégorie."))
+  {
+    var categoryName;
+    categoryName = document.getElementById("popup-newCategory-nameCategory").value;
+    $.ajax({
+      url: 'index.php',
+      data: {'category' : categoryName,'action' : 'addNewCategory'},
+      dataType: 'json', 
+      success: function (response) 
       {
-        alert('Catégorie ajoutée');
-        window.location.reload();
+        if( response.status === true )
+
+        {
+          alert('Catégorie ajoutée');
+          window.location.reload();
+        }
+
+        else alert(response);
       }
 
-      else alert(response);
-    }
-
-  });
+    });
+  }
 }
 
 function trierNomFichier()
@@ -315,15 +374,21 @@ function trier()
   });
 
 }
-  
 
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
+
 function myFunction(idElement) 
 {
-
   idElement=idElement+'-content';
+  console.log(idElement);
   document.getElementById(idElement).classList.toggle("show");
+
+}
+
+function myFunctionBis(idElement) 
+{
+  idElement=idElement+'-content';
+  console.log(idElement)
+  document.getElementById("genre-dropdown-addDelete-tags-content").style.display="block";
 
 }
 
@@ -383,6 +448,20 @@ function closeEditTag(idElement)
 
 }
 
+function closePopupAddTag(idElement)
+{
+  idTag = idElement.replace(/close-button-addTag-/gi,"");
+  idPopupAddTag = "add-tags-file-" + idTag;
+  document.getElementById(idPopupAddTag).style.visibility ="hidden";
+}
+
+function closePopupDeleteTag(idElement)
+{
+  idTag = idElement.replace(/close-button-deleteTag-/gi,"");
+  idPopupAddTag = "delete-tags-file-" + idTag;
+  document.getElementById(idPopupAddTag).style.visibility ="hidden";
+}
+
 function openEditTag(idElement)
 {
 
@@ -412,109 +491,124 @@ function closeEditCategory(idElement)
 
 function deleteTag(idElement)
 {
-  idTag = idElement.replace(/filterMenu-deleteTag-/gi,"");
-  $.ajax({
-    url: 'index.php',
-    data: {'idTag' : idTag,'option' : 'deleteTag','action' : 'deleteTagOrCategory'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      if( response.status === true )
+  if (confirm("Confirmer la suppresion du tag."))
+  {
 
+    idTag = idElement.replace(/filterMenu-deleteTag-/gi,"");
+    $.ajax({
+      url: 'index.php',
+      data: {'idTag' : idTag,'option' : 'deleteTag','action' : 'deleteTagOrCategory'},
+      dataType: 'json', 
+      success: function (response) 
       {
-        alert('Tag supprimé');
-        window.location.reload();
+        if( response.status === true )
+
+        {
+          alert('Tag supprimé');
+          window.location.reload();
+        }
+
+        else alert("Erreur");
       }
 
-      else alert("Erreur");
-    }
-
-  });
+    });
+  }
 
 }
 
 function editTag(idElement)
 {
-  idTag = idElement.replace(/editTag-button-validate-/gi,"");
-  newNameTag = document.getElementById("popup-editTag-nameTag-"+idTag).value;
-  console.log(newNameTag);
-  console.log(idTag);
-  idSelectedCategory = "popup-editTag-selectCategory-"+idTag;
-  selectedCategory = document.getElementById(idSelectedCategory).options[document.getElementById(idSelectedCategory).selectedIndex].text
-  console.log(selectedCategory);
-  $.ajax({
-    url: 'index.php',
-    data: {'idTag' : idTag,'option' : 'editTag','newName' : newNameTag,'category':selectedCategory,'action' : 'editTagOrCategory'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      if( response.status === true )
-
+  if (confirm("Confirmer la modification du tag."))
+  {
+    idTag = idElement.replace(/editTag-button-validate-/gi,"");
+    newNameTag = document.getElementById("popup-editTag-nameTag-"+idTag).value;
+    console.log(newNameTag);
+    console.log(idTag);
+    idSelectedCategory = "popup-editTag-selectCategory-"+idTag;
+    selectedCategory = document.getElementById(idSelectedCategory).options[document.getElementById(idSelectedCategory).selectedIndex].text
+    console.log(selectedCategory);
+    $.ajax({
+      url: 'index.php',
+      data: {'idTag' : idTag,'option' : 'editTag','newName' : newNameTag,'category':selectedCategory,'action' : 'editTagOrCategory'},
+      dataType: 'json', 
+      success: function (response) 
       {
-        alert('Tag modifié');
-        window.location.reload();
+        if( response.status === true )
+
+        {
+          alert('Tag modifié');
+          window.location.reload();
+        }
+
+        else alert('Erreur');
       }
 
-      else alert('Erreur');
-    }
-
-  });
+    });
+  }
 
 }
 
 function deleteCategory(idElement)
 {
-  categoryName = idElement.replace(/-dropdown-delete/gi,"");
-  $.ajax({
-    url: 'index.php',
-    data: {'categoryName' : categoryName,'option' : 'deleteCategory','action' : 'deleteTagOrCategory'},
-    dataType: 'json', 
-    success: function (response) 
-    {
+  if (confirm("Confirmer la suppresion de la catégorie."))
+  {
 
-
-      if( response.status === true )
-
+    categoryName = idElement.replace(/-dropdown-delete/gi,"");
+    $.ajax({
+      url: 'index.php',
+      data: {'categoryName' : categoryName,'option' : 'deleteCategory','action' : 'deleteTagOrCategory'},
+      dataType: 'json', 
+      success: function (response) 
       {
-        alert('Catégorie supprimée');
-        window.location.reload();
+
+
+        if( response.status === true )
+
+        {
+          alert('Catégorie supprimée');
+          window.location.reload();
+        }
+
+        else {
+          console.log(response['status']);
+        }
+        
+        //window.location.reload();
       }
 
-      else {
-        console.log(response['status']);
-      }
-      
-      //window.location.reload();
-    }
-
-  });
+    });
+  }
 
 }
 
 function editCategory(idElement)
 {
-  categoryName = idElement.replace(/editCategory-button-validate-/gi,"");
-  newName = document.getElementById("popup-editCategory-nameCategory").value;
-  console.log(newName);
-  console.log(categoryName);
-  $.ajax({
-    url: 'index.php',
-    data: {'categoryName' : categoryName,'option' : 'editCategory','newName' : newName,'action' : 'editTagOrCategory'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      alert(response);
-      if( response.status === true )
+  if (confirm("Confirmer la modification de la catégorie."))
+  {
 
+    categoryName = idElement.replace(/editCategory-button-validate-/gi,"");
+    newName = document.getElementById("popup-editCategory-nameCategory").value;
+    console.log(newName);
+    console.log(categoryName);
+    $.ajax({
+      url: 'index.php',
+      data: {'categoryName' : categoryName,'option' : 'editCategory','newName' : newName,'action' : 'editTagOrCategory'},
+      dataType: 'json', 
+      success: function (response) 
       {
-        alert('Catégorie modifée');
-        window.location.reload();
+        alert(response);
+        if( response.status === true )
+
+        {
+          alert('Catégorie modifée');
+          window.location.reload();
+        }
+
+        else alert("Erreur");
       }
 
-      else alert("Erreur");
-    }
-
-  });
+    });
+  }
 
 }
 
@@ -550,3 +644,262 @@ function hidePopupModal(){
   document.getElementById("video-show-area").children[0].src = "";
 }
 
+
+function openAddTagsToFile(idElement)
+{
+  idMenu = idElement.replace(/add-tags-toFile-/gi,"add-tags-file-");
+  console.log(idMenu);
+  document.getElementById(idMenu).style.visibility = 'visible'; 
+
+
+}
+
+function openDeleteTagsToFile(idElement)
+{
+  idMenu = idElement.replace(/delete-tags-toFile-/gi,"delete-tags-file-");
+  console.log(idMenu);
+  document.getElementById(idMenu).style.visibility = 'visible';   
+}
+
+
+function deleteTagsFile(elementId)
+{
+  if (confirm("Confirmer la suppression des tags."))
+  {
+    tags = ""; //le tableau//
+
+    let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags');
+    for(valeur of checkboxesTags)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          idTag = idElement.replace(/delete-tags-checkTag-/gi,'');
+          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+    idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
+    idFile = idFile.replace(/delete-tags-file-/gi,'');
+    $.ajax({
+      url: 'index.php',
+      data: {'tags' : tags,'idFile':idFile,'action' : 'deleteTagFile'},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if( response.status === true )
+
+        {
+          alert('Tag(s) supprimé(s)');
+          window.location.reload();
+        }
+
+        else alert(response);
+      }
+
+    });
+
+  }
+  
+
+}
+
+function addTagsFile(elementId)
+{
+  if (confirm("Confirmer l'ajout des tags."))
+  {
+    tags = ""; //le tableau//
+
+    let checkboxesTags = document.getElementsByClassName('checkbox-add-tags');
+    for(valeur of checkboxesTags)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          idTag = idElement.replace(/add-tags-checkTag-/gi,'');
+          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+    idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
+    idFile = idFile.replace(/add-tags-file-/gi,'');
+    $.ajax({
+      url: 'index.php',
+      data: {'tags' : tags,'action' : 'addTagFile','idFile' : idFile},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if( response.status === true )
+
+        {
+          alert("Tag(s) ajouté(s)")
+          window.location.reload();
+        }
+
+        else alert('Something went wrong');
+      }
+
+    });
+
+  }
+  
+}
+
+function openAdd()
+{
+  document.getElementById('2021-dropdown-addDelete-tags-content').style.display='block';
+}
+
+function openMenuAddTagsMultipleFiles()
+{
+  document.getElementById("add-tags-multipleFiles").style.visibility="visible";
+}
+
+function openMenuDeleteTagsMultipleFiles()
+{
+  document.getElementById("delete-tags-multipleFiles").style.visibility="visible";
+}
+
+function closeDeleteTagsMultipleFiles()
+{
+  document.getElementById("delete-tags-multipleFiles").style.visibility="hidden";
+}
+
+function closeAddTagsMultipleFiles()
+{
+  document.getElementById("add-tags-multipleFiles").style.visibility="hidden";
+}
+
+function deleteTagsMultipleFiles()
+{
+  if (confirm("Confirmer la suppresion des tags."))
+  {
+    tags = ""; //le tableau//
+    idFiles ="";
+
+    let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags-multipleFiles');
+    for(valeur of checkboxesTags)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          idTag = idElement.replace(/delete-tags-multipleFiles-checkTag-/gi,'');
+          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+    let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+      console.log(idFiles);
+      console.log(tags);
+    $.ajax({
+      url: 'index.php',
+      data: {'tags' : tags,'action' : 'deleteTagsMultipleFiles','files' : idFiles},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if( response.status === true )
+
+        {
+          alert("Tag(s) supprimé(s)")
+          window.location.reload();
+        }
+
+        else alert('Something went wrong');
+      }
+
+    });
+  }
+}
+
+function addTagsMultipleFiles()
+{
+
+  if (confirm("Confirmer l'ajout des tags."))
+  {
+
+    tags = ""; //le tableau//
+    idFiles ="";
+
+    let checkboxesTags = document.getElementsByClassName('checkbox-add-tags-multipleFiles');
+    for(valeur of checkboxesTags)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          idTag = idElement.replace(/add-tags-multipleFiles-checkTag-/gi,'');
+          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+    let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+    $.ajax({
+      url: 'index.php',
+      data: {'tags' : tags,'action' : 'addTagsMultipleFiles','files' : idFiles},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if( response.status === true )
+
+        {
+          alert("Tag(s) ajouté(s)")
+          window.location.reload();
+        }
+
+        else alert('Something went wrong');
+      }
+
+    });
+  }
+}
+
+function getFilesSelectedSize()
+{
+  idFiles ="";
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+
+    $.ajax({
+      url: 'index.php',
+      data: {'action' : 'getFilesSize','files' : idFiles},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        //console.log(response);
+        //console.log(response['status']);
+        size = 'Taille : ' + response + 'Mo';
+        document.getElementById('sizeFilesSelected').textContent=size;
+        
+      }
+
+    });
+
+
+
+}

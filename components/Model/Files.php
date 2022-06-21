@@ -154,6 +154,216 @@ class Files
 		return $arrayTagsNames;
 	}
 
+
+	private function getTagsDeleteMenu()
+	{
+		$connection = new DatabaseConnection();
+		$arrayTagsDeleteMenu = array();
+		$idTagsFile = $this->getTags();	
+		$role = $connection->get_user($_SESSION["email"])["role"];
+		$idTagsAllowed = array();
+		$idTagsNotAllowed=array();
+		if($role == 'invite')
+		{
+			$idTagsWithRights = $connection->get_rights_of_user($_SESSION["email"]);
+			if($idTagsWithRights != -1)
+			{
+				foreach($idTagsWithRights as $key => $arrayTagRights)
+				{
+					if($arrayTagRights['ecriture'] == 0)
+					{
+						array_push($idTagsNotAllowed,$arrayTagRights['id_tag']);
+					}
+				}
+				$idTagsAllowed=array_diff($idTagsFile, $idTagsNotAllowed);
+			}
+			else
+			{
+				$arrayTagsDeleteMenu = null;
+				return $arrayTagsDeleteMenu;
+			}
+		}
+		else if($role == 'admin')
+		{
+			$idTagsAllowed = $idTagsFile;
+		}
+		if(count($idTagsAllowed) == 1 && $idTagsAllowed[0] == 1)
+		{
+			$arrayTagsDeleteMenu = null;
+			return $arrayTagsDeleteMenu;
+		}
+		foreach($idTagsAllowed as $id)
+		{		
+			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
+			if(array_key_exists($categoryName, $arrayTagsDeleteMenu))
+			{
+				array_push($arrayTagsDeleteMenu[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
+			}			
+			else
+			{
+				$arrayTagsDeleteMenu[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
+			}	
+		}
+		return $arrayTagsDeleteMenu;
+	}
+
+	private function getTagsAddMenu()
+	{
+		$connection = new DatabaseConnection();
+		$arrayTagsAddMenu = array();
+		$idTagsFile = $this->getTags();	
+		$role = $connection->get_user($_SESSION["email"])["role"];
+		$idTagsAllowed = array();
+		$idTagsNotAllowed=array();
+		if($role == 'invite')
+		{
+			$idTagsWithRights = $connection->get_rights_of_user($_SESSION["email"]);
+			if($idTagsWithRights != -1)
+			{
+				foreach($idTagsWithRights as $key => $arrayTagRights)
+				{
+					if($arrayTagRights['ecriture'] == 1)
+					{
+						array_push($idTagsAllowed,$arrayTagRights['id_tag']);
+					}
+				}
+				$idTagsAllowed=array_diff($idTagsAllowed, $idTagsFile);
+				if(empty($idTagsAllowed))
+				{
+					$arrayTagsAddMenu = null;
+					return $arrayTagsAddMenu;
+				}
+			}
+			else
+			{
+				$arrayTagsAddMenu = null;
+				return $arrayTagsAddMenu;
+			}
+		}
+
+		else if($role == 'admin')
+		{
+			$idTagsAllowed = array();
+			$allCategory = $connection->get_tag_category();
+			foreach($allCategory as $key => $arrayCategoryName)
+			{
+				$allIdByCategory = $connection->get_tag_by_category($arrayCategoryName['nom_categorie_tag']);
+				if($allIdByCategory != -1)
+				{
+					foreach($allIdByCategory as $tag)
+					{		
+						array_push($idTagsAllowed,$tag['id_tag']);
+					}
+				}
+			}
+			$idTagsAllowed = array_diff($idTagsAllowed, $idTagsFile);
+		}
+		foreach($idTagsAllowed as $id)
+		{		
+			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
+			if(array_key_exists($categoryName, $arrayTagsAddMenu))
+			{
+				array_push($arrayTagsAddMenu[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
+			}			
+			else
+			{
+				$arrayTagsAddMenu[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
+			}	
+		}
+		return $arrayTagsAddMenu;
+	}
+
+	private function previewTagsAddMenu($arrayTagsAddMenu)
+	{
+		//var_dump($arrayTagsAddMenu);
+		$idFichier=$this->id_fichier;
+		$result = "
+        	<div class='add-tags' id='add-tags-file-".$idFichier."'>
+          		<div class ='addDelete-tags-file-title'>   
+				 	<button id='close-button-addTag-".$idFichier."' class='close-button-addDeleteTag' title='Fermer' onclick ='closePopupAddTag(this.id)'><p>←</p></button>     
+            		<p>Ajouter Tag(s)</p>
+            	</div>
+          		<div class ='addDelete-tags-file-body'>";
+		if($arrayTagsAddMenu != null)
+		{	
+			foreach($arrayTagsAddMenu as $categoryName => $arrayTags){ 
+				$result = $result."
+					<div class='dropdown'> 
+						<div class ='categoryName-line'>
+							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-addDelete-tags'>".$categoryName." ⌵</button>
+						</div>
+						<div id='".$categoryName."-dropdown-addDelete-tags-content' class='add-dropdown-content'>";
+				foreach($arrayTags as $tags)
+				{
+					foreach($tags as $tagName => $tagId)
+					{
+						$result=$result."
+							<div class='addDelete-tags-line-tag'>
+								<p class = 'inputCheckboxTagAdd'><input type='checkbox' class ='checkbox-add-tags' id='add-tags-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
+							</div>";
+					}
+				}	
+				$result = $result."</div></div>";	
+			}
+			$result=$result."<button id='add-tag-file-button-valider' onclick='addTagsFile(this.id)'>Valider</button></div></div>";
+		}
+		else
+		{
+			$result = $result."<p>Aucun tag ajoutable</div></div>";	
+		}
+		
+		return $result;
+	}
+
+	private function previewTagsDeleteMenu($arrayTagsDeleteMenu)
+	{
+		//var_dump($arrayTagsAddMenu);
+		$idFichier=$this->id_fichier;
+		$result = "
+        	<div class='delete-tags' id='delete-tags-file-".$idFichier."'>
+          		<div class ='addDelete-tags-file-title' id='delete-tags-file-title'>   
+				 	<button id='close-button-deleteTag-".$idFichier."' class='close-button-addDeleteTag' title='Fermer' onclick ='closePopupDeleteTag(this.id)'><p>←</p></button>     
+            		<p>Supprimer Tag(s)</p>
+            	</div>
+          		<div class ='addDelete-tags-file-body' id='delete-tags-file-body'>";
+		
+		if($arrayTagsDeleteMenu != null)
+		{
+			foreach($arrayTagsDeleteMenu as $categoryName => $arrayTags){ 
+				$result = $result."
+					<div class='dropdown'> 
+						<div class ='categoryName-line'>
+							<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-addDelete-tags'>".$categoryName." ⌵</button>
+						</div>
+						<div class='delete-dropdown-content' id='".$categoryName."-dropdown-addDelete-tags-content'>";
+				foreach($arrayTags as $tags)
+				{
+					foreach($tags as $tagName => $tagId)
+					{
+						$result=$result."
+							<div class='addDelete-tags-line-tag'>
+								  <p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-delete-tags' id='delete-tags-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
+							</div>";
+					}
+				}	
+				$result = $result."</div></div>";	
+			}
+			$result=$result."<button id='delete-tag-file-button-valider' onclick='deleteTagsFile(this.id)'>Valider</button></div></div>";
+		}
+
+		else
+		{
+			$result = $result."<p>Aucun tag supprimable</div></div>";	
+		}
+		
+			
+		return $result;
+	}
+
+
+
+
+
 	public function previewTags($arrayTagsNames): string
 	{
 		$result="";
@@ -201,14 +411,14 @@ class Files
 
 	public function preview(): string
 	{
-		$fileName = $this->getFilename();
-		$fileAuthor = $this->getAuthorName();
+		$fileAuthor=$this->getAuthorName();
 
 		$fileAddedDate = $this->getReleaseDate();
 		$fileModificationDate = $this->getModificationDate();
 		$fileAddedDate = date("d-m-Y",strtotime($fileAddedDate)); 
 		$fileModificationDate = date("d-m-Y",strtotime($fileModificationDate)); 
-
+		$previewAddTagsMenu = $this->previewTagsAddMenu($this->getTagsAddMenu());
+		$previewDeleteTagsMenu = $this->previewTagsDeleteMenu($this->getTagsDeleteMenu());
 
 
 
@@ -218,6 +428,7 @@ class Files
 		$fileExtension=$this->getFileExtension();
 		$descriptionAuthor = $this->getAuthorDescription();
 		$idFichier=$this->id_fichier;
+		$fileName = $this->getFilename();
 		
 		$fileType = $this->getFileType();
 		$filePath = $this->getPath() . '.' . $fileExtension;
@@ -351,11 +562,17 @@ class Files
 					</div>
 
 					<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+						<div id='popup-detail-line-tags'>
+							<p class = 'detail-para'>Tag(s):</p>
+							<button class = 'button-add-tags-toFile' id = 'add-tags-toFile-".$idFichier."' onclick='openAddTagsToFile(this.id)' title='Ajouter tag(s)'>+</button>
+							<button class = 'button-add-tags-toFile' id = 'delete-tags-toFile-".$idFichier."' onclick='openDeleteTagsToFile(this.id)' title='Supprimer tag(s)'>-</button>
+						</div>
+						
+						<div class = 'server-para' id='server-para-tag'>$previewTags</div>".$previewAddTagsMenu
+						
+						
 
-						<p class = 'detail-para'>Tag:</p>
-						<div class = 'server-para' id='server-para-tag'>$previewTags</div>
-
-					</div>
+					.$previewDeleteTagsMenu."</div>
 
 				</div> 
 			</div>",$idFichier,$idFichier);
@@ -367,8 +584,9 @@ class Files
 				</div> 
 				
 				<div class = titre> 
-					<p> %s </p> 
-				</div></div>",$idFichier,$previewFilePath,$this->getFilename());
+					<p><input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'> %s </p>
+					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
+				</div></div>",$idFichier,$previewFilePath,$fileName);
 				
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
 		}
@@ -382,8 +600,9 @@ class Files
 				</div> 
 				
 				<div class = titre> 
-					<p> %s </p> 
-				</div></div>",$idFichier,$filePath,$this->getFileExtension(),$this->getFilename());
+					<p><input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'> %s </p> 
+					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
+				</div></div>",$idFichier,$filePath,$fileExtension,$fileName);
 				
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
 		}
