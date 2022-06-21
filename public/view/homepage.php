@@ -29,7 +29,7 @@
 
       <div class='body-popup-options'>
 
-        <a href='' download =''><button class='buttonPopupOptions' title='Télécharger les fichiers'>Télécharger</button></a>
+        <button class='buttonPopupOptions' title='Télécharger les fichiers' onclick='downloadMultipleFiles()'>Télécharger</button></a>
         <button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteMultipleFiles()'>Supprimer</button>
         <div id='editTag-multipleFiles'>
           <button class='buttonPopupOptions' title='Ajouter des tags' onclick='openMenuAddTagsMultipleFiles()'>+Tag(s)</button>

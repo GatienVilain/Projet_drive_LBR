@@ -902,3 +902,33 @@ function getFilesSelectedSize()
 
 
 }
+
+
+function downloadMultipleFiles()
+{
+  idFiles ="";
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+	console.log(idFiles);
+    $.ajax({
+      url: 'index.php',
+      data: {'action' : 'downloadMultipleFiles','files' : idFiles},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        
+      }
+
+    });
+
+
+
+}
