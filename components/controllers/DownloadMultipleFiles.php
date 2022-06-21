@@ -9,33 +9,44 @@ class DownloadMultipleFiles
 {
     public function execute()
     {
+        
+        
         $connection = new DatabaseConnection();
         $idFiles = explode(" ", $_GET['files']);
         array_pop($idFiles);
         $files = array();
+        $zip = new \ZipArchive;
+        if(!is_dir("storage\\tmp\\".$_SESSION['email']))
+        {
+            mkdir("storage\\tmp\\".$_SESSION['email']);
+        }
+
+
+        
+        $zipName = "fichiers.zip";
+        $zipPath = "storage\\tmp\\".$_SESSION['email']."\\".$zipName; 
+        if(is_file($zipPath))
+        {
+            unlink($zipPath);
+        }
+        $res = $zip->open($zipPath, \ZipArchive::CREATE);
+        
         foreach($idFiles as $id)
         {
             $fileObject = $connection->get_file(intval($id));
             $fileExtension=$fileObject['extension'];
-            $filePath = $fileObject["source"] . '\\' . strval($id_fichier) . '.' . $fileExtension;
+            $filePath = $fileObject["source"] . '\\' . $id . '.' . $fileExtension;
             array_push($files, $filePath);
             
+            $fileName = $fileObject['nom_fichier'].'-('.rand().')'.'.'.$fileExtension;
+            $filePath = $fileObject["source"] . '\\' . strval($id). '.' . $fileExtension;
+            $zip->addFile($filePath,$fileName);
         }
         
-        $zipname = __DIR__.'/../../storage/TMP/'.$_SESSION['email'].'/fichiers.zip';
-        $zip = new \ZipArchive;
-        $zip->open($zipname, \ZipArchive::CREATE);
-        foreach ($files as $file) {
-            $zip->addFile($file);
-        }
         $zip->close();
-
-        ///Then download the zipped file.
-        header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename='.$zipname);
-        header('Content-Length: ' . filesize($zipname));
-        readfile($zipname);
-
+        $response['status'] = true;
+        $response['zipPath'] = $zipPath;
+        
         echo json_encode($response);
 
     

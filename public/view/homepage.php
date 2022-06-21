@@ -42,6 +42,11 @@
 
     </div>
 
+    <div id='popup-confirm-download-multipleFiles'>
+		<a id='download-multipleFiles-link' href='' download ='fichiers.zip'><button class='button-confirm-download' title='Valider le téléchargement' onclick='closeConfirmationPopup()'>Confirmer</button></a>
+		<button class='button-confirm-download' title='Annuler le téléchargement' onclick='closeConfirmationPopup()'>Annuler</button>
+    </div>
+
     <div id="buttonHomePage-filters">
 
       <button class="buttonHomePage" title="Sélectionner des filtres" onclick = "toggleFilterMenu()">Filtres</button>

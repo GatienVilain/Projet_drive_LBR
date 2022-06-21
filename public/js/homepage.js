@@ -940,7 +940,11 @@ function downloadMultipleFiles()
       {
         if(response.status === true)
         {
-          alert(response['zipName']);
+          zipPath = response['zipPath'];
+          element=document.getElementById('download-multipleFiles-link')
+          element.setAttribute('href', zipPath);
+          document.getElementById('popup-confirm-download-multipleFiles').style.display='inline-flex';
+          
         }
         else{
           alert("Something went wrong")
@@ -951,4 +955,10 @@ function downloadMultipleFiles()
 
 
 
+}
+
+function closeConfirmationPopup()
+{
+  document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
+  document.getElementById("popup-options-multipleFiles").style.display = 'none';
 }
