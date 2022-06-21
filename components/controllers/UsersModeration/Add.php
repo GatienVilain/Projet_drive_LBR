@@ -5,9 +5,10 @@ namespace Application\Controllers\UsersModeration;
 require_once("components/Tools/Database/DatabaseConnection.php");
 require_once("components/Model/Password.php");
 require_once("components/Model/Log.php");
-
+require_once('components/Model/Email.php');
 
 use Application\Model\Log;
+use Application\Model\Email;
 use Application\Tools\Database\DatabaseConnection;
 use Application\Model\Password;
 
@@ -62,6 +63,7 @@ class AddUser
 
                 if($password2->checkFormat())
                 {
+                    
                     $password = password_hash($password, PASSWORD_DEFAULT);
                     $validation = TRUE;
                 }
@@ -82,6 +84,17 @@ class AddUser
         if ($validation)
         {
             (new DatabaseConnection())->add_user($mail,$first_name,$name,$password,$profile_description,$role);
+            $subject="codes d'accès Drive LBR";
+            $message="Vos codes d'accès au Drive des Briques rouges sont: <br>";
+            $message.="mail de connection:  ";
+            $message.=$mail;
+            $message.="<br>mot de passe:  ";
+            $message.=$_POST['new-password-field'];
+
+            $email = new Email($mail, $subject, $message);
+
+            $email->SendEmail($email, $message);
+
 
             $txt = 'à créé le compte de '. $first_name . ' ' . $name;
             ( new Log() )->ecrire_log($_SESSION['email'], $txt);
