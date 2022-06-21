@@ -71,6 +71,10 @@ class SortMaj
                 $extensionList = explode(" ", $_GET['extensions']);
                 array_pop($extensionList);
                 $_SESSION['extensionList'] = $extensionList;//Variable de session pour contenir les extensions sélectionnées pour tri
+
+                $authorList = explode("/", $_GET['authors']);
+                array_pop($authorList);
+                $_SESSION['authorList'] = $authorList;
             }
 
         }

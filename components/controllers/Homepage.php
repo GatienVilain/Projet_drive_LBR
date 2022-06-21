@@ -31,6 +31,11 @@ class Homepage
 			$files = $sort->sort_by_tag($files, $_SESSION['tagIdList']);
 		}
 
+		if(isset($_SESSION['authorList']) && ($_SESSION['authorList'] != null))
+		{
+			$files = $sort->sort_by_user($files, $_SESSION['authorList']);
+		}
+
 		if(isset($_SESSION['optionSort']))
 		{	
 			if($_SESSION['optionSort'] == 'sortAlphabetic')
@@ -482,7 +487,7 @@ class Homepage
 		$result="";
 		foreach($authorsFiles as $author){
 			//var_dump($arrayTags);
-			$authorId = str_replace(" ","-",$author);
+			$authorId = str_replace(" ","_",$author);
 			$result=$result."
 			
 				<div class='filter-menu-line-author' id='".$authorId."-author'>
