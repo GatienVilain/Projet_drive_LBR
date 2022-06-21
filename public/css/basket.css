@@ -171,11 +171,8 @@
   top:20%;
   position:absolute;
   border-radius: 5px;
-  width: 30vw;
+  width: 17em;
   height: 50vh;
-  min-width: 320px;
-  max-width: 320px;
-  max-height: 800px;
   border: 2px solid black;
   background-color: var(--couleur-popup);
   z-index: 950;
