@@ -622,7 +622,7 @@ class Homepage
 				}	
 				$result = $result."</div></div>";	
 			}
-			$result=$result."<button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div>";
+			$result=$result."<div id='container-button-validate-multipleFiles'><button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div></div>";
 		}
 		else
 		{

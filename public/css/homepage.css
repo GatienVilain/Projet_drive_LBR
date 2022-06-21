@@ -455,15 +455,17 @@ border-bottom:1px solid black;
 }
 
 #button-filter-menu-add-category{
-  width: 50%;
+  width: 60%;
   text-align: left;
   position:relative;
+  font-size: 1em;
 }
 
 #button-filter-menu-add-tag{
-  width: 50%;
+  width: 40%;
   text-align: left;
   position:relative;
+  font-size: 1em;
 }
 
 .button-add-filter-menu-tags > span:hover{
@@ -909,21 +911,19 @@ border-bottom:1px solid black;
 }
 
 /*Popup option multipleFiles*/
-.groupe1 #popup-options-multipleFiles{
-display: none;
-flex-direction: column;
-position: absolute;
-border-radius: 5px;
-width: 10em;
-height: 27vh;
-min-width: 130px;
-overflow-y: scroll;
-overflow-x: visible;
-left: 40%;
-top: 10%;
-border: 2px solid black;
-background-color: var(--couleur-popup);
-z-index: 9;
+#popup-options-multipleFiles{
+  display: none;
+  flex-direction: column;
+  position: fixed;
+  border-radius: 5px;
+  min-width: 130px;
+  margin-top: 10%;
+  margin-left: 25%;
+  overflow-y: scroll;
+  overflow-x: visible;
+  border: 2px solid black;
+  background-color: var(--couleur-popup);
+  z-index: 9;
 }
 
 .body-popup-options > p{
@@ -935,34 +935,47 @@ z-index: 9;
 #header-popup-options-MultipleFiles > p {
   margin-top: 1vh;
 }
+.body-popup-options{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+#editTag-multipleFiles{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 
 /* Popup add tags to multiple files */
 
-#popup-options-multipleFiles #add-tags-multipleFiles{
+#add-tags-multipleFiles{
   visibility: hidden;
-  position: absolute;
-  top: 2em;
-  left: -0.8em;
-  padding-left: 2vw;
+  position: fixed;
+  top: 30%;
   border-radius: 6px;
-  width: 13em;
-  max-height: 13em;
+  width: 12em;
+  max-height: 17em;
   overflow-y: scroll;
   background-color: var(--couleur-filter-menu);
   color: var(--couleur-police-filter-menu);
   z-index: 2000;
 
 }
+#container-button-validate-multipleFiles{
+  width: 95%;
+  display: inline-flex;
+  justify-content: center;
+}
 
 #popup-options-multipleFiles #delete-tags-multipleFiles{
   visibility: hidden;
-  position: absolute;
-  top: 2em;
-  left: -0.8em;
+  position: fixed;
+  top: 30%;
   padding-left: 2vw;
   border-radius: 6px;
-  width:14em;
-  max-height: 13em;
+  max-width: 17em;
+  max-height: 17em;
   overflow-y: scroll;
   background-color: var(--couleur-filter-menu);
   color: var(--couleur-police-filter-menu);
@@ -977,7 +990,6 @@ z-index: 9;
   width: 5em;
   border-radius: 2px;
   height: 1.5em;
-  margin-left: 3.5em;
   margin-top:1em;
 }
 
