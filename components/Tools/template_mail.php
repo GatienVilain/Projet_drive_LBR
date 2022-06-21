@@ -1,12 +1,12 @@
 <?php ob_start(); ?>
 
-<!doctype html>
-<html lang="en-US">
+<!DOCTYPE html>
+<html lang="fr">
 
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>Reset Password Email Template</title>
-    <meta name="description" content="Reset Password Email Template.">
+    <title>Réinitialiser le mot de passe - Drive les briques rouges</title>
+    <meta name="description" content="code de récupération">
     <style type="text/css">
         a:hover {text-decoration: underline !important;}
     </style>
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>dorianestuntyran.com</strong></p>
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>lesbriquesrouges.fr/</strong></p>
                         </td>
                     </tr>
                     <tr>
