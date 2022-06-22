@@ -1,158 +1,32 @@
 <?php
-
 namespace Application\Model;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class Files
+class B
 {
-    private string $id_fichier;
-    private string $auteur;
-	private string $nom_auteur;
-	private string $source;
-    private string $nom_fichier;
-	private string $date_publication;
-    private string $date_modification;
-    private float $taille_Mo;
-	private string $duree;
-	private string $type;
-    private string $extension;
-	private array $tags;
-	private bool $ecriture;
-	private bool $lecture;
-	private bool $deleted;
-
-    public function __construct($id_fichier,$deleted)
+	private $data;
+	
+	public function __construct(A $file)
     {
-		$connection = new DatabaseConnection();
-		$result = $connection->get_file($id_fichier);
-        $this->id_fichier = $id_fichier;
-		$this->deleted = $deleted;
-		$this->auteur = $result["email"];
-		$this->nom_auteur = $this->setAuthorName($this->getAuthor());
-		$this->source = $result["source"] . '\\' . strval($id_fichier);
-		$this->nom_fichier = $result["nom_fichier"];
-		$this->date_publication = $result["date_publication"];
-		$this->date_modification = $result["date_derniere_modification"];
-		$this->taille_Mo = $result["taille_Mo"];
-		$this->duree = ($result["duree"] == null) ? '' : $result["duree"];
-		$this->type = $result["type"];
-		$this->extension = $result["extension"];
-		$this->tags = $this->setTags($id_fichier);
-		$tmp = $this->setRights($id_fichier);
-		$this->ecriture = $tmp['ecriture'];
-		$this->lecture = $tmp['lecture'];
-    }
-	
-	//setteur
-	private function setAuthorName($email): string
-	{
-		$connection = new DatabaseConnection();
-		$result = $connection->get_user($email);
-		return $result["prenom"].' '.$result["nom"];
+		$this->data = $file;
 	}
 	
-	private function setTags(int $id_fichier): array
-	{
-		$connection = new DatabaseConnection();
-		$data = $connection->get_link($id_fichier);
-		if ( $data != -1) {
-			$array = array();
-			for ($i = 0; $i < count($data); $i++) {
-				$array[] = $data[$i]["id_tag"];
-			}
-			return $array;
-		}
-		return array();
+	//getter
+	public function getFile() {
+		return $this->data;
 	}
 	
-	private function setRights(): array
-	{
-		$connection = new DatabaseConnection();
-
-		if ($connection->get_user($_SESSION['email'])["role"] == "invite" && $this->getAuthor() != $_SESSION['email']) 
-		{
-			$tags = $this->getTags();
-			$ecriture = 0;
-			$lecture = 0;
-			for ($i = 0; $i < count($tags);$i++) {
-				if ($ecriture && $lecture) {
-					break;
-				}
-				$rights = $connection->get_rights($_SESSION["email"],$tags[$i]);
-
-				if ($rights != -1) {
-					$ecriture = $rights["ecriture"];
-					$lecture = $rights["lecture"];
-
-				}
-			}
-			return array("ecriture" => $ecriture,"lecture" => $lecture);
-		}
-		else {
-			return array("ecriture" => 1,"lecture" => 1);
-		}
-	}
-	
-	//getteur
-	public function getAuthor(): string
-	{
-		return $this->auteur;
-	}
-	
-	public function getPath(): string
-	{
-		return $this->source;
-	}
-	
-	public function getFilename(): string
-	{
-		return $this->nom_fichier;
-	}
-	
-	public function getReleaseDate(): string
-	{
-		return $this->date_publication;
-	}
-	
-	public function getModificationDate(): string
-	{
-		return $this->date_modification;
-	}
-	
-	public function getFileSize(): float
-	{
-		return $this->taille_Mo;
-	}
-	
-	public function getFileDuration(): string
-	{
-		return $this->duree;
-	}
-	
-	public function getFileType(): string
-	{
-		return $this->type;
-	}
-	
-	public function getFileExtension(): string
-	{
-		return $this->extension;
-	}
-	
-	public function getTags(): array
-	{
-		return $this->tags;
-	}
-
-	public function getTagsNames() 
+	//function for preview
+	private function getTagsNames() 
 	{	
 		$connection = new DatabaseConnection();
 		$arrayTagsNames = array();
 		
-		$idTags = $this->getTags();
+		$idTags = $this->getFile()->getTags();
+		
 		foreach($idTags as $id)
 		{	
 			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
@@ -169,13 +43,12 @@ class Files
 		}
 		return $arrayTagsNames;
 	}
-
-
+	
 	private function getTagsDeleteMenu()
 	{
 		$connection = new DatabaseConnection();
 		$arrayTagsDeleteMenu = array();
-		$idTagsFile = $this->getTags();	
+		$idTagsFile = $this->getFile()->getTags();	
 		$role = $connection->get_user($_SESSION["email"])["role"];
 		$idTagsAllowed = array();
 		$idTagsNotAllowed=array();
@@ -222,12 +95,12 @@ class Files
 		}
 		return $arrayTagsDeleteMenu;
 	}
-
+	
 	private function getTagsAddMenu()
 	{
 		$connection = new DatabaseConnection();
 		$arrayTagsAddMenu = array();
-		$idTagsFile = $this->getTags();	
+		$idTagsFile = $this->getFile()->getTags();	
 		$role = $connection->get_user($_SESSION["email"])["role"];
 		$idTagsAllowed = array();
 		$idTagsNotAllowed=array();
@@ -288,11 +161,10 @@ class Files
 		}
 		return $arrayTagsAddMenu;
 	}
-
+	
 	private function previewTagsAddMenu($arrayTagsAddMenu)
 	{
-		//var_dump($arrayTagsAddMenu);
-		$idFichier=$this->id_fichier;
+		$idFichier=$this->getFile()->getFileID();
 		$result = "
         	<div class='add-tags' id='add-tags-file-".$idFichier."'>
           		<div class ='addDelete-tags-file-title'>   
@@ -333,8 +205,7 @@ class Files
 
 	private function previewTagsDeleteMenu($arrayTagsDeleteMenu)
 	{
-		//var_dump($arrayTagsAddMenu);
-		$idFichier=$this->id_fichier;
+		$idFichier=$this->getFile()->getFileID();
 		$result = "
         	<div class='delete-tags' id='delete-tags-file-".$idFichier."'>
           		<div class ='addDelete-tags-file-title' id='delete-tags-file-title'>   
@@ -375,12 +246,8 @@ class Files
 			
 		return $result;
 	}
-
-
-
-
-
-	public function previewTags($arrayTagsNames): string
+	
+	private function previewTags($arrayTagsNames): string
 	{
 		$result="";
 		foreach($arrayTagsNames as $categoryName => $arrayTags){
@@ -388,52 +255,16 @@ class Files
 			foreach($arrayTags as $Tags){
 				$result=$result."<p class=server-para-tag>".$Tags."</p>";
 			}
-
 		}
-
-
 		return $result;
 	}
 	
-	
-	public function getWriting(): bool
-	{
-		return $this->ecriture;
-	}
-	
-	public function getReading(): bool
-	{
-		return $this->lecture;
-	}
-	
-	public function getDeleted(): bool
-	{
-		return $this->deleted;
-	}
-	
-	public function getAuthorName(): string
-	{
-		return $this->nom_auteur;
-	}
-	
-	public function getDuration(): string
-	{
-		return $this->duree;
-	}
-
-	public function getAuthorDescription(): string
-	{
-		$connection = new DatabaseConnection();
-		$result = $connection->get_user($this->getAuthor());
-		return $result["descriptif"];
-	}
-
 	public function preview(): string
 	{
-		$fileAuthor=$this->getAuthorName();
+		$fileAuthor=$this->getFile()->getAuthorName();
 
-		$fileAddedDate = $this->getReleaseDate();
-		$fileModificationDate = $this->getModificationDate();
+		$fileAddedDate = $this->getFile()->getReleaseDate();
+		$fileModificationDate = $this->getFile()->getModificationDate();
 		$fileAddedDate = date("d-m-Y",strtotime($fileAddedDate)); 
 		$fileModificationDate = date("d-m-Y",strtotime($fileModificationDate)); 
 		//$previewAddTagsMenu = $this->previewTagsAddMenu($this->getTagsAddMenu());
@@ -441,16 +272,17 @@ class Files
 
 
 
-		$fileSize = $this->getFileSize();
+		$fileSize = $this->getFile()->getFileSize();
 		$fileTags = $this->getTagsNames();
 		$previewTags = $this->previewTags($fileTags);
-		$fileExtension = $this->getFileExtension();
-		$descriptionAuthor = $this->getAuthorDescription();
-		$idFichier=$this->id_fichier;
-		$duration = $this->getFileDuration();
-		$fileName = $this->getFilename();
-		$fileType = $this->getFileType();
-		$filePath = $this->getPath() . '.' . $fileExtension;
+		$fileExtension = $this->getFile()->getFileExtension();
+		$descriptionAuthor = $this->getFile()->getAuthorDescription();
+		$idFichier=$this->getFile()->getFileID();
+		$duration = $this->getFile()->getFileDuration();
+		$fileName = $this->getFile()->getFilename();
+		$fileType = $this->getFile()->getFileType();
+		$deleted = $this->getFile()->getDeleted();
+		$filePath = $this->getFile()->getPath() . '.' . $fileExtension;
 		
 
 		if($fileType == "image")
@@ -476,7 +308,7 @@ class Files
 
 		$videoDuration = '';
 
-		if (!empty($this->getDuration())) {
+		if (!empty($duration)) {
 			$videoDuration = sprintf("
 			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
 
@@ -487,7 +319,7 @@ class Files
 			",);
 		}
 
-		if ($this->getDeleted()) {
+		if ($deleted) {
 			
 			$popupOptions = sprintf("
 				<div class='popup-options' id='%s-popup-options'>
@@ -506,7 +338,7 @@ class Files
 
 					</div>
 
-				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+				</div>",$idFichier,$idFichier,$filePath,$fileName);
 
 			$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
@@ -601,7 +433,7 @@ class Files
 
 					</div>
 
-				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
+				</div>",$idFichier,$idFichier,$filePath,$fileName);
 		}
 		
 		$popupDetails = sprintf("
@@ -681,7 +513,7 @@ class Files
 					</div> 
 			</div>",$idFichier,$idFichier,$videoDuration);
 
-		if ($this->getWriting())
+		if ($this->getFile()->getWriting())
 		{
 			$write_textarea = '';
 		}
@@ -706,7 +538,7 @@ class Files
 		}
 		elseif ($fileType == "video") {
 			$miniature = '';
-			if(!in_array($this->getFileExtension(), array("mp4","webm","ogg"))) {
+			if(!in_array($fileExtension, array("mp4","webm","ogg"))) {
 				$miniature = "poster='storage/pictures/frames/error.png'";
 			}
 			$video = sprintf("

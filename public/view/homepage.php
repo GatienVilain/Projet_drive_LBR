@@ -191,7 +191,7 @@
     <div class="gallery">
 
         <?php
-            foreach ($files as $values)
+            foreach ($Bfiles as $values)
             {
                 echo $values->preview();
 
@@ -202,7 +202,7 @@
 
 
 
-<div class="pagination" <?= $issorted ? "style='visibility:hidden'":'';?>>
+<div class="pagination">
 	<button onclick='previousPage()'> Précédent </button>
 	<p>Page</p>
 	<p><?= $_SESSION['page']?></p>

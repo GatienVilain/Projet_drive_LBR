@@ -24,33 +24,39 @@
 </div>
 
 
-    <div id='popup-options-multipleFiles'>
-      <div class='header-popup' id='header-popup-options-MultipleFiles'>
+<div id='popup-options-multipleFiles'>
+  <div class='header-popup' id='header-popup-options-MultipleFiles'>
 
-        <button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeMultipleFiles()"><strong>←</strong></button>
-        <p><strong>Options</strong></p>
+	<button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeMultipleFiles()"><strong>←</strong></button>
+	<p><strong>Options</strong></p>
 
-      </div>
+  </div>
 
-      <div class='body-popup-options'>
+  <div class='body-popup-options'>
 
-        <button class='buttonPopupOptions' title='Restaurer les fichiers' onclick='recoveryMultipleFiles()'>Restaurer</button></a>
-        <button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteDefinitelyMultipleFiles()'>Supprimer</button>
-        <p id="sizeFilesSelected">Taille : </p>
-      </div>
-    </div>
-    
-    <div class="gallery">
+	<button class='buttonPopupOptions' title='Restaurer les fichiers' onclick='recoveryMultipleFiles()'>Restaurer</button></a>
+	<button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteDefinitelyMultipleFiles()'>Supprimer</button>
+	<p id="sizeFilesSelected">Taille : </p>
+  </div>
+</div>
 
-        <?php
-            foreach ($files as $values)
-            {
-               echo $values->preview();
-            }
-        ?>
+<div class="gallery">
 
-    </div>
+	<?php
+		foreach ($Bfiles as $values)
+		{
+		   echo $values->preview();
+		}
+	?>
 
+</div>
+
+<div class="pagination">
+	<button onclick='previousPage()'> Précédent </button>
+	<p>Page</p>
+	<p><?= $_SESSION['page']?></p>
+	<button onclick='nextPage()'> Suivant </button>
+</div>
 
 <?php require('public/view/banner-storage.php'); ?>
 

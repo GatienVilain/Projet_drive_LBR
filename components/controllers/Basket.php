@@ -3,25 +3,25 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
-require_once("components/Model/Files.php");
 require_once("components/Tools/CustomSort.php");
+require_once("components/Model/A.php");
+require_once("components/Model/B.php");
 
 use Application\Tools\Database\DatabaseConnection;
 use Application\Tools\CustomSort;
-use Application\Model\Files;
+use Application\Model\A;
+use Application\Model\B;
 
 class Basket
 {
 	public function execute()
 	{
-		$conn = new DatabaseConnection();
-		$conn->basket_check();
+		(new DatabaseConnection())->basket_check();
+		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
 		$sort = new CustomSort();
-		$files = $this->instantiate();
-		$user = $_SESSION["email"];
-		$role = $conn->get_user($user)["role"];
-		$nbr_files = count($files);
-		$error = "";
+		$files = $this->instantiateA();
+		
+		
 		if(isset($_SESSION['optionSort']))
 		{	
 			if($_SESSION['optionSort'] == 'sortAlphabetic')
@@ -38,11 +38,13 @@ class Basket
 			}
 			
 		}
-		
+		$Bfiles = $this->instantiateB($files);
+		$nbr_files = count($Bfiles);
+		$error = "";
 		require('public/view/basket.php');
 	}
 
-	private function instantiate()
+	private function getFilesID()
 	{
 		$connection = new DatabaseConnection();
 		//liste de tous les objets fichiers supprimés auxquelles l'utilisateur peut intéragir avec
@@ -56,21 +58,40 @@ class Basket
 			$result = $connection->get_basket_file($_SESSION["email"]);
 		}
 
-		$tmp = array();
-		if ($result != -1)
+		if ($result != -1 && !empty($result))
 		{
 			for($i = 0; $i<count($result); $i++)
 			{
-				$tmp[] = $result[$i]["id_fichier"];
+				$data[] = $result[$i]["id_fichier"];
 			}
 		}
-
-		if (!empty($tmp)) {
-			for ($i = 0; $i < count($tmp); $i++) {
-				$data[] = new Files($tmp[$i],true);
-			}
-		}
-
+		
 		return $data;
+	}
+	
+	private function instantiateA()
+	{
+		$filesID = $this->getFilesID();
+		$files = array();
+		if (!empty($filesID)) {
+			foreach ($filesID as $data) {
+				$files[] = new A($data,true);
+			}
+		}
+		return $files;
+	}
+	
+	private function instantiateB(array $Afiles)
+	{
+		$files = array();
+		if(!empty($Afiles)) {
+			$_SESSION['max_page'] = (int)(count($Afiles)/12);
+			$n = ($_SESSION['page']+1)*12;
+			if ($n > count ($Afiles)) {$n = count ($Afiles);}
+			for ($i = $_SESSION['page']*12; $i < $n; $i++) {
+				$files[] = new B($Afiles[$i]);
+			}
+		}
+		return $files;
 	}
 }

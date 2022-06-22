@@ -4,26 +4,24 @@ namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 require_once("components/Tools/CustomSort.php");
-require_once("components/Model/Files.php");
+require_once("components/Model/A.php");
+require_once("components/Model/B.php");
 
 use Application\Tools\Database\DatabaseConnection;
 use Application\Tools\CustomSort;
-use Application\Model\Files;
+use Application\Model\A;
+use Application\Model\B;
 
 class Homepage
 {
 	public function execute()
 	{
 		$sort = new CustomSort();
-		$issorted = true;
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
 		
-		//on met la pagination si on ne trie pas
-		if (empty($_SESSION['extensionList']) && empty($_SESSION['tagIdList']) && empty($_SESSION['authorList']) && $_SESSION['optionSort'] == '') {
-			$issorted = false;
-		}
-		$files = $this->instantiate($issorted);
+		$files = $this->instantiateA();
+		
 		//Vérifie variable de session existe et est non nulle
 		if(!empty($_SESSION['extensionList']))
 		{
@@ -72,6 +70,7 @@ class Homepage
 			$previewTags = $this->previewTagsAdmin($arrayAllTags, $previewArrayCategory);
 
 		}
+		$Bfiles = $this->instantiateB($files);
 		
 		$arrayTagsAddMultipleFiles = $this->getTagsAddMultipleFiles();
 		$previewAddTagsMultipleFiles = $this->previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles);
@@ -84,10 +83,9 @@ class Homepage
 
 		$authorsFiles = $this->getArrayAuthorsFilesInstantiate($files);
 		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
-
 		
 		$error = "";
-		$nbr_files = count($files);
+		$nbr_files = count($Bfiles);
 		require('public/view/homepage.php');
 	}
 
@@ -145,25 +143,27 @@ class Homepage
 		return $tmp;
 	}
 	
-	private function instantiate(bool $sorted)
+	private function instantiateA()
 	{
-		$files = array();
 		$filesID = $this->getFilesID();
-		if (!$sorted) {
-			if(!empty($filesID)) {
-				$_SESSION['max_page'] = (int)(count($filesID)/12);
-				$n = ($_SESSION['page']+1)*12;
-				if ($n > count ($filesID)) {$n = count ($filesID);}
-				for ($i = $_SESSION['page']*12; $i < $n; $i++) {
-					$files[] = new Files($filesID[$i],false);
-				}
+		$files = array();
+		if (!empty($filesID)) {
+			foreach ($filesID as $data) {
+				$files[] = new A($data,false);
 			}
 		}
-		else {
-			if (!empty($filesID)) {
-				for ($i = 0; $i < count($filesID); $i++) {
-					$files[] = new Files($filesID[$i],false);
-				}
+		return $files;
+	}
+	
+	private function instantiateB(array $Afiles)
+	{
+		$files = array();
+		if(!empty($Afiles)) {
+			$_SESSION['max_page'] = (int)(count($Afiles)/12);
+			$n = ($_SESSION['page']+1)*12;
+			if ($n > count ($Afiles)) {$n = count ($Afiles);}
+			for ($i = $_SESSION['page']*12; $i < $n; $i++) {
+				$files[] = new B($Afiles[$i]);
 			}
 		}
 		return $files;
@@ -446,18 +446,13 @@ class Homepage
 		foreach($filesInstantiate as $file)
 		{
 			$fileExtension = strtolower($file->getFileExtension());
-			//var_dump($file->getFileExtension());
+
 			if(!in_array($fileExtension,$arrayExtensionsFilesInstantiate))
 			{
 				array_push($arrayExtensionsFilesInstantiate,$fileExtension);
 			}
-		
 		}
-
-		//var_dump($arrayExtensionsFilesInstantiate);
-	
 		return $arrayExtensionsFilesInstantiate;
-
 	}
 
 	
