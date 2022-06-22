@@ -962,3 +962,127 @@ function closeConfirmationPopup()
   document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
   document.getElementById("popup-options-multipleFiles").style.display = 'none';
 }
+
+function renameFile(event)
+{
+	let file = event.currentTarget;
+
+	if (confirm("Confirmer le nouveau nom du fichier."))
+	{
+		$.ajax({
+			url: 'index.php',
+			data: {'idFile' : file.name, 'new_name' : file.value, 'action' : "renameFile"},
+			dataType: 'json'
+		});
+		file.placeholder = file.value;
+	}
+	else {
+		file.value = file.placeholder;
+	}
+}
+
+
+//document.oncontextmenu = function(){return false}
+
+const files = document.querySelectorAll('.popup');
+let timer;
+files.forEach(file => file.addEventListener('click', event => {
+	closeAllPopup();
+	if(event.button == 0) {//clic gauche
+		if (event.detail === 1) {//simple clic
+			timer = setTimeout(() => {
+				idElement = file.id + '-popup-detail';
+				if(document.getElementById(idElement).style.display != "block")
+				{
+				document.getElementById(idElement).style.display = "block";  
+				}
+			}, 200);
+		}
+	}
+}));
+
+files.forEach(file => file.addEventListener('dblclick', event => {
+	clearTimeout(timer);
+	//double clic gauche
+	if(file.tagName == 'IMG'){
+		var newpath = file.getAttribute('src').substr(0,16) + file.getAttribute('src').substr(23);
+		console.log(newpath);
+		openPopupModal(file.tagName,newpath);
+	}
+	else if(file.tagName == 'VIDEO'){
+		openPopupModal(file.tagName,file.children[0].getAttribute('src'));
+	}
+}));
+
+files.forEach(file => file.addEventListener('contextmenu', event => {
+	//clic droit
+	closeAllPopup();
+	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+	fileChecked = false;
+	for(valeur of checkboxesFiles)
+	{
+		if(valeur.checked)
+		{
+		fileChecked=true;
+		}
+	}
+
+	if(fileChecked == false)
+	{
+		idElement = file.id + '-popup-options';
+		if(document.getElementById(idElement).style.display != "block")
+		{
+			document.getElementById(idElement).style.display = "block";
+		}  
+	}
+	else
+	{
+		getFilesSelectedSize();
+		idElement='popup-options-multipleFiles';
+		if(document.getElementById(idElement).style.display != "inline-flex")
+		{
+			document.getElementById(idElement).style.display = "inline-flex";
+		}  
+	}
+}));
+
+// (C) INITIALIZE UPLOADER
+window.addEventListener("load", () => {
+	// (C1) GET HTML FILE LIST
+	var filelist = document.getElementById("body-popup-upload");
+
+	// (C2) INIT PLUPLOAD
+	var uploader = new plupload.Uploader({
+		runtimes: "html5",
+		browse_button: "pickfiles",
+		url: "/../../components/Tools/Upload/upload.php",
+		chunk_size: "2mb",
+		filters: {
+			//max_file_size: "150mb",
+			mime_types: [{title: "Image", extensions: "jpg,gif,png,hdr,tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf,wav,wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
+		},
+		init: {
+			PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },
+			FilesAdded: (up, files) => {
+				plupload.each(files, (file) => {
+					let row = document.createElement("div");
+					row.id = file.id;
+					row.innerHTML = `${file.name} (${plupload.formatSize(file.size)}) <strong></strong>`;
+					filelist.appendChild(row);
+				});
+				uploader.start();
+			},
+			UploadProgress: (up, file) => {
+				document.querySelector(`#${file.id} strong`).innerHTML = `${file.percent}%`;
+			},
+			Error: (up, err) => { console.error(err); }
+		}
+	});
+	uploader.init();
+});
+
+const title_files = document.querySelectorAll('.title-file');
+
+title_files.forEach(file => {
+	file.addEventListener('change', renameFile, false);
+});
