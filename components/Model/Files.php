@@ -38,7 +38,7 @@ class Files
 		$this->date_publication = $result["date_publication"];
 		$this->date_modification = $result["date_derniere_modification"];
 		$this->taille_Mo = $result["taille_Mo"];
-		$this->duree = $result["duree"] == null ? '' : $result["duree"];
+		$this->duree = ($result["duree"] == null) ? '' : $result["duree"];
 		$this->type = $result["type"];
 		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);
@@ -70,8 +70,8 @@ class Files
 	
 	private function setRights(): array
 	{
-		if ($this->getAuthor() != $_SESSION['email']) {
-			$connection = new DatabaseConnection();
+		$connection = new DatabaseConnection();
+		if ($connection->get_user($_SESSION['email'])["role"] != "admin" || $this->getAuthor() != $_SESSION['email']) {
 			$tags = $this->getTags();
 				$ecriture = 0;
 				$lecture = 0;
@@ -84,7 +84,7 @@ class Files
 					
 					if ($rights != -1) {
 						$ecriture = $rights["ecriture"];
-						$ecriture = $rights["lecture"];
+						$lecture = $rights["lecture"];
 					}
 				}
 				return array("ecriture" => $ecriture,"lecture" => $lecture);

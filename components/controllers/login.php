@@ -37,6 +37,7 @@ class Login
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
                 $_SESSION['email'] = $email;
+				$_SESSION['page'] = 0;
                 $_SESSION['error'] = "";
                 (new User())->is_admin();
 

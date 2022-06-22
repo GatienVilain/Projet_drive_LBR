@@ -6,7 +6,7 @@
   margin: 4vh auto 0; 
   margin-right: 4.5vw;
   margin-left: 4.5vw;
-  margin-bottom: 15vh;
+  /*margin-bottom: 15vh;*/
 
 }
 
@@ -1042,4 +1042,15 @@ border-bottom:1px solid black;
   text-overflow: ellipsis;
   overflow: hidden;
 
+}
+
+.pagination {
+	margin: 3em 0 15vh;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.pagination p, .pagination button {
+	margin: 0.2em;
 }
