@@ -607,9 +607,9 @@ class Homepage
 				$result = $result."
 					<div class='dropdown'> 
 						<div class ='categoryName-line'>
-							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-addDelete-tags-multipleFiles'>".$categoryName." ⌵</button>
+							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-add-tags-multipleFiles'>".$categoryName." ⌵</button>
 						</div>
-						<div id='".$categoryName."-dropdown-addDelete-tags-content-multipleFiles' class='add-dropdown-content'>";
+						<div id='".$categoryName."-dropdown-add-tags-multipleFiles-content' class='add-dropdown-content'>";
 				foreach($arrayTags as $tags)
 				{
 					foreach($tags as $tagName => $tagId)
@@ -622,7 +622,7 @@ class Homepage
 				}	
 				$result = $result."</div></div>";	
 			}
-			$result=$result."<div id='container-button-validate-multipleFiles'><button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div></div>";
+			$result=$result."<div class='container-button-validate-multipleFiles'><button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div></div>";
 		}
 		else
 		{
@@ -714,22 +714,22 @@ class Homepage
 				$result = $result."
 					<div class='dropdown'> 
 						<div class ='categoryName-line'>
-							<button onclick='' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-addDelete-tags-multipleFiles'>".$categoryName." ⌵</button>
+							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-delete-tags-multipleFiles'>".$categoryName." ⌵</button>
 						</div>
-						<div class='delete-dropdown-content' id='".$categoryName."-dropdown-addDelete-tags-content-multipleFiles'>";
+						<div class='delete-dropdown-content' id='".$categoryName."-dropdown-delete-tags-multipleFiles-content'>";
 				foreach($arrayTags as $tags)
 				{
 					foreach($tags as $tagName => $tagId)
 					{
 						$result=$result."
 							<div class='addDelete-tags-line-tag'>
-								  <p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-delete-tags-multipleFiles' id='delete-tags-multipleFiles-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
+								  <p class = 'inputCheckboxTagDelete'><input type='checkbox' class ='checkbox-delete-tags-multipleFiles' id='delete-tags-multipleFiles-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
 							</div>";
 					}
 				}	
 				$result = $result."</div></div>";	
 			}
-			$result=$result."<button id='delete-tag-multipleFiles-button-valider' onclick='deleteTagsMultipleFiles()'>Valider</button></div></div>";
+			$result=$result."<div class='container-button-validate-multipleFiles'><button id='delete-tag-multipleFiles-button-valider' onclick='deleteTagsMultipleFiles()'>Valider</button></div></div></div>";
 		}
 
 		else

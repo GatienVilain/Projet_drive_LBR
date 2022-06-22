@@ -416,6 +416,11 @@ class Files
 		return $this->nom_auteur;
 	}
 	
+	public function getDuration(): string
+	{
+		return $this->duree;
+	}
+
 	public function getAuthorDescription(): string
 	{
 		$connection = new DatabaseConnection();
@@ -467,6 +472,19 @@ class Files
 			{
 			$previewFilePath = 'storage\videos\frames\error.png';
 			}
+		}
+
+		$videoDuration = '';
+
+		if (!empty($this->getDuration())) {
+			$videoDuration = sprintf("
+			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+
+				<p class = 'detail-para'>Duree:</p>
+				<p class = 'server-para'>$duration</p>
+
+			</div>
+			",);
 		}
 
 		if ($this->getDeleted()) {
@@ -555,13 +573,15 @@ class Files
 
 					</div>
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+					%s
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
 						<p class = 'detail-para'>Tag(s):</p>			
 						<div class = 'server-para' id='server-para-tag'>$previewTags</div>
 					</div>
 
 				</div> 
-			</div>",$idFichier,$idFichier);
+			</div>",$idFichier,$idFichier,$videoDuration);
 		}
 		else {
 			$popupOptions = sprintf("
@@ -583,17 +603,6 @@ class Files
 
 				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
 		}
-		
-		$videoDuration = sprintf("
-			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
-
-				<p class = 'detail-para'>Duree:</p>
-				<p class = 'server-para'>$duration</p>
-
-			</div>
-		
-		
-		",);
 		
 		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>

@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div id="containerGallery">
+
     <div id='popup-options-multipleFiles'>
       <div class='header-popup' id='header-popup-options-MultipleFiles'>
 
@@ -49,7 +49,6 @@
 
     </div>
 
-</div>
 
 <?php require('public/view/banner-storage.php'); ?>
 
