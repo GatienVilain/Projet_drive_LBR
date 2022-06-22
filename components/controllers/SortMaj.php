@@ -75,7 +75,7 @@ class SortMaj
                 $authorList = explode("/", $_GET['authors']);
                 array_pop($authorList);
                 $_SESSION['authorList'] = $authorList;
-
+				$_SESSION['optionSort'] = '';
             }
 
         }

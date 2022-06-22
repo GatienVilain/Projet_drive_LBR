@@ -972,6 +972,18 @@ html {
 	height: 1.5em;
 }
 
+.pagination {
+	margin: 3em 0 15vh;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.pagination p,
+.pagination button {
+	margin: 0.2em;
+}
+
 .title-file {
 	border: 0;
 	background-color: transparent;

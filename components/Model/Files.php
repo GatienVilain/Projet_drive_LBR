@@ -37,7 +37,7 @@ class Files
 		$this->date_publication = $result["date_publication"];
 		$this->date_modification = $result["date_derniere_modification"];
 		$this->taille_Mo = $result["taille_Mo"];
-		$this->duree = $result["duree"] == null ? '' : $result["duree"];
+		$this->duree = ($result["duree"] == null) ? '' : $result["duree"];
 		$this->type = $result["type"];
 		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);

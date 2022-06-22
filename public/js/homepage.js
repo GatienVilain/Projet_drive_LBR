@@ -834,6 +834,46 @@ function closeConfirmationPopup()
   document.getElementById("popup-options-multipleFiles").style.display = 'none';
 }
 
+function previousPage()
+{
+	$.ajax({
+      url: 'index.php',
+      data: {'action' : 'PreviousPage'},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if(response.status === false)
+        {
+          alert("Something went wrong")
+        }
+		else {
+			window.location.reload();
+		}
+      }
+
+    });
+	
+}
+
+function nextPage()
+{
+		$.ajax({
+      url: 'index.php',
+      data: {'action' : 'NextPage'},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if(response.status === false)
+        {
+          alert("Something went wrong")
+        }
+		else {
+			window.location.reload();
+		}
+      }
+
+    });
+}
 function renameFile(event)
 {
 	let file = event.currentTarget;

@@ -15,28 +15,33 @@ class Homepage
 	public function execute()
 	{
 		$sort = new CustomSort();
-		$files = $this->instantiate();
+		$issorted = true;
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
 		
+		//on met la pagination si on ne trie pas
+		if (empty($_SESSION['extensionList']) && empty($_SESSION['tagIdList']) && empty($_SESSION['authorList']) && $_SESSION['optionSort'] == '') {
+			$issorted = false;
+		}
+		$files = $this->instantiate($issorted);
 		//Vérifie variable de session existe et est non nulle
-		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
+		if(!empty($_SESSION['extensionList']))
 		{
 			$files = $sort->sort_by_extension($files, $_SESSION['extensionList']);
 		}
 
 		//Vérifie variable de session existe et est non nulle
-		if(isset($_SESSION['tagIdList']) && ($_SESSION['tagIdList'] != null))
+		if(!empty($_SESSION['tagIdList']))
 		{
 			$files = $sort->sort_by_tag($files, $_SESSION['tagIdList']);
 		}
 
-		if(isset($_SESSION['authorList']) && ($_SESSION['authorList'] != null))
+		if(!empty($_SESSION['authorList']))
 		{
 			$files = $sort->sort_by_user($files, $_SESSION['authorList']);
 		}
 
-		if(isset($_SESSION['optionSort']))
+		if($_SESSION['optionSort'] != '')
 		{	
 			if($_SESSION['optionSort'] == 'sortAlphabetic')
 			{
@@ -86,7 +91,7 @@ class Homepage
 		require('public/view/homepage.php');
 	}
 
-	private function instantiate()
+	private function getFilesID()
 	{
 		$connection = new DatabaseConnection();
 		//liste de tous les objets fichiers non supprimés auxquelles l'utilisateur peut intéragir avec 
@@ -124,11 +129,6 @@ class Homepage
 				}
 			}
 			$tmp = array_values(array_unique(array_merge($tmp, array_unique($tmp2))));
-			if (!empty($tmp)) {
-				for ($i = 0; $i < count($tmp); $i++) {
-					$data[] = new Files($tmp[$i],false);
-				}
-			}
 		}
 		else {
 			//sinon c'est un admin
@@ -140,18 +140,35 @@ class Homepage
 				for ($i = 0; $i < count($result); $i++) {
 					$tmp[] = $result[$i]["id_fichier"];
 				}
-			
-				for ($i = 0; $i < count($tmp); $i++) {
-					$data[] = new Files($tmp[$i],false);
-				}
-			}
-			else {
-				$data = $tmp;
 			}
 		}
-		return $data;
+		return $tmp;
 	}
-
+	
+	private function instantiate(bool $sorted)
+	{
+		$files = array();
+		$filesID = $this->getFilesID();
+		if (!$sorted) {
+			if(!empty($filesID)) {
+				$_SESSION['max_page'] = (int)(count($filesID)/12);
+				$n = ($_SESSION['page']+1)*12;
+				if ($n > count ($filesID)) {$n = count ($filesID);}
+				for ($i = $_SESSION['page']*12; $i < $n; $i++) {
+					$files[] = new Files($filesID[$i],false);
+				}
+			}
+		}
+		else {
+			if (!empty($filesID)) {
+				for ($i = 0; $i < count($filesID); $i++) {
+					$files[] = new Files($filesID[$i],false);
+				}
+			}
+		}
+		return $files;
+	}
+	
 	private function getArrayTagsForAdmin()
 	{
 		$connection = new DatabaseConnection();

@@ -39,6 +39,8 @@ require_once("components/Controllers/UsersModeration/ChangePassword.php");
 require_once("components/Controllers/Rights/Get.php");
 require_once("components/Controllers/Rights/Add.php");
 require_once("components/Controllers/Rights/Delete.php");
+require_once("components/Controllers/PreviousPage.php");
+require_once("components/Controllers/NextPage.php");
 
 require_once("components/Model/User.php");
 
@@ -82,6 +84,8 @@ use Application\Controllers\UsersModeration\ChangePassword as ChangePasswordFor;
 use Application\Controllers\Rights\GetRights;
 use Application\Controllers\Rights\AddRight;
 use Application\Controllers\Rights\DeleteRights;
+use Application\Controllers\PreviousPage;
+use Application\Controllers\NextPage;
 
 use Application\Model\User;
 
@@ -279,6 +283,16 @@ try
             elseif ($_GET['action'] === 'recoveryMultipleFiles')
             {
                 (new RecoveryMultipleFiles())->execute();
+                $action_found = True;
+            }
+			elseif ($_GET['action'] === 'PreviousPage')
+            {
+                (new PreviousPage())->execute();
+                $action_found = True;
+            }
+			elseif ($_GET['action'] === 'NextPage')
+            {
+                (new NextPage())->execute();
                 $action_found = True;
             }
         }

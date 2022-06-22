@@ -202,6 +202,13 @@
 
 
 
+<div class="pagination" <?= $issorted ? "style='visibility:hidden'":'';?>>
+	<button onclick='previousPage()'> Précédent </button>
+	<p>Page</p>
+	<p><?= $_SESSION['page']?></p>
+	<button onclick='nextPage()'> Suivant </button>
+</div>
+
 <div id="show_image_popup">
 
   <button id="close-btn" onclick="hidePopupModal()"> </button>
