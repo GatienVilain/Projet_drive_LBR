@@ -338,6 +338,3 @@ window.addEventListener("load", () => {
 
 
 </script>
-
-
-

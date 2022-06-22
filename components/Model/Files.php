@@ -688,7 +688,9 @@ class Files
 			if(!in_array($this->getFileExtension(), array("mp4","webm","ogg"))) {
 				$miniature = "poster='storage/pictures/frames/error.png'";
 			}
-
+			if ($this->getWriting()){
+				
+			}
 			$video = sprintf("
 				<div oncontextmenu='return false;' class=video> 
 					<video class=popup id='%s' %s>
@@ -698,7 +700,8 @@ class Files
 				</div> 
 				
 				<div class = titre> 
-					<p><input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'> %s </p> 
+					<input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'>
+					<p>%s</p>
 					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
 				</div></div>",$idFichier,$miniature,$filePath,$fileExtension,$fileName);
 				
