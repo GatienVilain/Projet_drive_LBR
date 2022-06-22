@@ -3,7 +3,6 @@
 <?php $scripts = '<script type="text/javascript" src="public/js/rights.js"></script>' ?>
 
 <?php require('public/view/banner-menu.php'); ?>
-<?php require('public/view/add_rights_menu.php'); ?>
 
 <?php ob_start(); ?>
 
@@ -16,10 +15,29 @@
             <!-- remplacer par le nom du profil utilisateur -->
             <?= $name ?>
         </h3>
-        <p class="role">
-            <!-- ȑemplacer par le rôle de l’utilisateur -->
-            <?= $role ?>
-        </p>
+        <form action="index.php?action=changeRole&for=<?= $email ?>" method="post" id="change-role">
+            <select name="role">
+
+                <?php if ($role == "admin")
+                {  ?>
+
+                    <option value="admin" selected>admin</option>
+                    <option value="invite">invite</option>
+
+                    <?php
+                }
+                else {  ?>
+
+                    <option value="admin">admin</option>
+                    <option value="invite" selected>invite</option>
+
+                    <?php
+                }
+                ?>
+
+            </select>
+            <button type="submit">🖉 valider</button>
+        </form>
         <p class="date" >Inscrit depuis le
                 <!-- `Remplacer par de la date d’inscription de l’utilisateur -->
                 <?= $registration_date ?>

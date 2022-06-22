@@ -17,6 +17,35 @@
     border-radius: 10px;
 }
 
+#change-role {
+    margin: 0 0 0 2em !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    background-color: transparent !important;
+}
+
+#change-role select {
+    font-size: 1.4em;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+#change-role button {
+    padding: 0 !important;
+    margin: 0 0 0 1em !important;
+    height: 1.7em !important;
+    width: 6em !important;
+    background-color: transparent !important;
+    border: 0 transparent !important;
+    box-shadow: none !important;
+    color: var(--couleur-police-fond-clair) !important;
+    font-size: 1em;
+}
+
+#change-role button:hover {
+    background-color: #cac9c9 !important;
+}
+
 #profile-information form button {
     margin: 0.5em;
 }
@@ -183,12 +212,6 @@
         margin: 1vh 6vw;
     }
 
-    #profile-information .role {
-        font-size: 1.4em;
-        font-weight: 900;
-        margin: 2vh 15vw;
-    }
-
     #profile-information .date {
         margin: 4vh 6vw;
         font-size: 1.3em;
@@ -242,12 +265,6 @@
     #profile-information h3 {
         font-size: 3.5em;
         margin-left: 2vw;
-    }
-
-    #profile-information .role {
-        margin: 2vh 4vw;
-        font-size: 1.4em;
-        font-weight: 900;
     }
 
     #profile-information .date {
