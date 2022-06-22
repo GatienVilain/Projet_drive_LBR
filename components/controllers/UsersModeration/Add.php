@@ -11,7 +11,6 @@ use Application\Model\Log;
 use Application\Model\Email;
 use Application\Tools\Database\DatabaseConnection;
 use Application\Model\Password;
-use Exception;
 
 class AddUser
 {
@@ -33,12 +32,12 @@ class AddUser
 
                     if ( !($user == -1 || $user['compte_supprime'] == 1) )
                     {
-                        throw new Exception('Cette email est déjà utilisé.');
+                        throw new \Exception('Cette email est déjà utilisé.');
                     }
                 }
                 else
                 {
-                    throw new Exception('Email invalide');
+                    throw new \Exception('Email invalide');
                 }
             }
 
@@ -78,11 +77,11 @@ class AddUser
                         $validation = TRUE;
                     }
                     else {
-                        throw new Exception('mot de passe invalide');
+                        throw new \Exception('mot de passe invalide');
                     }
                 }
                 else {
-                    throw new Exception('mots de passes différents');
+                    throw new \Exception('mots de passes différents');
                 }
             }
 
@@ -108,7 +107,7 @@ class AddUser
                 $message.=$_POST['new-password-field'];
 
                 $email = new Email($mail, $subject, $message);
-                //$email->SendEmail();
+                $email->SendEmail();
 
                 $txt = 'à créé le compte de '. $first_name . ' ' . $name;
                 ( new Log() )->ecrire_log($_SESSION['email'], $txt);
@@ -116,7 +115,7 @@ class AddUser
                 header('Location: index.php?action=usersModeration');
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             $error = $e->getMessage();
             require('public/view/add_user.php');
