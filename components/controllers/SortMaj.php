@@ -59,7 +59,7 @@ class SortMaj
                     }
 
                 }
-            
+
             }
 
             elseif($option == 'sortFilter'){
@@ -75,9 +75,9 @@ class SortMaj
                 $authorList = explode("/", $_GET['authors']);
                 array_pop($authorList);
                 $_SESSION['authorList'] = $authorList;
-				$_SESSION['page'] = 0;
+				
             }
-
+			$_SESSION['page'] = 0;
         }
 
         
