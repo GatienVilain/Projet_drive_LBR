@@ -32,6 +32,7 @@ require_once("components/Controllers/UsersModeration/Get.php");
 require_once("components/Controllers/UsersModeration/Delete.php");
 require_once("components/Controllers/UsersModeration/GetAdd.php");
 require_once("components/Controllers/UsersModeration/Add.php");
+require_once("components/Controllers/UsersModeration/ChangeRole.php");
 require_once("components/Controllers/UsersModeration/ChangeDescription.php");
 require_once("components/Controllers/UsersModeration/ChangePassword.php");
 require_once("components/Controllers/Rights/Get.php");
@@ -73,6 +74,7 @@ use Application\Controllers\UsersModeration\GetUsersModeration;
 use Application\Controllers\UsersModeration\DeleteUser;
 use Application\Controllers\UsersModeration\GetAddPage;
 use Application\Controllers\UsersModeration\AddUser;
+use Application\Controllers\UsersModeration\ChangeRole;
 use Application\Controllers\UsersModeration\ChangeDescription as ChangeDescriptionFor;
 use Application\Controllers\UsersModeration\ChangePassword as ChangePasswordFor;
 use Application\Controllers\Rights\GetRights;
@@ -119,6 +121,11 @@ try
                 elseif ( $_GET['action'] === 'addUser' )
                 {
                     (new AddUser())->execute();
+                    $action_found = True;
+                }
+                elseif ($_GET['action'] === 'changeRole')
+                {
+                    (new ChangeRole())->execute();
                     $action_found = True;
                 }
                 elseif ($_GET['action'] === 'changePasswordFor')
