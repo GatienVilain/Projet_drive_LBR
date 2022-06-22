@@ -28,8 +28,8 @@ table tr {
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: center;
-	padding: 1.3em 10%;
-	font-size: 1.20em;
+	padding: 1em 10%;
+	font-size: 1em;
 }
 
 table td {
@@ -58,6 +58,6 @@ table .hour {
 
 @media only screen and (min-width: 1100px) {
     table .email {
-        width: 40%;
+        width: 30%;
     }
 }
