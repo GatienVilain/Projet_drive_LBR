@@ -28,7 +28,6 @@ class Files
     {
 		$connection = new DatabaseConnection();
 		$result = $connection->get_file($id_fichier);
-		
         $this->id_fichier = $id_fichier;
 		$this->deleted = $deleted;
 		$this->auteur = $result["email"];
@@ -42,8 +41,9 @@ class Files
 		$this->type = $result["type"];
 		$this->extension = $result["extension"];
 		$this->tags = $this->setTags($id_fichier);
-		$this->ecriture = $this->setRights($id_fichier)["ecriture"];
-		$this->lecture = $this->setRights($id_fichier)["lecture"];
+		$tmp = $this->setRights($id_fichier);
+		$this->ecriture = $tmp['ecriture'];
+		$this->lecture = $tmp['lecture'];
     }
 	
 	//setteur
@@ -71,23 +71,25 @@ class Files
 	private function setRights(): array
 	{
 		$connection = new DatabaseConnection();
-		if ($connection->get_user($_SESSION['email'])["role"] != "admin" || $this->getAuthor() != $_SESSION['email']) {
+
+		if ($connection->get_user($_SESSION['email'])["role"] == "invite" && $this->getAuthor() != $_SESSION['email']) 
+		{
 			$tags = $this->getTags();
-				$ecriture = 0;
-				$lecture = 0;
-				for ($i = 0; $i < count($tags);$i++) {
-					if ($ecriture && $lecture) {
-						break;
-					}
-					
-					$rights = $connection->get_rights($_SESSION["email"],$tags[$i]);
-					
-					if ($rights != -1) {
-						$ecriture = $rights["ecriture"];
-						$lecture = $rights["lecture"];
-					}
+			$ecriture = 0;
+			$lecture = 0;
+			for ($i = 0; $i < count($tags);$i++) {
+				if ($ecriture && $lecture) {
+					break;
 				}
-				return array("ecriture" => $ecriture,"lecture" => $lecture);
+				$rights = $connection->get_rights($_SESSION["email"],$tags[$i]);
+
+				if ($rights != -1) {
+					$ecriture = $rights["ecriture"];
+					$lecture = $rights["lecture"];
+
+				}
+			}
+			return array("ecriture" => $ecriture,"lecture" => $lecture);
 		}
 		else {
 			return array("ecriture" => 1,"lecture" => 1);
@@ -414,6 +416,11 @@ class Files
 		return $this->nom_auteur;
 	}
 	
+	public function getDuration(): string
+	{
+		return $this->duree;
+	}
+
 	public function getAuthorDescription(): string
 	{
 		$connection = new DatabaseConnection();
@@ -465,6 +472,19 @@ class Files
 			{
 			$previewFilePath = 'storage\videos\frames\error.png';
 			}
+		}
+
+		$videoDuration = '';
+
+		if (!empty($this->getDuration())) {
+			$videoDuration = sprintf("
+			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+
+				<p class = 'detail-para'>Duree:</p>
+				<p class = 'server-para'>$duration</p>
+
+			</div>
+			",);
 		}
 
 		if ($this->getDeleted()) {
@@ -553,13 +573,15 @@ class Files
 
 					</div>
 
-					<div class='body-popup-detail-line' id='body-popup-detail-line8'>
+					%s
+
+					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
 						<p class = 'detail-para'>Tag(s):</p>			
 						<div class = 'server-para' id='server-para-tag'>$previewTags</div>
 					</div>
 
 				</div> 
-			</div>",$idFichier,$idFichier);
+			</div>",$idFichier,$idFichier,$videoDuration);
 		}
 		else {
 			$popupOptions = sprintf("
@@ -581,17 +603,6 @@ class Files
 
 				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
 		}
-		
-		$videoDuration = sprintf("
-			<div class='body-popup-detail-line' id='body-popup-detail-line8'>
-
-				<p class = 'detail-para'>Duree:</p>
-				<p class = 'server-para'>$duration</p>
-
-			</div>
-		
-		
-		",);
 		
 		$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
@@ -670,16 +681,26 @@ class Files
 					</div> 
 			</div>",$idFichier,$idFichier,$videoDuration);
 
-		if ($fileType == "image") {
+		if ($this->getWriting())
+		{
+			$write_textarea = '';
+		}
+		else {
+			$write_textarea = 'disabled';
+		}
+
+		if ($fileType == "image")
+		{
 			$image = sprintf("
 				<div oncontextmenu='return false;' class=image> 
 					<img class=popup id='%s' src=%s>
 				</div> 
 				
 				<div class = titre> 
-					<p><input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'> %s </p>
+					<input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'>
+					<input type='text' class='title-file' name='".$idFichier."' placeholder='%s' value='%s' ".$write_textarea." required></input>
 					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
-				</div></div>",$idFichier,$previewFilePath,$fileName);
+				</div></div>",$idFichier,$previewFilePath,$fileName,$fileName);
 				
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
 		}
@@ -687,9 +708,6 @@ class Files
 			$miniature = '';
 			if(!in_array($this->getFileExtension(), array("mp4","webm","ogg"))) {
 				$miniature = "poster='storage/pictures/frames/error.png'";
-			}
-			if ($this->getWriting()){
-				
 			}
 			$video = sprintf("
 				<div oncontextmenu='return false;' class=video> 
@@ -701,9 +719,9 @@ class Files
 				
 				<div class = titre> 
 					<input type='checkbox' class ='checkbox-file' id='checkFile-".$idFichier."' title='Sélectionner un fichier'>
-					<p>%s</p>
+					<input type='text' class='title-file' name='".$idFichier."' placeholder='%s' value='%s' ".$write_textarea." required></input>
 					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
-				</div></div>",$idFichier,$miniature,$filePath,$fileExtension,$fileName);
+				</div></div>",$idFichier,$miniature,$filePath,$fileExtension,$fileName,$fileName);
 				
 			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
 		}

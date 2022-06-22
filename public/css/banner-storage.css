@@ -43,13 +43,21 @@
     bottom:0;
     height: 10vh;
     width: 100vw;
-    z-index: 900;
+    z-index: 999;
     display: flex;
     padding: 1vh 5vw;
     background-color: var(--couleur-footer);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     justify-content: space-between;
     align-items: center;
+    font-size: 0.7em;
+    
+}
+
+@media only screen and ( min-width: 400px) {
+    #banner-footer{
+        font-size: 1em;
+    }   
 }
 
 #banner-footer-role{

@@ -11,6 +11,7 @@ require_once("components/Controllers/Login.php");
 require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
+require_once("components/Controllers/renameFile.php");
 require_once("components/Controllers/basketFile.php");
 require_once("components/Controllers/deleteFile.php");
 require_once("components/Controllers/DeleteMultipleFiles.php");
@@ -55,6 +56,7 @@ use Application\Controllers\Login;
 use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
+use Application\Controllers\RenameFile;
 use Application\Controllers\basketFile;
 use Application\Controllers\deleteFile;
 use Application\Controllers\DeleteMultipleFiles;
@@ -157,7 +159,6 @@ try
                     (new DeleteRights())->execute();
                     $action_found = True;
                 }
-                
             }
 
             // Actions disponible quand on est connecté mais pas admin
@@ -177,7 +178,11 @@ try
                 (new ChangeDescription())->execute();
                 $action_found = True;
             }
-
+            elseif ($_GET['action'] === 'renameFile')
+            {
+                (new RenameFile())->execute();
+                $action_found = True;
+            }
             elseif ($_GET['action'] === 'basketFile')
             {
                 (new basketFile())->execute();
