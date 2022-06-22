@@ -30,7 +30,7 @@ trait DatabaseUser
 			if ($result["compte_supprime"]) {
 				//s'il a été supprimé, on met à jour le compte
 				$query = $conn->prepare("UPDATE utilisateur SET mot_de_passe = ?,descriptif = ?,role = ?,date_inscription = ?,compte_supprime = 0 WHERE email = ?");
-				$query->bind_param("sssss", $mdp, $descriptif, $date, $role, $email);
+				$query->bind_param("sssss", $mdp, $descriptif, $role, $date, $email);
 				if (!$query->execute()) {
 					$conn->close();
 					return $this->console_log("Echec de mis à jour de la base de donnée.");

@@ -25,7 +25,7 @@ class Email
     {
         $headers  = "Content-Type: text/html; charset=utf-8\r\n";
         $headers .= "From: totolvroum@gmail.com\r\n";
-        require("components/Model/templatemail.php");
+        require("components/Tools/template_mail.php");
 
         if ( ! mail ( $this->address, $this->subject, $content, $headers ) )
         {

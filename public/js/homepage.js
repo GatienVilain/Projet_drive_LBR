@@ -324,7 +324,7 @@ function trier()
 
   tags = ""; //le tableau//
   extensions = "";
-  //authors = [];
+  authors = "";
   //var checkboxesTags = document.getElementsByClassName("checkbox-filter-menu-tags");
   //var checkboxesExtensions = document.getElementsByClassName("checkbox-filter-menu-extensions");
   //var checkboxesAuthors = document.getElementsByClassName("checkbox-filter-menu-authors");
@@ -350,18 +350,31 @@ function trier()
       if(valeur.checked)
       {
         idElement = valeur.id;
-        idTag = idElement.replace(/-filterMenu-checkExtension/gi,'');
-        extensions=extensions + idTag + " "; // Ajouter l'élément à la liste //
+        idExtension = idElement.replace(/-filterMenu-checkExtension/gi,'');
+        extensions=extensions + idExtension + " "; // Ajouter l'élément à la liste //
       }
     }
 
+  let checkboxesAuthors = document.getElementsByClassName('checkbox-filter-menu-authors');
+  for(valeur of checkboxesAuthors)
+    {
+      if(valeur.checked)
+      {
+        idElement = valeur.id;
+        userName = idElement.replace(/-filterMenu-checkAuthor/gi,'');
+        userName=userName.replace(/_/gi," ");
+        authors=authors + userName + "/"; // Ajouter l'élément à la liste //
+      }
+    }
+  //console.log(authors);
     //console.log(extensions);
   $.ajax({
     url: 'index.php',
-    data: {'tags' : tags,'extensions' : extensions,'option':'sortFilter','action' : 'sortMaj'},
+    data: {'tags' : tags,'extensions' : extensions,'authors':authors,'option':'sortFilter','action' : 'sortMaj'},
     dataType: 'json', 
     success: function (response) 
     {
+      //console.log(response["status"]);
       if( response.status === true )
 
       {
@@ -560,8 +573,7 @@ function deleteCategory(idElement)
       dataType: 'json', 
       success: function (response) 
       {
-
-
+        console.log(response['status']);
         if( response.status === true )
 
         {
@@ -570,7 +582,7 @@ function deleteCategory(idElement)
         }
 
         else {
-          console.log(response['status']);
+          console.log('Erreur');
         }
         
         //window.location.reload();
@@ -723,6 +735,8 @@ function addTagsFile(elementId)
 
     idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
     idFile = idFile.replace(/add-tags-file-/gi,'');
+    console.log(idFile);
+    console.log(tags);
     $.ajax({
       url: 'index.php',
       data: {'tags' : tags,'action' : 'addTagFile','idFile' : idFile},
@@ -733,7 +747,7 @@ function addTagsFile(elementId)
 
         {
           alert("Tag(s) ajouté(s)")
-          window.location.reload();
+          //window.location.reload();
         }
 
         else alert('Something went wrong');
@@ -902,4 +916,49 @@ function getFilesSelectedSize()
 
 
 
+}
+
+
+function downloadMultipleFiles()
+{
+  idFiles ="";
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+    for(valeur of checkboxesFiles)
+      {
+        if(valeur.checked)
+        {
+          idElement = valeur.id;
+          id = idElement.replace(/checkFile-/gi,'');
+          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
+        }
+      }
+    $.ajax({
+      url: 'index.php',
+      data: {'action' : 'downloadMultipleFiles','files' : idFiles},
+      dataType: 'json', 
+      success: function (response) 
+      {
+        if(response.status === true)
+        {
+          zipPath = response['zipPath'];
+          element=document.getElementById('download-multipleFiles-link')
+          element.setAttribute('href', zipPath);
+          document.getElementById('popup-confirm-download-multipleFiles').style.display='inline-flex';
+          
+        }
+        else{
+          alert("Something went wrong")
+        }
+      }
+
+    });
+
+
+
+}
+
+function closeConfirmationPopup()
+{
+  document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
+  document.getElementById("popup-options-multipleFiles").style.display = 'none';
 }

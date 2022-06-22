@@ -29,7 +29,7 @@
 
       <div class='body-popup-options'>
 
-        <a href='' download =''><button class='buttonPopupOptions' title='Télécharger les fichiers'>Télécharger</button></a>
+        <button class='buttonPopupOptions' title='Télécharger les fichiers' onclick='downloadMultipleFiles()'>Télécharger</button></a>
         <button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteMultipleFiles()'>Supprimer</button>
         <div id='editTag-multipleFiles'>
           <button class='buttonPopupOptions' title='Ajouter des tags' onclick='openMenuAddTagsMultipleFiles()'>+Tag(s)</button>
@@ -40,6 +40,11 @@
       <?php echo($previewAddTagsMultipleFiles);
             echo($previewDeleteTagsMultipleFiles);?>
 
+    </div>
+
+    <div id='popup-confirm-download-multipleFiles'>
+		<a id='download-multipleFiles-link' href='' download ='fichiers.zip'><button class='button-confirm-download' title='Valider le téléchargement' onclick='closeConfirmationPopup()'>Confirmer</button></a>
+		<button class='button-confirm-download' title='Annuler le téléchargement' onclick='closeConfirmationPopup()'>Annuler</button>
     </div>
 
     <div id="buttonHomePage-filters">
@@ -211,7 +216,7 @@
   
   <div id="video-show-area">
   
-    <video src="" controls>
+    <video src="" type="" controls>
 	
   </div>
   
@@ -308,7 +313,7 @@ window.addEventListener("load", () => {
     chunk_size: "2mb",
     filters: {
       //max_file_size: "150mb",
-      mime_types: [{title: "Image", extensions: "jpg,gif,png, tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf, wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
+      mime_types: [{title: "Image", extensions: "jpg,gif,png,hdr,tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf,wav,wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
     },
     init: {
       PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },

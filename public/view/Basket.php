@@ -3,6 +3,7 @@
 <?php $scripts = "" ?>
 
 <?php require('public/view/banner-menu.php'); ?>
+<?php require_once('components/Tools/getid3/getid3.php'); ?>
 
 <?php ob_start(); ?>
 
@@ -14,17 +15,31 @@
 
 <div class = toolbar>
     <div class = groupe1>
-        <button title="Trier les fichiers par ordre alphabétique" onclick = "">A-Z</button>
+        <button title="Trier les fichiers par ordre alphabétique" onclick = "sortFileName()">A-Z</button>
     </div>
 
     <div class = groupe2>
-        <button title="Trier les fichiers par date de suppression" onclick="">Date suppression</button>
+        <button title="Trier les fichiers par date de suppression" onclick="sortDeleteDate()">Date suppression</button>
     </div>
 </div>
 
-
 <div id="containerGallery">
+    <div id='popup-options-multipleFiles'>
+      <div class='header-popup' id='header-popup-options-MultipleFiles'>
 
+        <button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeMultipleFiles()"><strong>←</strong></button>
+        <p><strong>Options</strong></p>
+
+      </div>
+
+      <div class='body-popup-options'>
+
+        <button class='buttonPopupOptions' title='Restaurer les fichiers' onclick='recoveryMultipleFiles()'>Restaurer</button></a>
+        <button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteDefinitelyMultipleFiles()'>Supprimer</button>
+        <p id="sizeFilesSelected">Taille : </p>
+      </div>
+    </div>
+    
     <div class="gallery">
 
         <?php
@@ -63,11 +78,34 @@ files.forEach(file => file.addEventListener('click', event => {
 files.forEach(file => file.addEventListener('contextmenu', event => {
   //clic droit
   closeAllPopup();
-  idElement = file.id + '-popup-options';
-  if(document.getElementById(idElement).style.display != "block")
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+  fileChecked = false;
+  for(valeur of checkboxesFiles)
+    {
+      if(valeur.checked)
+      {
+        fileChecked=true;
+      }
+    }
+  
+  if(fileChecked == false)
   {
-	 document.getElementById(idElement).style.display = "block";
+    idElement = file.id + '-popup-options';
+    if(document.getElementById(idElement).style.display != "block")
+    {
+	    document.getElementById(idElement).style.display = "block";
+    }  
   }
+  else
+  {
+    getFilesSelectedSize();
+    idElement='popup-options-multipleFiles';
+    if(document.getElementById(idElement).style.display != "inline-flex")
+    {
+	    document.getElementById(idElement).style.display = "inline-flex";
+    }  
+  }
+
 }));
 
 </script>

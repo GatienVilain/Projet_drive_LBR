@@ -18,10 +18,7 @@ class Homepage
 		$files = $this->instantiate();
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
-		$test = (new DatabaseConnection())->get_link(130);
-
 		
-
 		//Vérifie variable de session existe et est non nulle
 		if(isset($_SESSION['extensionList']) && ($_SESSION['extensionList'] != null))
 		{
@@ -32,6 +29,11 @@ class Homepage
 		if(isset($_SESSION['tagIdList']) && ($_SESSION['tagIdList'] != null))
 		{
 			$files = $sort->sort_by_tag($files, $_SESSION['tagIdList']);
+		}
+
+		if(isset($_SESSION['authorList']) && ($_SESSION['authorList'] != null))
+		{
+			$files = $sort->sort_by_user($files, $_SESSION['authorList']);
 		}
 
 		if(isset($_SESSION['optionSort']))
@@ -485,7 +487,7 @@ class Homepage
 		$result="";
 		foreach($authorsFiles as $author){
 			//var_dump($arrayTags);
-			$authorId = str_replace(" ","-",$author);
+			$authorId = str_replace(" ","_",$author);
 			$result=$result."
 			
 				<div class='filter-menu-line-author' id='".$authorId."-author'>
@@ -620,7 +622,7 @@ class Homepage
 				}	
 				$result = $result."</div></div>";	
 			}
-			$result=$result."<button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div>";
+			$result=$result."<div id='container-button-validate-multipleFiles'><button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div></div>";
 		}
 		else
 		{

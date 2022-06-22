@@ -23,7 +23,10 @@ class SendRecoveryEmail
             {
                 $email_address = $_POST['email'];
 
-                if ( (new DatabaseConnection)->get_user($email_address) != -1 )
+				$conn = new DatabaseConnection();
+				$data = $conn->get_user($email_address);
+
+                if ( $data != -1 && $data["compte_supprime"] != 1)
                 {
                     $subject  = "Code de recupération du mot de passe";
                     $code = new Code(6);

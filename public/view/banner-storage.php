@@ -8,7 +8,8 @@ use Application\Tools\Database\DatabaseConnection;
 $connect = new DatabaseConnection();
 
 $folderPathPictures = 'C:\wamp64\www\storage'.DIRECTORY_SEPARATOR.'pictures'.DIRECTORY_SEPARATOR;
-$usedStorageSpace = repertoire_size($folderPathPictures);
+$folderPathVideos = 'C:\wamp64\www\storage'.DIRECTORY_SEPARATOR.'videos'.DIRECTORY_SEPARATOR;
+$usedStorageSpace = repertoire_size($folderPathPictures) + repertoire_size($folderPathVideos);
 $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 
 <style>
@@ -41,8 +42,8 @@ $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 function repertoire_size($rep)
 {
     $repSize = 0;
-	$images = glob("$rep*.{jpg,jpeg,gif,png,bmp,webp}", GLOB_BRACE);
-    foreach($images as $i)
+	$files = glob("$rep*.{jpg,jpeg,gif,png,bmp,webp,webm,flv,avi,mp4,mkv,wma,mov,mpeg,mp4a,mp4b,mp4r,mp4v}", GLOB_BRACE);
+    foreach($files as $i)
     {
         $repSize += filesize($i);
     }
