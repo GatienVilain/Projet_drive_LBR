@@ -3,6 +3,7 @@
 <?php $scripts = '<script type="text/javascript" src="public/js/rights.js"></script>' ?>
 
 <?php require('public/view/banner-menu.php'); ?>
+<?php require('public/view/add_rights_menu.php'); ?>
 
 <?php ob_start(); ?>
 
