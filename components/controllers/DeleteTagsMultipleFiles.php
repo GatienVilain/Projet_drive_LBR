@@ -88,7 +88,7 @@ class DeleteTagsMultipleFiles
         //Renvoie que tout s'est bien passé
         echo json_encode($response);
 
-    
+
     }
 
 }
