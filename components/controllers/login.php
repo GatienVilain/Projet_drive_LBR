@@ -39,6 +39,7 @@ class Login
                 $_SESSION['email'] = $email;
 				$_SESSION['page'] = 0;
                 $_SESSION['error'] = "";
+                $_SESSION['optionSort'] = "";
                 (new User())->is_admin();
 
                 if ($_POST['remember_me']== true){
