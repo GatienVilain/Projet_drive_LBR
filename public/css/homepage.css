@@ -9,7 +9,7 @@
 	display: none;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba(0, 0, 0, .5);
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 #close-btn {
@@ -54,7 +54,6 @@
 /* Desktop gallery */
 
 @media only screen and (min-width: 500px) {
-
 	.toolbar {
 		font-size: 1em;
 	}
@@ -65,13 +64,11 @@
 		margin-left: 4.5vw;
 		gap: 5vh 4vw;
 		justify-content: left;
-
 	}
 
-	.titre>p {
+	.title-file {
 		width: 100%;
 	}
-
 
 	.button-information {
 		display: none;
@@ -84,14 +81,10 @@
 		font-size: 0.6em;
 	}
 
-	.titre>p {
+	.title-file {
 		width: 70%;
 	}
-
-
 }
-
-
 
 .toolbar {
 	display: flex;
@@ -105,9 +98,7 @@
 	flex-wrap: wrap;
 	gap: 5vh 4vw;
 	justify-content: center;
-
 }
-
 
 /* (B) THUMBNAILS */
 .gallery .image img,
@@ -117,14 +108,11 @@
 	height: 150px;
 	object-fit: cover;
 	border: solid 1px black;
-
 }
 
 .gallery img:fullscreen {
 	object-fit: contain;
 }
-
-
 
 /* (X) DOES NOT MATTER */
 body,
@@ -140,28 +128,23 @@ html {
 	align-items: center;
 	width: 248px;
 	height: 172px;
-
-
-
 }
 
 .groupe1 {
 	display: inline-flex;
 	flex-direction: row;
 	width: 50%;
-
 }
 
 .buttonHomePage {
 	margin-left: 15px;
 	font-size: 1.1em;
-
 }
 
 .buttonPopupOptions {
 	margin-left: 15px;
 	font-size: 1.1em;
-	margin-top: 10px
+	margin-top: 10px;
 }
 
 .groupe2 {
@@ -174,11 +157,7 @@ html {
 	font-size: 1.1em;
 }
 
-
-
-
 #popup-upload {
-
 	display: none;
 	position: fixed;
 	border-radius: 5px;
@@ -196,12 +175,11 @@ html {
 }
 
 .miniature .popup-options {
-
 	display: none;
 	position: absolute;
 	border-radius: 5px;
 	max-height: 7em;
-    max-width: 8em;
+	max-width: 8em;
 	width: 10vw;
 	height: 20vh;
 	min-width: 130px;
@@ -216,20 +194,17 @@ html {
 	display: inline-flex;
 	gap: 2vw;
 	margin-left: 12px;
-    margin-right: 12px;
+	margin-right: 12px;
 	border-bottom: 1px solid black;
 	align-items: center;
-
 }
 
 #header-popup-options {
 	gap: 1.5vh;
-
 }
 
 .close-button {
 	font-size: 1.5em;
-
 }
 
 #body-popup-upload {
@@ -246,19 +221,14 @@ html {
 	margin-top: 2vh;
 	text-decoration: underline;
 	font-style: italic;
-
 }
 
 #header-popup-upload>p {
 	margin-top: 1vh;
-
-
 }
 
 #header-popup-detail>p {
 	margin-top: 1vh;
-
-
 }
 
 #body-popup-detail {
@@ -269,25 +239,20 @@ html {
 }
 
 .body-popup-detail-line {
-
 	display: flex;
 	flex-direction: row;
 	column-gap: 2vw;
 	margin-left: 2vw;
 	margin-right: 2vw;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.178);
-
 }
 
 .body-popup-detail-line>p {
-
 	margin-top: 2vh;
 	margin-bottom: 2vh;
-
 }
 
 .detail-para {
-
 	width: 60%;
 }
 
@@ -299,11 +264,7 @@ html {
 	margin-top: 3.5vh;
 }
 
-
-
-
 .miniature .popup-detail {
-
 	display: none;
 	top: 20%;
 	position: absolute;
@@ -314,7 +275,6 @@ html {
 	border: 2px solid black;
 	background-color: var(--couleur-popup);
 	z-index: 500;
-
 }
 
 .server-para-tooltip {
@@ -323,7 +283,6 @@ html {
 	margin-top: 2vh;
 	margin-bottom: 2vh;
 	width: 40%;
-
 }
 
 .server-para-tooltip .tooltiptext {
@@ -357,22 +316,17 @@ html {
 	opacity: 1;
 }
 
-
-
-
 .titre {
 	min-width: 0;
 	max-width: 200px;
 	display: inline-flex;
 	column-gap: 1.2em;
 	white-space: nowrap;
-
 }
 
 #pickfiles {
 	border: 0;
 	background-color: inherit;
-
 }
 
 .server-para-tag {
@@ -402,11 +356,9 @@ html {
 }
 
 .filter-menu-title {
-
 	margin-top: 1em;
 	margin-right: 1.6em;
 	margin-left: 1em;
-
 }
 
 .button-add-filter-menu-tags {
@@ -422,8 +374,6 @@ html {
 	border-bottom: 0px;
 }
 
-
-
 #button-filter-menu-tags {
 	display: inline-flex;
 	width: 100%;
@@ -436,7 +386,6 @@ html {
 .filter-menu-body {
 	margin-left: 1.5em;
 	margin-right: 1em;
-
 }
 
 .filter-menu-title-separation {
@@ -457,8 +406,6 @@ html {
 	background-color: var(--couleur-button-sort-filter-menu);
 	width: 6em;
 	height: 1.5em;
-
-
 }
 
 #button-filter-menu-add-category {
@@ -476,7 +423,7 @@ html {
 }
 
 .button-add-filter-menu-tags>span:hover {
-	background-color: rgba(255, 255, 255, 0.200);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 #button-filter-menu-add-tag {
@@ -484,12 +431,10 @@ html {
 	text-align: left;
 }
 
-
 /* Mobile gallery */
 
 /* Dropdown Button */
 .categoryName-dropdown {
-
 	color: white;
 	font-size: 0.8em;
 	transform: translate(0, -0.6em);
@@ -506,7 +451,7 @@ html {
 .delete-tagName-filter-menu:hover,
 .edit-categoryName-filter-menu:hover,
 .edit-tagName-filter-menu:hover {
-	background-color: rgba(255, 255, 255, 0.200);
+	background-color: rgba(255, 255, 255, 0.2);
 }
 
 #filter-menu-extensions-body {
@@ -516,14 +461,12 @@ html {
 	width: 79%;
 	margin-left: 1.5em;
 	padding-top: 0.4em;
-
 }
 
 .filter-menu-element-extension>p {
 	color: var(--couleur-police-filter-menu);
 	font-size: 0.8em;
 	text-decoration: none;
-
 }
 
 .filter-menu-element-extension {
@@ -534,14 +477,11 @@ html {
 	color: var(--couleur-police-filter-menu);
 	font-size: 0.8em;
 	text-decoration: none;
-
 }
 
 #filter-menu-author-body {
 	padding-top: 0.4em;
-
 }
-
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -570,7 +510,6 @@ html {
 	padding-top: 0.4em;
 }
 
-
 #autres-dropdown-delete {
 	visibility: hidden;
 }
@@ -578,7 +517,6 @@ html {
 #filterMenu-deleteTag-1 {
 	visibility: hidden;
 }
-
 
 .delete-categoryName-filter-menu {
 	color: var(--couleur-police-filter-menu);
@@ -611,7 +549,6 @@ html {
 	border: solid 1px white;
 	z-index: 5000;
 }
-
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
@@ -763,7 +700,6 @@ html {
 	width: 100%;
 	height: 1.5em;
 	margin-left: 1.1em;
-
 }
 
 #popup-editCategory-button-valider {
@@ -817,7 +753,6 @@ html {
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	z-index: 2000;
-
 }
 
 .body-popup-detail-line .add-tags {
@@ -833,7 +768,6 @@ html {
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	z-index: 2000;
-
 }
 
 .addDelete-tags-file-title {
@@ -880,7 +814,8 @@ html {
 	width: 100%;
 }
 
-.add-dropdown-content .inputCheckboxTagAdd,.delete-dropdown-content .inputCheckboxTagDelete {
+.add-dropdown-content .inputCheckboxTagAdd,
+.delete-dropdown-content .inputCheckboxTagDelete {
 	color: var(--couleur-police-filter-menu);
 	font-size: 0.8em;
 	text-decoration: none;
@@ -889,7 +824,7 @@ html {
 	padding-top: 0.4em;
 }
 
-.add-dropdown-content{
+.add-dropdown-content {
 	display: none;
 	flex-wrap: nowrap;
 	width: 100%;
@@ -945,7 +880,6 @@ html {
 	align-items: flex-start;
 }
 
-
 /* Popup add tags to multiple files */
 
 #add-tags-multipleFiles {
@@ -960,7 +894,6 @@ html {
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	z-index: 2000;
-
 }
 
 .container-button-validate-multipleFiles {
@@ -981,7 +914,6 @@ html {
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	z-index: 2000;
-
 }
 
 #add-tag-multiplefile-button-valider,
@@ -998,13 +930,19 @@ html {
 
 .button-information {
 	background-color: var(--couleur-button-information);
-	clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%);
+	clip-path: polygon(50% 0%,
+			83% 12%,
+			100% 43%,
+			94% 78%,
+			68% 100%,
+			32% 100%,
+			6% 78%,
+			0% 43%,
+			17% 12%);
 	width: 1.5em;
-
 }
 
 .groupe1 #popup-confirm-download-multipleFiles {
-
 	display: none;
 	flex-direction: column;
 	position: absolute;
@@ -1034,8 +972,10 @@ html {
 	height: 1.5em;
 }
 
-.titre>p {
+.title-file {
+	border: 0;
+	background-color: transparent;
+	width: 70%;
 	text-overflow: ellipsis;
 	overflow: hidden;
-
 }
