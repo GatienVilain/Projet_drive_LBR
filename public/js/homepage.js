@@ -752,6 +752,7 @@ function addTagsMultipleFiles() {
 			data: { 'tags': tags, 'action': 'addTagsMultipleFiles', 'files': idFiles },
 			dataType: 'json',
 			success: function (response) {
+				console.log(response);
 				if (response.status === true) {
 					alert("Tag(s) ajouté(s)")
 					window.location.reload();

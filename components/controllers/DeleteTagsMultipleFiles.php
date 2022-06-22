@@ -15,28 +15,76 @@ class DeleteTagsMultipleFiles
         array_pop($arrayIdFiles); //Supprime le dernier élément du tableau (espace)
         $arrayIdTags = explode(" ", $_GET['tags']); // On transforme string contenant les idTag en tableau (en supprimant les espace)
         array_pop($arrayIdTags); //Supprime le dernier élément du tableau (espace)
-        $response = array('status'=>false);
+        $response = array('status'=>true);
+        $user = $_SESSION['email'];
+        $role = $connection->get_user($user)['role'];
            
-        for($i=0; $i<count($arrayIdTags);$i++)
+        if($role == 'invite')
         {
-            $idTag = intval($arrayIdTags[$i]);
-            for($j=0; $j<count($arrayIdFiles);$j++){
-                $idFile = intval($arrayIdFiles[$j]);
-                $result=$connection->delete_link($idFile,$idTag);
-                if($result != -1)
+            foreach($arrayIdFiles as $idFile)
+            {
+                $idFile = intval($idFile);
+                if($connection->get_file($idFile)['email'] == $user)
                 {
-                    $response = array('status'=>true);
+                    foreach($arrayIdTags as $idTag)
+                    {
+                        $idTag = intval($idTag);
+                        $result = $connection->delete_link($idFile,$idTag);
+                    }
+                }
+
+                else
+                {
+                    $allIdLinkToFile = $connection->get_link($idFile);
+                    $index = 0;
+                    $writtingRight = false;
+                    while($writtingRight == false &&  $index < count($allIdLinkToFile))
+                    {
+                        $userWritingRights = $connection->get_rights($user, $allIdLinkToFile[$index]['id_tag'])['ecriture'];
+                        if($userWritingRights == 1)
+                        {
+                            $writtingRight == true;
+                            foreach($arrayIdTags as $idTag)
+                            {
+                                $idTag = intval($idTag);
+                                $result=$connection->delete_link($idFile,$idTag);
+                            }
+                        }
+                        
+                        $index++;
+                    }
+                }
+                if(empty($connection->get_link($idFile)))
+                {
+                    $connection->add_link($idFile, 1);
+                }
+            }
+
+        }
+
+        elseif($role == 'admin')
+        {
+            foreach($arrayIdFiles as $idFile)
+            {
+                $idFile = intval($idFile);
+                foreach($arrayIdTags as $idTag)
+                {
+                    $idTag = intval($idTag);
+                    $result=$connection->delete_link($idFile,$idTag);
+                }
+
+                if(empty($connection->get_link($idFile)))
+                {
+                    $connection->add_link($idFile, 1);
                 }
             }
         }
 
-        for($j=0; $j<count($arrayIdFiles);$j++){
-            $idFile = intval($arrayIdFiles[$j]);
-            if(empty($connection->get_link($idFile)))
-            {
-                $connection->add_link($idFile, 1);
-            }
+        else
+        {
+            $response = array('status'=>false);
         }
+
         //Renvoie que tout s'est bien passé
         echo json_encode($response);
 
