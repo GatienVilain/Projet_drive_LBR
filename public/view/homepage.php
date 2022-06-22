@@ -172,7 +172,6 @@
 </div>
 
 
-<div id="containerGallery">
 
     <div id="popup-upload">
 
@@ -202,7 +201,7 @@
 
     </div>
 
-</div>
+
 
 <div id="show_image_popup">
 

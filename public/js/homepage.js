@@ -1,17 +1,15 @@
-function toggleFilterMenu(){
+function toggleFilterMenu() {
 
-  buttonFilter = document.getElementById("popup-filter-menu");
+	buttonFilter = document.getElementById("popup-filter-menu");
 
-  if(buttonFilter.style.visibility == "visible")
-  {
-    buttonFilter.style.visibility = "hidden";
-  }
-  
-  else
-  {
-    closeAllPopup();
-    buttonFilter.style.visibility = "visible";
-  }
+	if (buttonFilter.style.visibility == "visible") {
+		buttonFilter.style.visibility = "hidden";
+	}
+
+	else {
+		closeAllPopup();
+		buttonFilter.style.visibility = "visible";
+	}
 
 
 }
@@ -19,946 +17,818 @@ function toggleFilterMenu(){
 
 
 
-function openPopupNewCategory() 
-{
+function openPopupNewCategory() {
 
-  document.getElementById("popup-newCategory").style.visibility = "visible";
-
-}
-
-function closeMultipleFiles()
-{
-  document.getElementById('popup-options-multipleFiles').style.display='none';
-}
-
-function openPopupNewTag()
-{
-
-  document.getElementById("popup-newTag").style.visibility = "visible";
-  
-}
-
-function deleteMultipleFiles()
-{
-  if (confirm("Confirmer la suppresion des fichiers."))
-  {
-    idFiles = ""; //le tableau//
-
-    let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-    for(valeur of checkboxesFiles)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          id = idElement.replace(/checkFile-/gi,'');
-          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
-        }
-      }
-
-    $.ajax({
-      url: 'index.php',
-      data: {'idFiles' : idFiles,'action' : "deleteMultipleFiles"},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
-
-        {
-          alert('File(s) Deleted!');
-          window.location.reload();
-        }
-
-        else alert('Something Went Wrong!');
-      }
-
-    });
-  }
-}
-
-function closeFilterMenu()
-{
-
-  document.getElementById("popup-filter-menu").style.display = "none";
+	document.getElementById("popup-newCategory").style.visibility = "visible";
 
 }
 
-function closePopupNewTag()
-{
-  document.getElementById("popup-newTag").style.visibility = "hidden";
+function closeMultipleFiles() {
+	document.getElementById('popup-options-multipleFiles').style.display = 'none';
 }
 
+function openPopupNewTag() {
 
-function closePopupNewCategory()
-{
-  document.getElementById("popup-newCategory").style.visibility = "hidden";
-}
-
-function openPopupUpload() 
-{
-
-  document.getElementById("popup-upload").style.display = "block";
+	document.getElementById("popup-newTag").style.visibility = "visible";
 
 }
 
-function closePopupUpload() 
-{
+function deleteMultipleFiles() {
+	if (confirm("Confirmer la suppresion des fichiers.")) {
+		idFiles = ""; //le tableau//
 
-  document.getElementById("popup-upload").style.display = "none";
+		let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+		for (valeur of checkboxesFiles) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				id = idElement.replace(/checkFile-/gi, '');
+				idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
+			}
+		}
+
+		$.ajax({
+			url: 'index.php',
+			data: { 'idFiles': idFiles, 'action': "deleteMultipleFiles" },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('File(s) Deleted!');
+					window.location.reload();
+				}
+
+				else alert('Something Went Wrong!');
+			}
+
+		});
+	}
+}
+
+function closeFilterMenu() {
+
+	document.getElementById("popup-filter-menu").style.display = "none";
+
+}
+
+function closePopupNewTag() {
+	document.getElementById("popup-newTag").style.visibility = "hidden";
+}
+
+
+function closePopupNewCategory() {
+	document.getElementById("popup-newCategory").style.visibility = "hidden";
+}
+
+function openPopupUpload() {
+
+	document.getElementById("popup-upload").style.display = "block";
+
+}
+
+function closePopupUpload() {
+
+	document.getElementById("popup-upload").style.display = "none";
 
 }
 
 
-function closeAllPopup()
-{
+function closeAllPopup() {
 
-  let popups_options = document.getElementsByClassName('popup-options');
-  for(valeur of popups_options)
-  {
-    valeur.style.display = "none";
-  }
+	let popups_options = document.getElementsByClassName('popup-options');
+	for (valeur of popups_options) {
+		valeur.style.display = "none";
+	}
 
 
-  let popups_detail = document.getElementsByClassName('popup-detail');
-  for(valeur of popups_detail)
-  {
-    valeur.style.display = "none";
-  }
+	let popups_detail = document.getElementsByClassName('popup-detail');
+	for (valeur of popups_detail) {
+		valeur.style.display = "none";
+	}
 }
 
-function buttonClosePopupUpload() 
-{
+function buttonClosePopupUpload() {
 
-  document.getElementById("popup-upload").style.display = "none";
-  window.location.reload(); 
+	document.getElementById("popup-upload").style.display = "none";
+	window.location.reload();
 
 }
 
-function openPopupDetailMobile(idElement)
-{
-  idPopup = idElement.replace(/button-information-/gi,"");
-  idPopup += "-popup-detail"
-  document.getElementById(idPopup).style.display="block";
+function openPopupDetailMobile(idElement) {
+	idPopup = idElement.replace(/button-information-/gi, "");
+	idPopup += "-popup-detail"
+	document.getElementById(idPopup).style.display = "block";
 }
 
-function openPopup(event, idElement) 
-{
+function openPopup(event, idElement) {
 
-  closeAllPopup();
-  if(event.button == 0) //clic gauche
-  {
+	closeAllPopup();
+	if (event.button == 0) //clic gauche
+	{
 
 
-    idElement = idElement + '-popup-detail';
+		idElement = idElement + '-popup-detail';
 
-    if(document.getElementById(idElement).style.display != "block")
-    {
+		if (document.getElementById(idElement).style.display != "block") {
 
-    document.getElementById(idElement).style.display = "block";  
+			document.getElementById(idElement).style.display = "block";
 
-    }
+		}
 
-  }
+	}
 
-  else if(event.button == 2) //clic droit
-  {
+	else if (event.button == 2) //clic droit
+	{
 
 
 
-    idElement = idElement + '-popup-options';
+		idElement = idElement + '-popup-options';
 
-    if(document.getElementById(idElement).style.display != "block")
-    {
+		if (document.getElementById(idElement).style.display != "block") {
 
-      document.getElementById(idElement).style.display = "block";
+			document.getElementById(idElement).style.display = "block";
 
-    }
+		}
 
-  }
+	}
 
 
 
 }
 
-function closePopupDetail(idElement) 
-{
+function closePopupDetail(idElement) {
 
-  idElement = idElement + '-popup-detail';
-  document.getElementById(idElement).style.display = "none";
-
-}
-
-function closePopupOptions(idElement) 
-{
-
-  idElement = idElement + '-popup-options';
-  document.getElementById(idElement).style.display = "none";
+	idElement = idElement + '-popup-detail';
+	document.getElementById(idElement).style.display = "none";
 
 }
 
-function basketFile(idFichier)
-{
-  if (confirm("Confirmer la suppresion du fichier."))
-  {
-    //var file_path = "storage/pictures/58.png";
-    $.ajax({
-    url: 'index.php',
-    data: {'idFile' : idFichier,'action' : "basketFile"},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      if( response.status === true )
+function closePopupOptions(idElement) {
 
-      {
-        alert('File Deleted!');
-        window.location.reload();
-      }
+	idElement = idElement + '-popup-options';
+	document.getElementById(idElement).style.display = "none";
 
-      else alert('Something Went Wrong!');
-    }
-
-    });
-  }
-  
 }
 
-function addNewTag()
-{
-  if (confirm("Confirmer l'ajout d'un tag."))
-  {
+function basketFile(idFichier) {
+	if (confirm("Confirmer la suppresion du fichier.")) {
+		//var file_path = "storage/pictures/58.png";
+		$.ajax({
+			url: 'index.php',
+			data: { 'idFile': idFichier, 'action': "basketFile" },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('File Deleted!');
+					window.location.reload();
+				}
 
-    var tagName;
-    var selectedCategory;
-    selectedCategory = document.getElementById("popup-newTag-selectCategory").options[document.getElementById('popup-newTag-selectCategory').selectedIndex].text;
-    tagName = document.getElementById("popup-newTag-nameTag").value;
-    //var file_path = "storage/pictures/58.png";
-    $.ajax({
-      url: 'index.php',
-      data: {'category' : selectedCategory,'tag' : tagName,'action' : 'addNewTag'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
+				else alert('Something Went Wrong!');
+			}
 
-        {
-          alert('Tag ajouté');
-          window.location.reload();
-        }
+		});
+	}
 
-        else alert('Something Went Wrong!');
-      }
-
-    });
-  }
 }
 
-function addNewCategory()
-{
-  if (confirm("Confirmer l'ajout d'une catégorie."))
-  {
-    var categoryName;
-    categoryName = document.getElementById("popup-newCategory-nameCategory").value;
-    $.ajax({
-      url: 'index.php',
-      data: {'category' : categoryName,'action' : 'addNewCategory'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
+function addNewTag() {
+	if (confirm("Confirmer l'ajout d'un tag.")) {
 
-        {
-          alert('Catégorie ajoutée');
-          window.location.reload();
-        }
+		var tagName;
+		var selectedCategory;
+		selectedCategory = document.getElementById("popup-newTag-selectCategory").options[document.getElementById('popup-newTag-selectCategory').selectedIndex].text;
+		tagName = document.getElementById("popup-newTag-nameTag").value;
+		//var file_path = "storage/pictures/58.png";
+		$.ajax({
+			url: 'index.php',
+			data: { 'category': selectedCategory, 'tag': tagName, 'action': 'addNewTag' },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('Tag ajouté');
+					window.location.reload();
+				}
 
-        else alert(response);
-      }
+				else alert('Something Went Wrong!');
+			}
 
-    });
-  }
+		});
+	}
 }
 
-function trierNomFichier()
-{
-  $.ajax({
-    url: 'index.php',
-    data: {'option' : 'sortAlphabetic','action' : 'sortMaj'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      console.log(response['status']);
+function addNewCategory() {
+	if (confirm("Confirmer l'ajout d'une catégorie.")) {
+		var categoryName;
+		categoryName = document.getElementById("popup-newCategory-nameCategory").value;
+		$.ajax({
+			url: 'index.php',
+			data: { 'category': categoryName, 'action': 'addNewCategory' },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('Catégorie ajoutée');
+					window.location.reload();
+				}
 
-      if( response.status === true )
+				else alert(response);
+			}
 
-      {
-        window.location.reload();
-      }
-
-      else window.location.reload();
-    }
-
-  });
+		});
+	}
 }
 
-function trierDateModification()
-{
-  $.ajax({
-    url: 'index.php',
-    data: {'option' : 'sortModificationDate','action' : 'sortMaj'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      if( response.status === true )
+function trierNomFichier() {
+	$.ajax({
+		url: 'index.php',
+		data: { 'option': 'sortAlphabetic', 'action': 'sortMaj' },
+		dataType: 'json',
+		success: function (response) {
+			console.log(response['status']);
 
-      {
-        window.location.reload();
-      }
+			if (response.status === true) {
+				window.location.reload();
+			}
 
-      else window.location.reload();
-    }
+			else window.location.reload();
+		}
 
-  });
+	});
 }
 
-function trier()
-{
+function trierDateModification() {
+	$.ajax({
+		url: 'index.php',
+		data: { 'option': 'sortModificationDate', 'action': 'sortMaj' },
+		dataType: 'json',
+		success: function (response) {
+			if (response.status === true) {
+				window.location.reload();
+			}
 
-  tags = ""; //le tableau//
-  extensions = "";
-  authors = "";
-  //var checkboxesTags = document.getElementsByClassName("checkbox-filter-menu-tags");
-  //var checkboxesExtensions = document.getElementsByClassName("checkbox-filter-menu-extensions");
-  //var checkboxesAuthors = document.getElementsByClassName("checkbox-filter-menu-authors");
-  // ici il faut mettre un élément commun à tout les chekboxe, afin de//
-  // pouvoir agir sur chacun de ceux-ci, donc, une classe//
+			else window.location.reload();
+		}
 
-  let checkboxesTags = document.getElementsByClassName('checkbox-filter-menu-tags');
-  for(valeur of checkboxesTags)
-    {
-      if(valeur.checked)
-      {
-        idElement = valeur.id;
-        idTag = idElement.replace(/filterMenu-checkTag-/gi,'');
-        tags=tags + idTag + " "; // Ajouter l'élément à la liste //
-      }
-    }
+	});
+}
 
-    //console.log(tags);
-  
-  let checkboxesExtensions = document.getElementsByClassName('checkbox-filter-menu-extensions');
-  for(valeur of checkboxesExtensions)
-    {
-      if(valeur.checked)
-      {
-        idElement = valeur.id;
-        idExtension = idElement.replace(/-filterMenu-checkExtension/gi,'');
-        extensions=extensions + idExtension + " "; // Ajouter l'élément à la liste //
-      }
-    }
+function trier() {
 
-  let checkboxesAuthors = document.getElementsByClassName('checkbox-filter-menu-authors');
-  for(valeur of checkboxesAuthors)
-    {
-      if(valeur.checked)
-      {
-        idElement = valeur.id;
-        userName = idElement.replace(/-filterMenu-checkAuthor/gi,'');
-        userName=userName.replace(/_/gi," ");
-        authors=authors + userName + "/"; // Ajouter l'élément à la liste //
-      }
-    }
-  //console.log(authors);
-    //console.log(extensions);
-  $.ajax({
-    url: 'index.php',
-    data: {'tags' : tags,'extensions' : extensions,'authors':authors,'option':'sortFilter','action' : 'sortMaj'},
-    dataType: 'json', 
-    success: function (response) 
-    {
-      //console.log(response["status"]);
-      if( response.status === true )
+	tags = ""; //le tableau//
+	extensions = "";
+	authors = "";
+	//var checkboxesTags = document.getElementsByClassName("checkbox-filter-menu-tags");
+	//var checkboxesExtensions = document.getElementsByClassName("checkbox-filter-menu-extensions");
+	//var checkboxesAuthors = document.getElementsByClassName("checkbox-filter-menu-authors");
+	// ici il faut mettre un élément commun à tout les chekboxe, afin de//
+	// pouvoir agir sur chacun de ceux-ci, donc, une classe//
 
-      {
-        window.location.reload();
-      }
+	let checkboxesTags = document.getElementsByClassName('checkbox-filter-menu-tags');
+	for (valeur of checkboxesTags) {
+		if (valeur.checked) {
+			idElement = valeur.id;
+			idTag = idElement.replace(/filterMenu-checkTag-/gi, '');
+			tags = tags + idTag + " "; // Ajouter l'élément à la liste //
+		}
+	}
 
-      else alert(response);
-    }
+	//console.log(tags);
 
-  });
+	let checkboxesExtensions = document.getElementsByClassName('checkbox-filter-menu-extensions');
+	for (valeur of checkboxesExtensions) {
+		if (valeur.checked) {
+			idElement = valeur.id;
+			idExtension = idElement.replace(/-filterMenu-checkExtension/gi, '');
+			extensions = extensions + idExtension + " "; // Ajouter l'élément à la liste //
+		}
+	}
+
+	let checkboxesAuthors = document.getElementsByClassName('checkbox-filter-menu-authors');
+	for (valeur of checkboxesAuthors) {
+		if (valeur.checked) {
+			idElement = valeur.id;
+			userName = idElement.replace(/-filterMenu-checkAuthor/gi, '');
+			userName = userName.replace(/_/gi, " ");
+			authors = authors + userName + "/"; // Ajouter l'élément à la liste //
+		}
+	}
+	//console.log(authors);
+	//console.log(extensions);
+	$.ajax({
+		url: 'index.php',
+		data: { 'tags': tags, 'extensions': extensions, 'authors': authors, 'option': 'sortFilter', 'action': 'sortMaj' },
+		dataType: 'json',
+		success: function (response) {
+			//console.log(response["status"]);
+			if (response.status === true) {
+				window.location.reload();
+			}
+
+			else alert(response);
+		}
+
+	});
 
 }
 
 
-function myFunction(idElement) 
-{
-  idElement=idElement+'-content';
-  console.log(idElement);
-  document.getElementById(idElement).classList.toggle("show");
+function myFunction(idElement) {
+	idElement = idElement + '-content';
+	console.log(idElement);
+	document.getElementById(idElement).classList.toggle("show");
 
 }
 
-function myFunctionBis(idElement) 
-{
-  idElement=idElement+'-content';
-  console.log(idElement)
-  document.getElementById("genre-dropdown-addDelete-tags-content").style.display="block";
+function myFunctionBis(idElement) {
+	idElement = idElement + '-content';
+	console.log(idElement)
+	element = document.getElementById(idElement)
+	if (element.style.display == "inline-flex") {
+		element.style.display = "none";
+	}
+	else
+	{
+		element.style.display = "inline-flex";
+	}
+	
 
 }
 
+function openPopupEditTag(idButton) {
 
-function openPopupEditTag(idButton)
-{
+	idTag = idButton.replace('edit-tagName-', '');
 
-  idTag = idButton.replace('edit-tagName-','');
+	var divPopupEditTag = document.createElement('div');
+	divPopupEditTag.setAttribute('id', 'popup-editTag');
+	//divPopupEditTag.setAttribute('class','');
 
-  var divPopupEditTag = document.createElement('div');
-  divPopupEditTag.setAttribute('id','popup-editTag');
-  //divPopupEditTag.setAttribute('class','');
+	var divHeaderPopupEditTag = document.createElement('div');
+	divHeaderPopupEditTag.setAttribute('id', 'header-popup-editTag');
+	divHeaderPopupEditTag.setAttribute('class', 'header-popup-editTagCategory');
 
-  var divHeaderPopupEditTag = document.createElement('div');
-  divHeaderPopupEditTag.setAttribute('id','header-popup-editTag');
-  divHeaderPopupEditTag.setAttribute('class','header-popup-editTagCategory');
+	var divBodyPopupEditTag = document.createElement('div');
+	divBodyPopupEditTag.setAttribute('id', 'body-popup-editTag');
+	divBodyPopupEditTag.setAttribute('class', 'body-popup-editTagCategory');
 
-  var divBodyPopupEditTag = document.createElement('div');
-  divBodyPopupEditTag.setAttribute('id','body-popup-editTag');
-  divBodyPopupEditTag.setAttribute('class','body-popup-editTagCategory');
+	var divContainerButtonsEditTag = document.createElement('div');
+	divContainerButtonsEditTag.setAttribute('id', 'container-buttons-editTag');
+	divContainerButtonsEditTag.setAttribute('class', 'container-buttons-editTagCategory');
 
-  var divContainerButtonsEditTag = document.createElement('div');
-  divContainerButtonsEditTag.setAttribute('id','container-buttons-editTag');
-  divContainerButtonsEditTag.setAttribute('class','container-buttons-editTagCategory');
-  
-  
-  var buttonCancelEditTag = document.createElement('button');
-  buttonCancelEditTag.setAttribute('id','button-cancel-editTag');
-  buttonCancelEditTag.setAttribute('class','button-cancel-editTagCategory');
-  buttonCancelEditTag.setAttribute('title','Annuler la modification');
-  //buttonCancelEditTag.setAttribute('onclick','');
 
-  var buttonValidateEditTag = document.createElement('button');
-  buttonValidateEditTag.setAttribute('id','editTag-button-validate-'+idTag);
-  buttonValidateEditTag.setAttribute('class','button-validate-editTagCategory');
-  buttonValidateEditTag.setAttribute('title','Valider la modification');
-  //buttonValidateEditTag.setAttribute('onclick','');
+	var buttonCancelEditTag = document.createElement('button');
+	buttonCancelEditTag.setAttribute('id', 'button-cancel-editTag');
+	buttonCancelEditTag.setAttribute('class', 'button-cancel-editTagCategory');
+	buttonCancelEditTag.setAttribute('title', 'Annuler la modification');
+	//buttonCancelEditTag.setAttribute('onclick','');
 
-  var selectNewCategoryEditTag = document.createElement('select');
-  selectNewCategoryEditTag.setAttribute('id','popup-editTag-selectCategory');
-  selectNewCategoryEditTag.setAttribute('name','category');
+	var buttonValidateEditTag = document.createElement('button');
+	buttonValidateEditTag.setAttribute('id', 'editTag-button-validate-' + idTag);
+	buttonValidateEditTag.setAttribute('class', 'button-validate-editTagCategory');
+	buttonValidateEditTag.setAttribute('title', 'Valider la modification');
+	//buttonValidateEditTag.setAttribute('onclick','');
 
-  var inputNewTagName = document.createElement('input');
-  inputNewTagName.setAttribute('id','popup-editTag-nameTag');
-  inputNewTagName.setAttribute('class','');
-  inputNewTagName.setAttribute('type','text');
-  inputNewTagName.setAttribute('name','tag');
-  inputNewTagName.setAttribute('placeholder','Nouveau nom');
+	var selectNewCategoryEditTag = document.createElement('select');
+	selectNewCategoryEditTag.setAttribute('id', 'popup-editTag-selectCategory');
+	selectNewCategoryEditTag.setAttribute('name', 'category');
+
+	var inputNewTagName = document.createElement('input');
+	inputNewTagName.setAttribute('id', 'popup-editTag-nameTag');
+	inputNewTagName.setAttribute('class', '');
+	inputNewTagName.setAttribute('type', 'text');
+	inputNewTagName.setAttribute('name', 'tag');
+	inputNewTagName.setAttribute('placeholder', 'Nouveau nom');
 
 }
 
-function closeEditTag(idElement)
-{
-  idTag = idElement.replace(/close-button-editTag-/gi,"");
-  idPopupEditTag = "popup-editTag-" + idTag;
-  document.getElementById(idPopupEditTag).style.visibility ="hidden";
+function closeEditTag(idElement) {
+	idTag = idElement.replace(/close-button-editTag-/gi, "");
+	idPopupEditTag = "popup-editTag-" + idTag;
+	document.getElementById(idPopupEditTag).style.visibility = "hidden";
 
 }
 
-function closePopupAddTag(idElement)
-{
-  idTag = idElement.replace(/close-button-addTag-/gi,"");
-  idPopupAddTag = "add-tags-file-" + idTag;
-  document.getElementById(idPopupAddTag).style.visibility ="hidden";
+function closePopupAddTag(idElement) {
+	idTag = idElement.replace(/close-button-addTag-/gi, "");
+	idPopupAddTag = "add-tags-file-" + idTag;
+	document.getElementById(idPopupAddTag).style.visibility = "hidden";
 }
 
-function closePopupDeleteTag(idElement)
-{
-  idTag = idElement.replace(/close-button-deleteTag-/gi,"");
-  idPopupAddTag = "delete-tags-file-" + idTag;
-  document.getElementById(idPopupAddTag).style.visibility ="hidden";
+function closePopupDeleteTag(idElement) {
+	idTag = idElement.replace(/close-button-deleteTag-/gi, "");
+	idPopupAddTag = "delete-tags-file-" + idTag;
+	document.getElementById(idPopupAddTag).style.visibility = "hidden";
 }
 
-function openEditTag(idElement)
-{
+function openEditTag(idElement) {
 
-  idPopupEditTag = idElement.replace(/edit-tagName/gi,"popup-editTag");
-  //idPopupEditTag = "popup-editTag-" + idTag;
-  document.getElementById(idPopupEditTag).style.visibility = "visible";
+	idPopupEditTag = idElement.replace(/edit-tagName/gi, "popup-editTag");
+	//idPopupEditTag = "popup-editTag-" + idTag;
+	document.getElementById(idPopupEditTag).style.visibility = "visible";
 
 }
 
-function openEditCategory(idElement)
-{
+function openEditCategory(idElement) {
 
-  categoryName = idElement.replace(/-edit-categoryName/gi,"");
-  idPopupEditCategory = "popup-editCategory-" + categoryName;
-  document.getElementById(idPopupEditCategory).style.visibility = "visible";
-
-}
-
-function closeEditCategory(idElement)
-{
-
-  categoryName = idElement.replace(/close-button-editCategory-/gi,"");
-  idPopupEditCategory = "popup-editCategory-" + categoryName;
-  document.getElementById(idPopupEditCategory).style.visibility ="hidden";
+	categoryName = idElement.replace(/-edit-categoryName/gi, "");
+	idPopupEditCategory = "popup-editCategory-" + categoryName;
+	document.getElementById(idPopupEditCategory).style.visibility = "visible";
 
 }
 
-function deleteTag(idElement)
-{
-  if (confirm("Confirmer la suppresion du tag."))
-  {
+function closeEditCategory(idElement) {
 
-    idTag = idElement.replace(/filterMenu-deleteTag-/gi,"");
-    $.ajax({
-      url: 'index.php',
-      data: {'idTag' : idTag,'option' : 'deleteTag','action' : 'deleteTagOrCategory'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
-
-        {
-          alert('Tag supprimé');
-          window.location.reload();
-        }
-
-        else alert("Erreur");
-      }
-
-    });
-  }
+	categoryName = idElement.replace(/close-button-editCategory-/gi, "");
+	idPopupEditCategory = "popup-editCategory-" + categoryName;
+	document.getElementById(idPopupEditCategory).style.visibility = "hidden";
 
 }
 
-function editTag(idElement)
-{
-  if (confirm("Confirmer la modification du tag."))
-  {
-    idTag = idElement.replace(/editTag-button-validate-/gi,"");
-    newNameTag = document.getElementById("popup-editTag-nameTag-"+idTag).value;
-    console.log(newNameTag);
-    console.log(idTag);
-    idSelectedCategory = "popup-editTag-selectCategory-"+idTag;
-    selectedCategory = document.getElementById(idSelectedCategory).options[document.getElementById(idSelectedCategory).selectedIndex].text
-    console.log(selectedCategory);
-    $.ajax({
-      url: 'index.php',
-      data: {'idTag' : idTag,'option' : 'editTag','newName' : newNameTag,'category':selectedCategory,'action' : 'editTagOrCategory'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
+function deleteTag(idElement) {
+	if (confirm("Confirmer la suppresion du tag.")) {
 
-        {
-          alert('Tag modifié');
-          window.location.reload();
-        }
+		idTag = idElement.replace(/filterMenu-deleteTag-/gi, "");
+		$.ajax({
+			url: 'index.php',
+			data: { 'idTag': idTag, 'option': 'deleteTag', 'action': 'deleteTagOrCategory' },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('Tag supprimé');
+					window.location.reload();
+				}
 
-        else alert('Erreur');
-      }
+				else alert("Erreur");
+			}
 
-    });
-  }
+		});
+	}
 
 }
 
-function deleteCategory(idElement)
-{
-  if (confirm("Confirmer la suppresion de la catégorie."))
-  {
+function editTag(idElement) {
+	if (confirm("Confirmer la modification du tag.")) {
+		idTag = idElement.replace(/editTag-button-validate-/gi, "");
+		newNameTag = document.getElementById("popup-editTag-nameTag-" + idTag).value;
+		console.log(newNameTag);
+		console.log(idTag);
+		idSelectedCategory = "popup-editTag-selectCategory-" + idTag;
+		selectedCategory = document.getElementById(idSelectedCategory).options[document.getElementById(idSelectedCategory).selectedIndex].text
+		console.log(selectedCategory);
+		$.ajax({
+			url: 'index.php',
+			data: { 'idTag': idTag, 'option': 'editTag', 'newName': newNameTag, 'category': selectedCategory, 'action': 'editTagOrCategory' },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('Tag modifié');
+					window.location.reload();
+				}
 
-    categoryName = idElement.replace(/-dropdown-delete/gi,"");
-    $.ajax({
-      url: 'index.php',
-      data: {'categoryName' : categoryName,'option' : 'deleteCategory','action' : 'deleteTagOrCategory'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        console.log(response['status']);
-        if( response.status === true )
+				else alert('Erreur');
+			}
 
-        {
-          alert('Catégorie supprimée');
-          window.location.reload();
-        }
-
-        else {
-          console.log('Erreur');
-        }
-        
-        //window.location.reload();
-      }
-
-    });
-  }
+		});
+	}
 
 }
 
-function editCategory(idElement)
-{
-  if (confirm("Confirmer la modification de la catégorie."))
-  {
+function deleteCategory(idElement) {
+	if (confirm("Confirmer la suppresion de la catégorie.")) {
 
-    categoryName = idElement.replace(/editCategory-button-validate-/gi,"");
-    newName = document.getElementById("popup-editCategory-nameCategory").value;
-    console.log(newName);
-    console.log(categoryName);
-    $.ajax({
-      url: 'index.php',
-      data: {'categoryName' : categoryName,'option' : 'editCategory','newName' : newName,'action' : 'editTagOrCategory'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        alert(response);
-        if( response.status === true )
+		categoryName = idElement.replace(/-dropdown-delete/gi, "");
+		$.ajax({
+			url: 'index.php',
+			data: { 'categoryName': categoryName, 'option': 'deleteCategory', 'action': 'deleteTagOrCategory' },
+			dataType: 'json',
+			success: function (response) {
+				console.log(response['status']);
+				if (response.status === true) {
+					alert('Catégorie supprimée');
+					window.location.reload();
+				}
 
-        {
-          alert('Catégorie modifée');
-          window.location.reload();
-        }
+				else {
+					console.log('Erreur');
+				}
 
-        else alert("Erreur");
-      }
+				//window.location.reload();
+			}
 
-    });
-  }
+		});
+	}
+
+}
+
+function editCategory(idElement) {
+	if (confirm("Confirmer la modification de la catégorie.")) {
+
+		categoryName = idElement.replace(/editCategory-button-validate-/gi, "");
+		newName = document.getElementById("popup-editCategory-nameCategory").value;
+		console.log(newName);
+		console.log(categoryName);
+		$.ajax({
+			url: 'index.php',
+			data: { 'categoryName': categoryName, 'option': 'editCategory', 'newName': newName, 'action': 'editTagOrCategory' },
+			dataType: 'json',
+			success: function (response) {
+				alert(response);
+				if (response.status === true) {
+					alert('Catégorie modifée');
+					window.location.reload();
+				}
+
+				else alert("Erreur");
+			}
+
+		});
+	}
 
 }
 
 
 //popup modal functions
-function openPopupModal(type,path){
-  var popup = document.getElementById("show_image_popup");
-  if (popup.style.display = "none"){
-  popup.style.display = "flex";
-  }
-  
-  if(type == 'IMG'){
-    var image = document.getElementById("image-show-area");
-    image.children[0].src = path;
-    if (image.style.display = "none"){
-    image.style.display = "flex";
-    }
-  }
-  else if(type == 'VIDEO'){
-    var video = document.getElementById("video-show-area");
-    video.children[0].src = path;
-    if (video.style.display = "none"){
-    video.style.display = "flex";
-    }
-  }
+function openPopupModal(type, path) {
+	var popup = document.getElementById("show_image_popup");
+	if (popup.style.display = "none") {
+		popup.style.display = "flex";
+	}
+
+	if (type == 'IMG') {
+		var image = document.getElementById("image-show-area");
+		image.children[0].src = path;
+		if (image.style.display = "none") {
+			image.style.display = "flex";
+		}
+	}
+	else if (type == 'VIDEO') {
+		var video = document.getElementById("video-show-area");
+		video.children[0].src = path;
+		if (video.style.display = "none") {
+			video.style.display = "flex";
+		}
+	}
 }
 
-function hidePopupModal(){
-  document.getElementById("show_image_popup").style.display = "none";
-  document.getElementById("image-show-area").style.display = "none";
-  document.getElementById("image-show-area").children[0].src = "";
-  document.getElementById("video-show-area").style.display = "none";
-  document.getElementById("video-show-area").children[0].src = "";
-}
-
-
-function openAddTagsToFile(idElement)
-{
-  idMenu = idElement.replace(/add-tags-toFile-/gi,"add-tags-file-");
-  console.log(idMenu);
-  document.getElementById(idMenu).style.visibility = 'visible'; 
-
-
-}
-
-function openDeleteTagsToFile(idElement)
-{
-  idMenu = idElement.replace(/delete-tags-toFile-/gi,"delete-tags-file-");
-  console.log(idMenu);
-  document.getElementById(idMenu).style.visibility = 'visible';   
+function hidePopupModal() {
+	document.getElementById("show_image_popup").style.display = "none";
+	document.getElementById("image-show-area").style.display = "none";
+	document.getElementById("image-show-area").children[0].src = "";
+	document.getElementById("video-show-area").style.display = "none";
+	document.getElementById("video-show-area").children[0].src = "";
 }
 
 
-function deleteTagsFile(elementId)
-{
-  if (confirm("Confirmer la suppression des tags."))
-  {
-    tags = ""; //le tableau//
+function openAddTagsToFile(idElement) {
+	idMenu = idElement.replace(/add-tags-toFile-/gi, "add-tags-file-");
+	console.log(idMenu);
+	document.getElementById(idMenu).style.visibility = 'visible';
 
-    let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags');
-    for(valeur of checkboxesTags)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          idTag = idElement.replace(/delete-tags-checkTag-/gi,'');
-          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
-        }
-      }
-
-    idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
-    idFile = idFile.replace(/delete-tags-file-/gi,'');
-    $.ajax({
-      url: 'index.php',
-      data: {'tags' : tags,'idFile':idFile,'action' : 'deleteTagFile'},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
-
-        {
-          alert('Tag(s) supprimé(s)');
-          window.location.reload();
-        }
-
-        else alert(response);
-      }
-
-    });
-
-  }
-  
 
 }
 
-function addTagsFile(elementId)
-{
-  if (confirm("Confirmer l'ajout des tags."))
-  {
-    tags = ""; //le tableau//
-
-    let checkboxesTags = document.getElementsByClassName('checkbox-add-tags');
-    for(valeur of checkboxesTags)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          idTag = idElement.replace(/add-tags-checkTag-/gi,'');
-          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
-        }
-      }
-
-    idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
-    idFile = idFile.replace(/add-tags-file-/gi,'');
-    console.log(idFile);
-    console.log(tags);
-    $.ajax({
-      url: 'index.php',
-      data: {'tags' : tags,'action' : 'addTagFile','idFile' : idFile},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
-
-        {
-          alert("Tag(s) ajouté(s)")
-          //window.location.reload();
-        }
-
-        else alert('Something went wrong');
-      }
-
-    });
-
-  }
-  
+function openDeleteTagsToFile(idElement) {
+	idMenu = idElement.replace(/delete-tags-toFile-/gi, "delete-tags-file-");
+	console.log(idMenu);
+	document.getElementById(idMenu).style.visibility = 'visible';
 }
 
-function openAdd()
-{
-  document.getElementById('2021-dropdown-addDelete-tags-content').style.display='block';
+
+function deleteTagsFile(elementId) {
+	if (confirm("Confirmer la suppression des tags.")) {
+		tags = ""; //le tableau//
+
+		let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags');
+		for (valeur of checkboxesTags) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				idTag = idElement.replace(/delete-tags-checkTag-/gi, '');
+				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
+			}
+		}
+
+		idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
+		idFile = idFile.replace(/delete-tags-file-/gi, '');
+		$.ajax({
+			url: 'index.php',
+			data: { 'tags': tags, 'idFile': idFile, 'action': 'deleteTagFile' },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert('Tag(s) supprimé(s)');
+					window.location.reload();
+				}
+
+				else alert(response);
+			}
+
+		});
+
+	}
+
+
 }
 
-function openMenuAddTagsMultipleFiles()
-{
-  document.getElementById("add-tags-multipleFiles").style.visibility="visible";
+function addTagsFile(elementId) {
+	if (confirm("Confirmer l'ajout des tags.")) {
+		tags = ""; //le tableau//
+
+		let checkboxesTags = document.getElementsByClassName('checkbox-add-tags');
+		for (valeur of checkboxesTags) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				idTag = idElement.replace(/add-tags-checkTag-/gi, '');
+				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
+			}
+		}
+
+		idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
+		idFile = idFile.replace(/add-tags-file-/gi, '');
+		console.log(idFile);
+		console.log(tags);
+		$.ajax({
+			url: 'index.php',
+			data: { 'tags': tags, 'action': 'addTagFile', 'idFile': idFile },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert("Tag(s) ajouté(s)")
+					//window.location.reload();
+				}
+
+				else alert('Something went wrong');
+			}
+
+		});
+
+	}
+
 }
 
-function openMenuDeleteTagsMultipleFiles()
-{
-  document.getElementById("delete-tags-multipleFiles").style.visibility="visible";
+function openAdd() {
+	document.getElementById('2021-dropdown-addDelete-tags-content').style.display = 'block';
 }
 
-function closeDeleteTagsMultipleFiles()
-{
-  document.getElementById("delete-tags-multipleFiles").style.visibility="hidden";
+function openMenuAddTagsMultipleFiles() {
+	document.getElementById("add-tags-multipleFiles").style.visibility = "visible";
 }
 
-function closeAddTagsMultipleFiles()
-{
-  document.getElementById("add-tags-multipleFiles").style.visibility="hidden";
+function openMenuDeleteTagsMultipleFiles() {
+	document.getElementById("delete-tags-multipleFiles").style.visibility = "visible";
 }
 
-function deleteTagsMultipleFiles()
-{
-  if (confirm("Confirmer la suppresion des tags."))
-  {
-    tags = ""; //le tableau//
-    idFiles ="";
-
-    let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags-multipleFiles');
-    for(valeur of checkboxesTags)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          idTag = idElement.replace(/delete-tags-multipleFiles-checkTag-/gi,'');
-          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
-        }
-      }
-
-    let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-    for(valeur of checkboxesFiles)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          id = idElement.replace(/checkFile-/gi,'');
-          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
-        }
-      }
-
-      console.log(idFiles);
-      console.log(tags);
-    $.ajax({
-      url: 'index.php',
-      data: {'tags' : tags,'action' : 'deleteTagsMultipleFiles','files' : idFiles},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
-
-        {
-          alert("Tag(s) supprimé(s)")
-          window.location.reload();
-        }
-
-        else alert('Something went wrong');
-      }
-
-    });
-  }
+function closeDeleteTagsMultipleFiles() {
+	document.getElementById("delete-tags-multipleFiles").style.visibility = "hidden";
 }
 
-function addTagsMultipleFiles()
-{
-
-  if (confirm("Confirmer l'ajout des tags."))
-  {
-
-    tags = ""; //le tableau//
-    idFiles ="";
-
-    let checkboxesTags = document.getElementsByClassName('checkbox-add-tags-multipleFiles');
-    for(valeur of checkboxesTags)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          idTag = idElement.replace(/add-tags-multipleFiles-checkTag-/gi,'');
-          tags=tags + idTag + " "; // Ajouter l'élément à la liste //
-        }
-      }
-
-    let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-    for(valeur of checkboxesFiles)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          id = idElement.replace(/checkFile-/gi,'');
-          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
-        }
-      }
-    $.ajax({
-      url: 'index.php',
-      data: {'tags' : tags,'action' : 'addTagsMultipleFiles','files' : idFiles},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if( response.status === true )
-
-        {
-          alert("Tag(s) ajouté(s)")
-          window.location.reload();
-        }
-
-        else alert('Something went wrong');
-      }
-
-    });
-  }
+function closeAddTagsMultipleFiles() {
+	document.getElementById("add-tags-multipleFiles").style.visibility = "hidden";
 }
 
-function getFilesSelectedSize()
-{
-  idFiles ="";
-  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-    for(valeur of checkboxesFiles)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          id = idElement.replace(/checkFile-/gi,'');
-          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
-        }
-      }
+function deleteTagsMultipleFiles() {
+	if (confirm("Confirmer la suppresion des tags.")) {
+		tags = ""; //le tableau//
+		idFiles = "";
 
-    $.ajax({
-      url: 'index.php',
-      data: {'action' : 'getFilesSize','files' : idFiles},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        //console.log(response);
-        //console.log(response['status']);
-        size = 'Taille : ' + response + 'Mo';
-        document.getElementById('sizeFilesSelected').textContent=size;
-        
-      }
+		let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags-multipleFiles');
+		for (valeur of checkboxesTags) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				idTag = idElement.replace(/delete-tags-multipleFiles-checkTag-/gi, '');
+				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
+			}
+		}
 
-    });
+		let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+		for (valeur of checkboxesFiles) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				id = idElement.replace(/checkFile-/gi, '');
+				idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
+			}
+		}
+
+		console.log(idFiles);
+		console.log(tags);
+		$.ajax({
+			url: 'index.php',
+			data: { 'tags': tags, 'action': 'deleteTagsMultipleFiles', 'files': idFiles },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert("Tag(s) supprimé(s)")
+					window.location.reload();
+				}
+
+				else alert('Something went wrong');
+			}
+
+		});
+	}
+}
+
+function addTagsMultipleFiles() {
+
+	if (confirm("Confirmer l'ajout des tags.")) {
+
+		tags = ""; //le tableau//
+		idFiles = "";
+
+		let checkboxesTags = document.getElementsByClassName('checkbox-add-tags-multipleFiles');
+		for (valeur of checkboxesTags) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				idTag = idElement.replace(/add-tags-multipleFiles-checkTag-/gi, '');
+				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
+			}
+		}
+
+		let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+		for (valeur of checkboxesFiles) {
+			if (valeur.checked) {
+				idElement = valeur.id;
+				id = idElement.replace(/checkFile-/gi, '');
+				idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
+			}
+		}
+		$.ajax({
+			url: 'index.php',
+			data: { 'tags': tags, 'action': 'addTagsMultipleFiles', 'files': idFiles },
+			dataType: 'json',
+			success: function (response) {
+				if (response.status === true) {
+					alert("Tag(s) ajouté(s)")
+					window.location.reload();
+				}
+
+				else alert('Something went wrong');
+			}
+
+		});
+	}
+}
+
+function getFilesSelectedSize() {
+	idFiles = "";
+	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+	for (valeur of checkboxesFiles) {
+		if (valeur.checked) {
+			idElement = valeur.id;
+			id = idElement.replace(/checkFile-/gi, '');
+			idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
+		}
+	}
+
+	$.ajax({
+		url: 'index.php',
+		data: { 'action': 'getFilesSize', 'files': idFiles },
+		dataType: 'json',
+		success: function (response) {
+			//console.log(response);
+			//console.log(response['status']);
+			size = 'Taille : ' + response + 'Mo';
+			document.getElementById('sizeFilesSelected').textContent = size;
+
+		}
+
+	});
 
 
 
 }
 
 
-function downloadMultipleFiles()
-{
-  idFiles ="";
-  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-    for(valeur of checkboxesFiles)
-      {
-        if(valeur.checked)
-        {
-          idElement = valeur.id;
-          id = idElement.replace(/checkFile-/gi,'');
-          idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
-        }
-      }
-    $.ajax({
-      url: 'index.php',
-      data: {'action' : 'downloadMultipleFiles','files' : idFiles},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if(response.status === true)
-        {
-          zipPath = response['zipPath'];
-          element=document.getElementById('download-multipleFiles-link')
-          element.setAttribute('href', zipPath);
-          document.getElementById('popup-confirm-download-multipleFiles').style.display='inline-flex';
-          
-        }
-        else{
-          alert("Something went wrong")
-        }
-      }
+function downloadMultipleFiles() {
+	idFiles = "";
+	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+	for (valeur of checkboxesFiles) {
+		if (valeur.checked) {
+			idElement = valeur.id;
+			id = idElement.replace(/checkFile-/gi, '');
+			idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
+		}
+	}
+	$.ajax({
+		url: 'index.php',
+		data: { 'action': 'downloadMultipleFiles', 'files': idFiles },
+		dataType: 'json',
+		success: function (response) {
+			if (response.status === true) {
+				zipPath = response['zipPath'];
+				element = document.getElementById('download-multipleFiles-link')
+				element.setAttribute('href', zipPath);
+				document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
 
-    });
+			}
+			else {
+				alert("Something went wrong")
+			}
+		}
+
+	});
 
 
 
 }
 
-function closeConfirmationPopup()
-{
-  document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
-  document.getElementById("popup-options-multipleFiles").style.display = 'none';
+function closeConfirmationPopup() {
+	document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
+	document.getElementById("popup-options-multipleFiles").style.display = 'none';
 }
+
