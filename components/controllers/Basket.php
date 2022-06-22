@@ -14,10 +14,12 @@ class Basket
 {
 	public function execute()
 	{
+		$conn = new DatabaseConnection();
+		$conn->basket_check();
 		$sort = new CustomSort();
 		$files = $this->instantiate();
 		$user = $_SESSION["email"];
-		$role = (new DatabaseConnection())->get_user($user)["role"];
+		$role = $conn->get_user($user)["role"];
 		$nbr_files = count($files);
 		$error = "";
 		if(isset($_SESSION['optionSort']))
