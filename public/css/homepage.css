@@ -64,7 +64,6 @@
 		margin-left: 80px;
 		margin-right: 80px;
 		gap: 5vh 4vw;
-		justify-content: left;
 	}
 
 	.title-file {
@@ -94,7 +93,7 @@
 }
 
 .gallery {
-	display: inline-flex;
+	display: flex;
 	margin-top: 2vh;
 	flex-wrap: wrap;
 	gap: 5vh 4vw;
