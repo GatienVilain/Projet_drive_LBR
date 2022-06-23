@@ -6,18 +6,22 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class recoverFile
+class CreateCategory
 {
     public function execute()
     {
-        // First Check if file exists
         $response = array('status'=>false);
         $connect = new DatabaseConnection();
-        $result = $connect->recover_file((int)$_GET['idFile']);
-		$result = $connect->modify_file_date((int)$_GET['idFile']);
+        $categoryName = $_GET['category'];
+        
+        $result = $connect->add_tag_category($categoryName);
 
         if( $result == 0 ) {
             $response['status'] = true;
+        }
+
+        else{
+            $response['status']=$result;
         }
 
         echo json_encode($response);

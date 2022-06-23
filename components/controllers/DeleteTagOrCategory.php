@@ -10,83 +10,43 @@ class DeleteTagOrCategory
 {
     public function execute()
     {
-        $response = array('status'=>false);
-        $connect = new DatabaseConnection();
+        $response['status'] = false;
         $option = $_GET['option'];
-
-        if($option == 'deleteTag')
+        if(isset($_GET['option']))
         {
-            if(isset($_GET['idTag']))
+            $connect = new DatabaseConnection();
+            $user = $_SESSION['email'];
+            $userRole = $connect->get_user($user)['role'];
+            if($userRole != -1)
             {
-                $idTag = $_GET['idTag'];
-                if(gettype($idTag) == 'string')
+                if($option == 'deleteTag' && isset($_GET['idTag']))
                 {
-                    $result = $connect->delete_tag($idTag);
-                    
-                    if($result == 0)
+                    $idTag = $_GET['idTag'];
+                    //On vérifie que la conversion en int se soit bien passé 
+                    //et que l'utilisateur ait bien le droit d'écriture sur le tag à supprimer
+                        if(($userRole == 'invite' && $connect->get_rights($user, $idTag)['ecriture'] == 1) || ($userRole == 'admin'))
+                        {   
+                            $response['status'] = true;
+                            $result = $connect->delete_tag($idTag);      
+                            if($result == -1)
+                            {
+                                $response['status'] = false;
+                            }
+                        }        
+                }
+                elseif($option == 'deleteCategory' && isset($_GET['categoryName']) && $userRole == 'admin')
+                {
+                    $categoryName = $_GET['categoryName'];
+                    $response['status'] = true;
+                    $result = $connect->delete_tag_category($categoryName);
+                    if($result == -1)
                     {
-                        $response['status'] = true;
-                    }
-
-                    else
-                    {
-                        
+                        $response['status'] = false;
                     }
                 }
-
-                else
-                {
-
-                }
-            }
-
-            else
-            {
-
             }
             
         }
-
-        elseif($option == 'deleteCategory')
-        {
-            if(isset($_GET['categoryName']))
-            {
-                $categoryName = $_GET['categoryName'];
-                if(gettype($categoryName) == 'string')
-                {
-                    $result = $connect->delete_tag_category($categoryName);
-                    if($result == 0)
-                    {
-                        $response['status'] = true;
-                    }
-
-                    else
-                    {
-                        $response['status'] = $result;
-                    }
-                }
-
-                else
-                {
-
-                }
-            }
-
-            else
-            {
-
-            }
-        
-        }
-
-
-        else
-        {
-            echo json_encode($response);
-        }
-
         echo json_encode($response);
-    
     }
-
 }

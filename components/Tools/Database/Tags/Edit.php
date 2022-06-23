@@ -50,6 +50,7 @@ trait TagEdit
 		$connection = new DatabaseConnection();
 		
 		$user = $_SESSION['email']; 
+		//Si l'utilisateur est un invité, on lui donne le droit d'écriture sur le tag qu'il a créé.
 		if($connection->get_user($user)['role'] == 'invite')
 		{
 			$connection->add_writing_right($user, $id_tag);

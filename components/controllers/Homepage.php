@@ -234,33 +234,9 @@ class Homepage
 			$result = $result."
 				<div class='dropdown'> 
 					<div class ='categoryName-line'>
-						<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>";
-					
-			if($categoryName != "autres")
-			{
-				$result = $result."
-					<button onclick='openEditCategory(this.id)' class='edit-categoryName-filter-menu' id='".$categoryName."-edit-categoryName' title='Modifier nom catégorie'>🖉</button>
-					<button onclick='deleteCategory(this.id)' class='delete-categoryName-filter-menu' id='".$categoryName."-dropdown-delete' title='Supprimer catégorie'>×</button>";
-			
-				$result= $result."
-
-					<div class='popup-editCategory' id='popup-editCategory-".$categoryName."'>
-
-						<div class='header-popup-editTagCategory' id='header-popup-editCategory'>
-								<button id='close-button-editCategory-".$categoryName."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditCategory(this.id)'><p>←</p></button>
-								<p>Modifier catégorie</p>
-						</div>
-
-						<div id='body-popup-editCategory'>
-
-								<input type='text' id='popup-editCategory-nameCategory' name='category' value='".$categoryName."'placeholder='nouveau nom'>
-								<button class='button-valider-editCategory' id='editCategory-button-validate-".$categoryName."' onclick='editCategory(this.id)'>Valider</button>
-			
-						</div>
-
-					</div>";
-			}
-			$result = $result."</div><div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
+						<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>
+					</div>
+					<div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
 			
 			foreach($arrayTagsWithRights as $tagWithRights)
 			{

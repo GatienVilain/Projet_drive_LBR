@@ -58,7 +58,7 @@ function basketMultipleFiles() {
 					window.location.reload();
 				}
 
-				else alert('Something Went Wrong!');
+				else alert('Suppression impossible !');
 			}
 
 		});
@@ -191,8 +191,8 @@ function basketFile(idFichier) {
 
 }
 
-function addNewTag() {
-	if (confirm("Confirmer l'ajout d'un tag.")) {
+function createTag() {
+	if (confirm("Confirmer la création d'un tag.")) {
 
 		var tagName;
 		var selectedCategory;
@@ -201,32 +201,32 @@ function addNewTag() {
 		//var file_path = "storage/pictures/58.png";
 		$.ajax({
 			url: 'index.php',
-			data: { 'category': selectedCategory, 'tag': tagName, 'action': 'addNewTag' },
+			data: { 'category': selectedCategory, 'tag': tagName, 'action': 'createTag' },
 			dataType: 'json',
 			success: function (response) {
 				if (response.status === true) {
-					alert('Tag ajouté');
+					alert('Tag créé');
 					window.location.reload();
 				}
 
-				else alert('Something Went Wrong!');
+				else alert('Création du tag impossible!');
 			}
 
 		});
 	}
 }
 
-function addNewCategory() {
-	if (confirm("Confirmer l'ajout d'une catégorie.")) {
+function createCategory() {
+	if (confirm("Confirmer la création d'une catégorie.")) {
 		var categoryName;
 		categoryName = document.getElementById("popup-newCategory-nameCategory").value;
 		$.ajax({
 			url: 'index.php',
-			data: { 'category': categoryName, 'action': 'addNewCategory' },
+			data: { 'category': categoryName, 'action': 'createCategory' },
 			dataType: 'json',
 			success: function (response) {
 				if (response.status === true) {
-					alert('Catégorie ajoutée');
+					alert('Catégorie créée');
 					window.location.reload();
 				}
 

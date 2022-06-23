@@ -15,10 +15,8 @@ require_once("components/Controllers/renameFile.php");
 require_once("components/Controllers/BasketMultipleFiles.php");
 require_once("components/Controllers/AddTagsMultipleFiles.php");
 require_once("components/Controllers/DeleteTagsMultipleFiles.php");
-require_once("components/Controllers/AddNewTag.php");
-require_once("components/Controllers/AddNewCategory.php");
-require_once("components/Controllers/AddTagFile.php");
-require_once("components/Controllers/DeleteTagFile.php");
+require_once("components/Controllers/CreateTag.php");
+require_once("components/Controllers/CreateCategory.php");
 require_once("components/Controllers/GetFilesSize.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
 require_once("components/Controllers/DownloadMultipleFiles.php");
@@ -60,11 +58,9 @@ use Application\Controllers\RecoveryMultipleFiles;
 use Application\Controllers\AddTagsMultipleFiles;
 use Application\Controllers\DeleteTagsMultipleFiles;
 use Application\Controllers\DownloadMultipleFiles;
-use Application\Controllers\AddNewTag;
-use Application\Controllers\AddNewCategory;
+use Application\Controllers\CreateTag;
+use Application\Controllers\CreateCategory;
 use Application\Controllers\GetFilesSize;
-use Application\Controllers\AddTagFile;
-use Application\Controllers\DeleteTagFile;
 use Application\Controllers\DeleteTagOrCategory;
 use Application\Controllers\EditTagOrCategory;
 use Application\Controllers\SortMaj;
@@ -183,26 +179,14 @@ try
                 $action_found = True;
             }
 
-            elseif ($_GET['action'] === 'addNewTag')
+            elseif ($_GET['action'] === 'createTag')
             {
-                (new AddNewTag())->execute();
+                (new CreateTag())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'addNewCategory')
+            elseif ($_GET['action'] === 'createCategory')
             {
-                (new AddNewCategory())->execute();
-                $action_found = True;
-            }
-
-            elseif ($_GET['action'] === 'addTagFile')
-            {
-                (new AddTagFile())->execute();
-                $action_found = True;
-            }
-
-            elseif ($_GET['action'] === 'deleteTagFile')
-            {
-                (new DeleteTagFile())->execute();
+                (new CreateCategory())->execute();
                 $action_found = True;
             }
 

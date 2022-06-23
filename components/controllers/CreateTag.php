@@ -6,15 +6,20 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class deleteFile
+class CreateTag
 {
     public function execute()
     {
-        // First Check if file exists
-        $response = array('status'=>false);
         $connect = new DatabaseConnection();
-        $result =$connect->delete_file((int)$_GET['idFile']);
+        $response = array('status'=>false);
+        $tagName = $_GET['tag'];
+        $selectedCategory = $_GET['category'];
+        $role = $connect->get_user($_SESSION['email'])['role'];
+        //var_dump($selectedCategory);
+        
 
+
+        $result = $connect->add_tag($tagName, $selectedCategory);
         if( $result == 0 ) {
             $response['status'] = true;
         }
