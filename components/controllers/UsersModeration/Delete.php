@@ -28,7 +28,7 @@ class DeleteUser
                     // echo $liste_utilisateurs[$i]['email'];
                     $result = $connection->delete_user($liste_utilisateurs[$i]['email']);
 
-                    $txt = 'à supprimé le compte ' . $liste_utilisateurs[$i]['email'];
+                    $txt = 'a supprimé le compte ' . $liste_utilisateurs[$i]['email'];
                     ( new Log() )->ecrire_log($_SESSION['email'],$txt);
 
                     // echo $result;

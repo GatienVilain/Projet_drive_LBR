@@ -1,15 +1,15 @@
 <?php
-namespace Application\Model;
+namespace Application\Model\Files;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class B
+class FilePreview
 {
 	private $data;
 	
-	public function __construct(A $file)
+	public function __construct(FileCore $file)
     {
 		$this->data = $file;
 	}

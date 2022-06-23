@@ -38,7 +38,7 @@ class ChangePassword
                             if ( ( new DatabaseConnection() )->update_user($_SESSION['email'], $change) == 0 )
                             {
                                 $error = "Mot de passe enregistré";
-                                ( new Log() )->ecrire_log($_SESSION['email'],'à changé son mdp');
+                                ( new Log() )->ecrire_log($_SESSION['email'],'a changé son mdp');
                                 (new User)->logout();
                             }
                             else {

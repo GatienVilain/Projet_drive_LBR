@@ -4,13 +4,13 @@ namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 require_once("components/Tools/CustomSort.php");
-require_once("components/Model/A.php");
-require_once("components/Model/B.php");
+require_once("components/Model/Files/FileCore.php");
+require_once("components/Model/Files/FilePreview.php");
 
 use Application\Tools\Database\DatabaseConnection;
 use Application\Tools\CustomSort;
-use Application\Model\A;
-use Application\Model\B;
+use Application\Model\Files\FileCore;
+use Application\Model\Files\FilePreview;
 
 class Homepage
 {
@@ -20,7 +20,7 @@ class Homepage
 		$user = $_SESSION["email"];
 		$role = (new DatabaseConnection())->get_user($user)["role"];
 		
-		$files = $this->instantiateA();
+		$files = $this->instantiateFileCore();
 		
 		//Vérifie variable de session existe et est non nulle
 		if(!empty($_SESSION['extensionList']))
@@ -69,7 +69,7 @@ class Homepage
 			$previewTags = $this->previewTagsAdmin($arrayAllTags, $previewArrayCategory);
 
 		}
-		$Bfiles = $this->instantiateB($files);
+		$Bfiles = $this->instantiateFilePreview($files);
 		
 		$arrayTagsAddMultipleFiles = $this->getTagsAddMultipleFiles();
 		$previewAddTagsMultipleFiles = $this->previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles);
@@ -142,19 +142,19 @@ class Homepage
 		return $tmp;
 	}
 	
-	private function instantiateA()
+	private function instantiateFileCore()
 	{
 		$filesID = $this->getFilesID();
 		$files = array();
 		if (!empty($filesID)) {
 			foreach ($filesID as $data) {
-				$files[] = new A($data,false);
+				$files[] = new FileCore($data,false);
 			}
 		}
 		return $files;
 	}
 	
-	private function instantiateB(array $Afiles)
+	private function instantiateFilePreview(array $Afiles)
 	{
 		$files = array();
 		if(!empty($Afiles)) {
@@ -162,7 +162,7 @@ class Homepage
 			$n = ($_SESSION['homepage']+1)*12;
 			if ($n > count ($Afiles)) {$n = count ($Afiles);}
 			for ($i = $_SESSION['homepage']*12; $i < $n; $i++) {
-				$files[] = new B($Afiles[$i]);
+				$files[] = new FilePreview($Afiles[$i]);
 			}
 		}
 		return $files;

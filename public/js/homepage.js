@@ -929,7 +929,7 @@ files.forEach(file => file.addEventListener('click', event => {
 				{
 				document.getElementById(idElement).style.display = "block";  
 				}
-			}, 200);
+			}, 300);
 		}
 	}
 }));

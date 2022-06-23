@@ -4,13 +4,13 @@ namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 require_once("components/Tools/CustomSort.php");
-require_once("components/Model/A.php");
-require_once("components/Model/B.php");
+require_once("components/Model/Files/FileCore.php");
+require_once("components/Model/Files/FilePreview.php");
 
 use Application\Tools\Database\DatabaseConnection;
 use Application\Tools\CustomSort;
-use Application\Model\A;
-use Application\Model\B;
+use Application\Model\Files\FileCore;
+use Application\Model\Files\FilePreview;
 
 class Basket
 {
@@ -19,7 +19,7 @@ class Basket
 		(new DatabaseConnection())->basket_check();
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
 		$sort = new CustomSort();
-		$files = $this->instantiateA();
+		$files = $this->instantiateFileCore();
 		
 		
 		if(isset($_SESSION['optionSort']))
@@ -38,7 +38,7 @@ class Basket
 			}
 			
 		}
-		$Bfiles = $this->instantiateB($files);
+		$Bfiles = $this->instantiateFilePreview($files);
 		$nbr_files = count($Bfiles);
 		$error = "";
 		require('public/view/basket.php');
@@ -69,19 +69,19 @@ class Basket
 		return $data;
 	}
 	
-	private function instantiateA()
+	private function instantiateFileCore()
 	{
 		$filesID = $this->getFilesID();
 		$files = array();
 		if (!empty($filesID)) {
 			foreach ($filesID as $data) {
-				$files[] = new A($data,true);
+				$files[] = new FileCore($data,true);
 			}
 		}
 		return $files;
 	}
 	
-	private function instantiateB(array $Afiles)
+	private function instantiateFilePreview(array $Afiles)
 	{
 		$files = array();
 		if(!empty($Afiles)) {
@@ -89,7 +89,7 @@ class Basket
 			$n = ($_SESSION['basketpage']+1)*12;
 			if ($n > count ($Afiles)) {$n = count ($Afiles);}
 			for ($i = $_SESSION['basketpage']*12; $i < $n; $i++) {
-				$files[] = new B($Afiles[$i]);
+				$files[] = new FilePreview($Afiles[$i]);
 			}
 		}
 		return $files;

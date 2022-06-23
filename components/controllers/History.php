@@ -93,7 +93,7 @@ class History
             }
         }
 
-        ( new Log() )->ecrire_log($_SESSION['email'],'à consulté les logs');
+        ( new Log() )->ecrire_log($_SESSION['email'],'a consulté les logs');
 
         return $table;
     }

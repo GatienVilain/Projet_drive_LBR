@@ -1,11 +1,11 @@
 <?php
-namespace Application\Model;
+namespace Application\Model\Files;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class A
+class FileCore
 {
 	private string $id_fichier;
     private string $auteur;

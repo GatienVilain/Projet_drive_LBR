@@ -34,7 +34,7 @@ class SendRecoveryEmail
 
                     $email = new Email($email_address, $subject, $message);
                     $email->SendEmail($email, $message);
-                    ( new Log() )->ecrire_log($email_address,'à demandé un code de recup');
+                    ( new Log() )->ecrire_log($email_address,'a demandé un code de recup');
 
                     $_SESSION['email'] = $email->getAddress();
                     $_SESSION['code']  = $code->getValue();
