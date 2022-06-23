@@ -15,6 +15,9 @@ trait TagEdit
 		if($nom_tag == '') {
 			return $this->console_log("Le nom du tag est incorrect.");
 		}
+		else if(!$this->check_tag_category($nom_categorie_tag)){
+			return $this->console_log("La catégorie de tag n'existe pas.");
+		}
 		else if ($this->check_tag_category_link($nom_tag,$nom_categorie_tag)){
 			return $this->console_log("Un tag du même nom est associé à cette catégorie.");
 		}
@@ -74,7 +77,7 @@ trait TagEdit
 		
 		if ($this->check_tag($id_tag)) {
 			//si on modifie les deux, on vérifie qu'il n'y ait pas déjà un tag du même nouveau nom dans la nouvelle catégorie
-			if ($configs["nom_tag"] != null && $configs["nom_categorie_tag"] != null && !$this->check_tag_category_link($configs["nom_tag"],$configs["nom_categorie_tag"])) { 
+			if ($this->check_tag_category($configs["nom_categorie_tag"]) && $configs["nom_tag"] != null && $configs["nom_categorie_tag"] != null && !$this->check_tag_category_link($configs["nom_tag"],$configs["nom_categorie_tag"])) { 
 				
 				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = ? WHERE id_tag = ?");
 				$query->bind_param("si", $configs["nom_categorie_tag"], $id_tag);
@@ -91,7 +94,7 @@ trait TagEdit
 				}
 			}
 			//si on ne modifie que le nom, on vérifie que le nouveau nom n'est pas déjà présent dans la catégorie
-			else if ($configs["nom_tag"] != null && !$this->check_tag_category_link($configs["nom_tag"],$this->check_tag_category($id_tag)["nom_categorie_tag"])) {
+			else if ($configs["nom_tag"] != null && $configs["nom_categorie_tag"] == null && !$this->check_tag_category_link($configs["nom_tag"],$this->get_tag_category($id_tag)["nom_categorie_tag"])) {
 				
 				$query = $conn->prepare("UPDATE tag SET nom_tag = ? WHERE id_tag = ?");
 				$query->bind_param("si", $configs["nom_tag"], $id_tag);
@@ -101,7 +104,7 @@ trait TagEdit
 				}
 			}
 			//si on ne modifie que la catégorie, on vérifie que le nouveau nom n'est pas déjà présent dans la nouvelle catégorie
-			else if ($configs["nom_categorie_tag"] != null && !$this->check_tag_category_link($this->get_tag($id_tag)["nom_tag"],$this->check_tag_category($id_tag)["nom_categorie_tag"])) {
+			else if ($this->check_tag_category($configs["nom_categorie_tag"]) && $configs["nom_categorie_tag"] != null && $configs["nom_tag"] == null && !$this->check_tag_category_link($this->get_tag($id_tag)["nom_tag"],$configs["nom_categorie_tag"])) {
 				
 				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = ? WHERE id_tag = ?");
 				$query->bind_param("si", $configs["nom_categorie_tag"], $id_tag);
@@ -115,6 +118,10 @@ trait TagEdit
 				$conn->close();
 				return $this->console_log("Aucun changement n'a été appliqué au tag.");
 			}
+		}
+		else {
+			$conn->close();
+			return $this->console_log("Le tag n'existe pas.");
 		}
 		$conn->close();
 		return 0;
@@ -254,8 +261,8 @@ trait TagEdit
 	//supprime une catégorie de tag de la table categorie_tag de la base de donnée
 	function delete_tag_category(string $nom_categorie_tag)
 	{
-		if ($nom_categorie_tag == "autres" && $this->check_tag_category($nom_categorie_tag)) {
-			return $this->console_log("La catégorie 'autres' ne peut pas être supprimé.");
+		if ($nom_categorie_tag == "autres" || !$this->check_tag_category($nom_categorie_tag)) {
+			return $this->console_log("La catégorie 'autres' ne peut pas être supprimé ou la catégorie n'existe pas.");
 		}
 
 		//point de connexion à la base de donnée
@@ -278,7 +285,6 @@ trait TagEdit
 		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 		
 		foreach ($result as $value) {
-			var_dump($this->check_tag_category_link($value["nom_tag"],"autres"));
 			if(!$this->check_tag_category_link($value["nom_tag"],"autres")) {
 				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = 'autres' WHERE id_tag = ?");
 				$query->bind_param("i",$value["id_tag"]);

@@ -429,10 +429,7 @@ class FilePreview
 					%s
 
 					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
-						<div id='popup-detail-line-tags'>
-							<p class = 'detail-para'>Tag(s):</p>
-						</div>
-						
+						<p class = 'detail-para'>Tag(s):</p>	
 						<div class = 'server-para' id='server-para-tag'>$previewTags</div></div>
 
 					</div> 

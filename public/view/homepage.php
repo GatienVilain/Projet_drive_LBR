@@ -12,7 +12,7 @@
 
 
 <!-- Content -->
-<div class = toolbar>
+<div class=toolbar>
 
 	<div class = groupe1>
 
@@ -74,7 +74,9 @@
 			<div id="popup-newTag">
 
 				<div class="header-popup-newTagCategory" id="header-popup-newTag">
-					<button id='close-button-newTag' class='close-button-newTagCategory' title='Fermer' onclick ='closePopupNewTag()'><p>←</p></button>
+					<button id='close-button-newTag' class='close-button-newTagCategory' title='Fermer' onclick='closePopupNewTag()'>
+						<p>←</p>
+					</button>
 					<p>Nouveau tag</p>
 				</div>
 
@@ -178,40 +180,40 @@
 
 <div id="popup-upload">
 
-    <div class='header-popup' id="header-popup-upload">
+	<div class='header-popup' id="header-popup-upload">
 
-        <button class='close-button' title="Fermer" onclick ="buttonClosePopupUpload()"><strong>←</strong></button>
-        <p><strong>Fichier(s) importé(s)</strong></p>
-        
-    </div>
+		<button class='close-button' title="Fermer" onclick="buttonClosePopupUpload()"><strong>←</strong></button>
+		<p><strong>Fichier(s) importé(s)</strong></p>
 
-    <div id="body-popup-upload">
-          
+	</div>
 
-    </div>
+	<div id="body-popup-upload">
+
+
+	</div>
 
 </div>
 
 <div class="gallery">
 
-    <?php
-        foreach ($Bfiles as $values)
-        {
-            echo $values->preview();
-
-        }
-    ?>
+	<?php
+	foreach ($Bfiles as $values) {
+		echo $values->preview();
+	}
+	?>
 
 </div>
 
 
 
-<div class="pagination">
-	<button onclick='previousPage("homepage")'> Précédent </button>
-	<p>Page</p>
-	<p><?= $_SESSION['homepage']?></p>
-	<button onclick='nextPage("homepage")'> Suivant </button>
+<div id="pagination-container">
+	<span class="pagination">
+		<button onclick='previousPage("homepage")'> Précédent </button>
+		<p><?= $_SESSION['homepage'] ?></p>
+		<button onclick='nextPage("homepage")'> Suivant </button>
+	</span>
 </div>
+
 
 <div id="show_image_popup">
 

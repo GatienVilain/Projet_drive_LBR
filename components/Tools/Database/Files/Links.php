@@ -14,7 +14,7 @@ trait FilesLinks
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
-			return 2;
+			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
 
 		if ($this->check_file($id_fichier) && $this->check_tag($id_tag)) {
@@ -29,17 +29,17 @@ trait FilesLinks
 				$query->bind_param("ii", $id_fichier, $id_tag);
 				if (!$query->execute()) {
 					$conn->close();
-					return 3;
+					return $this->console_log("Echec d'association du tag au fichier.");
 				}
 				$conn->close();
 			} else {
 				//sinon on renvoie un message d'erreur
 				$conn->close();
-				return 4;
+				return $this->console_log("Le fichier a déjà ce tag.");
 			}
 		} else {
 			$conn->close();
-			return 5;
+			return $this->console_log("Le fichier ou le tag n'existe pas.");
 		}
 		return 0;
 	}
