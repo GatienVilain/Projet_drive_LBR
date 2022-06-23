@@ -950,7 +950,9 @@ files.forEach(file => file.addEventListener('dblclick', event => {
 files.forEach(file => file.addEventListener('contextmenu', event => {
 	//clic droit
 	closeAllPopup();
+
 	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+
 	fileChecked = false;
 	for(valeur of checkboxesFiles)
 	{
@@ -962,23 +964,28 @@ files.forEach(file => file.addEventListener('contextmenu', event => {
 
 	if(fileChecked == false)
 	{
-		idElement = 'popup-options-multipleFiles';
-		if(document.getElementById(idElement).style.display != "inline-flex")
+		let popup = document.getElementById('popup-options-multipleFiles');
+		popup.style.top = event.y + 'px';
+		popup.style.left = event.x + 'px';
+
+		if(popup.style.display != "inline-flex")
 		{
-			document.getElementById(idElement).style.display = "inline-flex";
+			popup.style.display = "inline-flex";
 			document.getElementById('checkFile-'+file.id).checked = true;
 			getFilesSelectedSize();
 		}
-		
 	}
 	else
 	{
 		getFilesSelectedSize();
-		idElement='popup-options-multipleFiles';
-		if(document.getElementById(idElement).style.display != "inline-flex")
+		let popup = document.getElementById('popup-options-multipleFiles');
+		popup.style.top = event.y + 'px';
+		popup.style.left = event.x + 'px';
+
+		if(popup.style.display != "inline-flex")
 		{
-			document.getElementById(idElement).style.display = "inline-flex";
-		}  
+			popup.style.display = "inline-flex";
+		}
 	}
 }));
 
