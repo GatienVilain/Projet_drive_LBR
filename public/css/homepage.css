@@ -53,45 +53,6 @@
 
 /* Desktop gallery */
 
-@media only screen and (min-width: 500px) {
-	.toolbar {
-		font-size: 1em;
-	}
-
-	.gallery {
-		display: inline-flex;
-		flex-wrap: wrap;
-		margin-left: 80px;
-		margin-right: 80px;
-		gap: 5vh 4vw;
-		justify-content: left;
-	}
-
-	.title-file {
-		width: 100%;
-	}
-
-	.button-information {
-		display: none;
-		width: 30%;
-	}
-}
-
-@media only screen and (max-width: 500px) {
-	.toolbar {
-		font-size: 0.6em;
-	}
-
-	.title-file {
-		width: 70%;
-	}
-}
-
-.toolbar {
-	display: flex;
-	margin: 7vh 2vw 0;
-	border-bottom: 1px solid black;
-}
 
 .gallery {
 	display: inline-flex;
@@ -791,15 +752,11 @@ html {
 
 /*Popup option multipleFiles*/
 #popup-options-multipleFiles {
+	position: fixed;
 	display: none;
 	flex-direction: column;
-	position: fixed;
-	border-radius: 5px;
 	min-width: 12em;
-	margin-top: 10%;
-	margin-left: 25%;
-	overflow-y: scroll;
-	overflow-x: visible;
+	border-radius: 5px;
 	border: 2px solid black;
 	background-color: var(--couleur-popup);
 	z-index: 9;
