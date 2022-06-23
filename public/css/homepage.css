@@ -53,6 +53,45 @@
 
 /* Desktop gallery */
 
+@media only screen and (min-width: 500px) {
+	.toolbar {
+		font-size: 1em;
+	}
+
+	.gallery {
+		display: flex;
+		flex-wrap: wrap;
+		margin-left: 80px;
+		margin-right: 80px;
+		gap: 5vh 4vw;
+		justify-content: left;
+	}
+
+	.title-file {
+		width: 100%;
+	}
+
+	.button-information {
+		display: none;
+		width: 30%;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	.toolbar {
+		font-size: 0.6em;
+	}
+
+	.title-file {
+		width: 70%;
+	}
+}
+
+.toolbar {
+	display: flex;
+	margin: 7vh 2vw 0;
+	border-bottom: 1px solid black;
+}
 
 .gallery {
 	display: inline-flex;
@@ -60,6 +99,7 @@
 	flex-wrap: wrap;
 	gap: 5vh 4vw;
 	justify-content: center;
+	min-height: 60%;
 }
 
 /* (B) THUMBNAILS */
@@ -270,7 +310,7 @@ html {
 	column-gap: 1.2em;
 	white-space: nowrap;
 	justify-content: center;
-    align-items: center;
+	align-items: center;
 }
 
 #pickfiles {
@@ -875,17 +915,6 @@ html {
 	height: 1.5em;
 }
 
-.pagination {
-	margin: 3em 0 15vh;
-	display:flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.pagination p,
-.pagination button {
-	margin: 0.2em;
-}
 
 .title-file {
 	border: 0;
@@ -893,4 +922,63 @@ html {
 	width: 70%;
 	text-overflow: ellipsis;
 	overflow: hidden;
+}
+
+
+#pagination-container {
+	margin-bottom: 10vh;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 2em 0;
+}
+
+#pagination-container .pagination {
+	padding: 0.5em 1.5em;
+	display: flex;
+	background-color: #fff;
+	border-radius: 6px;
+	font-size: 1.1em;
+}
+
+.pagination p {
+	margin: 0 2em;
+	height: 2em;
+	width: 2em;
+	color: #fff;
+	border-radius: 100em;
+	background-color: var(--couleur-header);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.pagination button {
+	font-size: 0.9em;
+	font-weight: 900;
+	padding: 0.2em 0.6em;
+	border-radius: 4px;
+}
+
+.pagination button:hover {
+	color: var(--couleur-header);
+}
+
+.pagination button:hover {
+	background-color: #ededed;
+}
+
+.pagination button:first-child::before {
+	content: '<';
+	font-size: 1.3em;
+	font-weight: 900;
+}
+
+
+.pagination button:last-child::after {
+	content: '>';
+	font-size: 1.3em;
+	font-weight: 900;
 }
