@@ -203,10 +203,10 @@
 
 
 <div class="pagination">
-	<button onclick='previousPage()'> Précédent </button>
+	<button onclick='previousPage("homepage")'> Précédent </button>
 	<p>Page</p>
-	<p><?= $_SESSION['page']?></p>
-	<button onclick='nextPage()'> Suivant </button>
+	<p><?= $_SESSION['homepage']?></p>
+	<button onclick='nextPage("homepage")'> Suivant </button>
 </div>
 
 <div id="show_image_popup">

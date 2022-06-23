@@ -6,7 +6,7 @@ require_once("components/Tools/Database/DatabaseConnection.php");
 
 use Application\Tools\Database\DatabaseConnection;
 
-class DeleteMultipleFiles
+class BasketMultipleFiles
 {
     public function execute()
     {

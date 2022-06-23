@@ -85,10 +85,10 @@ class Basket
 	{
 		$files = array();
 		if(!empty($Afiles)) {
-			$_SESSION['max_page'] = (int)(count($Afiles)/12);
-			$n = ($_SESSION['page']+1)*12;
+			$_SESSION['max_basketpage'] = (int)(count($Afiles)/12);
+			$n = ($_SESSION['basketpage']+1)*12;
 			if ($n > count ($Afiles)) {$n = count ($Afiles);}
-			for ($i = $_SESSION['page']*12; $i < $n; $i++) {
+			for ($i = $_SESSION['basketpage']*12; $i < $n; $i++) {
 				$files[] = new B($Afiles[$i]);
 			}
 		}

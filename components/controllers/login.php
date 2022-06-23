@@ -37,7 +37,8 @@ class Login
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
                 $_SESSION['email'] = $email;
-				$_SESSION['page'] = 0;
+				$_SESSION['homepage'] = 0;
+				$_SESSION['basketpage'] = 0;
                 $_SESSION['error'] = "";
                 $_SESSION['optionSort'] = "";
                 (new User())->is_admin();

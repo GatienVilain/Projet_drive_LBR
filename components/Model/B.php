@@ -318,9 +318,9 @@ class B
 			</div>
 			",);
 		}
-
+		$state = 'modification';
 		if ($deleted) {
-			
+			$state = 'suppression';
 			$popupOptions = sprintf("
 				<div class='popup-options' id='%s-popup-options'>
 
@@ -338,82 +338,7 @@ class B
 
 					</div>
 
-				</div>",$idFichier,$idFichier,$filePath,$fileName);
-
-			$popupDetails = sprintf("
-			<div class = 'popup-detail' id='%s-popup-detail'>
-
-				<div class='header-popup' id='header-popup-detail'>
-
-					<button id='%s' class='close-button' title='Fermer' onclick ='closePopupDetail(this.id)'><strong>←</strong></button>
-					<p><strong>Informations fichier</strong></p>
-
-				</div>
-
-				<div id='body-popup-detail'>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line1'>
-
-						<p class = 'detail-para'>Nom:</p>
-						<p class = 'server-para'>$fileName</p>
-
-					</div>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line2'>
-
-						<p class = 'detail-para'>Type:</p>
-						<p class = 'server-para'>$fileType</p>
-
-					</div>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line3'>
-
-						<p class = 'detail-para'>Extension:</p>
-						<p class = 'server-para'>$fileExtension</p>
-
-					</div>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line4'>
-						
-						<p class = 'detail-para'>Auteur:</p>
-						<div class = 'server-para-tooltip' id='server-para-nameAuthor'><u>$fileAuthor</u>
-
-							<span class = 'tooltiptext'><p>$descriptionAuthor</p></span>
-
-						</div>
-
-					</div>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line5'>
-
-						<p class = 'detail-para'>Date d'ajout:</p>
-						<p class = 'server-para'>$fileAddedDate</p>
-
-					</div>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line6'>
-
-						<p class = 'detail-para'>Date de suppresion:</p>
-						<p class = 'server-para' id='server-para-modificationDate'>$fileModificationDate</p>
-
-					</div>
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line7'>
-
-						<p class = 'detail-para'>Taille:</p>
-						<p class = 'server-para'>$fileSize Mo</p>
-
-					</div>
-
-					%s
-
-					<div class='body-popup-detail-line' id='body-popup-detail-line9'>
-						<p class = 'detail-para'>Tag(s):</p>			
-						<div class = 'server-para' id='server-para-tag'>$previewTags</div>
-					</div>
-
-				</div> 
-			</div>",$idFichier,$idFichier,$videoDuration);
+				</div>",$idFichier,$idFichier);
 		}
 		else {
 			$popupOptions = sprintf("
@@ -489,7 +414,7 @@ class B
 
 					<div class='body-popup-detail-line' id='body-popup-detail-line6'>
 
-						<p class = 'detail-para'>Date de modification:</p>
+						<p class = 'detail-para'>Date de %s:</p>
 						<p class = 'server-para' id='server-para-modificationDate'>$fileModificationDate</p>
 
 					</div>
@@ -511,7 +436,7 @@ class B
 						<div class = 'server-para' id='server-para-tag'>$previewTags</div></div>
 
 					</div> 
-			</div>",$idFichier,$idFichier,$videoDuration);
+			</div>",$idFichier,$idFichier,$state,$videoDuration);
 
 		if ($this->getFile()->getWriting())
 		{

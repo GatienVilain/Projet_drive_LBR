@@ -14,9 +14,6 @@ function toggleFilterMenu() {
 
 }
 
-
-
-
 function openPopupNewCategory() {
 
 	document.getElementById("popup-newCategory").style.visibility = "visible";
@@ -38,7 +35,7 @@ function openPopupNewTag() {
 
 }
 
-function deleteMultipleFiles() {
+function basketMultipleFiles() {
 	if (confirm("Confirmer la suppresion des fichiers.")) {
 		idFiles = ""; //le tableau//
 
@@ -53,7 +50,7 @@ function deleteMultipleFiles() {
 
 		$.ajax({
 			url: 'index.php',
-			data: { 'idFiles': idFiles, 'action': "deleteMultipleFiles" },
+			data: { 'idFiles': idFiles, 'action': "basketMultipleFiles" },
 			dataType: 'json',
 			success: function (response) {
 				if (response.status === true) {
@@ -860,11 +857,11 @@ function closeConfirmationPopup()
 
 }
 
-function previousPage()
+function previousPage(page)
 {
 	$.ajax({
       url: 'index.php',
-      data: {'action' : 'PreviousPage'},
+      data: {'action' : 'PreviousPage','page' : page},
       dataType: 'json', 
       success: function (response) 
       {
@@ -876,16 +873,15 @@ function previousPage()
 			window.location.reload();
 		}
       }
-
     });
 	
 }
 
-function nextPage()
+function nextPage(page)
 {
 		$.ajax({
       url: 'index.php',
-      data: {'action' : 'NextPage'},
+      data: {'action' : 'NextPage','page' : page},
       dataType: 'json', 
       success: function (response) 
       {

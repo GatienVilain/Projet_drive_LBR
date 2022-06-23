@@ -77,7 +77,7 @@ class SortMaj
                 $_SESSION['authorList'] = $authorList;
 				
             }
-			$_SESSION['page'] = 0;
+			$_SESSION['homepage'] = 0;
         }
 
         

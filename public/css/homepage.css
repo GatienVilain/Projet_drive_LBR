@@ -61,7 +61,8 @@
 	.gallery {
 		display: inline-flex;
 		flex-wrap: wrap;
-		margin-left: 4.5vw;
+		margin-left: 80px;
+		margin-right: 80px;
 		gap: 5vh 4vw;
 		justify-content: left;
 	}

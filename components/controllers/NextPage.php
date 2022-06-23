@@ -12,10 +12,13 @@ class NextPage
     {
         $response = array('status'=>false);
 		//increase pagination
-		if (isset($_SESSION['page']) && isset($_SESSION['max_page'])) {
-			$_SESSION['page'] = $_SESSION['page'] + 1;
-			
-			if($_SESSION['page'] > $_SESSION['max_page']) { $_SESSION['page'] = $_SESSION['max_page']; }
+		
+		$page = $_GET['page'];
+		$maxpage = 'max_'.$page;
+		
+		if (isset($_SESSION[$page]) && isset($_SESSION[$maxpage])) {
+			$_SESSION[$page] = $_SESSION[$page] + 1;
+			if($_SESSION[$page] > $_SESSION[$maxpage]) { $_SESSION[$page] = $_SESSION[$maxpage]; }
 			$response = array('status'=>true);
 		}
         echo json_encode($response);

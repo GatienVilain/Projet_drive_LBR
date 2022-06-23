@@ -77,15 +77,15 @@ class A
 			$fileTags = $this->getTags();
 			$ecriture = 0;
 			$lecture = 0;
-			
-			foreach($userRights as $rights) {
-				if ($ecriture && $lecture) {break;}
-				if (in_array($rights["id_tag"],$fileTags)) {
-					$ecriture = $rights["ecriture"];
-					$lecture = $rights["lecture"];
+			if ($userRights != 1) {
+				foreach($userRights as $rights) {
+					if ($ecriture && $lecture) {break;}
+					if (in_array($rights["id_tag"],$fileTags)) {
+						$ecriture = $rights["ecriture"];
+						$lecture = $rights["lecture"];
+					}
 				}
 			}
-	
 			return array("ecriture" => $ecriture,"lecture" => $lecture);
 		}
 		else {

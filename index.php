@@ -12,12 +12,9 @@ require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/renameFile.php");
-require_once("components/Controllers/basketFile.php");
-require_once("components/Controllers/deleteFile.php");
-require_once("components/Controllers/DeleteMultipleFiles.php");
+require_once("components/Controllers/BasketMultipleFiles.php");
 require_once("components/Controllers/AddTagsMultipleFiles.php");
 require_once("components/Controllers/DeleteTagsMultipleFiles.php");
-require_once("components/Controllers/recoverFile.php");
 require_once("components/Controllers/AddNewTag.php");
 require_once("components/Controllers/AddNewCategory.php");
 require_once("components/Controllers/AddTagFile.php");
@@ -57,15 +54,12 @@ use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\RenameFile;
-use Application\Controllers\basketFile;
-use Application\Controllers\deleteFile;
-use Application\Controllers\DeleteMultipleFiles;
+use Application\Controllers\BasketMultipleFiles;
 use Application\Controllers\DeleteDefinitelyMultipleFiles;
 use Application\Controllers\RecoveryMultipleFiles;
 use Application\Controllers\AddTagsMultipleFiles;
 use Application\Controllers\DeleteTagsMultipleFiles;
 use Application\Controllers\DownloadMultipleFiles;
-use Application\Controllers\recoverFile;
 use Application\Controllers\AddNewTag;
 use Application\Controllers\AddNewCategory;
 use Application\Controllers\GetFilesSize;
@@ -183,24 +177,6 @@ try
                 (new RenameFile())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'basketFile')
-            {
-                (new basketFile())->execute();
-                $action_found = True;
-            }
-			
-            elseif ($_GET['action'] === 'deleteFile')
-            {
-                (new deleteFile())->execute();
-                $action_found = True;
-            }
-			
-			elseif ($_GET['action'] === 'recoverFile')
-            {
-                (new recoverFile())->execute();
-                $action_found = True;
-            }
-
             elseif ($_GET['action'] === 'basket')
             {
                 (new Basket())->execute();
@@ -230,9 +206,9 @@ try
                 $action_found = True;
             }
 
-            elseif ($_GET['action'] === 'deleteMultipleFiles')
+            elseif ($_GET['action'] === 'basketMultipleFiles')
             {
-                (new DeleteMultipleFiles())->execute();
+                (new BasketMultipleFiles())->execute();
                 $action_found = True;
             }
 
