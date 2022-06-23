@@ -125,7 +125,6 @@ html {
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	width: 248px;
 	height: 172px;
 }
@@ -322,6 +321,8 @@ html {
 	display: inline-flex;
 	column-gap: 1.2em;
 	white-space: nowrap;
+	justify-content: center;
+    align-items: center;
 }
 
 #pickfiles {

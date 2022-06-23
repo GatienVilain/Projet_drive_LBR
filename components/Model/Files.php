@@ -488,25 +488,6 @@ class Files
 		}
 
 		if ($this->getDeleted()) {
-			
-			$popupOptions = sprintf("
-				<div class='popup-options' id='%s-popup-options'>
-
-					<div class='header-popup' id='header-popup-options'>
-
-						<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
-						<p><strong>Options</strong></p>
-			
-					</div>
-
-					<div id='body-popup-options'>
-
-						<button class='buttonPopupOptions' title='Restaurer le fichier' onclick='recoverFile($idFichier)'>Restaurer</button>
-						<button class='buttonPopupOptions' title='Supprimer définitivement le fichier' onclick='deleteFile($idFichier)'>Supprimer</button>
-
-					</div>
-
-				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
 
 			$popupDetails = sprintf("
 			<div class = 'popup-detail' id='%s-popup-detail'>
@@ -582,26 +563,6 @@ class Files
 
 				</div> 
 			</div>",$idFichier,$idFichier,$videoDuration);
-		}
-		else {
-			$popupOptions = sprintf("
-				<div class='popup-options' id='%s-popup-options'>
-
-					<div class='header-popup' id='header-popup-options'>
-
-						<button id='%s' class='close-button' title='Fermer' onclick ='closePopupOptions(this.id)'><strong>←</strong></button>
-						<p><strong>Options</strong></p>
-			
-					</div>
-
-					<div id='body-popup-options'>
-
-					<a href='%s' download ='%s'><button class='buttonPopupOptions' title='Télécharger le fichier'>Télécharger</button></a>
-						<button class='buttonPopupOptions' title='Supprimer le fichier en le mettant dans la corbeille' onclick='basketFile($idFichier)'  >Supprimer</button>
-
-					</div>
-
-				</div>",$idFichier,$idFichier,$filePath,$this->getFilename());
 		}
 		
 		$popupDetails = sprintf("
@@ -702,7 +663,7 @@ class Files
 					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
 				</div></div>",$idFichier,$previewFilePath,$fileName,$fileName);
 				
-			return "<div class= miniature>" . $popupOptions . $popupDetails . $image;
+			return "<div class= miniature>" . $popupDetails . $image;
 		}
 		elseif ($fileType == "video") {
 			$miniature = '';
@@ -723,7 +684,7 @@ class Files
 					<button class ='button-information' id='button-information-".$idFichier."' title ='Informations' onclick='openPopupDetailMobile(this.id)'>ℹ</button> 
 				</div></div>",$idFichier,$miniature,$filePath,$fileExtension,$fileName,$fileName);
 				
-			return "<div class= miniature>" . $popupOptions . $popupDetails . $video;
+			return "<div class= miniature>" . $popupDetails . $video;
 		}
 		
 		return -1;

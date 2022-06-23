@@ -108,6 +108,14 @@
 
 }
 
+.title-file {
+    border: 0;
+    background-color: transparent;
+    width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 #header-popup-options{
   gap: 1.5vh;
   
