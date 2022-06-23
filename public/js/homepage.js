@@ -25,6 +25,11 @@ function openPopupNewCategory() {
 
 function closeMultipleFiles() {
 	document.getElementById('popup-options-multipleFiles').style.display = 'none';
+	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+  	for (valeur of checkboxesFiles) {
+		valeur.checked = false;
+	}
+
 }
 
 function openPopupNewTag() {
@@ -811,10 +816,24 @@ function downloadMultipleFiles() {
 		dataType: 'json',
 		success: function (response) {
 			if (response.status === true) {
-				zipPath = response['zipPath'];
-				element = document.getElementById('download-multipleFiles-link')
-				element.setAttribute('href', zipPath);
-				document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
+				if(response.mode == 'multiple')
+				{
+					zipPath = response['zipPath'];
+					element = document.getElementById('download-multipleFiles-link')
+					element.setAttribute('href', zipPath);
+					document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
+				}
+
+				else if(response.mode == 'unique')
+				{
+					filePath = response['filePath'];
+					fileName = response['fileName'];
+					element = document.getElementById('download-multipleFiles-link')
+					element.setAttribute('href', filePath);
+					element.setAttribute('download', fileName);
+					document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
+				}
+				
 
 			}
 			else {
@@ -832,6 +851,13 @@ function closeConfirmationPopup()
 {
   document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
   document.getElementById("popup-options-multipleFiles").style.display = 'none';
+  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+  for (valeur of checkboxesFiles) {
+		if (valeur.checked) {
+			valeur.checked = false;
+		}
+	}
+
 }
 
 function previousPage()
@@ -934,17 +960,20 @@ files.forEach(file => file.addEventListener('contextmenu', event => {
 	{
 		if(valeur.checked)
 		{
-		fileChecked=true;
+			fileChecked=true;
 		}
 	}
 
 	if(fileChecked == false)
 	{
-		idElement = file.id + '-popup-options';
-		if(document.getElementById(idElement).style.display != "block")
+		idElement = 'popup-options-multipleFiles';
+		if(document.getElementById(idElement).style.display != "inline-flex")
 		{
-			document.getElementById(idElement).style.display = "block";
-		}  
+			document.getElementById(idElement).style.display = "inline-flex";
+			document.getElementById('checkFile-'+file.id).checked = true;
+			getFilesSelectedSize();
+		}
+		
 	}
 	else
 	{
