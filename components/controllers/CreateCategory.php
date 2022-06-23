@@ -10,28 +10,21 @@ class CreateCategory
 {
     public function execute()
     {
-        $response = array('status'=>false);
-        $connect = new DatabaseConnection();
-        $categoryName = $_GET['category'];
-        
-        $result = $connect->add_tag_category($categoryName);
-
-        if( $result == 0 ) {
+        $response['status'] = false;  
+        //On vérifie qu'une valeur pour category a bien été envoyée  
+        if(isset($_GET['category']))
+        {
+            $categoryName = $_GET['category'];
+            $connect = new DatabaseConnection();
             $response['status'] = true;
+            //On ajoute la catégorie à la base de données
+            $result = $connect->add_tag_category($categoryName);
+            //En cas d'erreur lors de la création d'une catégorie
+            if($result == -1)
+            {
+                $response['status'] = false;
+            }
         }
-
-        else{
-            $response['status']=$result;
-        }
-
-        echo json_encode($response);
-
-    
+        echo json_encode($response);  
     }
-
 }
-
-
-
-
-?>

@@ -33,8 +33,8 @@
 
   <div class='body-popup-options'>
 
-	<button class='buttonPopupOptions' title='Restaurer les fichiers' onclick='recoveryMultipleFiles()'>Restaurer</button></a>
-	<button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteDefinitelyMultipleFiles()'>Supprimer</button>
+	<button class='buttonPopupOptions' title='Restaurer les fichiers' onclick='recoveryFiles()'>Restaurer</button></a>
+	<button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='deleteFiles()'>Supprimer</button>
 	<p id="sizeFilesSelected">Taille : </p>
   </div>
 </div>

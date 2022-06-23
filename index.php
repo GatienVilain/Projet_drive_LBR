@@ -12,16 +12,16 @@ require_once("components/Controllers/SendRecoveryEmail.php");
 require_once("components/Controllers/VerifyRecoveryCode.php");
 require_once("components/Controllers/History.php");
 require_once("components/Controllers/renameFile.php");
-require_once("components/Controllers/BasketMultipleFiles.php");
-require_once("components/Controllers/AddTagsMultipleFiles.php");
-require_once("components/Controllers/DeleteTagsMultipleFiles.php");
+require_once("components/Controllers/BasketFiles.php");
+require_once("components/Controllers/AddTagsFiles.php");
+require_once("components/Controllers/DeleteTagsFiles.php");
 require_once("components/Controllers/CreateTag.php");
 require_once("components/Controllers/CreateCategory.php");
 require_once("components/Controllers/GetFilesSize.php");
 require_once("components/Controllers/DeleteTagOrCategory.php");
-require_once("components/Controllers/DownloadMultipleFiles.php");
-require_once("components/Controllers/DeleteDefinitelyMultipleFiles.php");
-require_once("components/Controllers/RecoveryMultipleFiles.php");
+require_once("components/Controllers/DownloadFiles.php");
+require_once("components/Controllers/DeleteFiles.php");
+require_once("components/Controllers/RecoveryFiles.php");
 require_once("components/Controllers/EditTagOrCategory.php");
 require_once("components/Controllers/SortMaj.php");
 require_once("components/Controllers/UsersModeration/Get.php");
@@ -52,12 +52,12 @@ use Application\Controllers\SendRecoveryEmail;
 use Application\Controllers\VerifyRecoveryCode;
 use Application\Controllers\History;
 use Application\Controllers\RenameFile;
-use Application\Controllers\BasketMultipleFiles;
-use Application\Controllers\DeleteDefinitelyMultipleFiles;
-use Application\Controllers\RecoveryMultipleFiles;
-use Application\Controllers\AddTagsMultipleFiles;
-use Application\Controllers\DeleteTagsMultipleFiles;
-use Application\Controllers\DownloadMultipleFiles;
+use Application\Controllers\BasketFiles;
+use Application\Controllers\DeleteFiles;
+use Application\Controllers\RecoveryFiles;
+use Application\Controllers\AddTagsFiles;
+use Application\Controllers\DeleteTagsFiles;
+use Application\Controllers\DownloadFiles;
 use Application\Controllers\CreateTag;
 use Application\Controllers\CreateCategory;
 use Application\Controllers\GetFilesSize;
@@ -190,15 +190,15 @@ try
                 $action_found = True;
             }
 
-            elseif ($_GET['action'] === 'basketMultipleFiles')
+            elseif ($_GET['action'] === 'basketFiles')
             {
-                (new BasketMultipleFiles())->execute();
+                (new BasketFiles())->execute();
                 $action_found = True;
             }
 
-            elseif ($_GET['action'] === 'downloadMultipleFiles')
+            elseif ($_GET['action'] === 'downloadFiles')
             {
-                (new DownloadMultipleFiles())->execute();
+                (new DownloadFiles())->execute();
                 $action_found = True;
             }
 
@@ -208,15 +208,15 @@ try
                 $action_found = True;
             }
 
-            elseif ($_GET['action'] === 'addTagsMultipleFiles')
+            elseif ($_GET['action'] === 'addTagsFiles')
             {
-                (new AddTagsMultipleFiles())->execute();
+                (new AddTagsFiles())->execute();
                 $action_found = True;
             }
 
-            elseif ($_GET['action'] === 'deleteTagsMultipleFiles')
+            elseif ($_GET['action'] === 'deleteTagsFiles')
             {
-                (new DeleteTagsMultipleFiles())->execute();
+                (new DeleteTagsFiles())->execute();
                 $action_found = True;
             }
 
@@ -235,14 +235,14 @@ try
                 (new EditTagOrCategory())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'deleteDefinitelyMultipleFiles')
+            elseif ($_GET['action'] === 'deleteFiles')
             {
-                (new DeleteDefinitelyMultipleFiles())->execute();
+                (new DeleteFiles())->execute();
                 $action_found = True;
             }
-            elseif ($_GET['action'] === 'recoveryMultipleFiles')
+            elseif ($_GET['action'] === 'recoveryFiles')
             {
-                (new RecoveryMultipleFiles())->execute();
+                (new RecoveryFiles())->execute();
                 $action_found = True;
             }
 			elseif ($_GET['action'] === 'PreviousPage')

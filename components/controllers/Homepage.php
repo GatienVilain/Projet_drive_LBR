@@ -71,10 +71,10 @@ class Homepage
 		}
 		$Bfiles = $this->instantiateFilePreview($files);
 		
-		$arrayTagsAddMultipleFiles = $this->getTagsAddMultipleFiles();
+		$arrayTagsAddMultipleFiles = $this->getTagsAddMenu();
 		$previewAddTagsMultipleFiles = $this->previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles);
 
-		$arrayTagsDeleteMultipleFiles = $this->getTagsDeleteMultipleFiles($files);
+		$arrayTagsDeleteMultipleFiles = $this->getTagsDeleteMenu($files);
 		$previewDeleteTagsMultipleFiles = $this->previewTagsDeleteMultipleFiles($arrayTagsDeleteMultipleFiles);
 
 		$extensionsFiles = $this->getArrayExtensionsFilesInstantiate($files);
@@ -453,55 +453,24 @@ class Homepage
 		return $result;
 	}
 
-	private function getTagsAddMultipleFiles()
+	private function getTagsAddMenu()
 	{
 		$connection = new DatabaseConnection();
-		$arrayTagsAddMenu = array();	
-		$role = $connection->get_user($_SESSION["email"])["role"];
-		$idTagsAllowed = array();
-		$idTagsNotAllowed=array();
-
-		if($role == 'invite')
-		{   
-            $idTagsWithRights = $connection->get_rights_of_user($_SESSION["email"]);
-            if($idTagsWithRights != -1)
-            {
-                foreach($idTagsWithRights as $key => $arrayTagRights)
-                {
-                    if($arrayTagRights['ecriture'] == 1)
-                    {
-                        array_push($idTagsAllowed,$arrayTagRights['id_tag']);
-                    }
-                }
-                if(empty($idTagsAllowed))
-                {
-                    $arrayTagsAddMenu = null;
-                    return $arrayTagsAddMenu;
-                }
-            }
-            else
-            {
-                $arrayTagsAddMenu = null;
-                return $arrayTagsAddMenu;
-            }
-		}
-		else if($role == 'admin')
+		$arrayTagsAddMenu = array();
+		$allIdTags = array();	
+		$allCategory = $connection->get_tag_category();
+		foreach($allCategory as $key => $arrayCategoryName)
 		{
-			$idTagsAllowed = array();
-			$allCategory = $connection->get_tag_category();
-			foreach($allCategory as $key => $arrayCategoryName)
+			$allIdByCategory = $connection->get_tag_by_category($arrayCategoryName['nom_categorie_tag']);
+			if($allIdByCategory != -1)
 			{
-				$allIdByCategory = $connection->get_tag_by_category($arrayCategoryName['nom_categorie_tag']);
-				if($allIdByCategory != -1)
-				{
-					foreach($allIdByCategory as $tag)
-					{		
-						array_push($idTagsAllowed,$tag['id_tag']);
-					}
+				foreach($allIdByCategory as $tag)
+				{		
+					array_push($allIdTags,$tag['id_tag']);
 				}
 			}
 		}
-		foreach($idTagsAllowed as $id)
+		foreach($allIdTags as $id)
 		{		
 			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
 			if(array_key_exists($categoryName, $arrayTagsAddMenu))
@@ -555,16 +524,13 @@ class Homepage
 		return $result;
 	}
 	
-	private function getTagsDeleteMultipleFiles($files)
+	private function getTagsDeleteMenu($files)
 	{
-
 		$connection = new DatabaseConnection();
-		$arrayTagsDeleteMultipleFiles = array();
+		$arrayTagsDeleteMenu = array();
 		$idTagsFile = array();
 		$idTagsFiles = array();
-		$role = $connection->get_user($_SESSION["email"])["role"];
-		$idTagsAllowed = array();
-		$idTagsNotAllowed=array();
+		$allIdTags = array();
 		foreach($files as $file)
 		{
 			$idTagsFile = $file->getTags();
@@ -576,49 +542,25 @@ class Homepage
 				}
 			}
 		}
-		
-		if($role == 'invite')
+		$allIdTags = array_values($idTagsFiles);
+		if (count($allIdTags) == 1 && $allIdTags[0] == 1)
 		{
-			$idTagsWithRights = $connection->get_rights_of_user($_SESSION["email"]);
-			if($idTagsWithRights != -1)
-			{
-				foreach($idTagsWithRights as $key => $arrayTagRights)
-				{
-					if($arrayTagRights['ecriture'] == 0)
-					{
-						array_push($idTagsNotAllowed,$arrayTagRights['id_tag']);
-					}
-				}
-				$idTagsAllowed=array_values(array_diff($idTagsFiles, $idTagsNotAllowed));
-			}
-			else
-			{
-				$arrayTagsDeleteMultipleFiles = null;
-				return $arrayTagsDeleteMultipleFiles;
-			}
+			$arrayTagsDeleteMenu = null;
+			return $arrayTagsDeleteMenu;
 		}
-		else if($role == 'admin')
-		{
-			$idTagsAllowed = array_values($idTagsFiles);
-		}
-		if (count($idTagsAllowed) == 1 && $idTagsAllowed[0] == 1)
-		{
-			$arrayTagsDeleteMultipleFiles = null;
-			return $arrayTagsDeleteMultipleFiles;
-		}
-		foreach($idTagsAllowed as $id)
+		foreach($allIdTags as $id)
 		{		
 			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
-			if(array_key_exists($categoryName, $arrayTagsDeleteMultipleFiles))
+			if(array_key_exists($categoryName, $arrayTagsDeleteMenu))
 			{
-				array_push($arrayTagsDeleteMultipleFiles[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
+				array_push($arrayTagsDeleteMenu[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
 			}			
 			else
 			{
-				$arrayTagsDeleteMultipleFiles[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
+				$arrayTagsDeleteMenu[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
 			}	
 		}
-		return $arrayTagsDeleteMultipleFiles;
+		return $arrayTagsDeleteMenu;
 	}
 
 	private function previewTagsDeleteMultipleFiles($arrayTagsDeleteMultipleFiles)

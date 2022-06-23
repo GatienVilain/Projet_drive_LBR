@@ -9,29 +9,21 @@ use Application\Tools\Database\DatabaseConnection;
 class CreateTag
 {
     public function execute()
-    {
-        $connect = new DatabaseConnection();
-        $response = array('status'=>false);
-        $tagName = $_GET['tag'];
-        $selectedCategory = $_GET['category'];
-        $role = $connect->get_user($_SESSION['email'])['role'];
-        //var_dump($selectedCategory);
-        
-
-
-        $result = $connect->add_tag($tagName, $selectedCategory);
-        if( $result == 0 ) {
+    {      
+        $response['status'] = false;
+        //On vérifie qu'une valeur pour tag et category a bien été envoyée
+        if(isset($_GET['tag']) && isset($_GET['category']))
+        {
+            $connect = new DatabaseConnection();
+            $tagName = $_GET['tag'];
+            $selectedCategory = $_GET['category'];
             $response['status'] = true;
+            //On ajoute le tag à la base de données en l'associant à la catégorie sélectionnée
+            $result = $connect->add_tag($tagName, $selectedCategory);
+            if( $result == -1 ) {
+                $response['status'] = false; //En cas d'erreur lors de la création du tag on renvoie false au client
+            }
         }
-
-        echo json_encode($response);
-
-    
+        echo json_encode($response);   
     }
-
 }
-
-
-
-
-?>

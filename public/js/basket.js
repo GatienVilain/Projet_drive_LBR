@@ -40,7 +40,7 @@ function sortFileName()
   });
 }
 
-function deleteDefinitelyMultipleFiles()
+function deleteFiles()
 {
   if (confirm("Confirmer la suppresion des fichiers."))
   {
@@ -59,25 +59,25 @@ function deleteDefinitelyMultipleFiles()
 
     $.ajax({
       url: 'index.php',
-      data: {'idFiles' : idFiles,'action' : "deleteDefinitelyMultipleFiles"},
+      data: {'idFiles' : idFiles,'action' : "deleteFiles"},
       dataType: 'json', 
       success: function (response) 
       {
         if( response.status === true )
 
         {
-          alert('File(s) Deleted!');
+          alert('Fichier(s) supprimé(s)');
           window.location.reload();
         }
 
-        else alert('Something Went Wrong!');
+        else alert('Suppression impossible!');
       }
 
     });
   }
 }
 
-function recoveryMultipleFiles()
+function recoveryFiles()
 {
   if (confirm("Confirmer la restauration des fichiers."))
   {
@@ -96,7 +96,7 @@ function recoveryMultipleFiles()
 
     $.ajax({
       url: 'index.php',
-      data: {'idFiles' : idFiles,'action' : "recoveryMultipleFiles"},
+      data: {'idFiles' : idFiles,'action' : "recoveryFiles"},
       dataType: 'json', 
       success: function (response) 
       {

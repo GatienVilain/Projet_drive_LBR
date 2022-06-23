@@ -50,11 +50,11 @@ function basketMultipleFiles() {
 
 		$.ajax({
 			url: 'index.php',
-			data: { 'idFiles': idFiles, 'action': "basketMultipleFiles" },
+			data: { 'idFiles': idFiles, 'action': "basketFiles" },
 			dataType: 'json',
 			success: function (response) {
 				if (response.status === true) {
-					alert('File(s) Deleted!');
+					alert('Fichier(s) supprimé(s)');
 					window.location.reload();
 				}
 
@@ -179,11 +179,11 @@ function basketFile(idFichier) {
 			dataType: 'json',
 			success: function (response) {
 				if (response.status === true) {
-					alert('File Deleted!');
+					alert('Fichier(s) placé(s) dans la corbeille');
 					window.location.reload();
 				}
 
-				else alert('Something Went Wrong!');
+				else alert('Suppression impossible!');
 			}
 
 		});
@@ -483,7 +483,7 @@ function editTag(idElement) {
 					window.location.reload();
 				}
 
-				else alert('Erreur');
+				else alert('Modification impossible!');
 			}
 
 		});
@@ -500,19 +500,16 @@ function deleteCategory(idElement) {
 			data: { 'categoryName': categoryName, 'option': 'deleteCategory', 'action': 'deleteTagOrCategory' },
 			dataType: 'json',
 			success: function (response) {
-				console.log(response['status']);
+				console.log(response);
 				if (response.status === true) {
 					alert('Catégorie supprimée');
 					window.location.reload();
 				}
 
 				else {
-					console.log('Erreur');
+					console.log('Suppression impossible!');
 				}
-
-				//window.location.reload();
 			}
-
 		});
 	}
 
@@ -530,13 +527,12 @@ function editCategory(idElement) {
 			data: { 'categoryName': categoryName, 'option': 'editCategory', 'newName': newName, 'action': 'editTagOrCategory' },
 			dataType: 'json',
 			success: function (response) {
-				alert(response);
 				if (response.status === true) {
 					alert('Catégorie modifée');
 					window.location.reload();
 				}
 
-				else alert("Erreur");
+				else alert("Modification impossible!");
 			}
 
 		});
@@ -710,7 +706,7 @@ function deleteTagsMultipleFiles() {
 		console.log(tags);
 		$.ajax({
 			url: 'index.php',
-			data: { 'tags': tags, 'action': 'deleteTagsMultipleFiles', 'files': idFiles },
+			data: { 'tags': tags, 'action': 'deleteTagsFiles', 'files': idFiles },
 			dataType: 'json',
 			success: function (response) {
 				if (response.status === true) {
@@ -718,7 +714,7 @@ function deleteTagsMultipleFiles() {
 					window.location.reload();
 				}
 
-				else alert('Something went wrong');
+				else alert('Suppression impossible!');
 			}
 
 		});
@@ -751,7 +747,7 @@ function addTagsMultipleFiles() {
 		}
 		$.ajax({
 			url: 'index.php',
-			data: { 'tags': tags, 'action': 'addTagsMultipleFiles', 'files': idFiles },
+			data: { 'tags': tags, 'action': 'addTagsFiles', 'files': idFiles },
 			dataType: 'json',
 			success: function (response) {
 				console.log(response);
@@ -783,11 +779,11 @@ function getFilesSelectedSize() {
 		data: { 'action': 'getFilesSize', 'files': idFiles },
 		dataType: 'json',
 		success: function (response) {
-			//console.log(response);
-			//console.log(response['status']);
-			size = 'Taille : ' + response + 'Mo';
-			document.getElementById('sizeFilesSelected').textContent = size;
-
+			if(response.status == true)
+			{
+				size = 'Taille : ' + response.size + 'Mo';
+				document.getElementById('sizeFilesSelected').textContent = size;
+			}
 		}
 
 	});
@@ -809,7 +805,7 @@ function downloadMultipleFiles() {
 	}
 	$.ajax({
 		url: 'index.php',
-		data: { 'action': 'downloadMultipleFiles', 'files': idFiles },
+		data: { 'action': 'downloadFiles', 'files': idFiles },
 		dataType: 'json',
 		success: function (response) {
 			if (response.status === true) {
