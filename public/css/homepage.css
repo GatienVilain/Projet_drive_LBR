@@ -97,8 +97,8 @@
 	margin-top: 2vh;
 	flex-wrap: wrap;
 	gap: 5vh 4vw;
-	justify-content: center;
-	min-height: 60%;
+	justify-content: flex-start;
+	min-height: 65%;
 }
 
 /* (B) THUMBNAILS */
