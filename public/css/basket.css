@@ -227,7 +227,7 @@
 	height: 50vh;
 	border: 2px solid black;
 	background-color: var(--couleur-popup);
-	z-index: 500;
+	z-index: 1000;
 }
 
 .server-para-tooltip {
