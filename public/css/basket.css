@@ -186,8 +186,7 @@ html {
 
 #body-popup-detail {
 	height: 87%;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	overflow:scroll;
 }
 
 .body-popup-detail-line>p {

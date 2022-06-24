@@ -68,6 +68,8 @@ class AddTagsFiles
                                         $response['status'] = false;
                                     }
                                 }
+                                //On modifie la date de dernière modification
+                                $connection->modify_file_date($idFile);
                             }  
                             $index++;
                         }
@@ -95,6 +97,8 @@ class AddTagsFiles
                             $response['status'] = false;
                         }
                     }
+                    //On modifie la date de dernière modification
+                    $connection->modify_file_date($idFile);
                     if(count($connection->get_link($idFile))>1)
                     {
                         $connection->delete_link($idFile, 1);

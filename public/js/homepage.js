@@ -108,6 +108,7 @@ function buttonClosePopupUpload() {
 
 //Fonction d'ouvrir la popup information sur la version mobile
 function openPopupDetailMobile(idElement) {
+	closeOptionsFiles();
 	idPopup = idElement.replace(/button-information-/gi, "");
 	idPopup += "-popup-detail"
 	document.getElementById(idPopup).style.display = "block";
@@ -401,22 +402,22 @@ function hidePopupModal() {
 }
 
 //Fonction permettant d'ouvrir le menu d'ajout de tags
-function openMenuAddTagsMultipleFiles() {
+function openMenuAddTagsFiles() {
 	document.getElementById("add-tags-multipleFiles").style.visibility = "visible";
 }
 
 //Fonction permettant d'ouvrir le menu de suppression de tags
-function openMenuDeleteTagsMultipleFiles() {
+function openMenuDeleteTagsFiles() {
 	document.getElementById("delete-tags-multipleFiles").style.visibility = "visible";
 }
 
 //Fonction permettant de fermer la popup de suppresion de tags
-function closeDeleteTagsMultipleFiles() {
+function closeDeleteTagsFiles() {
 	document.getElementById("delete-tags-multipleFiles").style.visibility = "hidden";
 }
 
 //Fonction permettant de fermer la popup d'ajout de tags
-function closeAddTagsMultipleFiles() {
+function closeAddTagsFiles() {
 	document.getElementById("add-tags-multipleFiles").style.visibility = "hidden";
 }
 
@@ -632,6 +633,7 @@ const files = document.querySelectorAll('.popup');
 let timer;
 files.forEach(file => file.addEventListener('click', event => {
 	closeAllPopup();
+	closeOptionsFiles();
 	if (event.button == 0) {//clic gauche
 		if (event.detail === 1) {//simple clic
 			timer = setTimeout(() => {

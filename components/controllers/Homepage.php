@@ -60,7 +60,7 @@ class Homepage
 
 		if($role == 'invite')
 		{
-			$arrayTagsWithRights = $this->getArrayTagsWithRights($user);
+			$arrayTagsWithRights = $this->getArrayTagsGuest($user);
 			$previewTags = $this->previewTagsGuest($arrayTagsWithRights, $previewArrayCategory, $user);
 		}
 		else if($role == 'admin')
@@ -207,12 +207,23 @@ class Homepage
 		$arrayCategoryTagsGuest = array();
 		$arrayAllIdTags = array();
 		$allIdFiles = $this->getFilesID();
+		$allUserRights = $connection->get_rights_of_user($user);
 		foreach($allIdFiles as $idFile)
 		{
 			$idTagsLinkToFile = $connection->get_link($idFile);
 			foreach($idTagsLinkToFile as $idTag)
 			{
 				array_push($arrayAllIdTags, $idTag['id_tag']);
+			}
+		}
+		if($allUserRights != -1)
+		{
+			foreach($allUserRights as $tag)
+			{
+				if($tag['ecriture'] == 1)
+				{
+					array_push($arrayAllIdTags, $tag['id_tag']);
+				}
 			}
 		}
 		$arrayAllIdTags = array_values(array_unique($arrayAllIdTags));
@@ -497,7 +508,7 @@ class Homepage
 		$result = "
         	<div id='add-tags-multipleFiles'>
           		<div class ='addDelete-tags-file-title'>   
-				 	<button id='close-button-addTag-multipleFiles' class='close-button-addDeleteTag' title='Fermer' onclick ='closeAddTagsMultipleFiles()'><p>←</p></button>     
+				 	<button id='close-button-addTag-multipleFiles' class='close-button-addDeleteTag' title='Fermer' onclick ='closeAddTagsFiles()'><p>←</p></button>     
             		<p>Ajouter Tag(s)</p>
             	</div>
           		<div class ='addDelete-tags-file-body'>";
@@ -575,7 +586,7 @@ class Homepage
 		$result = "
         	<div id='delete-tags-multipleFiles'>
           		<div class ='addDelete-tags-file-title' id='delete-tags-multipleFiles-title'>   
-				 	<button id='close-button-deleteTag-multipleFiles' class='close-button-addDeleteTag' title='Fermer' onclick ='closeDeleteTagsMultipleFiles()'><p>←</p></button>     
+				 	<button id='close-button-deleteTag-multipleFiles' class='close-button-addDeleteTag' title='Fermer' onclick ='closeDeleteTagsFiles()'><p>←</p></button>     
             		<p>Supprimer Tag(s)</p>
             	</div>
           		<div class ='addDelete-tags-file-body' id='delete-tags-multipleFiles-body'>";
