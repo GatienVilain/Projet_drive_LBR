@@ -1,47 +1,23 @@
-:root {
-    /* Couleurs de la charte graphique */
-    --upsdell-red: #AF001E;
-    --red-pigment: #EB001C;
-    --dark-orange: #FF890A;
-    --beige: #FFFEE6;
-    --uranian-blue: #BDE4FC;
-    --spanish-blue: #3671B3;
-    --raisin-black: #161920;
-    --white:#FFFFFF;
-
-    /* couleurs par bloc */
-    --couleur-police-fond-clair: var(--raisin-black);
-    --couleur-police-fond-fonce: var(--beige);
-    --couleur-police-footer:var(--white);
-    --couleur-police-infoBulle:var(--white);
-    --couleur-police-usedStorageSpace:var(--uranian-blue);
-    --couleur-storageBar:var(--spanish-blue);
-    --couleur-conteneurBar:var(--white);
-    --couleur-popup:var(--beige);
-    --couleur-infoBulle:var(--red-pigment);
-    --fond: #D3D3D3;
-    --couleur-footer: var(--raisin-black);
-}
-
-* {
-    font-family: 'Trebuchet MS', Arial, sans-serif;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
 #banner-footer {
     position: fixed;
     bottom:0;
     height: 10vh;
     width: 100vw;
-    z-index: 900;
+    z-index: 999;
     display: flex;
     padding: 1vh 5vw;
     background-color: var(--couleur-footer);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     justify-content: space-between;
     align-items: center;
+    font-size: 0.7em;
+    
+}
+
+@media only screen and ( min-width: 400px) {
+    #banner-footer{
+        font-size: 1em;
+    }   
 }
 
 #banner-footer-role{

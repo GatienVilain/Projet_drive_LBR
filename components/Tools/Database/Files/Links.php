@@ -29,13 +29,13 @@ trait FilesLinks
 				$query->bind_param("ii", $id_fichier, $id_tag);
 				if (!$query->execute()) {
 					$conn->close();
-					return $this->console_log("Echec d'attribution du tag au fichier.");
+					return $this->console_log("Echec d'association du tag au fichier.");
 				}
 				$conn->close();
 			} else {
 				//sinon on renvoie un message d'erreur
 				$conn->close();
-				return $this->console_log("Ce tag est déjà attribué au fichier.");
+				return $this->console_log("Le fichier a déjà ce tag.");
 			}
 		} else {
 			$conn->close();
@@ -96,11 +96,7 @@ trait FilesLinks
 			$query->execute();
 			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 			$conn->close();
-			if ($result != NULL) {
-				return $result;
-			} else {
-				return $this->console_log("Echec de récupération des tags associés au fichier.");
-			}
+			return $result;
 		} else {
 			$conn->close();
 			return $this->console_log("Le fichier n'existe pas.");
@@ -144,7 +140,8 @@ trait FilesLinks
 
 		if ($this->check_tag($id_tag)) {
 
-			$query = $conn->prepare("SELECT f.id_fichier FROM fichier AS f JOIN appartenir AS a ON f.id_fichier = a.id_fichier WHERE f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
+			$query = $conn->prepare("SELECT f.id_fichier FROM fichier AS f JOIN appartenir AS a ON f.id_fichier = a.id_fichier WHERE a.id_tag = ? AND f.id_fichier NOT IN (SELECT fs.id_fichier FROM fichier_supprime AS fs)");
+			$query->bind_param("i", $id_tag);
 			$query->execute();
 			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
 			$conn->close();

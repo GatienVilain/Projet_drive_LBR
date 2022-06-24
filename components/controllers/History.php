@@ -2,82 +2,99 @@
 
 namespace Application\Controllers;
 
+require_once("components/Model/Log.php");
+
+use Application\Model\Log;
+
 class History
 {
     function execute()
     {
-        $content = $this->tableaux();
-        $error = "";
+        $logs_table = $this->tableaux();
+
 		require('public/view/history.php');
     }
 
     function tableaux()
     {
-        $html='<article>';
-        if($dossier=opendir('log')){
-            $liste=array();
-            while(false != $fichier = readdir($dossier)){
-                $liste[]=$fichier;
+        $table = array();
+
+        // si le dossier log existe et on arrive à l’ouvrir
+        if( $dossier = opendir('log') )
+        {
+            $liste = array();
+
+            // lis chaque fichier dans le dossier
+            while(false != $fichier = readdir($dossier))
+            {
+                $liste[] = $fichier;
             }
-            $liste=array_reverse($liste);
-            foreach ($liste as $fichier){
-                if ($fichier != '.' && $fichier !='..'){
-                    $chemin='log/';
-                    $chemin.=$fichier;
+
+            // Organise les fichiers dans l’ordre chronologique inverse
+            $liste = array_reverse($liste);
+
+            foreach ($liste as $fichier)
+            {
+                if ($fichier != '.' && $fichier !='..')
+                {
+                    // Ouvre le fichier de log
+                    $chemin = 'log/' . $fichier;
                     $tmp = fopen($chemin, 'r');
-                    $caractere='';
-                    $chaine='';
-                    $html.='<h4>';
-                    $html.='historique du ';
-                    $fichier=str_replace('.txt','',$fichier);
-                    $html.=$fichier;
-                    $html.='</h4>';
 
-                    
-                    $html.='<table>';
-                        
-                    while(!feof($tmp)){
-                        
+                    $date = str_replace('.txt', '', $fichier);
+
+
+                    $caractere = '';
+                    $chaine = '';
+                    while (!feof($tmp))
+                    {
                         $caractere = fgets($tmp);
-                        $chaine.=$caractere;
+                        $chaine .= $caractere;
                     }
-                    //$chaine=str_replace(';',' ',$chaine);
-                    //$chaine.='fin';
-                    //echo strlen($chaine);
 
-                    $cpt=0;
-                    while($cpt<strlen($chaine)){
-                        $html.='<tr>';
-                        //on ouvre la ligne
-                        $cptbis=0;
-                        $bloc='';
-                        while(($cptbis<4) && ($cpt<strlen($chaine))){
-                            
-                            if($chaine[$cpt]!=';'){
-                                $bloc.=$chaine[$cpt];
-                                
+                    $cpt = 0;
+                    $row_number = 0;
+                    while ( $cpt < strlen($chaine) )
+                    {
+                        $element = 1;
+                        $bloc = '';
+                        while ( ($element <= 4) && ($cpt < strlen($chaine)) )
+                        {
+                            if ($chaine[$cpt] != ';')
+                            {
+                                $bloc .= $chaine[$cpt];
                             }
-                            else{    
-                                $html.='<td>';
-                                $html.=$bloc;     
-                                $html.='</td>';   
-                                $bloc='';
-                                $cptbis++;
-                                
+                            else {
+                                if ($element == 1)
+                                {
+                                    $table[$date][$row_number]['date'] = $bloc;
+                                }
+                                elseif ($element == 2)
+                                {
+                                    $table[$date][$row_number]['hour'] = $bloc;
+                                }
+                                elseif ($element == 3)
+                                {
+                                    $table[$date][$row_number]['email'] = $bloc;
+                                }
+                                else {
+                                    $table[$date][$row_number]['message'] = $bloc;
+                                }
+
+                                $bloc = '';
+                                $element++;
                             }
                             $cpt++;
-
                         }
+                        $row_number++;
                         $cpt++;//pour sauter les retour à la ligne
-                        $html.='</tr>';
-                    
                     }
                 }
-                $html.='</table>';
-
             }
         }
-        $html.='</article>';
-        return $html;
+
+        ( new Log() )->ecrire_log($_SESSION['email'],'a consulté les logs');
+
+        return $table;
     }
 }

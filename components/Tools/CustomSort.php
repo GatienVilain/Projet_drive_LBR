@@ -5,11 +5,11 @@ namespace Application\Tools;
 class CustomSort
 {
 	//renvoie une liste des id_fichier triés par utilisateurs
-	function sort_by_user(array $data, array $email) {
+	function sort_by_user(array $data, array $username) {
 		$result = array();
 		
 		foreach ($data as $value) {
-			if (in_array($value->getAuthor(),$email)){
+			if (in_array($value->getAuthorName(),$username)){
 				$result[] = $value;
 			}
 		}
@@ -30,8 +30,8 @@ class CustomSort
 		return $result;
 	}
 	
-	//renvoie une liste des id_fichier triés par tag, par défaut en mode union, "intersection" pour le mode intersection
-	function sort_by_tag(array $data, array $tag, string $option = "union") {
+	//renvoie une liste des id_fichier triés par tag, par défaut en mode intersection, "union" pour le mode intersection
+	function sort_by_tag(array $data, array $tag, string $option = "intersection") {
 		$result = array();
 		
 		if ($option == "intersection") {

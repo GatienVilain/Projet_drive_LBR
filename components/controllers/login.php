@@ -3,10 +3,15 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+
+require_once("components/Model/User.php");
 require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+
+use Application\Model\User;
 use Application\Model\Log;
+
 
 class Login
 {
@@ -32,6 +37,11 @@ class Login
                 $_SESSION['connected'] = 1;
                 $_SESSION['verify'] = 1;
                 $_SESSION['email'] = $email;
+				$_SESSION['homepage'] = 0;
+				$_SESSION['basketpage'] = 0;
+                $_SESSION['error'] = "";
+                $_SESSION['optionSort'] = "";
+                (new User())->is_admin();
 
                 if ($_POST['remember_me']== true){
                     //-------------------------
@@ -62,7 +72,7 @@ class Login
                             'secure' => true,
                             'httponly' => true,
                         ]);
-                    
+
                         setcookie(
                             'PASSWORD_USER',
                             $password,

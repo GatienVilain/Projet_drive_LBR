@@ -1,0 +1,164 @@
+article {
+	margin: 8vh 0 0;
+}
+
+h2 {
+	margin: 0 2vw;
+	font-size:1.7em;
+	font-weight: 100;
+	border-bottom:1px solid black;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+table {
+	width: 100vw;
+}
+
+table tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+table tr:hover:not(tr:first-child) {
+	background-color: #ddd;
+}
+
+table tr {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5em 5%;
+	font-size: 1.20em;
+	border-bottom:1px solid black;
+}
+
+table tr:nth-of-type(1) * {
+	font-size: 1em;
+	width: 4em;
+}
+
+table tr:nth-of-type(1) {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+table tr:nth-of-type(1) th:nth-child(1) {
+	padding: 0 17% 0 3em;
+}
+
+
+table td {
+	padding: 0.5em 0.5em;
+}
+
+table a {
+	width: 11em;
+	border-radius: 10px;
+	padding: 0.25em;
+	text-decoration: none;
+	font-size: 0.9em;
+	color: var(--couleur-police-fond-clair);
+}
+
+table a:hover {
+	background-color: #cac9c9;
+}
+
+form span * {
+	margin: 1vw;
+	padding: 0.7em 1.5em;
+	background-color: black;
+	color: white;
+	text-decoration: none;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and ( max-width: 1000px)
+{
+	table .checkbox {
+		margin: 0 1em;
+		width: 1em;
+	}
+
+	table .prenom,
+	table .nom {
+		width: 30%;
+	}
+
+	table .role {
+		width: 5em;
+	}
+
+	table .email{
+		width: 90%;
+		margin-left: 15% ;
+	}
+
+	table .description{
+		width: 90%;
+		margin-left: 15% ;
+	}
+}
+
+@media only screen and ( min-width: 1000px ) and ( max-width: 1500px )
+{
+	table .checkbox {
+		margin: 0 1em;
+		width: 1em;
+	}
+
+	table .prenom,
+	table .nom {
+		width: 20%;
+	}
+
+	table .role {
+		width: 10%;
+	}
+
+	table .email{
+		width: 40%;
+	}
+
+	table .description{
+		width: 90%;
+		margin-left: 3em ;
+	}
+}
+
+@media only screen and ( min-width: 1500px)
+{
+	table .checkbox {
+		margin: 0 1em;
+		width: 1em;
+	}
+
+	table .prenom,
+	table .nom {
+		width: 11%;
+	}
+
+	table .role {
+		width: 5em;
+	}
+
+	table .email{
+		width: 24%;
+	}
+
+	table .description{
+		width: 34%;
+	}
+}
+
+

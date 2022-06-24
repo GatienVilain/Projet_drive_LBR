@@ -9,52 +9,131 @@ use Application\Tools\Database\DatabaseConnection;
 trait TagEdit
 {
 
-    //ajoute un tag  dans la table tag de la base de donnée
-	function add_tag(string $nom_tag)
+    //ajoute un tag  dans la table tag de la base de donnée et l'associe à une catégorie
+	function add_tag(string $nom_tag, string $nom_categorie_tag = "autres")
 	{
+		if($nom_tag == '') {
+			return $this->console_log("Le nom du tag est incorrect.");
+		}
+		else if(!$this->check_tag_category($nom_categorie_tag)){
+			return $this->console_log("La catégorie de tag n'existe pas.");
+		}
+		else if ($this->check_tag_category_link($nom_tag,$nom_categorie_tag)){
+			return $this->console_log("Un tag du même nom est associé à cette catégorie.");
+		}
+		
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
-
+		//on ajoute le tag
 		$query = $conn->prepare("INSERT INTO tag (nom_tag) VALUES (?)");
 		$query->bind_param("s", $nom_tag);
 		if (!$query->execute()) {
 			$conn->close();
 			return $this->console_log("Echec de création du tag.");
 		}
+
+		$query = $conn->prepare("SELECT id_tag FROM tag WHERE nom_tag = ? ORDER BY id_tag DESC LIMIT 1");
+		$query->bind_param("s",$nom_tag);
+		$query->execute();
+		$result = $query->get_result()->fetch_assoc();
+		if ($result == NULL) {
+			return $this->console_log("Echec de récupération de l'id tag.");
+		}
+		$id_tag = $result["id_tag"];
+		//on l'associe à sa catégorie
+		$query = $conn->prepare("INSERT INTO caracteriser (id_tag,nom_categorie_tag) VALUES (?,?)");
+		$query->bind_param("is", $id_tag, $nom_categorie_tag);
+		if (!$query->execute()) {
+			$conn->close();
+			return $this->console_log("Echec d'association du tag à la catégorie.");
+		}
+		$connection = new DatabaseConnection();
+		
+		$user = $_SESSION['email']; 
+		//Si l'utilisateur est un invité, on lui donne le droit d'écriture sur le tag qu'il a créé.
+		if($connection->get_user($user)['role'] == 'invite')
+		{
+			$connection->add_writing_right($user, $id_tag);
+		}
 		$conn->close();
 		return 0;
 	}
 
-	//modifie le nom d'un tag
-	function modify_tag_name(int $id_tag, string $nouveau_nom_tag)
+	//modifie le nom d'un tag  $config : array("nom_tag" => nom), associe le tag à une catégorie $config : array("nom_categorie_tag" => nom)
+	function modify_tag(int $id_tag, array $config)
 	{
+		$default_config = array("nom_tag" => null, "nom_categorie_tag" => null);
+		
+		$configs = array_merge($default_config, $config);
+		
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
-
+		
 		if ($this->check_tag($id_tag)) {
-			//on modifie le nom du tag dans la table tag
-			$query = $conn->prepare("UPDATE tag SET nom_tag = ? WHERE id_tag = ?");
-			$query->bind_param("si", $nouveau_nom_tag, $id_tag);
-			if (!$query->execute()) {
-				$conn->close();
-				return $this->console_log("Echec de mise à jour du nom du tag.");
+			//si on modifie les deux, on vérifie qu'il n'y ait pas déjà un tag du même nouveau nom dans la nouvelle catégorie
+			if ($this->check_tag_category($configs["nom_categorie_tag"]) && $configs["nom_tag"] != null && $configs["nom_categorie_tag"] != null && !$this->check_tag_category_link($configs["nom_tag"],$configs["nom_categorie_tag"])) { 
+				
+				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = ? WHERE id_tag = ?");
+				$query->bind_param("si", $configs["nom_categorie_tag"], $id_tag);
+				if (!$query->execute()) {
+					$conn->close();
+					return $this->console_log("Echec de mise à jour de la catégorie du tag.");
+				}
+				
+				$query = $conn->prepare("UPDATE tag SET nom_tag = ? WHERE id_tag = ?");
+				$query->bind_param("si", $configs["nom_tag"], $id_tag);
+				if (!$query->execute()) {
+					$conn->close();
+					return $this->console_log("Echec de mise à jour du nom du tag.");
+				}
 			}
-		} else {
+			//si on ne modifie que le nom, on vérifie que le nouveau nom n'est pas déjà présent dans la catégorie
+			else if ($configs["nom_tag"] != null && $configs["nom_categorie_tag"] == null && !$this->check_tag_category_link($configs["nom_tag"],$this->get_tag_category($id_tag)["nom_categorie_tag"])) {
+				
+				$query = $conn->prepare("UPDATE tag SET nom_tag = ? WHERE id_tag = ?");
+				$query->bind_param("si", $configs["nom_tag"], $id_tag);
+				if (!$query->execute()) {
+					$conn->close();
+					return $this->console_log("Echec de mise à jour du nom du tag.");
+				}
+			}
+			//si on ne modifie que la catégorie, on vérifie que le nouveau nom n'est pas déjà présent dans la nouvelle catégorie
+			else if ($this->check_tag_category($configs["nom_categorie_tag"]) && $configs["nom_categorie_tag"] != null && $configs["nom_tag"] == null && !$this->check_tag_category_link($this->get_tag($id_tag)["nom_tag"],$configs["nom_categorie_tag"])) {
+				
+				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = ? WHERE id_tag = ?");
+				$query->bind_param("si", $configs["nom_categorie_tag"], $id_tag);
+				if (!$query->execute()) {
+					$conn->close();
+					return $this->console_log("Echec de mise à jour de la catégorie du tag.");
+				}
+			}
+			//sinon on renvoie un message d'erreur
+			else {
+				$conn->close();
+				return $this->console_log("Aucun changement n'a été appliqué au tag.");
+			}
+		}
+		else {
 			$conn->close();
 			return $this->console_log("Le tag n'existe pas.");
 		}
+		$conn->close();
 		return 0;
 	}
 
 	//supprime un tag
 	function delete_tag(int $id_tag)
 	{
+		if ($id_tag == 1) {
+			return $this->console_log("Le tag 'sans tags' ne peut pas être supprimé.");
+		}
+		
 		//point de connexion à la base de donnée
 		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
 		if (!$conn) {
@@ -115,13 +194,40 @@ trait TagEdit
 			$conn->close();
 			if ($result != NULL) {
 				return $result;
-			} 
+			}
 			else {
 				return $this->console_log("Echec de récupération des catégories de tags.");
 			}
 		}
 		else {
 			return $this->console_log("Le tag n'existe pas.");
+		}
+	}
+
+	//renvoie tous les id_tag à partir du nom de leur catégorie
+	function get_tag_by_category(string $nom_categorie_tag)
+	{
+		//point de connexion à la base de donnée
+		$conn = new \mysqli(DatabaseConnection::host, DatabaseConnection::user, DatabaseConnection::password, DatabaseConnection::db);
+		if (!$conn) {
+			return $this->console_log("Echec de connexion à la base de donnée.");
+		}
+
+		if ($this->check_tag_category($nom_categorie_tag)){
+			$query = $conn->prepare("SELECT id_tag FROM caracteriser WHERE nom_categorie_tag = ?");
+			$query->bind_param("s", $nom_categorie_tag);
+			$query->execute();
+			$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+			$conn->close();
+			if ($result != NULL) {
+				return $result;
+			}
+			else {
+				return $this->console_log("Echec de récupération des id tags.");
+			}
+		}
+		else {
+			return $this->console_log("La catégorie de tag n'existe pas.");
 		}
 	}
 
@@ -143,7 +249,8 @@ trait TagEdit
 				return $this->console_log("Echec de création d'une catégorie de tag.");
 			}
 			$conn->close();
-		} else {
+		} 
+		else {
 			//sinon on renvoie un message d'erreur
 			$conn->close();
 			return $this->console_log("La catégorie de tag existe déjà.");
@@ -154,8 +261,8 @@ trait TagEdit
 	//supprime une catégorie de tag de la table categorie_tag de la base de donnée
 	function delete_tag_category(string $nom_categorie_tag)
 	{
-		if ($nom_categorie_tag == "autres") {
-			return $this->console_log("La catégorie 'autres' ne peut pas être supprimé.");
+		if ($nom_categorie_tag == "autres" || !$this->check_tag_category($nom_categorie_tag)) {
+			return $this->console_log("La catégorie 'autres' ne peut pas être supprimé ou la catégorie n'existe pas.");
 		}
 
 		//point de connexion à la base de donnée
@@ -163,27 +270,39 @@ trait TagEdit
 		if (!$conn) {
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
-
-		if ($this->check_tag_category($nom_categorie_tag)) {
-			//si la catégorie existe, on la supprime et tous les tags de cette catégorie vont dans la catégorie "autres"
-			$query = $conn->prepare("DELETE FROM categorie_tag WHERE nom_categorie_tag = ?");
-			$query->bind_param("s", $nom_categorie_tag);
-			if (!$query->execute()) {
-				$conn->close();
-				return $this->console_log("Echec de suppression d'une catégorie de tag.");
-			}
-			$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = 'autres' WHERE nom_categorie_tag = ?");
-			$query->bind_param("s", $nom_categorie_tag);
-			if (!$query->execute()) {
-				$conn->close();
-				return $this->console_log("Echec de mise à jour de la table tag.");
-			}
+		//si la catégorie existe, on la supprime
+		$query = $conn->prepare("DELETE FROM categorie_tag WHERE nom_categorie_tag = ?");
+		$query->bind_param("s", $nom_categorie_tag);
+		if (!$query->execute()) {
 			$conn->close();
-		} else {
-			//sinon on renvoie un message d'erreur
-			$conn->close();
-			return $this->console_log("La catégorie de tag existe déjà.");
+			return $this->console_log("Echec de suppression d'une catégorie de tag.");
 		}
+
+		//on associe tous les tags de cette catégorie à la catégorie autres en renommant tout potentiel doublon avec en préfixe son ancienne catégorie
+		$query = $conn->prepare("SELECT c.id_tag,t.nom_tag FROM caracteriser AS c JOIN tag AS t ON c.id_tag = t.id_tag WHERE nom_categorie_tag = ?");
+		$query->bind_param("s",$nom_categorie_tag);
+		$query->execute();
+		$result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+		
+		foreach ($result as $value) {
+			if(!$this->check_tag_category_link($value["nom_tag"],"autres")) {
+				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = 'autres' WHERE id_tag = ?");
+				$query->bind_param("i",$value["id_tag"]);
+				$query->execute();
+			}
+			else {
+				$query = $conn->prepare("UPDATE caracteriser SET nom_categorie_tag = 'autres' WHERE id_tag = ?");
+				$query->bind_param("i",$value["id_tag"]);
+				$query->execute();
+				$newname = $nom_categorie_tag . '_' . $value["nom_tag"];
+				$query = $conn->prepare("UPDATE tag SET nom_tag = ? WHERE id_tag = ?");
+				$query->bind_param("si",$newname,$value["id_tag"]);
+				$query->execute();
+			}
+		}
+		$conn->close();
+	
+
 		return 0;
 	}
 
@@ -227,8 +346,8 @@ trait TagEdit
 			return $this->console_log("Echec de connexion à la base de donnée.");
 		}
 
-		if ($this->check_tag_category($nom_categorie_tag)) {
-			//si la catégorie existe, on modifie le nom de la catégorie de tag dans la table catégorie_tag
+		if ($this->check_tag_category($nom_categorie_tag) && !$this->check_tag_category($nouveau_nom_categorie_tag)) {
+			//si la catégorie existe et que son nouveau nom n'est pas celui d'une catégorie existante, on modifie le nom de la catégorie de tag dans la table catégorie_tag
 			$query = $conn->prepare("UPDATE categorie_tag SET nom_categorie_tag = ? WHERE nom_categorie_tag = ?");
 			$query->bind_param("ss", $nouveau_nom_categorie_tag, $nom_categorie_tag);
 			if (!$query->execute()) {

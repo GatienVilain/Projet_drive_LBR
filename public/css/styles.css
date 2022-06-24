@@ -10,6 +10,12 @@
     --spanish-blue: #3671B3;
     --raisin-black: #161920;
 
+    /*Autres couleurs*/
+
+    --white:#FFFFFF;
+    --black:#000000;
+    --bleu-denim:#1560BD;
+
     /* couleurs par bloc */
     --couleur-police-fond-clair: var(--raisin-black);
     --couleur-police-fond-fonce: var(--beige);
@@ -19,6 +25,21 @@
     --couleur-button: var(--spanish-blue);
     --couleur-login: var(--upsdell-red);
     --couleur-fond-users: var(--beige);
+    --couleur-police-fond-clair: var(--raisin-black);
+    --couleur-police-fond-fonce: var(--beige);
+    --couleur-police-footer:var(--white);
+    --couleur-police-infoBulle:var(--white);
+    --couleur-police-usedStorageSpace:var(--uranian-blue);
+    --couleur-storageBar:var(--spanish-blue);
+    --couleur-conteneurBar:var(--white);
+    --couleur-popup:var(--beige);
+    --couleur-infoBulle:var(--red-pigment);
+    --couleur-filter-menu:var(--raisin-black);
+    --couleur-button-information:var(--beige);
+    --couleur-police-filter-menu:var(--white);
+    --couleur-separation-filter-menu:var(--uranian-blue);
+    --couleur-button-sort-filter-menu:var(--bleu-denim);
+    --couleur-footer: var(--raisin-black);
 }
 
 * {
@@ -43,7 +64,7 @@ body {
 }
 
 img{
-    max-width: 105%;
+    max-width: 100%;
 }
 
 

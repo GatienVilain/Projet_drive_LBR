@@ -3,26 +3,53 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
-require_once("components/Model/Files.php");
+require_once("components/Tools/CustomSort.php");
+require_once("components/Model/Files/FileCore.php");
+require_once("components/Model/Files/FilePreview.php");
 
 use Application\Tools\Database\DatabaseConnection;
-use Application\Model\Files;
+use Application\Tools\CustomSort;
+use Application\Model\Files\FileCore;
+use Application\Model\Files\FilePreview;
 
 class Basket
 {
 	public function execute()
 	{
-		$files = $this->instantiate();
+		(new DatabaseConnection())->basket_check();
+		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
+		$sort = new CustomSort();
+		$files = $this->instantiateFileCore();
+		//On regarde si l'utilisateur a sélectionné une option de tri
+		if(isset($_SESSION['optionSort']))
+		{	
+			if($_SESSION['optionSort'] == 'sortAlphabetic')
+			{
+				//On va classer par ordre alphabetic ou inverse
+				if(isset($_SESSION['alphabeticOrder']) && ($_SESSION['alphabeticOrder'] == 'asc' OR $_SESSION['alphabeticOrder'] == 'desc') )
+				{
+					$files = $sort->sort_by_alphabetical($files, $_SESSION['alphabeticOrder']);
+				}
+			}
+
+			if($_SESSION['optionSort'] == 'sortModificationDate')
+			{
+				//On va classer par date de suppression
+				$files = $sort->sort_by_date($files, $_SESSION['modificationDateOrder']);
+			}
+			
+		}
+		$Bfiles = $this->instantiateFilePreview($files);
+		$nbr_files = count($files);
 		$error = "";
 		require('public/view/basket.php');
 	}
 
-	private function instantiate()
+	private function getFilesID()
 	{
 		$connection = new DatabaseConnection();
-		//liste de tous les objets fichiers non supprimés auxquelles l'utilisateur peut intéragir avec
+		//liste de tous les objets fichiers supprimés auxquelles l'utilisateur peut intéragir avec
 		$data = array();
-
 
         if ($connection->get_user($_SESSION["email"])["role"] == 'admin')
 		{
@@ -32,21 +59,41 @@ class Basket
 			$result = $connection->get_basket_file($_SESSION["email"]);
 		}
 
-		$tmp = array();
-		if ($result != -1)
+		if ($result != -1 && !empty($result))
 		{
 			for($i = 0; $i<count($result); $i++)
 			{
-				$tmp[] = $result[$i]["id_fichier"];
+				$data[] = $result[$i]["id_fichier"];
 			}
 		}
-
-		if (!empty($tmp)) {
-			for ($i = 0; $i < count($tmp); $i++) {
-				$data[] = new Files($tmp[$i]);
-			}
-		}
-
+		
 		return $data;
+	}
+	
+	private function instantiateFileCore()
+	{
+		$filesID = $this->getFilesID();
+		$files = array();
+		if (!empty($filesID)) {
+			foreach ($filesID as $data) {
+				$files[] = new FileCore($data,true);
+			}
+		}
+		return $files;
+	}
+	
+	private function instantiateFilePreview(array $Afiles)
+	{
+		$files = array();
+		if(!empty($Afiles)) {
+			$_SESSION['max_basketpage'] = (int)(count($Afiles)/12);
+			if ($_SESSION['max_basketpage'] > 0){$_SESSION['max_basketpage'] = $_SESSION['max_basketpage']-1;}
+			$n = ($_SESSION['basketpage']+1)*12;
+			if ($n > count ($Afiles)) {$n = count ($Afiles);}
+			for ($i = $_SESSION['basketpage']*12; $i < $n; $i++) {
+				$files[] = new FilePreview($Afiles[$i]);
+			}
+		}
+		return $files;
 	}
 }

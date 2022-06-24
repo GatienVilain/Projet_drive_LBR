@@ -4,7 +4,10 @@ namespace Application\Controllers\Password;
 
 require_once("components/Model/Password.php");
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
+
+use Application\Model\Log;
 use Application\Model\Password;
 use Application\Model\User;
 use Application\Tools\Database\DatabaseConnection;
@@ -35,6 +38,7 @@ class ChangePassword
                             if ( ( new DatabaseConnection() )->update_user($_SESSION['email'], $change) == 0 )
                             {
                                 $error = "Mot de passe enregistré";
+                                ( new Log() )->ecrire_log($_SESSION['email'],'a changé son mdp');
                                 (new User)->logout();
                             }
                             else {
