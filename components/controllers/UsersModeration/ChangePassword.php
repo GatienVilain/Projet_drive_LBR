@@ -37,7 +37,7 @@ class ChangePassword
                             $change = array("mot_de_passe" => $password); // ! A modifier en OOP
 
                             // Ce connecte à la base de donnée et change le mot de passe
-                            if ( ( new DatabaseConnection() )->update_user($_SESSION['email'], $change) == 0 )
+                            if ( ( new DatabaseConnection() )->update_user($email, $change) == 0 )
                             {
                                 $_SESSION['error'] = "Mot de passe enregistré";
                                 ( new Log() )->ecrire_log($_SESSION['email'],'à changé le mot de passe de '. $email);
