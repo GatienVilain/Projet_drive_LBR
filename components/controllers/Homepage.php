@@ -159,6 +159,7 @@ class Homepage
 		$files = array();
 		if(!empty($Afiles)) {
 			$_SESSION['max_homepage'] = (int)(count($Afiles)/12);
+			if ($_SESSION['max_homepage'] > 0){$_SESSION['max_homepage'] = $_SESSION['max_homepage']-1;}
 			$n = ($_SESSION['homepage']+1)*12;
 			if ($n > count ($Afiles)) {$n = count ($Afiles);}
 			for ($i = $_SESSION['homepage']*12; $i < $n; $i++) {
