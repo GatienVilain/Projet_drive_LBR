@@ -503,16 +503,21 @@ class Homepage
 							<button onclick='dropdownAddDeleteTagsFiles(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-add-tags-multipleFiles'>".$categoryName." ⌵</button>
 						</div>
 						<div id='".$categoryName."-dropdown-add-tags-multipleFiles-content' class='add-dropdown-content'>";
-				foreach($arrayTags as $tags)
+				
+				//On vérifie que la catégorie ne soit pas vide
+				if($arrayTags != null)
 				{
-					foreach($tags as $tagName => $tagId)
+					foreach($arrayTags as $tags)
 					{
-						$result=$result."
-							<div class='addDelete-tags-line-tag'>
-								<p class = 'inputCheckboxTagAdd'><input type='checkbox' class ='checkbox-add-tags-multipleFiles' id='add-tags-multipleFiles-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
-							</div>";
-					}
-				}	
+						foreach($tags as $tagName => $tagId)
+						{
+							$result=$result."
+								<div class='addDelete-tags-line-tag'>
+									<p class = 'inputCheckboxTagAdd'><input type='checkbox' class ='checkbox-add-tags-multipleFiles' id='add-tags-multipleFiles-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>
+								</div>";
+						}
+					}	
+				}
 				$result = $result."</div></div>";	
 			}
 			$result=$result."<div class='container-button-validate-multipleFiles'><button id='add-tag-multiplefile-button-valider' onclick='addTagsMultipleFiles()'>Valider</button></div></div></div>";
