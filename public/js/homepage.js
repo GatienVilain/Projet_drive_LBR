@@ -23,7 +23,7 @@ function openPopupNewCategory() {
 function closeMultipleFiles() {
 	document.getElementById('popup-options-multipleFiles').style.display = 'none';
 	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-  	for (valeur of checkboxesFiles) {
+	for (valeur of checkboxesFiles) {
 		valeur.checked = false;
 	}
 
@@ -345,11 +345,10 @@ function myFunctionBis(idElement) {
 	if (element.style.display == "inline-flex") {
 		element.style.display = "none";
 	}
-	else
-	{
+	else {
 		element.style.display = "inline-flex";
 	}
-	
+
 
 }
 
@@ -779,8 +778,7 @@ function getFilesSelectedSize() {
 		data: { 'action': 'getFilesSize', 'files': idFiles },
 		dataType: 'json',
 		success: function (response) {
-			if(response.status == true)
-			{
+			if (response.status == true) {
 				size = 'Taille : ' + response.size + 'Mo';
 				document.getElementById('sizeFilesSelected').textContent = size;
 			}
@@ -809,16 +807,14 @@ function downloadMultipleFiles() {
 		dataType: 'json',
 		success: function (response) {
 			if (response.status === true) {
-				if(response.mode == 'multiple')
-				{
+				if (response.mode == 'multiple') {
 					zipPath = response['zipPath'];
 					element = document.getElementById('download-multipleFiles-link')
 					element.setAttribute('href', zipPath);
 					document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
 				}
 
-				else if(response.mode == 'unique')
-				{
+				else if (response.mode == 'unique') {
 					filePath = response['filePath'];
 					fileName = response['fileName'];
 					element = document.getElementById('download-multipleFiles-link')
@@ -826,7 +822,7 @@ function downloadMultipleFiles() {
 					element.setAttribute('download', fileName);
 					document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
 				}
-				
+
 
 			}
 			else {
@@ -840,12 +836,11 @@ function downloadMultipleFiles() {
 
 }
 
-function closeConfirmationPopup()
-{
-  document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
-  document.getElementById("popup-options-multipleFiles").style.display = 'none';
-  let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-  for (valeur of checkboxesFiles) {
+function closeConfirmationPopup() {
+	document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
+	document.getElementById("popup-options-multipleFiles").style.display = 'none';
+	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+	for (valeur of checkboxesFiles) {
 		if (valeur.checked) {
 			valeur.checked = false;
 		}
@@ -853,54 +848,49 @@ function closeConfirmationPopup()
 
 }
 
-function previousPage(page)
-{
+//Fonction permettant d'aller à la page précédente
+function previousPage(page) {
 	$.ajax({
-      url: 'index.php',
-      data: {'action' : 'PreviousPage','page' : page},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if(response.status === false)
-        {
-          alert("Something went wrong")
-        }
-		else {
-			window.location.reload();
+		url: 'index.php',
+		data: { 'action': 'PreviousPage', 'page': page },
+		dataType: 'json',
+		success: function (response) {
+			if (response.status === false) {
+				alert("Something went wrong")
+			}
+			else {
+				window.location.reload();
+			}
 		}
-      }
-    });
-	
+	});
+
 }
 
-function nextPage(page)
-{
-		$.ajax({
-      url: 'index.php',
-      data: {'action' : 'NextPage','page' : page},
-      dataType: 'json', 
-      success: function (response) 
-      {
-        if(response.status === false)
-        {
-          alert("Something went wrong")
-        }
-		else {
-			window.location.reload();
+//Fonction permettant de passer à la page suivante
+function nextPage(page) {
+	$.ajax({
+		url: 'index.php',
+		data: { 'action': 'NextPage', 'page': page },
+		dataType: 'json',
+		success: function (response) {
+			if (response.status === false) {
+				alert("Something went wrong")
+			}
+			else {
+				window.location.reload();
+			}
 		}
-      }
 
-    });
+	});
 }
-function renameFile(event)
-{
+
+//Fonction permettant de renommer un fichier
+function renameFile(event) {
 	let file = event.currentTarget;
-
-	if (confirm("Confirmer le nouveau nom du fichier."))
-	{
+	if (confirm("Confirmer le nouveau nom du fichier.")) {
 		$.ajax({
 			url: 'index.php',
-			data: {'idFile' : file.name, 'new_name' : file.value, 'action' : "renameFile"},
+			data: { 'idFile': file.name, 'new_name': file.value, 'action': "renameFile" },
 			dataType: 'json'
 		});
 		file.placeholder = file.value;
@@ -910,99 +900,71 @@ function renameFile(event)
 	}
 }
 
-
-//document.oncontextmenu = function(){return false}
-
 const files = document.querySelectorAll('.popup');
 let timer;
 files.forEach(file => file.addEventListener('click', event => {
 	closeAllPopup();
-	if(event.button == 0) {//clic gauche
+	if (event.button == 0) {//clic gauche
 		if (event.detail === 1) {//simple clic
 			timer = setTimeout(() => {
 				idElement = file.id + '-popup-detail';
-				if(document.getElementById(idElement).style.display != "block")
-				{
-				document.getElementById(idElement).style.display = "block";  
+				if (document.getElementById(idElement).style.display != "block") {
+					document.getElementById(idElement).style.display = "block";
 				}
 			}, 300);
 		}
 	}
 }));
 
+//Evènement représentant le double clic gauche
 files.forEach(file => file.addEventListener('dblclick', event => {
 	clearTimeout(timer);
-	//double clic gauche
-	if(file.tagName == 'IMG'){
-		var newpath = file.getAttribute('src').substr(0,16) + file.getAttribute('src').substr(23);
+	//Si le fichier sur lequel on a cliqué est une image
+	if (file.tagName == 'IMG') {
+		var newpath = file.getAttribute('src').substr(0, 16) + file.getAttribute('src').substr(23);
 		console.log(newpath);
-		openPopupModal(file.tagName,newpath);
+		openPopupModal(file.tagName, newpath);
 	}
-	else if(file.tagName == 'VIDEO'){
-		openPopupModal(file.tagName,file.children[0].getAttribute('src'));
+	//Si le fichier sur lequel on a cliqué est une vidéo
+	else if (file.tagName == 'VIDEO') {
+		openPopupModal(file.tagName, file.children[0].getAttribute('src'));
 	}
 }));
 
+//Evènement représentant le clic droit
 files.forEach(file => file.addEventListener('contextmenu', event => {
-	//clic droit
+	//On ferme les autres popup
 	closeAllPopup();
-
-	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
-
-	fileChecked = false;
-	for(valeur of checkboxesFiles)
-	{
-		if(valeur.checked)
-		{
-			fileChecked=true;
-		}
-	}
-
-	if(fileChecked == false)
-	{
-		let popup = document.getElementById('popup-options-multipleFiles');
-		popup.style.top = event.y + 'px';
-		popup.style.left = event.x + 'px';
-
-		if(popup.style.display != "inline-flex")
-		{
-			popup.style.display = "inline-flex";
-			document.getElementById('checkFile-'+file.id).checked = true;
-			getFilesSelectedSize();
-		}
-	}
-	else
-	{
-		getFilesSelectedSize();
-		let popup = document.getElementById('popup-options-multipleFiles');
-		popup.style.top = event.y + 'px';
-		popup.style.left = event.x + 'px';
-
-		if(popup.style.display != "inline-flex")
-		{
-			popup.style.display = "inline-flex";
-		}
+	getFilesSelectedSize(); //On appelle la fonction permettant de récupérer la taille des fichiers sélectionnés
+	let popup = document.getElementById('popup-options-multipleFiles');
+	//On positionne le coin haut gauche de la popup au niveau du curseur
+	popup.style.top = event.y + 'px';
+	popup.style.left = event.x + 'px';
+	//Si la popup n'était pas affichée, on l'affiche
+	if (popup.style.display != "inline-flex") {
+		popup.style.display = "inline-flex";
 	}
 }));
 
-// (C) INITIALIZE UPLOADER
+// On initialise l'upload
 window.addEventListener("load", () => {
-	// (C1) GET HTML FILE LIST
+	// On récupère l'élement qui affichera les fichiers entrain d'être upload
 	var filelist = document.getElementById("body-popup-upload");
-
-	// (C2) INIT PLUPLOAD
+	//On initialise plupload
 	var uploader = new plupload.Uploader({
 		runtimes: "html5",
 		browse_button: "pickfiles",
 		url: "/../../components/Tools/Upload/upload.php",
-		chunk_size: "2mb",
+		chunk_size: "2mb", //Taille des paquets envoyés au serveur (découpe du fichier original)
 		filters: {
-			//max_file_size: "150mb",
-			mime_types: [{title: "Image", extensions: "jpg,gif,png,hdr,tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,pdf,jpeg,wbmp,avif,webp,xbm"},{title: "Video", extensions:  "3gp, 3g2, avi, asf,wav,wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v"}]
+			//On filtre les fichiers que l'utilisateur peut envoyer suivant le type mime
+			mime_types: [{ title: "Image", extensions: "jpg,gif,png,hdr,tif,jif, jfif,jp2,jpx,j2k,j2c,fpx,pcd,jpeg,wbmp,avif,webp,xbm" }, { title: "Video", extensions: "3gp, 3g2, avi, asf,wav,wma,wmv,flv,mkv,mka,mks,mk3d,mp4,mpg,mxf,ogg,mov,qt,ts,webm,mpeg,mp4a,mp4b,mp4r,mp4v" }]
 		},
 		init: {
 			PostInit: () => { filelist.innerHTML = "<div id='body-popupUpload-ready'>Ready</div>"; },
 			FilesAdded: (up, files) => {
+				//Pour chaque fichier que l'utilisateur a sélectionné pour l'upload,
+				//on affiche son nom
 				plupload.each(files, (file) => {
 					let row = document.createElement("div");
 					row.id = file.id;
@@ -1012,6 +974,7 @@ window.addEventListener("load", () => {
 				uploader.start();
 			},
 			UploadProgress: (up, file) => {
+				//On fait apparaître la progression de l'upload à coté du nom du fichier
 				document.querySelector(`#${file.id} strong`).innerHTML = `${file.percent}%`;
 			},
 			Error: (up, err) => { console.error(err); }

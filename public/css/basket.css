@@ -277,8 +277,6 @@ html {
 	position: fixed;
 	border-radius: 5px;
 	min-width: 12em;
-	margin-top: 10%;
-	margin-left: 25%;
 	overflow-y: scroll;
 	overflow-x: visible;
 	border: 2px solid black;
