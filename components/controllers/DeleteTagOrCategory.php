@@ -40,6 +40,7 @@ class DeleteTagOrCategory
                             $response['status'] = false;
                         }
                         else {
+                            //On écrit un log
                             $message = 'a supprimé le tag "' . $tag_name . '" de la categorie "' . $categoryName . '"';
                             ( new Log() )->ecrire_log($_SESSION['email'], $message);
                         }
@@ -57,6 +58,7 @@ class DeleteTagOrCategory
                         $response['status'] = false;
                     }
                     else {
+                        //On écrit un log
                         $message = 'a supprimé la categorie "' . $categoryName . '"';
                         ( new Log() )->ecrire_log($_SESSION['email'], $message);
                     }
