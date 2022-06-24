@@ -1,3 +1,4 @@
+//Fonction permettant d'ouvrir et fermer le menu filtres
 function toggleFilterMenu() {
 
 	buttonFilter = document.getElementById("popup-filter-menu");
@@ -14,13 +15,15 @@ function toggleFilterMenu() {
 
 }
 
+//Fonction permettant d'ouvrir la popup 'nouvelle catégorie'
 function openPopupNewCategory() {
 
 	document.getElementById("popup-newCategory").style.visibility = "visible";
 
 }
 
-function closeMultipleFiles() {
+//Fonction permettant de fermer la popup options
+function closeOptionsFiles() {
 	document.getElementById('popup-options-multipleFiles').style.display = 'none';
 	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
 	for (valeur of checkboxesFiles) {
@@ -29,16 +32,18 @@ function closeMultipleFiles() {
 
 }
 
+//Fonction permettant d'ouvrir la popup 'nouveau tag'
 function openPopupNewTag() {
 
 	document.getElementById("popup-newTag").style.visibility = "visible";
 
 }
 
-function basketMultipleFiles() {
+//Fonction permettant de placer les fichiers sélectionnés dans la corbeille
+function basketFiles() {
 	if (confirm("Confirmer la suppresion des fichiers.")) {
 		idFiles = ""; //le tableau//
-
+		//On récupère tous les id des fichiers sélectionnés
 		let checkboxesFiles = document.getElementsByClassName('checkbox-file');
 		for (valeur of checkboxesFiles) {
 			if (valeur.checked) {
@@ -47,7 +52,6 @@ function basketMultipleFiles() {
 				idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
 			}
 		}
-
 		$.ajax({
 			url: 'index.php',
 			data: { 'idFiles': idFiles, 'action': "basketFiles" },
@@ -57,148 +61,72 @@ function basketMultipleFiles() {
 					alert('Fichier(s) supprimé(s)');
 					window.location.reload();
 				}
-
 				else alert('Suppression impossible !');
 			}
-
 		});
 	}
 }
 
+//Fonction permettant de fermer le menu filtres
 function closeFilterMenu() {
-
 	document.getElementById("popup-filter-menu").style.display = "none";
-
 }
 
+//Fonction permettant de fermer la popup 'nouveau tag'
 function closePopupNewTag() {
 	document.getElementById("popup-newTag").style.visibility = "hidden";
 }
 
-
+//Fonction permettant de fermer la popup 'nouvelle catégorie'
 function closePopupNewCategory() {
 	document.getElementById("popup-newCategory").style.visibility = "hidden";
 }
 
+//Fonction permettant d'ouvrir la popup upload
 function openPopupUpload() {
-
 	document.getElementById("popup-upload").style.display = "block";
-
 }
 
+//Fonction permettant de fermer la popup upload sans recharger la page
 function closePopupUpload() {
-
 	document.getElementById("popup-upload").style.display = "none";
-
 }
 
-
+//Fonction permettant de fermer toutes les popups informations
 function closeAllPopup() {
-
-	let popups_options = document.getElementsByClassName('popup-options');
-	for (valeur of popups_options) {
-		valeur.style.display = "none";
-	}
-
-
 	let popups_detail = document.getElementsByClassName('popup-detail');
 	for (valeur of popups_detail) {
 		valeur.style.display = "none";
 	}
 }
 
+//Fonction permettant de fermer la popup upload en rechargeant la page
 function buttonClosePopupUpload() {
-
 	document.getElementById("popup-upload").style.display = "none";
 	window.location.reload();
-
 }
 
+//Fonction d'ouvrir la popup information sur la version mobile
 function openPopupDetailMobile(idElement) {
 	idPopup = idElement.replace(/button-information-/gi, "");
 	idPopup += "-popup-detail"
 	document.getElementById(idPopup).style.display = "block";
 }
 
-function openPopup(event, idElement) {
-
-	closeAllPopup();
-	if (event.button == 0) //clic gauche
-	{
-
-
-		idElement = idElement + '-popup-detail';
-
-		if (document.getElementById(idElement).style.display != "block") {
-
-			document.getElementById(idElement).style.display = "block";
-
-		}
-
-	}
-
-	else if (event.button == 2) //clic droit
-	{
-
-
-
-		idElement = idElement + '-popup-options';
-
-		if (document.getElementById(idElement).style.display != "block") {
-
-			document.getElementById(idElement).style.display = "block";
-
-		}
-
-	}
-
-
-
-}
-
+//Fonction permettant de fermer la popup informations
 function closePopupDetail(idElement) {
-
 	idElement = idElement + '-popup-detail';
 	document.getElementById(idElement).style.display = "none";
-
 }
 
-function closePopupOptions(idElement) {
-
-	idElement = idElement + '-popup-options';
-	document.getElementById(idElement).style.display = "none";
-
-}
-
-function basketFile(idFichier) {
-	if (confirm("Confirmer la suppresion du fichier.")) {
-		//var file_path = "storage/pictures/58.png";
-		$.ajax({
-			url: 'index.php',
-			data: { 'idFile': idFichier, 'action': "basketFile" },
-			dataType: 'json',
-			success: function (response) {
-				if (response.status === true) {
-					alert('Fichier(s) placé(s) dans la corbeille');
-					window.location.reload();
-				}
-
-				else alert('Suppression impossible!');
-			}
-
-		});
-	}
-
-}
-
+//Fonction permettant de créer un tag
 function createTag() {
 	if (confirm("Confirmer la création d'un tag.")) {
-
 		var tagName;
 		var selectedCategory;
+		//Catégorie à laquelle le tag sera lié
 		selectedCategory = document.getElementById("popup-newTag-selectCategory").options[document.getElementById('popup-newTag-selectCategory').selectedIndex].text;
-		tagName = document.getElementById("popup-newTag-nameTag").value;
-		//var file_path = "storage/pictures/58.png";
+		tagName = document.getElementById("popup-newTag-nameTag").value; //Nom du tag
 		$.ajax({
 			url: 'index.php',
 			data: { 'category': selectedCategory, 'tag': tagName, 'action': 'createTag' },
@@ -208,14 +136,13 @@ function createTag() {
 					alert('Tag créé');
 					window.location.reload();
 				}
-
 				else alert('Création du tag impossible!');
 			}
-
 		});
 	}
 }
 
+//Fonction permettant de créer une catégorie
 function createCategory() {
 	if (confirm("Confirmer la création d'une catégorie.")) {
 		var categoryName;
@@ -229,32 +156,30 @@ function createCategory() {
 					alert('Catégorie créée');
 					window.location.reload();
 				}
-
-				else alert(response);
+				else alert("Création de la catégorie impossible!");
 			}
-
 		});
 	}
 }
 
+//Fonction permettant de classer les fichiers par ordre alphabétique ou l'inverse
 function trierNomFichier() {
 	$.ajax({
 		url: 'index.php',
 		data: { 'option': 'sortAlphabetic', 'action': 'sortMaj' },
 		dataType: 'json',
 		success: function (response) {
-			console.log(response['status']);
-
 			if (response.status === true) {
 				window.location.reload();
 			}
-
-			else window.location.reload();
+			else{
+				alert("Erreur!")
+			}
 		}
-
 	});
 }
 
+//Fonction permettant de trier les fichiers en fonction de leur date de modification
 function trierDateModification() {
 	$.ajax({
 		url: 'index.php',
@@ -264,24 +189,17 @@ function trierDateModification() {
 			if (response.status === true) {
 				window.location.reload();
 			}
-
 			else window.location.reload();
 		}
-
 	});
 }
 
+//Fonction permettant de trier les fichiers visibles par l'utilisateur
 function trier() {
-
-	tags = ""; //le tableau//
+	tags = ""; 
 	extensions = "";
 	authors = "";
-	//var checkboxesTags = document.getElementsByClassName("checkbox-filter-menu-tags");
-	//var checkboxesExtensions = document.getElementsByClassName("checkbox-filter-menu-extensions");
-	//var checkboxesAuthors = document.getElementsByClassName("checkbox-filter-menu-authors");
-	// ici il faut mettre un élément commun à tout les chekboxe, afin de//
-	// pouvoir agir sur chacun de ceux-ci, donc, une classe//
-
+	//On récupère tous les tags sélectionnés par l'utilisateur
 	let checkboxesTags = document.getElementsByClassName('checkbox-filter-menu-tags');
 	for (valeur of checkboxesTags) {
 		if (valeur.checked) {
@@ -290,9 +208,7 @@ function trier() {
 			tags = tags + idTag + " "; // Ajouter l'élément à la liste //
 		}
 	}
-
-	//console.log(tags);
-
+	//On récupère toutes les extensions sélectionnées par l'utilisateur
 	let checkboxesExtensions = document.getElementsByClassName('checkbox-filter-menu-extensions');
 	for (valeur of checkboxesExtensions) {
 		if (valeur.checked) {
@@ -301,7 +217,7 @@ function trier() {
 			extensions = extensions + idExtension + " "; // Ajouter l'élément à la liste //
 		}
 	}
-
+	//On récupère tous les auteurs sélectionnés par l'utilisateur
 	let checkboxesAuthors = document.getElementsByClassName('checkbox-filter-menu-authors');
 	for (valeur of checkboxesAuthors) {
 		if (valeur.checked) {
@@ -311,36 +227,28 @@ function trier() {
 			authors = authors + userName + "/"; // Ajouter l'élément à la liste //
 		}
 	}
-	//console.log(authors);
-	//console.log(extensions);
 	$.ajax({
 		url: 'index.php',
 		data: { 'tags': tags, 'extensions': extensions, 'authors': authors, 'option': 'sortFilter', 'action': 'sortMaj' },
 		dataType: 'json',
 		success: function (response) {
-			//console.log(response["status"]);
 			if (response.status === true) {
 				window.location.reload();
 			}
-
-			else alert(response);
+			else alert("Tri impossible!");
 		}
-
 	});
-
 }
 
-
-function myFunction(idElement) {
+//Fonction permettant d'afficher ou non les éléments du menu déroulant pour les tags du menu 'filtres'
+function dropdownTagsFilterMenu(idElement) {
 	idElement = idElement + '-content';
-	console.log(idElement);
 	document.getElementById(idElement).classList.toggle("show");
-
 }
 
-function myFunctionBis(idElement) {
+//Fonction permettant d'afficher ou non les éléments du menu déroulant (add/delete tags files)
+function dropdownAddDeleteTagsFiles(idElement) {
 	idElement = idElement + '-content';
-	console.log(idElement)
 	element = document.getElementById(idElement)
 	if (element.style.display == "inline-flex") {
 		element.style.display = "none";
@@ -348,56 +256,9 @@ function myFunctionBis(idElement) {
 	else {
 		element.style.display = "inline-flex";
 	}
-
-
 }
 
-function openPopupEditTag(idButton) {
-
-	idTag = idButton.replace('edit-tagName-', '');
-
-	var divPopupEditTag = document.createElement('div');
-	divPopupEditTag.setAttribute('id', 'popup-editTag');
-	//divPopupEditTag.setAttribute('class','');
-
-	var divHeaderPopupEditTag = document.createElement('div');
-	divHeaderPopupEditTag.setAttribute('id', 'header-popup-editTag');
-	divHeaderPopupEditTag.setAttribute('class', 'header-popup-editTagCategory');
-
-	var divBodyPopupEditTag = document.createElement('div');
-	divBodyPopupEditTag.setAttribute('id', 'body-popup-editTag');
-	divBodyPopupEditTag.setAttribute('class', 'body-popup-editTagCategory');
-
-	var divContainerButtonsEditTag = document.createElement('div');
-	divContainerButtonsEditTag.setAttribute('id', 'container-buttons-editTag');
-	divContainerButtonsEditTag.setAttribute('class', 'container-buttons-editTagCategory');
-
-
-	var buttonCancelEditTag = document.createElement('button');
-	buttonCancelEditTag.setAttribute('id', 'button-cancel-editTag');
-	buttonCancelEditTag.setAttribute('class', 'button-cancel-editTagCategory');
-	buttonCancelEditTag.setAttribute('title', 'Annuler la modification');
-	//buttonCancelEditTag.setAttribute('onclick','');
-
-	var buttonValidateEditTag = document.createElement('button');
-	buttonValidateEditTag.setAttribute('id', 'editTag-button-validate-' + idTag);
-	buttonValidateEditTag.setAttribute('class', 'button-validate-editTagCategory');
-	buttonValidateEditTag.setAttribute('title', 'Valider la modification');
-	//buttonValidateEditTag.setAttribute('onclick','');
-
-	var selectNewCategoryEditTag = document.createElement('select');
-	selectNewCategoryEditTag.setAttribute('id', 'popup-editTag-selectCategory');
-	selectNewCategoryEditTag.setAttribute('name', 'category');
-
-	var inputNewTagName = document.createElement('input');
-	inputNewTagName.setAttribute('id', 'popup-editTag-nameTag');
-	inputNewTagName.setAttribute('class', '');
-	inputNewTagName.setAttribute('type', 'text');
-	inputNewTagName.setAttribute('name', 'tag');
-	inputNewTagName.setAttribute('placeholder', 'Nouveau nom');
-
-}
-
+//Fonction permettant de fermer la popup 'modification d'un tag'
 function closeEditTag(idElement) {
 	idTag = idElement.replace(/close-button-editTag-/gi, "");
 	idPopupEditTag = "popup-editTag-" + idTag;
@@ -405,45 +266,29 @@ function closeEditTag(idElement) {
 
 }
 
-function closePopupAddTag(idElement) {
-	idTag = idElement.replace(/close-button-addTag-/gi, "");
-	idPopupAddTag = "add-tags-file-" + idTag;
-	document.getElementById(idPopupAddTag).style.visibility = "hidden";
-}
-
-function closePopupDeleteTag(idElement) {
-	idTag = idElement.replace(/close-button-deleteTag-/gi, "");
-	idPopupAddTag = "delete-tags-file-" + idTag;
-	document.getElementById(idPopupAddTag).style.visibility = "hidden";
-}
-
+//Fonction permettant de d'ouvrir la popup 'modification d'un tag'
 function openEditTag(idElement) {
-
 	idPopupEditTag = idElement.replace(/edit-tagName/gi, "popup-editTag");
-	//idPopupEditTag = "popup-editTag-" + idTag;
 	document.getElementById(idPopupEditTag).style.visibility = "visible";
-
 }
 
+//Fonction permettant d'ouvrir la popup 'modification d'une catégorie'
 function openEditCategory(idElement) {
-
 	categoryName = idElement.replace(/-edit-categoryName/gi, "");
 	idPopupEditCategory = "popup-editCategory-" + categoryName;
 	document.getElementById(idPopupEditCategory).style.visibility = "visible";
-
 }
 
+//Fonction permettant de fermer la popup 'modification d'une catégorie'
 function closeEditCategory(idElement) {
-
 	categoryName = idElement.replace(/close-button-editCategory-/gi, "");
 	idPopupEditCategory = "popup-editCategory-" + categoryName;
 	document.getElementById(idPopupEditCategory).style.visibility = "hidden";
-
 }
 
+//Fonction permettant de supprimer un tag
 function deleteTag(idElement) {
 	if (confirm("Confirmer la suppresion du tag.")) {
-
 		idTag = idElement.replace(/filterMenu-deleteTag-/gi, "");
 		$.ajax({
 			url: 'index.php',
@@ -454,24 +299,19 @@ function deleteTag(idElement) {
 					alert('Tag supprimé');
 					window.location.reload();
 				}
-
-				else alert("Erreur");
+				else alert("Suppression impossible!");
 			}
-
 		});
 	}
-
 }
 
+//Fonction permettant de modifier un tag
 function editTag(idElement) {
 	if (confirm("Confirmer la modification du tag.")) {
 		idTag = idElement.replace(/editTag-button-validate-/gi, "");
 		newNameTag = document.getElementById("popup-editTag-nameTag-" + idTag).value;
-		console.log(newNameTag);
-		console.log(idTag);
 		idSelectedCategory = "popup-editTag-selectCategory-" + idTag;
 		selectedCategory = document.getElementById(idSelectedCategory).options[document.getElementById(idSelectedCategory).selectedIndex].text
-		console.log(selectedCategory);
 		$.ajax({
 			url: 'index.php',
 			data: { 'idTag': idTag, 'option': 'editTag', 'newName': newNameTag, 'category': selectedCategory, 'action': 'editTagOrCategory' },
@@ -481,46 +321,38 @@ function editTag(idElement) {
 					alert('Tag modifié');
 					window.location.reload();
 				}
-
 				else alert('Modification impossible!');
 			}
-
 		});
 	}
-
 }
 
+//Fonction permettant de supprimer une catégorie
 function deleteCategory(idElement) {
 	if (confirm("Confirmer la suppresion de la catégorie.")) {
-
 		categoryName = idElement.replace(/-dropdown-delete/gi, "");
 		$.ajax({
 			url: 'index.php',
 			data: { 'categoryName': categoryName, 'option': 'deleteCategory', 'action': 'deleteTagOrCategory' },
 			dataType: 'json',
 			success: function (response) {
-				console.log(response);
 				if (response.status === true) {
 					alert('Catégorie supprimée');
 					window.location.reload();
 				}
-
 				else {
-					console.log('Suppression impossible!');
+					alert('Suppression impossible!');
 				}
 			}
 		});
 	}
-
 }
 
+//Fonction permettant de modifier une catégorie
 function editCategory(idElement) {
 	if (confirm("Confirmer la modification de la catégorie.")) {
-
 		categoryName = idElement.replace(/editCategory-button-validate-/gi, "");
-		newName = document.getElementById("popup-editCategory-nameCategory").value;
-		console.log(newName);
-		console.log(categoryName);
+		newName = document.getElementById("popup-editCategory-nameCategory").value;//On récupère le nouveau nom de la catégorie
 		$.ajax({
 			url: 'index.php',
 			data: { 'categoryName': categoryName, 'option': 'editCategory', 'newName': newName, 'action': 'editTagOrCategory' },
@@ -530,15 +362,11 @@ function editCategory(idElement) {
 					alert('Catégorie modifée');
 					window.location.reload();
 				}
-
 				else alert("Modification impossible!");
 			}
-
 		});
 	}
-
 }
-
 
 //popup modal functions
 function openPopupModal(type, path) {
@@ -563,6 +391,7 @@ function openPopupModal(type, path) {
 	}
 }
 
+//Fonction permettant de cacher des popups
 function hidePopupModal() {
 	document.getElementById("show_image_popup").style.display = "none";
 	document.getElementById("image-show-area").style.display = "none";
@@ -571,118 +400,31 @@ function hidePopupModal() {
 	document.getElementById("video-show-area").children[0].src = "";
 }
 
-
-function openAddTagsToFile(idElement) {
-	idMenu = idElement.replace(/add-tags-toFile-/gi, "add-tags-file-");
-	console.log(idMenu);
-	document.getElementById(idMenu).style.visibility = 'visible';
-
-
-}
-
-function openDeleteTagsToFile(idElement) {
-	idMenu = idElement.replace(/delete-tags-toFile-/gi, "delete-tags-file-");
-	console.log(idMenu);
-	document.getElementById(idMenu).style.visibility = 'visible';
-}
-
-
-function deleteTagsFile(elementId) {
-	if (confirm("Confirmer la suppression des tags.")) {
-		tags = ""; //le tableau//
-
-		let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags');
-		for (valeur of checkboxesTags) {
-			if (valeur.checked) {
-				idElement = valeur.id;
-				idTag = idElement.replace(/delete-tags-checkTag-/gi, '');
-				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
-			}
-		}
-
-		idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
-		idFile = idFile.replace(/delete-tags-file-/gi, '');
-		$.ajax({
-			url: 'index.php',
-			data: { 'tags': tags, 'idFile': idFile, 'action': 'deleteTagFile' },
-			dataType: 'json',
-			success: function (response) {
-				if (response.status === true) {
-					alert('Tag(s) supprimé(s)');
-					window.location.reload();
-				}
-
-				else alert(response);
-			}
-
-		});
-
-	}
-
-
-}
-
-function addTagsFile(elementId) {
-	if (confirm("Confirmer l'ajout des tags.")) {
-		tags = ""; //le tableau//
-
-		let checkboxesTags = document.getElementsByClassName('checkbox-add-tags');
-		for (valeur of checkboxesTags) {
-			if (valeur.checked) {
-				idElement = valeur.id;
-				idTag = idElement.replace(/add-tags-checkTag-/gi, '');
-				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
-			}
-		}
-
-		idFile = (document.getElementById(elementId).parentNode).parentNode['id'];
-		idFile = idFile.replace(/add-tags-file-/gi, '');
-		console.log(idFile);
-		console.log(tags);
-		$.ajax({
-			url: 'index.php',
-			data: { 'tags': tags, 'action': 'addTagFile', 'idFile': idFile },
-			dataType: 'json',
-			success: function (response) {
-				if (response.status === true) {
-					alert("Tag(s) ajouté(s)")
-					//window.location.reload();
-				}
-
-				else alert('Something went wrong');
-			}
-
-		});
-
-	}
-
-}
-
-function openAdd() {
-	document.getElementById('2021-dropdown-addDelete-tags-content').style.display = 'block';
-}
-
+//Fonction permettant d'ouvrir le menu d'ajout de tags
 function openMenuAddTagsMultipleFiles() {
 	document.getElementById("add-tags-multipleFiles").style.visibility = "visible";
 }
 
+//Fonction permettant d'ouvrir le menu de suppression de tags
 function openMenuDeleteTagsMultipleFiles() {
 	document.getElementById("delete-tags-multipleFiles").style.visibility = "visible";
 }
 
+//Fonction permettant de fermer la popup de suppresion de tags
 function closeDeleteTagsMultipleFiles() {
 	document.getElementById("delete-tags-multipleFiles").style.visibility = "hidden";
 }
 
+//Fonction permettant de fermer la popup d'ajout de tags
 function closeAddTagsMultipleFiles() {
 	document.getElementById("add-tags-multipleFiles").style.visibility = "hidden";
 }
 
+//Fonction permettant de supprimer des tags à un ou plusieurs fichiers
 function deleteTagsMultipleFiles() {
 	if (confirm("Confirmer la suppresion des tags.")) {
 		tags = ""; //le tableau//
 		idFiles = "";
-
 		let checkboxesTags = document.getElementsByClassName('checkbox-delete-tags-multipleFiles');
 		for (valeur of checkboxesTags) {
 			if (valeur.checked) {
@@ -691,7 +433,6 @@ function deleteTagsMultipleFiles() {
 				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
 			}
 		}
-
 		let checkboxesFiles = document.getElementsByClassName('checkbox-file');
 		for (valeur of checkboxesFiles) {
 			if (valeur.checked) {
@@ -700,9 +441,6 @@ function deleteTagsMultipleFiles() {
 				idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
 			}
 		}
-
-		console.log(idFiles);
-		console.log(tags);
 		$.ajax({
 			url: 'index.php',
 			data: { 'tags': tags, 'action': 'deleteTagsFiles', 'files': idFiles },
@@ -712,21 +450,19 @@ function deleteTagsMultipleFiles() {
 					alert("Tag(s) supprimé(s)")
 					window.location.reload();
 				}
-
 				else alert('Suppression impossible!');
 			}
-
 		});
 	}
 }
 
+//Fonction permettant d'ajouter des tags à un ou plusieurs fichiers
 function addTagsMultipleFiles() {
-
+	//On demande à ce que l'utilisateur confirme son choix
 	if (confirm("Confirmer l'ajout des tags.")) {
-
 		tags = ""; //le tableau//
 		idFiles = "";
-
+		//On récupère tous les tags sélectionnés
 		let checkboxesTags = document.getElementsByClassName('checkbox-add-tags-multipleFiles');
 		for (valeur of checkboxesTags) {
 			if (valeur.checked) {
@@ -735,7 +471,6 @@ function addTagsMultipleFiles() {
 				tags = tags + idTag + " "; // Ajouter l'élément à la liste //
 			}
 		}
-
 		let checkboxesFiles = document.getElementsByClassName('checkbox-file');
 		for (valeur of checkboxesFiles) {
 			if (valeur.checked) {
@@ -749,22 +484,21 @@ function addTagsMultipleFiles() {
 			data: { 'tags': tags, 'action': 'addTagsFiles', 'files': idFiles },
 			dataType: 'json',
 			success: function (response) {
-				console.log(response);
 				if (response.status === true) {
 					alert("Tag(s) ajouté(s)")
 					window.location.reload();
 				}
-
-				else alert('Something went wrong');
+				else alert('Ajout impossible!');
 			}
-
 		});
 	}
 }
 
+//Fonction permettant de récupérer la taille des fichiers sélectionés
 function getFilesSelectedSize() {
 	idFiles = "";
 	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+	//On récupère les id de tous les fichiers sélectionnés
 	for (valeur of checkboxesFiles) {
 		if (valeur.checked) {
 			idElement = valeur.id;
@@ -772,7 +506,6 @@ function getFilesSelectedSize() {
 			idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
 		}
 	}
-
 	$.ajax({
 		url: 'index.php',
 		data: { 'action': 'getFilesSize', 'files': idFiles },
@@ -783,16 +516,13 @@ function getFilesSelectedSize() {
 				document.getElementById('sizeFilesSelected').textContent = size;
 			}
 		}
-
 	});
-
-
-
 }
 
-
-function downloadMultipleFiles() {
+//Fonction permettant de télécharger des fichiers
+function downloadFiles() {
 	idFiles = "";
+	//On récupère tous les fichiers qui ont été sélectionnés par l'utilisateur
 	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
 	for (valeur of checkboxesFiles) {
 		if (valeur.checked) {
@@ -801,41 +531,39 @@ function downloadMultipleFiles() {
 			idFiles = idFiles + id + " "; // Ajouter l'élément à la liste //
 		}
 	}
+	//On fait une requête ajax pour envoyer des informations au serveur (liste des fichiers à télécharger)
 	$.ajax({
 		url: 'index.php',
 		data: { 'action': 'downloadFiles', 'files': idFiles },
 		dataType: 'json',
 		success: function (response) {
 			if (response.status === true) {
+				//Si l'utilisateur veut télécharger plusieurs fichiers
 				if (response.mode == 'multiple') {
 					zipPath = response['zipPath'];
 					element = document.getElementById('download-multipleFiles-link')
-					element.setAttribute('href', zipPath);
+					element.setAttribute('href', zipPath);//On fournit le chemin du zip au client pour le téléchargement
+					//On affiche la popup de confirmation
 					document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
 				}
-
+				//Si l'utilisateur veut télécharger qu'un fichier
 				else if (response.mode == 'unique') {
 					filePath = response['filePath'];
 					fileName = response['fileName'];
 					element = document.getElementById('download-multipleFiles-link')
 					element.setAttribute('href', filePath);
-					element.setAttribute('download', fileName);
+					element.setAttribute('download', fileName); //Nom avec lequel le fichier sera téléchargé
 					document.getElementById('popup-confirm-download-multipleFiles').style.display = 'inline-flex';
 				}
-
-
 			}
 			else {
-				alert("Something went wrong")
+				alert("Téléchargement impossible!")
 			}
 		}
-
 	});
-
-
-
 }
 
+//Fonction permettant de fermer la fenêtre de confirmation (en la rendant invisible)
 function closeConfirmationPopup() {
 	document.getElementById("popup-confirm-download-multipleFiles").style.display = 'none';
 	document.getElementById("popup-options-multipleFiles").style.display = 'none';
@@ -922,7 +650,6 @@ files.forEach(file => file.addEventListener('dblclick', event => {
 	//Si le fichier sur lequel on a cliqué est une image
 	if (file.tagName == 'IMG') {
 		var newpath = file.getAttribute('src').substr(0, 16) + file.getAttribute('src').substr(23);
-		console.log(newpath);
 		openPopupModal(file.tagName, newpath);
 	}
 	//Si le fichier sur lequel on a cliqué est une vidéo

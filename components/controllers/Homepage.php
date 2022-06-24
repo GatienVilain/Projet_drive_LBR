@@ -159,7 +159,6 @@ class Homepage
 		$files = array();
 		if(!empty($Afiles)) {
 			$_SESSION['max_homepage'] = (int)(count($Afiles)/12);
-			if ($_SESSION['max_homepage'] > 0){$_SESSION['max_homepage'] = $_SESSION['max_homepage']-1;}
 			$n = ($_SESSION['homepage']+1)*12;
 			if ($n > count ($Afiles)) {$n = count ($Afiles);}
 			for ($i = $_SESSION['homepage']*12; $i < $n; $i++) {
@@ -240,7 +239,7 @@ class Homepage
 			$result = $result."
 				<div class='dropdown'> 
 					<div class ='categoryName-line'>
-						<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>
+						<button onclick='dropdownTagsFilterMenu(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>
 					</div>
 					<div id='".$categoryName."-dropdown-content' class='dropdown-content'>";	
 			foreach($arrayTags as $tag)
@@ -307,7 +306,7 @@ class Homepage
 				$result = $result."
 					<div class='dropdown'> 
 						<div class ='categoryName-line'>
-							<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>";
+							<button onclick='dropdownTagsFilterMenu(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>";
 						
 				if($categoryName != "autres")
 				{
@@ -508,7 +507,7 @@ class Homepage
 				$result = $result."
 					<div class='dropdown'> 
 						<div class ='categoryName-line'>
-							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-add-tags-multipleFiles'>".$categoryName." ⌵</button>
+							<button onclick='dropdownAddDeleteTagsFiles(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-add-tags-multipleFiles'>".$categoryName." ⌵</button>
 						</div>
 						<div id='".$categoryName."-dropdown-add-tags-multipleFiles-content' class='add-dropdown-content'>";
 				foreach($arrayTags as $tags)
@@ -587,7 +586,7 @@ class Homepage
 				$result = $result."
 					<div class='dropdown'> 
 						<div class ='categoryName-line'>
-							<button onclick='myFunctionBis(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-delete-tags-multipleFiles'>".$categoryName." ⌵</button>
+							<button onclick='dropdownAddDeleteTagsFiles(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown-delete-tags-multipleFiles'>".$categoryName." ⌵</button>
 						</div>
 						<div class='delete-dropdown-content' id='".$categoryName."-dropdown-delete-tags-multipleFiles-content'>";
 				foreach($arrayTags as $tags)

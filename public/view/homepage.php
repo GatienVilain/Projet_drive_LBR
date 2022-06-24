@@ -21,17 +21,17 @@
 		<div id='popup-options-multipleFiles'>
 
 			<div class='header-popup' id='header-popup-options-MultipleFiles'>
-				<button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeMultipleFiles()"><strong>←</strong></button>
+				<button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeOptionsFiles()"><strong>←</strong></button>
 				<p><strong>Options</strong></p>
 			</div>
 
 			<div class='body-popup-options'>
 
-				<button class='buttonPopupOptions' title='Télécharger les fichiers' onclick='downloadMultipleFiles()'>Télécharger</button></a>
-				<button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='basketMultipleFiles()'>Supprimer</button>
+				<button class='buttonPopupOptions' title='Télécharger les fichiers' onclick='downloadFiles()'>Télécharger</button></a>
+				<button class='buttonPopupOptions' title='Supprimer les fichiers' onclick='basketFiles()'>Supprimer</button>
 				<div id='editTag-multipleFiles'>
-					<button class='buttonPopupOptions' title='Ajouter des tags' onclick='openMenuAddTagsMultipleFiles()'>+Tag(s)</button>
-					<button class='buttonPopupOptions' title='Supprimer des tags' onclick='openMenuDeleteTagsMultipleFiles()'>-Tag(s)</button>
+					<button class='buttonPopupOptions' title='Ajouter des tags' onclick='openMenuAddTagsFiles()'>+Tag(s)</button>
+					<button class='buttonPopupOptions' title='Supprimer des tags' onclick='openMenuDeleteTagsFiles()'>-Tag(s)</button>
 				</div>
 				<p id="sizeFilesSelected">Taille : </p>
 			</div>
