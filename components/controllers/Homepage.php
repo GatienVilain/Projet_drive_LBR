@@ -34,11 +34,13 @@ class Homepage
 			$files = $sort->sort_by_tag($files, $_SESSION['tagIdList']);
 		}
 
+		//Vérifie variable de session existe et est non nulle
 		if(!empty($_SESSION['authorList']))
 		{
 			$files = $sort->sort_by_user($files, $_SESSION['authorList']);
 		}
 
+		//Vérifie variable de session n'est pas vide
 		if($_SESSION['optionSort'] != '')
 		{	
 			if($_SESSION['optionSort'] == 'sortAlphabetic')
@@ -57,22 +59,23 @@ class Homepage
 		}
 
 		$previewArrayCategory = $this->previewArrayCategory();
+		$arrayAllTags = $this->getAllTags();
 
+		//Si l'utilisateur est un invité
 		if($role == 'invite')
 		{
 			$arrayTagsWithRights = $this->getArrayTagsGuest($user);
 			$previewTags = $this->previewTagsGuest($arrayTagsWithRights, $previewArrayCategory, $user);
 		}
+		//Si l'utilisateur est un admin
 		else if($role == 'admin')
 		{
-			$arrayAllTags = $this->getArrayTagsForAdmin();
 			$previewTags = $this->previewTagsAdmin($arrayAllTags, $previewArrayCategory);
 
 		}
 		$Bfiles = $this->instantiateFilePreview($files);
-		
-		$arrayTagsAddMultipleFiles = $this->getTagsAddMenu();
-		$previewAddTagsMultipleFiles = $this->previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles);
+
+		$previewAddTagsMultipleFiles = $this->previewTagsAddMultipleFiles($arrayAllTags);
 
 		$arrayTagsDeleteMultipleFiles = $this->getTagsDeleteMenu($files);
 		$previewDeleteTagsMultipleFiles = $this->previewTagsDeleteMultipleFiles($arrayTagsDeleteMultipleFiles);
@@ -84,7 +87,7 @@ class Homepage
 		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
 		
 		$error = "";
-		$nbr_files = count($files);
+		$nbr_files = count($files);//On récupère le nombre de fichiers que l'utilisateur peut voir
 		require('public/view/homepage.php');
 	}
 
@@ -168,12 +171,14 @@ class Homepage
 		return $files;
 	}
 	
-	private function getArrayTagsForAdmin()
+	//Fonction permettant de récupérer tous les tags existant avec leur id, leur nom et leur catégorie
+	private function getAllTags()
 	{
+		//Point de connection avec la base de données
 		$connection = new DatabaseConnection();
 		$allCategory = $connection->get_tag_category();
 		$tagsByCategory = array();
-
+		//On associe tous les ids tags à une catégorie et à un nom
 		foreach($allCategory as $key => $arrayCategoryName)
 		{
 			$categoryName = $arrayCategoryName['nom_categorie_tag'];
@@ -201,6 +206,7 @@ class Homepage
 		return $tagsByCategory;
 	}
 
+	//Fonction permettant de récupérer les tags visibles par l'utilisateur avec leur id, leur nom et leur catégorie
 	private function getArrayTagsGuest($user)
 	{
 		$connection = new DatabaseConnection();
@@ -208,6 +214,7 @@ class Homepage
 		$arrayAllIdTags = array();
 		$allIdFiles = $this->getFilesID();
 		$allUserRights = $connection->get_rights_of_user($user);
+		//On récupère les id des tags présents sur les fichiers visibles par l'utilisateur
 		foreach($allIdFiles as $idFile)
 		{
 			$idTagsLinkToFile = $connection->get_link($idFile);
@@ -216,6 +223,7 @@ class Homepage
 				array_push($arrayAllIdTags, $idTag['id_tag']);
 			}
 		}
+		//On récupère tous les tags pour lesquels l'utilisateur a un droit d'écriture
 		if($allUserRights != -1)
 		{
 			foreach($allUserRights as $tag)
@@ -226,7 +234,9 @@ class Homepage
 				}
 			}
 		}
+		//On supprime les doublons et on réindexe
 		$arrayAllIdTags = array_values(array_unique($arrayAllIdTags));
+		//On associe tous les id tags à leur nom et leur catégorie
 		foreach($arrayAllIdTags as $idTag)
 		{
 			$categoryName = $connection->get_tag_category($idTag)[0]['nom_categorie_tag'];
@@ -242,6 +252,7 @@ class Homepage
 		return $arrayCategoryTagsGuest;
 	}
 
+	//Fonction permettant de générer l'affichage des tags sur le menu filtres pour les invités
 	private function previewTagsGuest($tagsGuest, $previewArrayCategory, $user)
 	{
 		$connection = new DatabaseConnection();
@@ -296,22 +307,20 @@ class Homepage
 						</div>
 
 					</div>";
-				}
-				
-				
+				}	
 			}
 			$result=$result."</div> </div>";
 		}
 		return $result;
 	}
 
+	//Fonction permettant de générer l'affichage des tags sur le menu filtres pour les administrateurs
 	private function previewTagsAdmin($tagsWithRights, $previewArrayCategory)
 	{
 		$connection = new DatabaseConnection();
 		$result="";
 		foreach($tagsWithRights as $categoryName => $arrayTagsWithRights)
 		{
-
 			if($arrayTagsWithRights != null)
 			{
 				$result = $result."
@@ -388,9 +397,11 @@ class Homepage
 		return $result;
 	}
 
+	//Fonction récupérant les extensions de tous les fichiers accessibles par l'utilisateur
 	private function getArrayExtensionsFilesInstantiate($filesInstantiate)
 	{
 		$arrayExtensionsFilesInstantiate = array();
+		//On récupère les extensions de tous les fichiers visibles par l'utilisateur (toutes pages confondues)
 		foreach($filesInstantiate as $file)
 		{
 			$fileExtension = strtolower($file->getFileExtension());
@@ -403,7 +414,7 @@ class Homepage
 		return $arrayExtensionsFilesInstantiate;
 	}
 
-	
+	//Fonction générant le visuel pour les extension dans le menu filtres
 	private function previewExtensionsFilesInstantiate($extensionsFiles)
 	{
 		$result="";
@@ -419,9 +430,11 @@ class Homepage
 		return $result;
 	}
 
+	//Fonction récupérant les auteurs de tous les fichiers visibles par l'utilisateur
 	private function getArrayAuthorsFilesInstantiate($filesInstantiate)
 	{
 		$arrayAuthorsFilesInstantiate = array();
+		//On récupère le nom des auteurs de tous les fichiers visibles par l'utilisateur(toutes pages confondues)
 		foreach($filesInstantiate as $file)
 		{
 			$fileAuthor = $file->getAuthorName();
@@ -429,11 +442,11 @@ class Homepage
 			{
 				array_push($arrayAuthorsFilesInstantiate,$fileAuthor);
 			}
-		
 		}
 		return $arrayAuthorsFilesInstantiate;
 	}
 
+	//Fonction générant le visuel pour les auteurs dans le menu filtres
 	private function previewAuthorsFilesInstantiate($authorsFiles)
 	{
 		$result="";
@@ -450,6 +463,7 @@ class Homepage
 		return $result;
 	}
 
+	//Fonction générant le visuel pour les catégories dans le menu filtres
 	private function previewArrayCategory()
 	{
 		$connection = new DatabaseConnection();
@@ -465,44 +479,12 @@ class Homepage
 			else
 			{
 				$result=$result."<option value='".$categoryName."'>".$categoryName."</option>";
-			}
-			
+			}	
 		}
 		return $result;
 	}
 
-	private function getTagsAddMenu()
-	{
-		$connection = new DatabaseConnection();
-		$arrayTagsAddMenu = array();
-		$allIdTags = array();	
-		$allCategory = $connection->get_tag_category();
-		foreach($allCategory as $key => $arrayCategoryName)
-		{
-			$allIdByCategory = $connection->get_tag_by_category($arrayCategoryName['nom_categorie_tag']);
-			if($allIdByCategory != -1)
-			{
-				foreach($allIdByCategory as $tag)
-				{		
-					array_push($allIdTags,$tag['id_tag']);
-				}
-			}
-		}
-		foreach($allIdTags as $id)
-		{		
-			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
-			if(array_key_exists($categoryName, $arrayTagsAddMenu))
-			{
-				array_push($arrayTagsAddMenu[$categoryName], array($connection->get_tag($id)['nom_tag']=>$id));
-			}			
-			else
-			{
-				$arrayTagsAddMenu[$categoryName]=array(array($connection->get_tag($id)['nom_tag']=>$id));
-			}	
-		}
-		return $arrayTagsAddMenu;
-	}
-
+	//Fonction générant le visuel du menu d'ajout de tags à des fichiers
 	private function previewTagsAddMultipleFiles($arrayTagsAddMultipleFiles)
 	{
 		$result = "
@@ -542,6 +524,7 @@ class Homepage
 		return $result;
 	}
 	
+	//Fonction récupérant tous les tags associés aux fichiers visibles par l'utilisateur
 	private function getTagsDeleteMenu($files)
 	{
 		$connection = new DatabaseConnection();
@@ -549,23 +532,27 @@ class Homepage
 		$idTagsFile = array();
 		$idTagsFiles = array();
 		$allIdTags = array();
+		//On récupères les id de tous les tags associés aux fichiers visibles par l'utilisateur
 		foreach($files as $file)
 		{
 			$idTagsFile = $file->getTags();
 			foreach($idTagsFile as $idTag)
-			{
-				if(!in_array($idTag, $idTagsFiles))
+			{	
+				if($idTag != 1 && !in_array($idTag, $idTagsFiles))
 				{
 					array_push($idTagsFiles, $idTag);
 				}
 			}
 		}
+		//On réindexe
 		$allIdTags = array_values($idTagsFiles);
-		if (count($allIdTags) == 1 && $allIdTags[0] == 1)
+		//Si jamais il ne reste plus de tags
+		if (count($allIdTags) == 0)
 		{
 			$arrayTagsDeleteMenu = null;
 			return $arrayTagsDeleteMenu;
 		}
+		//On associe à tous les id, leur nom tag et leur catégorie
 		foreach($allIdTags as $id)
 		{		
 			$categoryName = $connection->get_tag_category($id)[0]['nom_categorie_tag'];
@@ -581,6 +568,7 @@ class Homepage
 		return $arrayTagsDeleteMenu;
 	}
 
+	//Fonction générant le visuel du menu de suppression de tags associés à des fichiers
 	private function previewTagsDeleteMultipleFiles($arrayTagsDeleteMultipleFiles)
 	{
 		$result = "

@@ -1,8 +1,6 @@
 <?php $title = "Drive LBR"; ?>
 <?php $stylesheets = "<link rel=\"stylesheet\" href=\"public/css/homepage.css\">" ?>
-<?php $scripts = '<!-- <script src="public\js\homepage.js"></script> -->
-                  <!-- (B) LOAD PLUPLOAD FROM CDN -->
-                  <script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
+<?php $scripts = '<script src="https://cdnjs.cloudflare.com/ajax/libs/plupload/3.1.3/plupload.full.min.js"></script>
                   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
                   <script src="public/js/homepage.js"></script>' ?>
 

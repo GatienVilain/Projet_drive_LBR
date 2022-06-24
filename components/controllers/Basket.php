@@ -20,12 +20,12 @@ class Basket
 		$role = (new DatabaseConnection())->get_user($_SESSION["email"])["role"];
 		$sort = new CustomSort();
 		$files = $this->instantiateFileCore();
-		
-		
+		//On regarde si l'utilisateur a sélectionné une option de tri
 		if(isset($_SESSION['optionSort']))
 		{	
 			if($_SESSION['optionSort'] == 'sortAlphabetic')
 			{
+				//On va classer par ordre alphabetic ou inverse
 				if(isset($_SESSION['alphabeticOrder']) && ($_SESSION['alphabeticOrder'] == 'asc' OR $_SESSION['alphabeticOrder'] == 'desc') )
 				{
 					$files = $sort->sort_by_alphabetical($files, $_SESSION['alphabeticOrder']);
@@ -34,6 +34,7 @@ class Basket
 
 			if($_SESSION['optionSort'] == 'sortModificationDate')
 			{
+				//On va classer par date de suppression
 				$files = $sort->sort_by_date($files, $_SESSION['modificationDateOrder']);
 			}
 			
