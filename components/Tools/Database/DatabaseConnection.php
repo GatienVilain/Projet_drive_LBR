@@ -21,7 +21,7 @@ class DatabaseConnection
 {
 	protected const host = "localhost";
 	protected const user = "root";
-	protected const password = "dorian";
+	protected const password = "";
 	protected const db = "drive";
 
 

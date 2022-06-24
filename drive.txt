@@ -1,0 +1,166 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : ven. 24 juin 2022 à 19:28
+-- Version du serveur : 5.7.36
+-- Version de PHP : 8.0.13
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+02:00";
+
+--
+-- Base de données : `drive`
+--
+CREATE DATABASE IF NOT EXISTS `drive` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `drive`;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `appartenir`
+--
+
+DROP TABLE IF EXISTS `appartenir`;
+CREATE TABLE IF NOT EXISTS `appartenir` (
+  `id_fichier` int(10) UNSIGNED NOT NULL,
+  `id_tag` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id_fichier`,`id_tag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `attribuer`
+--
+
+DROP TABLE IF EXISTS `attribuer`;
+CREATE TABLE IF NOT EXISTS `attribuer` (
+  `email` varchar(64) NOT NULL,
+  `id_tag` int(10) UNSIGNED NOT NULL,
+  `ecriture` tinyint(1) NOT NULL,
+  `lecture` tinyint(1) NOT NULL,
+  PRIMARY KEY (`email`,`id_tag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `caracteriser`
+--
+
+DROP TABLE IF EXISTS `caracteriser`;
+CREATE TABLE IF NOT EXISTS `caracteriser` (
+  `id_tag` int(10) UNSIGNED NOT NULL,
+  `nom_categorie_tag` varchar(64) NOT NULL,
+  PRIMARY KEY (`id_tag`,`nom_categorie_tag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `caracteriser`
+--
+
+INSERT INTO `caracteriser` (`id_tag`, `nom_categorie_tag`) VALUES
+(1, 'autres');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `categorie_tag`
+--
+
+DROP TABLE IF EXISTS `categorie_tag`;
+CREATE TABLE IF NOT EXISTS `categorie_tag` (
+  `nom_categorie_tag` varchar(64) NOT NULL,
+  PRIMARY KEY (`nom_categorie_tag`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `categorie_tag`
+--
+
+INSERT INTO `categorie_tag` (`nom_categorie_tag`) VALUES
+('autres');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `fichier`
+--
+
+DROP TABLE IF EXISTS `fichier`;
+CREATE TABLE IF NOT EXISTS `fichier` (
+  `id_fichier` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `email` varchar(64) NOT NULL,
+  `source` varchar(125) NOT NULL,
+  `nom_fichier` varchar(125) NOT NULL,
+  `date_publication` date NOT NULL,
+  `date_derniere_modification` date NOT NULL,
+  `taille_Mo` float UNSIGNED NOT NULL,
+  `duree` varchar(30) DEFAULT NULL,
+  `type` varchar(5) NOT NULL,
+  `extension` varchar(8) NOT NULL,
+  PRIMARY KEY (`id_fichier`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=231 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `fichier_supprime`
+--
+
+DROP TABLE IF EXISTS `fichier_supprime`;
+CREATE TABLE IF NOT EXISTS `fichier_supprime` (
+  `id_fichier` int(10) UNSIGNED NOT NULL,
+  `date_suppression` date NOT NULL,
+  PRIMARY KEY (`id_fichier`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tag`
+--
+
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE IF NOT EXISTS `tag` (
+  `id_tag` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nom_tag` varchar(64) NOT NULL,
+  PRIMARY KEY (`id_tag`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `tag`
+--
+
+INSERT INTO `tag` (`id_tag`, `nom_tag`) VALUES
+(1, 'sans tags');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `utilisateur`
+--
+
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+  `email` varchar(64) NOT NULL,
+  `prenom` varchar(64) NOT NULL,
+  `nom` varchar(64) NOT NULL,
+  `mot_de_passe` varchar(250) DEFAULT NULL,
+  `descriptif` varchar(256) DEFAULT NULL,
+  `role` varchar(6) DEFAULT NULL,
+  `date_inscription` date DEFAULT NULL,
+  `compte_supprime` tinyint(1) NOT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`email`, `prenom`, `nom`, `mot_de_passe`, `descriptif`, `role`, `date_inscription`, `compte_supprime`) VALUES
+('contact@lesbriquesrouges.fr', 'LesBriques', 'Rouges', '$2y$10$DEl5PsVTQ73aO/T04UNO8.P16kUE4KVHCz05T4z.kivNFlRU0NkO.', 'Compte administrateur par dÃ©faut', 'admin', '2022-06-24', 0);
+COMMIT;
