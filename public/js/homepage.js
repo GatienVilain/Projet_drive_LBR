@@ -933,16 +933,47 @@ files.forEach(file => file.addEventListener('dblclick', event => {
 
 //Evènement représentant le clic droit
 files.forEach(file => file.addEventListener('contextmenu', event => {
-	//On ferme les autres popup
+	//clic droit
 	closeAllPopup();
-	getFilesSelectedSize(); //On appelle la fonction permettant de récupérer la taille des fichiers sélectionnés
-	let popup = document.getElementById('popup-options-multipleFiles');
-	//On positionne le coin haut gauche de la popup au niveau du curseur
-	popup.style.top = event.y + 'px';
-	popup.style.left = event.x + 'px';
-	//Si la popup n'était pas affichée, on l'affiche
-	if (popup.style.display != "inline-flex") {
-		popup.style.display = "inline-flex";
+	//On récupère tous les objets correspondant aux checkbox des fichiers
+	let checkboxesFiles = document.getElementsByClassName('checkbox-file');
+	//On cherche si un fichier a été sélectionné
+	fileChecked = false;
+	for(valeur of checkboxesFiles)
+	{
+		if(valeur.checked)
+		{
+			fileChecked=true;
+		}
+	}
+	//Si aucun fichier n'a été sélectionné
+	if(fileChecked == false)
+	{
+		//On positionne le coin haut gauche de la popup au niveau du curseur
+		let popup = document.getElementById('popup-options-multipleFiles');
+		popup.style.top = event.y + 'px';
+		popup.style.left = event.x + 'px';
+
+		if(popup.style.display != "inline-flex")
+		{
+			popup.style.display = "inline-flex";
+			//On coche manuellement la checkbox du fichier sur lequel l'utilisateur a cliqué
+			document.getElementById('checkFile-'+file.id).checked = true;
+			getFilesSelectedSize();//On appelle la fonction permettant de récupérer la taille des fichiers sélectionnés
+		}
+	}
+	else
+	{
+		getFilesSelectedSize();
+		//On positionne le coin haut gauche de la popup au niveau du curseur
+		let popup = document.getElementById('popup-options-multipleFiles');
+		popup.style.top = event.y + 'px';
+		popup.style.left = event.x + 'px';
+		//Si la popup n'était pas affichée, on l'affiche
+		if(popup.style.display != "inline-flex")
+		{
+			popup.style.display = "inline-flex";
+		}
 	}
 }));
 
