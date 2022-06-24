@@ -1,4 +1,99 @@
-/* Large image*/
+/*Gallery*/
+
+.miniature {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 248px;
+	height: 172px;
+}
+
+.gallery .image img,
+.gallery .video video {
+	width: auto;
+	height: 150px;
+	object-fit: cover;
+	border: solid 1px black;
+}
+
+.gallery img:fullscreen {
+	object-fit: contain;
+}
+
+@media only screen and (min-width: 800px) {
+	.gallery {
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: 2vh;
+		margin-left: 4.5vw;
+		gap: 5vh 4vw;
+		min-height: 65%;
+		justify-content: left;
+	}
+
+	.titre>p {
+		width: 100%;
+	}
+
+	.button-information {
+		display: none;
+		width: 30%;
+	}
+}
+
+@media only screen and (max-width: 800px) {
+
+	.titre>p {
+		width: 70%;
+	}
+
+	.gallery {
+		display: flex;
+		margin-top: 2vh;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 5vh 4vw;
+		min-height: 65%;
+	}
+}
+
+.titre {
+	min-width: 0;
+	max-width: 200px;
+	display: inline-flex;
+	column-gap: 1.2em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.title-file {
+	border: 0;
+	background-color: transparent;
+	width: 70%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.gallery img:fullscreen {
+	object-fit: contain;
+}
+
+#image-show-area,
+#video-show-area {
+	display: none;
+	justify-content: inherit;
+	align-items: inherit;
+}
+
+#image-show-area img,
+#video-show-area video {
+	max-height: 90vh;
+	max-width: 90vw;
+	border: 5px solid white;
+}
+
 #show_image_popup {
 	position: absolute;
 	top: 0;
@@ -39,115 +134,17 @@
 	transform: rotate(-0.38turn) translate(0.01em, 0.01em);
 }
 
-#image-show-area,
-#video-show-area {
-	display: none;
-	justify-content: inherit;
-	align-items: inherit;
-}
-
-#image-show-area img,
-#video-show-area video {
-	max-height: 90vh;
-	max-width: 90vw;
-	border: 5px solid white;
-}
-
-/* Desktop gallery */
-
-@media only screen and (min-width: 900px) {
-	.toolbar {
-		font-size: 1em;
-	}
-
-	.gallery {
-		display: flex;
-		flex-wrap: wrap;
-		margin-left: 80px;
-		margin-right: 80px;
-		gap: 5vh 4vw;
-		justify-content: flex-start !important;
-	}
-
-	.title-file {
-		width: 100%;
-	}
-
-	.button-information {
-		display: none;
-		width: 30%;
-	}
-}
-
-@media only screen and (max-width: 900px) {
-	.toolbar {
-		font-size: 0.6em;
-	}
-
-	.title-file {
-		width: 70%;
-	}
-}
-
-.toolbar {
-	display: flex;
-	margin: 7vh 2vw 0;
-	border-bottom: 1px solid black;
-}
-
-.gallery {
-	display: flex;
-	margin-top: 2vh;
-	flex-wrap: wrap;
-	gap: 5vh 4vw;
-	justify-content: center;
-	min-height: 65%;
-}
-
-/* (B) THUMBNAILS */
-.gallery .image img,
-.gallery .video video {
-	width: auto;
-	width: 100%;
-	height: 150px;
-	object-fit: cover;
-	border: solid 1px black;
-}
-
-.gallery img:fullscreen {
-	object-fit: contain;
-}
-
-/* (X) DOES NOT MATTER */
-body,
-html {
-	padding: 0;
-	margin: 0;
-}
-
-.miniature {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 248px;
-	height: 172px;
-}
+/* Toolbar */
 
 .groupe1 {
-	display: inline-flex;
-	flex-direction: row;
 	width: 50%;
+	display: inline-flex;
 }
 
-.buttonHomePage {
+.groupe1>button {
+	float: left;
 	margin-left: 15px;
 	font-size: 1.1em;
-}
-
-.buttonPopupOptions {
-	margin-left: 15px;
-	font-size: 1.1em;
-	margin-top: 10px;
 }
 
 .groupe2 {
@@ -160,21 +157,39 @@ html {
 	font-size: 1.1em;
 }
 
-#popup-upload {
-	display: none;
-	position: fixed;
-	border-radius: 5px;
-	width: 25vw;
-	height: 50vh;
-	min-width: 200px;
-	max-width: 400px;
-	max-height: 300px;
-	left: 40%;
-	top: 10%;
-	transform: translate(-55%, 5%);
-	border: 2px solid black;
-	background-color: var(--couleur-popup);
-	z-index: 9;
+@media only screen and (min-width: 800px) {
+	.toolbar {
+		font-size: 1em;
+	}	
+}
+
+@media only screen and (max-width: 800px) {
+	.toolbar {
+		font-size: 0.6em;
+	}
+}
+
+.toolbar {
+	display: flex;
+	margin: 7vh 2vw 0;
+	border-bottom: 1px solid black;
+}
+
+.buttonHomePage {
+	margin-left: 15px;
+	font-size: 1.1em;
+}
+
+#buttonHomePage-filters {
+	position: relative;
+}
+
+/* Popup options */
+
+.buttonPopupOptions {
+	margin-left: 15px;
+	font-size: 1.1em;
+	margin-top: 10px
 }
 
 .miniature .popup-options {
@@ -193,6 +208,12 @@ html {
 	z-index: 9;
 }
 
+#header-popup-options {
+	gap: 1.5vh;
+}
+
+/* All popup */
+
 .header-popup {
 	display: inline-flex;
 	gap: 2vw;
@@ -202,12 +223,27 @@ html {
 	align-items: center;
 }
 
-#header-popup-options {
-	gap: 1.5vh;
-}
-
 .close-button {
 	font-size: 1.5em;
+}
+
+/* Popup upload */
+
+#popup-upload {
+	display: none;
+	position: fixed;
+	border-radius: 5px;
+	width: 25vw;
+	height: 50vh;
+	min-width: 200px;
+	max-width: 400px;
+	max-height: 300px;
+	left: 40%;
+	top: 10%;
+	transform: translate(-55%, 5%);
+	border: 2px solid black;
+	background-color: var(--couleur-popup);
+	z-index: 9;
 }
 
 #body-popup-upload {
@@ -229,6 +265,8 @@ html {
 #header-popup-upload>p {
 	margin-top: 1vh;
 }
+
+/* Popup detail*/
 
 #header-popup-detail>p {
 	margin-top: 1vh;
@@ -305,16 +343,6 @@ html {
 	opacity: 1;
 }
 
-.titre {
-	min-width: 0;
-	max-width: 200px;
-	display: inline-flex;
-	column-gap: 1.2em;
-	white-space: nowrap;
-	justify-content: center;
-	align-items: center;
-}
-
 #pickfiles {
 	border: 0;
 	background-color: inherit;
@@ -324,18 +352,14 @@ html {
 	padding-left: 1vw;
 }
 
-#buttonHomePage-filters {
-	position: relative;
-}
+/* Filter menu */
 
 #buttonHomePage-filters #popup-filter-menu {
 	visibility: hidden;
 	position: absolute;
-
 	top: 2em;
 	left: 2em;
 	margin-left: 2vw;
-	/* Use half of the width (120/2 = 60), to center the tooltip */
 	border-radius: 6px;
 	min-width: 14em;
 	overflow:scroll;
@@ -420,8 +444,6 @@ html {
 	text-align: left;
 }
 
-/* Mobile gallery */
-
 /* Dropdown Button */
 .categoryName-dropdown {
 	color: white;
@@ -472,7 +494,6 @@ html {
 	padding-top: 0.4em;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
 	position: relative;
 	display: inline-block;
@@ -480,7 +501,6 @@ html {
 	padding-bottom: 0.5em;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
 	display: none;
 	flex-direction: column;
@@ -497,10 +517,6 @@ html {
 	width: 70%;
 	display: block;
 	padding-top: 0.4em;
-}
-
-#autres-dropdown-delete {
-	visibility: hidden;
 }
 
 #filterMenu-deleteTag-1 {
@@ -538,7 +554,7 @@ html {
     z-index: 5000;
 }
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+/* Show dropdown menu */
 .show {
 	display: inline-flex;
 	flex-wrap: nowrap;
@@ -750,12 +766,6 @@ html {
 	font-size: 2em;
 }
 
-.visible {
-	display: inline-flex;
-	flex-wrap: nowrap;
-	width: 100%;
-}
-
 .add-dropdown-content .inputCheckboxTagAdd,
 .delete-dropdown-content .inputCheckboxTagDelete {
 	color: var(--couleur-police-filter-menu);
@@ -864,21 +874,15 @@ html {
 	margin-top: 0.2em;
 }
 
-/*Version téléphone*/
+/*mobile version*/
 
 .button-information {
 	background-color: var(--couleur-button-information);
-	clip-path: polygon(50% 0%,
-			83% 12%,
-			100% 43%,
-			94% 78%,
-			68% 100%,
-			32% 100%,
-			6% 78%,
-			0% 43%,
-			17% 12%);
+	clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%);
 	width: 1.5em;
 }
+
+/* popup confirm download */
 
 .groupe1 #popup-confirm-download-multipleFiles {
 	display: none;
@@ -910,15 +914,7 @@ html {
 	height: 1.5em;
 }
 
-
-.title-file {
-	border: 0;
-	background-color: transparent;
-	width: 70%;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
-
+/* Pagination */
 
 #pagination-container {
 	margin-bottom: 10vh;
