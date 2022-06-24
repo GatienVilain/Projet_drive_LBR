@@ -201,7 +201,7 @@ class Homepage
 		return $tagsByCategory;
 	}
 
-	private function getArrayTagsWithRights($user)
+	private function getArrayTagsGuest($user)
 	{
 		$connection = new DatabaseConnection();
 		$arrayCategoryTagsGuest = array();

@@ -21,10 +21,8 @@
 		<div id='popup-options-multipleFiles'>
 
 			<div class='header-popup' id='header-popup-options-MultipleFiles'>
-
 				<button id='close-options-multipleFiles' class='close-button' title='Fermer' onclick ="closeMultipleFiles()"><strong>←</strong></button>
 				<p><strong>Options</strong></p>
-
 			</div>
 
 			<div class='body-popup-options'>
@@ -49,8 +47,6 @@
 
 		</div>
 
-		
-
 		<div id="buttonHomePage-filters">
 
 			<button class="buttonHomePage" title="Sélectionner des filtres" onclick = "toggleFilterMenu()">Filtres</button>
@@ -63,10 +59,8 @@
 				</div>
 
 				<div id="body-popup-newCategory">
-
 					<input type="text" id="popup-newCategory-nameCategory" name="category" placeholder="nom catégorie">
-					<button class="button-valider" id="popup-newCategory-button-valider" onclick="createCategory()">Valider</button>
-				
+					<button class="button-valider" id="popup-newCategory-button-valider" onclick="createCategory()">Valider</button>	
 				</div>
 
 			</div>
@@ -81,7 +75,6 @@
 				</div>
 
 				<div id="body-popup-newTag">
-
 					<select id="popup-newTag-selectCategory" name="Category">
 						<?php echo($previewArrayCategory)?>
 					</select>
@@ -100,11 +93,9 @@
 					<div class ="filter-menu-title" id="filter-menu-tags-title"> 
 					
 						<p>Tags</p>
-						<div id="button-filter-menu-tags">
-						
+						<div id="button-filter-menu-tags">			
 							<button class="button-add-filter-menu-tags" id="button-filter-menu-add-category" onclick="openPopupNewCategory()" title="Créer une catégorie"><span>+catégorie</span></button>             
 							<button class="button-add-filter-menu-tags" id="button-filter-menu-add-tag" onclick="openPopupNewTag()" title="Créer un tag"><span>+tag</span></button>
-
 						</div>
 
 					</div>
@@ -176,20 +167,14 @@
 
 </div>
 
-
-
 <div id="popup-upload">
 
 	<div class='header-popup' id="header-popup-upload">
-
 		<button class='close-button' title="Fermer" onclick="buttonClosePopupUpload()"><strong>←</strong></button>
 		<p><strong>Fichier(s) importé(s)</strong></p>
-
 	</div>
 
 	<div id="body-popup-upload">
-
-
 	</div>
 
 </div>
