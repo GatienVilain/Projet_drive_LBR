@@ -26,6 +26,7 @@ class CreateTag
                 $response['status'] = false; //En cas d'erreur lors de la création du tag on renvoie false au client
             }
             else {
+                //On crée un log
                 $message = 'a créé le tag "' . $tagName . '" dans la categorie "' . $selectedCategory. '"';
                 ( new Log() )->ecrire_log($_SESSION['email'], $message);
             }

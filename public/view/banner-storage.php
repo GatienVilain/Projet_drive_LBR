@@ -39,15 +39,18 @@ $totalStorageSpace = (float)(disk_total_space("C:")/gmp_pow(10,9)); ?>
 </footer>
 
 <?php 
+//Fonction permettant de récupérer la taille occupée par un dossier
 function repertoire_size($rep)
 {
     $repSize = 0;
+    //On récupère tous les fichiers du dossier
 	$files = glob("$rep*.{jpg,jpeg,gif,png,bmp,webp,webm,flv,avi,mp4,mkv,wma,mov,mpeg,mp4a,mp4b,mp4r,mp4v}", GLOB_BRACE);
+    //On parcourt tous les fichiers présent dans le dossier et on somme leur taille 
     foreach($files as $i)
     {
         $repSize += filesize($i);
     }
-
+    //On arrondit la taille du dossier à 3 chiffres après la virgule
     return round($repSize/(float)gmp_pow(10,9), 3);
 }
 ?>

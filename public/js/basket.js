@@ -1,3 +1,4 @@
+//Fonction permettant de classer part date de suppression
 function sortDeleteDate()
 {
   $.ajax({
@@ -7,17 +8,16 @@ function sortDeleteDate()
     success: function (response) 
     {
       if( response.status === true )
-
       {
+        //En cas de succès on recharge la page pour voir les changements
         window.location.reload();
       }
-
-      else window.location.reload();
+      else alert('Erreur!');
     }
-
   });
 }
 
+//Fonction permettant de classer par ordre alphabétique ou inverse
 function sortFileName()
 {
   $.ajax({
@@ -26,26 +26,23 @@ function sortFileName()
     dataType: 'json', 
     success: function (response) 
     {
-      console.log(response['status']);
-
       if( response.status === true )
-
       {
         window.location.reload();
       }
-
-      else window.location.reload();
+      else alert('Erreur!');
     }
-
   });
 }
 
+//Fonction permettant de supprimer définitivement un ou plusieurs fichiers
 function deleteFiles()
 {
+  //On demande confirmation à l'utilisateur
   if (confirm("Confirmer la suppresion des fichiers."))
   {
     idFiles = ""; //le tableau//
-
+    //On récupère les id de tous les fichiers sélectionnés
     let checkboxesFiles = document.getElementsByClassName('checkbox-file');
     for(valeur of checkboxesFiles)
       {
@@ -56,7 +53,6 @@ function deleteFiles()
           idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
         }
       }
-
     $.ajax({
       url: 'index.php',
       data: {'idFiles' : idFiles,'action' : "deleteFiles"},
@@ -64,25 +60,22 @@ function deleteFiles()
       success: function (response) 
       {
         if( response.status === true )
-
         {
           alert('Fichier(s) supprimé(s)');
           window.location.reload();
         }
-
         else alert('Suppression impossible!');
       }
-
     });
   }
 }
 
+//Fonction permettant de restaurer un ou plusieurs fichiers
 function recoveryFiles()
 {
   if (confirm("Confirmer la restauration des fichiers."))
   {
     idFiles = ""; //le tableau//
-
     let checkboxesFiles = document.getElementsByClassName('checkbox-file');
     for(valeur of checkboxesFiles)
       {
@@ -93,7 +86,6 @@ function recoveryFiles()
           idFiles=idFiles + id + " "; // Ajouter l'élément à la liste //
         }
       }
-
     $.ajax({
       url: 'index.php',
       data: {'idFiles' : idFiles,'action' : "recoveryFiles"},
@@ -101,19 +93,17 @@ function recoveryFiles()
       success: function (response) 
       {
         if( response.status === true )
-
         {
-          alert('Fichiers restaurés');
+          alert('Fichier(s) restauré(s)');
           window.location.reload();
         }
-
-        else alert('Something Went Wrong!');
+        else alert('Restauration impossible!');
       }
-
     });
   }
 }
 
+//Fonction permettant de fermer la popup options
 function closeMultipleFiles()
 {
   document.getElementById('popup-options-multipleFiles').style.display='none';
