@@ -39,7 +39,7 @@ class Basket
 			
 		}
 		$Bfiles = $this->instantiateFilePreview($files);
-		$nbr_files = count($Bfiles);
+		$nbr_files = count($files);
 		$error = "";
 		require('public/view/basket.php');
 	}

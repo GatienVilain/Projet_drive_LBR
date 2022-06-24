@@ -84,7 +84,7 @@ class Homepage
 		$previewAuthors = $this->previewAuthorsFilesInstantiate($authorsFiles);
 		
 		$error = "";
-		$nbr_files = count($Bfiles);
+		$nbr_files = count($files);
 		require('public/view/homepage.php');
 	}
 
@@ -262,10 +262,8 @@ class Homepage
 								<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
 								<button onclick='deleteTag(this.id)' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
 							}
-						}
-						
-					}
-						
+						}	
+					}		
 					$result = $result."												
 						<div class='popup-editTag' id='popup-editTag-".$tagId."'>
 
