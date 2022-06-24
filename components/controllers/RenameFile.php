@@ -10,13 +10,20 @@ class RenameFile
 {
     public function execute()
     {
-        var_dump($_GET['idFile']);
-        var_dump($_GET['new_name']);
         if ( isset($_GET['idFile']) && isset($_GET['new_name']) )
         {
-            (new DatabaseConnection)->modify_filename($_GET['idFile'], $_GET['new_name']);
-
-            $response = array('status'=>true);
+            $connection = new DatabaseConnection;
+            $idFile = $_GET['idFile'];
+            $res = $connection->modify_filename($idFile, $_GET['new_name']);
+            if($res != -1)
+            {
+                $response = array('status'=>true);
+                $connection->modify_file_date($idFile);
+            }
+            else
+            {
+                $response = array('status'=>false);
+            }
         }
         else {
             $response = array('status'=>false);

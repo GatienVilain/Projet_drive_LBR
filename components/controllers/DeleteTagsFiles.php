@@ -40,6 +40,8 @@ class DeleteTagsFiles
                                 $idTag = intval($idTag);
                                 $connection->delete_link($idFile,$idTag);//On supprime le tag d'id 'idTag)
                             }
+                            //On modifie la date de dernière modification
+                            $connection->modify_file_date($idFile);
                             //Si le fichier n'est plus associé à un tag après les suppressions
                             //on lui associe le tag 'sans tags'
                             if(empty($connection->get_link($idFile)))
@@ -63,8 +65,10 @@ class DeleteTagsFiles
                         foreach($arrayIdTags as $idTag)
                         {
                             $idTag = intval($idTag);
-                            $connection->delete_link($idFile,$idTag);
+                            $res = $connection->delete_link($idFile,$idTag);
                         }
+                        //On modifie la date de dernière modification
+                        $connection->modify_file_date($idFile);
                         if(empty($connection->get_link($idFile)))
                         {
                             $result = $connection->add_link($idFile, 1);
