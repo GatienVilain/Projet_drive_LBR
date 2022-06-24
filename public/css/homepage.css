@@ -55,7 +55,7 @@
 
 /* Desktop gallery */
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 900px) {
 	.toolbar {
 		font-size: 1em;
 	}
@@ -79,7 +79,7 @@
 	}
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 900px) {
 	.toolbar {
 		font-size: 0.6em;
 	}
@@ -337,10 +337,8 @@ html {
 	margin-left: 2vw;
 	/* Use half of the width (120/2 = 60), to center the tooltip */
 	border-radius: 6px;
-	width: 20vw;
 	min-width: 14em;
-	max-width: 14em;
-	overflow-y: scroll;
+	overflow:scroll;
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	z-index: 2000;
@@ -528,17 +526,16 @@ html {
 
 .filter-menu-line-tag .popup-editTag {
 	position: absolute;
-	visibility: hidden;
-	top: 2em;
-	left: 4em;
-	margin-left: -60px;
-	border-radius: 6px;
-	width: 10em;
-	height: 8em;
-	background-color: var(--couleur-filter-menu);
-	color: var(--couleur-police-filter-menu);
-	border: solid 1px white;
-	z-index: 5000;
+    visibility: hidden;
+    top: 2em;
+    left: 4em;
+    min-width: 11em;
+    margin-left: -3em;
+    border-radius: 6px;
+    background-color: var(--couleur-filter-menu);
+    color: var(--couleur-police-filter-menu);
+    border: solid 1px white;
+    z-index: 5000;
 }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
@@ -555,9 +552,7 @@ html {
 	left: 5em;
 	margin-left: -60px;
 	border-radius: 6px;
-	/* width: 35vw; */
 	min-width: 14em;
-	/* height: 6.2em; */
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	border: solid 1px white;
@@ -660,8 +655,9 @@ html {
 
 #body-popup-editTag,
 #body-popup-editCategory {
-	display: inline-flex;
+	display: flex;
 	flex-direction: column;
+	align-items: center;
 	row-gap: 1em;
 }
 
@@ -677,10 +673,9 @@ html {
 	position: absolute;
 	top: 2em;
 	left: 2.3em;
-	margin-left: -60px;
+	margin-left: -2em;
 	border-radius: 6px;
-	width: 12.6em;
-	height: 6.2em;
+	min-width: 12em;
 	background-color: var(--couleur-filter-menu);
 	color: var(--couleur-police-filter-menu);
 	border: solid 1px white;
@@ -688,9 +683,8 @@ html {
 }
 
 #popup-editCategory-nameCategory {
-	width: 100%;
+	width: 90%;
 	height: 1.5em;
-	margin-left: 1.1em;
 }
 
 #popup-editCategory-button-valider {
@@ -702,8 +696,7 @@ html {
 	width: 5em;
 	border-radius: 2px;
 	height: 1.5em;
-	box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
-	margin-left: 5em;
+	margin-bottom: 0.7em;
 }
 
 /* Add tags to File */

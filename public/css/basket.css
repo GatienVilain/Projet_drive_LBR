@@ -321,7 +321,7 @@ html {
 	width: 62%;
 }
 
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 800px) {
 
 	.toolbar {
 		font-size: 1em;
@@ -347,7 +347,7 @@ html {
 	}
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 800px) {
 	.toolbar {
 		font-size: 0.6em;
 	}
