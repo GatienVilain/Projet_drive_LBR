@@ -61,7 +61,7 @@ class Homepage
 		if($role == 'invite')
 		{
 			$arrayTagsWithRights = $this->getArrayTagsWithRights($user);
-			$previewTags = $this->previewTagsGuest($arrayTagsWithRights, $previewArrayCategory);
+			$previewTags = $this->previewTagsGuest($arrayTagsWithRights, $previewArrayCategory, $user);
 		}
 		else if($role == 'admin')
 		{
@@ -204,83 +204,92 @@ class Homepage
 	private function getArrayTagsWithRights($user)
 	{
 		$connection = new DatabaseConnection();
-		$allRights = $connection->get_rights_of_user($user);
-		$arrayCategoryTagsWithRights = array();
-		$arrayTags = array();
-
-		if($allRights != -1)
+		$arrayCategoryTagsGuest = array();
+		$arrayAllIdTags = array();
+		$allIdFiles = $this->getFilesID();
+		foreach($allIdFiles as $idFile)
 		{
-			foreach($allRights as $tagWithRights)
+			$idTagsLinkToFile = $connection->get_link($idFile);
+			foreach($idTagsLinkToFile as $idTag)
 			{
-				$categoryName = $connection->get_tag_category($tagWithRights['id_tag'])[0]['nom_categorie_tag'];
-				if(array_key_exists($categoryName,$arrayCategoryTagsWithRights))
-				{
-					array_push($arrayCategoryTagsWithRights[$categoryName], array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
-				}
-				else
-				{
-					$arrayCategoryTagsWithRights[$categoryName]=array(array($connection->get_tag($tagWithRights['id_tag'])['nom_tag']=>$tagWithRights));
-				}
+				array_push($arrayAllIdTags, $idTag['id_tag']);
 			}
 		}
-		return $arrayCategoryTagsWithRights;
+		$arrayAllIdTags = array_values(array_unique($arrayAllIdTags));
+		foreach($arrayAllIdTags as $idTag)
+		{
+			$categoryName = $connection->get_tag_category($idTag)[0]['nom_categorie_tag'];
+			if(array_key_exists($categoryName,$arrayCategoryTagsGuest))
+			{
+				array_push($arrayCategoryTagsGuest[$categoryName], array($connection->get_tag($idTag)['nom_tag']=>$idTag));
+			}
+			else
+			{
+				$arrayCategoryTagsGuest[$categoryName]=array(array($connection->get_tag($idTag)['nom_tag']=>$idTag));
+			}
+		}
+		return $arrayCategoryTagsGuest;
 	}
 
-	private function previewTagsGuest($tagsWithRights, $previewArrayCategory)
+	private function previewTagsGuest($tagsGuest, $previewArrayCategory, $user)
 	{
 		$connection = new DatabaseConnection();
 		$result="";
-		foreach($tagsWithRights as $categoryName => $arrayTagsWithRights){
+		foreach($tagsGuest as $categoryName => $arrayTags){
 			$result = $result."
 				<div class='dropdown'> 
 					<div class ='categoryName-line'>
 						<button onclick='myFunction(this.id)' class='categoryName-dropdown' title='Afficher tags' id='".$categoryName."-dropdown'>".$categoryName." ⌵</button>
 					</div>
-					<div id='".$categoryName."-dropdown-content' class='dropdown-content'>";
-			
-			foreach($arrayTagsWithRights as $tagWithRights)
+					<div id='".$categoryName."-dropdown-content' class='dropdown-content'>";	
+			foreach($arrayTags as $tag)
 			{
-				foreach($tagWithRights as $tagName => $tagDetails)
+				foreach($tag as $tagName => $tagId)
 				{
-					$tagId=$tagDetails['id_tag'];
-					$tagWritingRight=$tagDetails['ecriture'];
 					$result=$result."
 						<div class='filter-menu-line-tag'>
 
-                      		<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu-tags' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
+							<p class = 'inputCheckboxTag'><input type='checkbox' class ='checkbox-filter-menu-tags' id='filterMenu-checkTag-".$tagId."' title='Sélectionner un tag'>&emsp;".$tagName."</p>";
 
 					if($tagName != "sans tags")
 					{	
-						if($tagWritingRight == 1)
+						$userRightOnTag = $connection->get_rights($user, $tagId);
+						if($userRightOnTag != -1)
 						{
-							$result = $result."
-							<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
-							<button onclick='deleteTag(this.id)' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+							if($userRightOnTag['ecriture'] == 1)
+							{
+								$result = $result."
+								<button onclick='openEditTag(this.id)' class='edit-tagName-filter-menu' id='edit-tagName-".$tagId."' title='Modifier nom tag'>🖉</button>
+								<button onclick='deleteTag(this.id)' class='delete-tagName-filter-menu' id='filterMenu-deleteTag-".$tagId."' title='Supprimer tag'>×</button>";
+							}
 						}
+						
 					}
-                      	
+						
 					$result = $result."												
 						<div class='popup-editTag' id='popup-editTag-".$tagId."'>
 
-        					<div class='header-popup-editTagCategory' id='header-popup-editTag'>
+							<div class='header-popup-editTagCategory' id='header-popup-editTag'>
 								<button id='close-button-editTag-".$tagId."' class='close-button-editTagCategory' title='Fermer' onclick ='closeEditTag(this.id)'><p>←</p></button>
-          						<p>Modifer tag</p>
-        					</div>
+								<p>Modifer tag</p>
+							</div>
 
-        					<div id='body-popup-editTag'>
+							<div id='body-popup-editTag'>
 
-          						<select class='popup-editTag-selectCategory' id='popup-editTag-selectCategory-".$tagId."' name='category'>"
-            						.$previewArrayCategory.
-          						"</select>
-          						<input type='text' class= 'popup-editTag-nameTag' id='popup-editTag-nameTag-".$tagId."' name='tag' value='".$tagName."' placeholder='nouveau nom'>
-            					<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag(this.id)'>Valider</button>
-          					
-        					</div>
+								<select class='popup-editTag-selectCategory' id='popup-editTag-selectCategory-".$tagId."' name='category'>"
+									.$previewArrayCategory.
+								"</select>
+								<input type='text' class= 'popup-editTag-nameTag' id='popup-editTag-nameTag-".$tagId."' name='tag' value='".$tagName."' placeholder='nouveau nom'>
+								<button class='button-valider'  id='editTag-button-validate-".$tagId."' onclick='editTag(this.id)'>Valider</button>
+							
+							</div>
 
-      					</div>
+						</div>
 
-	  				</div>";
+					</div>";
 				}
+				
+				
 			}
 			$result=$result."</div> </div>";
 		}
