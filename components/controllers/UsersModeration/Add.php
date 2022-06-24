@@ -109,7 +109,7 @@ class AddUser
                 $email = new Email($mail, $subject, $message);
                 $email->SendEmail();
 
-                $txt = 'à créé le compte de '. $first_name . ' ' . $name;
+                $txt = 'a créé le compte de '. $first_name . ' ' . $name;
                 ( new Log() )->ecrire_log($_SESSION['email'], $txt);
 
                 header('Location: index.php?action=usersModeration');

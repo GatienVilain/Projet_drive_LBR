@@ -3,8 +3,11 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Model\Log;
+
 
 class DeleteTagOrCategory
 {
@@ -23,17 +26,24 @@ class DeleteTagOrCategory
                 if($option == 'deleteTag' && isset($_GET['idTag']))
                 {
                     $idTag = $_GET['idTag'];
-                    //On vérifie que la conversion en int se soit bien passé 
+                    //On vérifie que la conversion en int se soit bien passé
                     //et que l'utilisateur ait bien le droit d'écriture sur le tag à supprimer
                     if(($userRole == 'invite' && $connect->get_rights($user, $idTag)['ecriture'] == 1) || ($userRole == 'admin'))
-                    {   
+                    {
+                        $tag_name = $connect->get_tag($idTag)['nom_tag'];
+                        $categoryName = $connect->get_tag_category($idTag)[0]['nom_categorie_tag'];
+
                         $response['status'] = true;
-                        $result = $connect->delete_tag($idTag); //On supprime le tag de la base de données     
+                        $result = $connect->delete_tag($idTag); //On supprime le tag de la base de données
                         if($result == -1)
                         {
                             $response['status'] = false;
                         }
-                    }        
+                        else {
+                            $message = 'a supprimé le tag "' . $tag_name . '" de la categorie "' . $categoryName . '"';
+                            ( new Log() )->ecrire_log($_SESSION['email'], $message);
+                        }
+                    }
                 }
                 //L'utilisateur souhaite supprimer une catégorie, on vérifie qu'une valeur pour categoryName a bien été envoyée
                 //et qu'il s'agit d'un administrateur
@@ -45,6 +55,10 @@ class DeleteTagOrCategory
                     if($result == -1)
                     {
                         $response['status'] = false;
+                    }
+                    else {
+                        $message = 'a supprimé la categorie "' . $categoryName . '"';
+                        ( new Log() )->ecrire_log($_SESSION['email'], $message);
                     }
                 }
             } 

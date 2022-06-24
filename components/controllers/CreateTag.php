@@ -3,8 +3,10 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Model\Log;
 
 class CreateTag
 {
@@ -22,6 +24,10 @@ class CreateTag
             $result = $connect->add_tag($tagName, $selectedCategory);
             if( $result == -1 ) {
                 $response['status'] = false; //En cas d'erreur lors de la création du tag on renvoie false au client
+            }
+            else {
+                $message = 'a créé le tag "' . $tagName . '" dans la categorie "' . $selectedCategory. '"';
+                ( new Log() )->ecrire_log($_SESSION['email'], $message);
             }
         }
         echo json_encode($response);   

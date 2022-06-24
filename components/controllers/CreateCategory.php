@@ -3,8 +3,11 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Model\Log;
+
 
 class CreateCategory
 {
@@ -23,6 +26,10 @@ class CreateCategory
             if($result == -1)
             {
                 $response['status'] = false;
+            }
+            else {
+                $message = 'a créé la categorie "' . $categoryName . '"';
+                ( new Log() )->ecrire_log($_SESSION['email'], $message);
             }
         }
         echo json_encode($response);  
