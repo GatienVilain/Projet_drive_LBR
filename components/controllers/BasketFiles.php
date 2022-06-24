@@ -3,8 +3,10 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Model\Log;
 
 class BasketFiles
 {
@@ -27,14 +29,19 @@ class BasketFiles
                 foreach($arrayIdFiles as $idFile)
                 {
                     $idFile = intval($idFile);
+                    $file = $connection->get_file($idFile);
                     //Si le fichier appartient à l'utilisateur, il peut le mettre dans la corbeille
-                    if($connection->get_file($idFile)['email'] == $user)
+                    if($file['email'] == $user)
                     {
                         $response['status'] = true;
                         $result = $connection->basket_file($idFile); //met le fichier dans la corbeille
                         if($result == -1)
                         {
                             $response['status'] = false;
+                        }
+                        else {
+                            $txt = 'a mis "'. $file['nom_fichier'] . '.' . $file['extension'] . '" à la corbeille';
+                            ( new Log() )->ecrire_log($_SESSION['email'], $txt);
                         }
                     }
                     else
@@ -56,6 +63,10 @@ class BasketFiles
                                 {
                                     $response['status'] = false;
                                 }
+                                else {
+                                    $txt = 'a mis "'. $file['nom_fichier'] . '.' . $file['extension'] . '" à la corbeille';
+                                    ( new Log() )->ecrire_log($_SESSION['email'], $txt);
+                                }
                             }  
                             $index++;
                         }
@@ -69,10 +80,15 @@ class BasketFiles
                 foreach($arrayIdFiles as $idFile)
                 {
                     $idFile = intval($idFile);
+                    $file = $connection->get_file($idFile);
                     $result=$connection->basket_file($idFile);//On met le fichier dans la corbeille
                     if($result == -1)
                     {
                         $response = array('status'=>false);
+                    }
+                    else {
+                        $txt = 'a mis "'. $file['nom_fichier'] . '.' . $file['extension'] . '" à la corbeille';
+                        ( new Log() )->ecrire_log($_SESSION['email'], $txt);
                     }
                 }
             }

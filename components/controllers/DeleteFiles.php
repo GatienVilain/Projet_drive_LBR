@@ -3,8 +3,10 @@
 namespace Application\Controllers;
 
 require_once("components/Tools/Database/DatabaseConnection.php");
+require_once("components/Model/Log.php");
 
 use Application\Tools\Database\DatabaseConnection;
+use Application\Model\Log;
 
 class DeleteFiles
 {
@@ -26,10 +28,16 @@ class DeleteFiles
                 //On parcourt tous les fichiers sélectionnés pour les supprimer
                 for($i=0; $i<count($arrayIdFiles);$i++)
                 {
+                    $file = $connection->get_file($arrayIdFiles[$i]);
+
                     $result=$connection->delete_file(intval($arrayIdFiles[$i]));//On supprime le fichier
                     if($result == -1)
                     {
                         $response['status'] = false;
+                    }
+                    else {
+                        $txt = 'a supprimé définitivement le fichier "'. $file['nom_fichier'] . '.' . $file['extension'] . '"';
+                        ( new Log() )->ecrire_log($_SESSION['email'], $txt);
                     }
                 }
             }
@@ -40,8 +48,9 @@ class DeleteFiles
                 //On parcourt tous les fichiers sélectionnés  
                 for($i=0; $i<count($arrayIdFiles);$i++)
                 {
+                    $file = $connection->get_file($arrayIdFiles[$i]);
                     //On vérifie que l'invité est le propriétaire du fichier
-                    if($connection->get_file($arrayIdFiles[$i])['email'] == $user)
+                    if($file['email'] == $user)
                     {
                         //On supprime le fichier
                         $result=$connection->delete_file(intval($arrayIdFiles[$i]));
@@ -49,6 +58,10 @@ class DeleteFiles
                         if($result == -1)
                         {
                             $response['status'] = false;
+                        }
+                        else {
+                            $txt = 'a supprimé définitivement le fichier "'. $file['nom_fichier'] . '.' . $file['extension'] . '"';
+                            ( new Log() )->ecrire_log($_SESSION['email'], $txt);
                         }
                     }
                 }  
