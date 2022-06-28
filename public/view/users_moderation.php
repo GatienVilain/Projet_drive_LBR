@@ -41,7 +41,7 @@
 						<?= $user['email']; ?>
 					</td>
 					<td class="description">
-						<?= $user['descriptif']; ?>
+						<?= htmlspecialchars($user["descriptif"]); ?>
 					</td>
 					<td>
 						<a title="Accède à la page pour modifier l’utilisateur <?= $user['prenom']." ".$user['nom']; ?>" href="index.php?action=editRights&for=<?= $user['email'];?>">🖉 Modifier</a>
