@@ -25,7 +25,7 @@ function console_log($output, $with_script_tags = true)
 function add_file(string $source, string $email, string $nom_fichier, float $taille, string $type, string $extension)
 {
 	//point de connexion à la base de donnée
-	$conn = new \mysqli("localhost", "root", "dorian", "drive");
+	$conn = new \mysqli("localhost", "root", "", "drive");
 	if (!$conn) {
 		return console_log("Echec de connexion à la base de donnée.");
 	}
@@ -42,7 +42,7 @@ function add_file(string $source, string $email, string $nom_fichier, float $tai
 
 function add_tag(int $id_fichier){
 	//point de connexion à la base de donnée
-	$conn = new \mysqli("localhost", "root", "dorian", "drive");
+	$conn = new \mysqli("localhost", "root", "", "drive");
 	if (!$conn) {
 		return console_log("Echec de connexion à la base de donnée.");
 	}
@@ -59,7 +59,7 @@ return 0;
 function get_id(string $email)
 {
 	//point de connexion à la base de donnée
-	$conn = new \mysqli("localhost", "root", "dorian", "drive");
+	$conn = new \mysqli("localhost", "root", "", "drive");
 	if (!$conn) {
 		return console_log("Echec de connexion à la base de donnée.");
 	}
@@ -167,7 +167,7 @@ if (!$chunks || $chunk == $chunks - 1)
 		$getid3 = new getID3();
 		$duration = $getid3->analyze('..\..\..\storage\videos\\'.$id.'.'.$extension)['playtime_string'];
 
-		$conn = new \mysqli("localhost", "root", "dorian", "drive");
+		$conn = new \mysqli("localhost", "root", "", "drive");
 		$query = $conn->prepare("UPDATE fichier SET duree = ? WHERE id_fichier = ?");
 		$query->bind_param("si",$duration,$id);
 		$query->execute();
