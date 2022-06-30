@@ -101,7 +101,7 @@ class AddUser
 
                 $subject="codes d'accès Drive LBR";
                 $message="Vos codes d'accès au Drive des Briques rouges sont: <br>";
-                $message.="mail de connection:  ";
+                $message.="mail de connexion:  ";
                 $message.=$mail;
                 $message.="<br>mot de passe:  ";
                 $message.=$_POST['new-password-field'];

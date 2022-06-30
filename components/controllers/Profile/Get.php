@@ -14,7 +14,7 @@ class GetProfile
 
         $name = $informations['prenom'] . " " . $informations['nom'];
         $role = $informations['role'];
-        $description = $informations['descriptif'];
+        $description = htmlspecialchars($informations["descriptif"]);
         $registration_date = date("d/m/Y",strtotime($informations['date_inscription']));
 
         $error = "";

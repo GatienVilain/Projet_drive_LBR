@@ -113,7 +113,7 @@ class FileCore
 	{
 		$connection = new DatabaseConnection();
 		$result = $connection->get_user($this->getAuthor());
-		return $result["descriptif"];
+		return htmlspecialchars($result["descriptif"]);
 	}
 	
 	public function getFilename(): string
